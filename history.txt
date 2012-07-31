@@ -1,0 +1,11 @@
+*************************************************************
+*** History of Sofa API
+*** Acoustics Research Institute Vienna
+*** by Piotr Majdak and Wolfgang Hrauda
+*************************************************************
+
+*** DEVELOPMENT STATUS ***
+
+*** v0.0.1 (31.07.2012) by Wolfgang Hrauda
+- demo script that loads ARI .mat file, converts it to SOFA format and writes to .nc-file
+  then reads all data from .nc.file
