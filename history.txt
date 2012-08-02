@@ -10,5 +10,5 @@
 - demo script that loads ARI .mat file, converts it to SOFA format and writes to .nc-file
   then reads all data from .nc.file
 
-*** v0.0.1 (01.08.2012) by Wolfgang Hrauda
+*** v0.0.2 (01.08.2012) by Wolfgang Hrauda
 - finished matrix dimension check
