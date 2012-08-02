@@ -6,12 +6,17 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
+try
+  netcdf.close(ncid)
+catch
+end
+clear 
 
 %% ARI to Sofa format conversion
 % load ARI .mat file
 load('NH30 HRTFs.mat')
 
-oFilename = 'NH30';
+Filename = 'NH30';
 
 % convert audio channel to corresponding twist angle (setup at ARI lab)
 angles = [-30 -20 -10 0 10 20 30 40 50 60 70 80 -25 -15 -5 5 15 25 35 45 55 65];
@@ -46,32 +51,71 @@ oMeasurementParameterItemIndex = {'MeasurementParameterItemIndex',meta.itemidx};
 oMeasurementParameterAudioLatency = {'MeasurementParameterAudioLatency',meta.lat};
 oMeasurementParameterSourceAmplitude = {'MeasurementParameterSourceAmplitude',meta.amp};
 
-varargin = {oFilename,oData,oDataType,oOrientationType,oPositionType,oSamplingRate, ...
+varargin = {oData,oDataType,oOrientationType,oPositionType,oSamplingRate, ...
     oSubjectID,oApplicationName,oApplicationVersion,oSourcePosition,oSourceView, ...
     oSourceUp,oSourceRotation,oTransmitterPosition,oListenerPosition,oListenerView, ...
     oListenerUp,oListenerRotation,oReceiverPosition,oMeasurementID, ...
     oMeasurementParameterSourceAudioChannel,oMeasurementParameterItemIndex, ...
     oMeasurementParameterAudioLatency,oMeasurementParameterSourceAmplitude};
 
-%% -- N E T C D F save
+%% -- check format and validity of input variables
 
-% TODO here:
-% assure standard format of varargin (cells and "single variables")
-% check if mandatory variables exist etc.
-% check matrix dimensions
+% V ... number of input variables
+V = size(varargin,2);
 
-ncid = netcdf.create([varargin{1} '.nc'],'NETCDF4');
+% list of mandatory variables
+% TODO complete list: orientation and position types, room?
+MandatoryVars = {'Data','SamplingRate','ListenerPosition','ListenerView', ...
+                 'ListenerUp','ListenerRotation','SourcePosition','SourceView', ...
+                 'SourceUp','SourceRotation','ReceiverPosition','TransmitterPosition'};
 
-% ----------------------- dimensions ---------------------------
+% source/listener variables
+SourceListenerVars = {'ListenerPosition','ListenerView','ListenerUp','ListenerRotation', ...
+                      'SourcePosition','SourceView','SourceUp','SourceRotation'};
+                    
+% transmitter/receiver variables
+TransmitterReceiverVars = {'ReceiverPosition','TransmitterPosition'};
+         
+         
+% ----------- check input variable types -------------
+if(~strcmp(cellstr(class(Filename)),'char')) % check type of filename
+  fprintf(2,'Error: Filename must be an array of char.\n');
+  return;
+end
+ii = 1;
+while ii<=V % loop through all input variables
+  if(~iscell(varargin{ii}))
+    varargin{ii} = {varargin{ii},varargin{ii+1}};
+    varargin(ii+1) = []; % delete superfluous entry
+    V = size(varargin,2); % reset V
+  end
+  if(~(size(varargin{ii},2)==2)) % variable name and value are not given correctly
+    fprintf(2,'Error: Invalid Arguments.\n');
+    return;
+  end
+  if(~strcmp(cellstr(class(varargin{ii}{1})),'char')) % check type of variable name
+    fprintf(2,'Error: Invalid Arguments (variable names must be strings).\n');
+    return;
+  end
+  VarNames{ii} = varargin{ii}{1}; % save variable names for mandatory check
+  ii = ii + 1;
+end
+
+% -------- check if mandatroy variables exist --------
+for ii=1:size(MandatoryVars,2) % go through all mandatory variables
+  if(~sum(strcmp(MandatoryVars{ii},VarNames))) % if there's no 1 anywhere
+    fprintf(2,'Error: Mandatory variable missing.\n');
+    return;
+  end
+end
+
+% ----------- get some variable dimensions -----------
 % M ... number of measurements (always encoded in rows, except for data)
 % N ... number of samples
 % R ... number of receivers
 % T ... number of transmitters
-% DimId ... vector which contains dimension Ids for every string
-% float ... netcdf.getConstant('NC_FLOAT')
-% 'ID' might be part of meta data name; 'Id' is a netcdf ID
 
-for ii=2:size(varargin,2) % loop through all input variables
+for ii=1:V % loop through all input variables
   if(strcmp(varargin{ii}{1},'Data'))
     [N M R] = size(varargin{ii}{2}); % retrieve size of data array
   end
@@ -80,10 +124,53 @@ for ii=2:size(varargin,2) % loop through all input variables
   end
 end
 
+% -------- check matrix dimensions --------
+for ii=1:V
+  if(strcmp(varargin{ii}{1},'Data')) % do nothing (Data sets dimensions)
+  elseif(sum(strcmp(SourceListenerVars,varargin{ii}{1}))) % Source/ListenerVars
+    if(~((all(size(varargin{ii}{2})==[M 3])) | (all(size(varargin{ii}{2})==[1 3]))))
+      fprintf(2,'Error: Dimensions of coordinate variables are not valid.\n');
+      return;
+    end
+  elseif(strcmp(varargin{ii}{1},'ReceiverPosition')) % ReceiverPosition
+    if(~((all(size(varargin{ii}{2})==[1 3 1])) | (all(size(varargin{ii}{2})==[M 3 1]) | ...
+         (all(size(varargin{ii}{2})==[1 3 R])) | (all(size(varargin{ii}{2})==[M 3 R])))))
+      fprintf(2,'Error: Dimensions of ReceiverPosition are not valid.\n');
+      return;
+    end
+  elseif(strcmp(varargin{ii}{1},'TransmitterPosition')) % TransmitterPosition
+    % T doesn't to be checked, as it is defined by the size of TransmitterPosition
+    if(~((all(size(varargin{ii}{2})==[1 3])) | (all(size(varargin{ii}{2})==[M 3]))))
+      fprintf(2,'Error: Dimensions of TransmitterPosition are not valid.\n');
+      return;
+    end
+  elseif(~(size(size(varargin{ii}{2}),2)>2))
+    % if matrix is not more than 2D -> check dimensions: [1 1], [M 1], [1 x], [M x]
+    if(~(all(size(varargin{ii}{2})==[1 1]) | all(size(varargin{ii}{2})==[M 1]) | ...
+        (size(varargin{ii}{2},1)==1 & size(varargin{ii}{2},2)>1) | ...
+        (size(varargin{ii}{2},1)==M & size(varargin{ii}{2},2)>1)))
+      fprintf(2,'Error: Invalid matrix dimensions.\n');
+      return;
+    end
+  elseif((size(size(varargin{ii}{2}),2)>2)) % if matrix is more than 2D
+    fprintf(2,'Error: Invalid matrix dimensions.\n');
+    return;
+  end
+end
+  %% -- N E T C D F save
+
+  ncid = netcdf.create([Filename '.nc'],'NETCDF4');
+
+% ----------------------- dimensions ---------------------------
+% DimId ... vector which contains dimension Ids for every string
+% float ... netcdf.getConstant('NC_FLOAT')
+% 'ID' might be part of meta data name; 'Id' is a netcdf ID
+
+float = netcdf.getConstant('NC_FLOAT');
+
 MDimId = netcdf.defDim(ncid,'MDim',M);
 NDimId = netcdf.defDim(ncid,'NDim',N);
 RDimId = netcdf.defDim(ncid,'RDim',R);
-float = netcdf.getConstant('NC_FLOAT');
 
 ScalarDimId = netcdf.defDim(ncid,'ScalarDim',1);
 CoordDimId = netcdf.defDim(ncid,'CoordDim',3);
@@ -92,7 +179,7 @@ UnlimitedDimId= netcdf.defDim(ncid,'UnlimitedDim',netcdf.getConstant('NC_UNLIMIT
 netcdf.endDef(ncid);
 
 % ------- L O O P ---------
-for ii=2:size(varargin,2) % loop through all input variables
+for ii=1:V % loop through all input variables
   VarId = 0; % reset VarId (otherwise it becomes a vector!?)
   DimId = 0;
   CurrentVarName = varargin{ii}{1};
@@ -107,7 +194,7 @@ for ii=2:size(varargin,2) % loop through all input variables
   if(~isnumeric(CurrentVar)) % if CurrentVar is a string
     if(size(CurrentVar,1) == 1) DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],length(CurrentVar{1})); end
   % dimensions of length x for normal, numeric variables, [1 x] or [M x]
-  elseif(~(strcmp(CurrentVarName,'Data') | ...
+  elseif(~(strcmp(CurrentVarName,'Data') | ... % TODO find more elegant solution...
      strcmp(CurrentVarName,'ListenerPosition') | strcmp(CurrentVarName,'ListenerView') | ...
      strcmp(CurrentVarName,'ListenerUp') | strcmp(CurrentVarName,'ListenerRotation') | ...
      strcmp(CurrentVarName,'SourcePosition') | strcmp(CurrentVarName,'SourceView') | ...
@@ -129,7 +216,7 @@ for ii=2:size(varargin,2) % loop through all input variables
     elseif(strcmp(CurrentVarName,'ListenerPosition') | strcmp(CurrentVarName,'ListenerView') | ...
            strcmp(CurrentVarName,'ListenerUp') | strcmp(CurrentVarName,'ListenerRotation') | ...
            strcmp(CurrentVarName,'SourcePosition') | strcmp(CurrentVarName,'SourceView') | ...
-           strcmp(CurrentVarName,'SourceUp') | strcmp(CurrentVarName,'SourceRotation'))
+           strcmp(CurrentVarName,'SourceUp') | strcmp(CurrentVarName,'SourceRotation')) % TODO find more elegant solution...
       % -- positions and vectors, float, [1 3] or [M 3]
       if(size(CurrentVar,1) > 1) VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId CoordDimId]);
       else VarId = netcdf.defVar(ncid,CurrentVarName,float,[ScalarDimId CoordDimId]); end
@@ -175,7 +262,7 @@ netcdf.close(ncid);
 
 %% -- N E T C D F load
 
-ncid = netcdf.open([varargin{1} '.nc'],'NC_NOWRITE');
+ncid = netcdf.open([Filename '.nc'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid); % get number of variables in file
 
