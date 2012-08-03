@@ -12,3 +12,8 @@
 
 *** v0.0.2 (01.08.2012) by Wolfgang Hrauda
 - finished matrix dimension check
+
+
+*** v0.0.3 (03.08.2012) by Wolfgang Hrauda
+- split demo script in two API functions and one script that calls them
+- change file extension to 'sofa'
