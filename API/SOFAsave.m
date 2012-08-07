@@ -1,4 +1,19 @@
-% SOFA API - demo script
+% SOFAsave: Creates a new SOFA file and writes an entire data set to it.
+% results = SOFAsave(Filename,{var_name_1,value},var_name_2,value,...)
+% Filename specifies the name of the SOFA file to which the data is written.
+% The variable names and data can either be given as cell arrays or as
+% consecutive arguments (as indicated above). The existince of mandatory
+% variables will be checked.
+% Coordinate variables are expected to have one of the following
+% dimensions (with M being the number of measurements):
+% Source/ListenerPosition, -View, -Up: [1 3], [M 3]
+% Transmitter/ReceiverPosition: [1 3 1], [1 3 R], [M 3 1], [M 3 R]
+% (with R being the number of receivers or transmitters respectively)
+%
+% All other meta data variables must have one of the following dimensions:
+% [1 1], [1 x], [M 1], [M x] (x is arbitary)
+
+% SOFA API - function SOFAsave
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
@@ -6,60 +21,10 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function [] = SOFAsave(Filename,varargin)
-try
-  netcdf.close(ncid)
-catch
-end
-clear
-%% ARI to Sofa format conversion
-% load ARI .mat file
-load('NH30 HRTFs.mat')
-
-Filename = 'NH30';
-
-% convert audio channel to corresponding twist angle (setup at ARI lab)
-angles = [-30 -20 -10 0 10 20 30 40 50 60 70 80 -25 -15 -5 5 15 25 35 45 55 65];
-angles = pi*(angles/180); % convert to rad
-for n=1:size(hM,2)
-  Twist(n,1) = angles(meta.pos(n,3));
-end
-
-oData = {'Data',hM};
-oDataType = {'DataType','FIR'};
-oOrientationType = {'OrientationType','Cartesian'};
-oPositionType = {'PositionType','Cartesian'};
-oSamplingRate = {'SamplingRate',stimPar.SamplingRate};
-oSubjectID = {'SubjectID',cellstr(stimPar.SubjectID)};
-oApplicationName = {'ApplicationName','test application name'};
-oApplicationVersion = {'ApplicationVersion',stimPar.Version};
-oSourcePosition = {'SourcePosition',[0 0 0]};
-oSourceView = {'SourceView',[1 0 0]};
-oSourceUp = {'SourceUp',[0 0 1]};
-oSourceRotation = {'SourceRotation',[0 0 0]};
-oTransmitterPosition = {'TransmitterPosition',[0 0 0]};
-oListenerPosition = {'ListenerPosition',[5 0 0]};
-oListenerView = {'ListenerView',[-1 0 0]};
-oListenerUp = {'ListenerUp',[0 0 1]};
-oListenerRotation = {'ListenerRotation',[meta.pos(:,1) meta.pos(:,2) Twist]};
-oReceiverPosition = {'ReceiverPosition',zeros(1,3,2)};
-oReceiverPosition{2}(:,:,1) = [0 1 0];
-oReceiverPosition{2}(:,:,2) = [0 -1 0];
-oMeasurementID = {'MeasurementID',stimPar.ID};
-oMeasurementParameterSourceAudioChannel = {'MeasurementParameterSourceAudioChannel',meta.pos(:,3)};
-oMeasurementParameterItemIndex = {'MeasurementParameterItemIndex',meta.itemidx};
-oMeasurementParameterAudioLatency = {'MeasurementParameterAudioLatency',meta.lat};
-oMeasurementParameterSourceAmplitude = {'MeasurementParameterSourceAmplitude',meta.amp};
-oRoomType = {'RoomType','free-field'};
-
-varargin = {oData,oDataType,oOrientationType,oPositionType,oSamplingRate, ...
-    oSubjectID,oApplicationName,oApplicationVersion,oSourcePosition,oSourceView, ...
-    oSourceUp,oSourceRotation,oTransmitterPosition,oListenerPosition,oListenerView, ...
-    oListenerUp,oListenerRotation,oReceiverPosition,oMeasurementID, ...
-    oMeasurementParameterSourceAudioChannel,oMeasurementParameterItemIndex, ...
-    oMeasurementParameterAudioLatency,oMeasurementParameterSourceAmplitude,oRoomType};
-
+function results = SOFAsave(Filename,varargin)
 %% -- check format and validity of input variables
+results = 0;
+varargin = varargin{:}; % make "column cell"
 
 % V ... number of input variables
 V = size(varargin,2);
@@ -77,24 +42,25 @@ SourceListenerVars = {'ListenerPosition','ListenerView','ListenerUp','ListenerRo
 % transmitter/receiver variables
 TransmitterReceiverVars = {'ReceiverPosition','TransmitterPosition'};
          
-         
+
 % ----------- check input variable types -------------
 if(~strcmp(cellstr(class(Filename)),'char')) % check type of filename
-  fprintf(2,'Error: Filename must be an array of char.\n');
+  fprintf(2,'Error: Filename must be a string.\n');
   return;
 end
 ii = 1;
 while ii<=V % loop through all input variables
-  if(~iscell(varargin{ii}))
+  if(~iscell(varargin{ii})) % pack all arguments into cells
     varargin{ii} = {varargin{ii},varargin{ii+1}};
     varargin(ii+1) = []; % delete superfluous entry
     V = size(varargin,2); % reset V
   end
-  if(~(size(varargin{ii},2)==2)) % variable name and value are not given correctly
+  if(~(mod(size(varargin{ii},2),2)==0)) % variable name and value are not given correctly
     fprintf(2,'Error: Invalid Arguments.\n');
     return;
   end
   if(~strcmp(cellstr(class(varargin{ii}{1})),'char')) % check type of variable name
+    varargin{ii}{3}{1};
     fprintf(2,'Error: Invalid Arguments (variable names must be strings).\n');
     return;
   end

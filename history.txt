@@ -17,3 +17,8 @@
 *** v0.0.3 (03.08.2012) by Wolfgang Hrauda
 - split demo script in two API functions and one script that calls them
 - change file extension to 'sofa'
+
+*** v0.0.4 (07.08.2012) by Wolfgang Hrauda
+- fixed some issues in SOFAsave
+- minor changes in SOFAload
+- added new functions SOFAgetID, SOFAgetData, SOFAlistVariables

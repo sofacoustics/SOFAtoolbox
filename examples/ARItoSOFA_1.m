@@ -53,6 +53,16 @@ varargin = {oData,oDataType,oListenerRotationType,oPositionType,oSamplingRate, .
     oMeasurementParameterSourceAudioChannel,oMeasurementParameterItemIndex, ...
     oMeasurementParameterAudioLatency,oMeasurementParameterSourceAmplitude,oRoomType};
   
-SOFAsave(Filename,varargin);
+% global ncid; % just for debugging
+% try
+%   netcdf.close(ncid)
+% catch
+% end  
 
-results = SOFAload(Filename);
+SOFAsave(Filename,varargin); % write data to sofa file
+
+%
+results1 = SOFAload(Filename);
+results2 = SOFAlistVariables(Filename,'SubjectID','ListenerRotation');
+results3 = SOFAgetID({Filename},'ListenerRotation',[0 0 0],'=',{'TargetValueRange',10});
+results4 = SOFAgetData(Filename,3);
