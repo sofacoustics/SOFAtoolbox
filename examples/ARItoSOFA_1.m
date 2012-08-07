@@ -61,8 +61,14 @@ varargin = {oData,oDataType,oListenerRotationType,oPositionType,oSamplingRate, .
 
 SOFAsave(Filename,varargin); % write data to sofa file
 
-%
+% some very basic examples who the functions might be used:
+% load the entire data
 results1 = SOFAload(Filename);
+% get a list of SubjectIDs and corresponding ListenerRotations
 results2 = SOFAlistVariables(Filename,'SubjectID','ListenerRotation');
-results3 = SOFAgetID({Filename},'ListenerRotation',[0 0 0],'=',{'TargetValueRange',10});
-results4 = SOFAgetData(Filename,3);
+% get all positions within a range of 80 to 100 degrees azimuth
+results3 = SOFAgetID({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',10});
+% get data set for each position that was found by getID (previous line)
+for ii=1:size(results3)
+  results4{ii} = SOFAgetData(Filename,results3(ii));
+end
