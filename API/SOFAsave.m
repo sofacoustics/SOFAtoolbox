@@ -22,6 +22,11 @@
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
 function results = SOFAsave(Filename,varargin)
+global ncid;
+try
+  netcdf.close(ncid)
+catch
+end
 %% -- check format and validity of input variables
 results = 0;
 varargin = varargin{:}; % make "column cell"
@@ -158,8 +163,33 @@ for ii=1:V % loop through all input variables
   end
   
   % dimensions (for length of string) if a cell only contains one string
-  if(~isnumeric(CurrentVar)) % if CurrentVar is a string
-    if(size(CurrentVar,1) == 1) DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],length(CurrentVar{1})); end
+  if(~isnumeric(CurrentVar)) % -- if CurrentVar is a string
+    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) == 1) % [1 1]
+      DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],length(CurrentVar{1}));
+    end
+    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) > 1) % [1 x]
+      xDimId = netcdf.defDim(ncid,[CurrentVarName 'xDimId'],size(CurrentVar,2));
+      for n=1:size(CurrentVar,2) % go through all strings up to x
+        lengths(n) = length(CurrentVar{n}); % store all string lengths
+      end
+      % length of dimension is maximum of all string lengths
+      DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(lengths));
+    end
+    if(size(CurrentVar,1) == M & size(CurrentVar,2) == 1) % [M 1]
+      for n=1:M % go through all strings up to x
+        lengths(n) = length(CurrentVar{n});
+      end
+      DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(lengths));
+    end
+    if(size(CurrentVar,1) == M & size(CurrentVar,2) > 1) % [M x]
+      xDimId = netcdf.defDim(ncid,[CurrentVarName 'xDimId'],size(CurrentVar,2));
+      for n=1:M % go through all strings up to M and x (2D)
+        for m=1:size(CurrentVar,2)
+          lengths(n,m) = length(CurrentVar{n,m});
+        end
+      end
+      DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(max(lengths)));
+    end
   % dimensions of length x for normal, numeric variables, [1 x] or [M x]
   elseif(~(strcmp(CurrentVarName,'Data') | ... % TODO find more elegant solution...
      strcmp(CurrentVarName,'ListenerPosition') | strcmp(CurrentVarName,'ListenerView') | ...
@@ -172,9 +202,19 @@ for ii=1:V % loop through all input variables
 
   % ------------------------ variables ---------------------------
   if(~isnumeric(CurrentVar)) % --- define string variables ---
-  % string variable, single [1 length-of-string] or [M unlimited]
-    if(size(CurrentVar,1) > 1) VarId = netcdf.defVar(ncid,CurrentVarName,2,[MDimId UnlimitedDimId]);
-    else VarId = netcdf.defVar(ncid,CurrentVarName,2,[ScalarDimId DimId]); end
+  % string variable, [1 1], [1 x], [M 1], [M x]
+    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) == 1) % [1 1]
+      VarId = netcdf.defVar(ncid,CurrentVarName,2,[ScalarDimId DimId]);
+    end
+    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) > 1) % [1 x]
+      VarId = netcdf.defVar(ncid,CurrentVarName,2,[ScalarDimId xDimId DimId]);
+    end
+    if(size(CurrentVar,1) == M & size(CurrentVar,2) == 1) % [M 1]
+      VarId = netcdf.defVar(ncid,CurrentVarName,2,[MDimId ScalarDimId DimId]);
+    end
+    if(size(CurrentVar,1) == M & size(CurrentVar,2) > 1) % [M x]
+      VarId = netcdf.defVar(ncid,CurrentVarName,2,[MDimId xDimId DimId]);
+    end
   
   else % --- define numeric variables ---
     if(strcmp(CurrentVarName,'Data')) % -- Data, float, [N M R]
@@ -198,7 +238,6 @@ for ii=1:V % loop through all input variables
         VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId CoordDimId ScalarDimId]); end
       if((size(CurrentVar,1) > 1) && (size(CurrentVar,3) > 1))
         VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId CoordDimId RDimId]); end
-    
     else % "normal" numeric variables, float, [1 1], [M 1], [1 x], [M x]
       if((size(CurrentVar,1) == 1) && (size(CurrentVar,2) == 1))
         VarId = netcdf.defVar(ncid,CurrentVarName,float,ScalarDimId); end
@@ -210,14 +249,27 @@ for ii=1:V % loop through all input variables
         VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId DimId]); end
     end
   end
-  
   % ------------------- write values to variables -----------------
   if(~isnumeric(CurrentVar)) % string variables
-    if(size(CurrentVar,1) > 1)
-      for n=1:M % write elements of cell to variable one-by-one
-        netcdf.putVar(ncid,VarId,[n-1 0],[1 length(CurrentVar{n})],CurrentVar{n});
+    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) == 1) % [1 1]
+      netcdf.putVar(ncid,VarId,char(CurrentVar));
+    end
+    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) > 1) % [1 x]
+      for n=1:size(CurrentVar,2) % write elements of cell to variable one-by-one
+        netcdf.putVar(ncid,VarId,[0 n-1 0],[1 1 length(CurrentVar{n})],CurrentVar{n});
       end
-    elseif(size(CurrentVar,1) == 1) netcdf.putVar(ncid,VarId,char(CurrentVar));
+    end
+    if(size(CurrentVar,1) == M & size(CurrentVar,2) == 1) % [M 1]
+      for n=1:M % write elements of cell to variable one-by-one
+        netcdf.putVar(ncid,VarId,[n-1 0 0],[1 1 length(CurrentVar{n})],CurrentVar{n});
+      end
+    end
+    if(size(CurrentVar,1) == M & size(CurrentVar,2) > 1) % [M x]
+      for n=1:M % write elements of cell to variable one-by-one
+        for m=1:size(CurrentVar,2)
+          netcdf.putVar(ncid,VarId,[n-1 m-1 0],[1 1 length(CurrentVar{n,m})],CurrentVar{n,m});
+        end
+      end
     end
     
   else % numeric variables

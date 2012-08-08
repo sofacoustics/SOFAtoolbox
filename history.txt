@@ -22,3 +22,9 @@
 - fixed some issues in SOFAsave
 - minor changes in SOFAload
 - added new functions SOFAgetID, SOFAgetData, SOFAlistVariables
+
+*** v0.0.5 (08.08.2012) by Wolfgang Hrauda
+- implemented additional dimensions for string variables in SOFAsave
+- added new function SOFAloadVariables (a variant of SOFAload)
+- added new demo script "ARI_to_SOFA_lab_setup"
+- fixes in several functions

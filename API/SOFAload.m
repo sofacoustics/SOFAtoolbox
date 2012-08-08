@@ -27,6 +27,8 @@ ncid = netcdf.open([Filename '.sofa'],'NC_NOWRITE');
 
 for ii=0:nvars-1 % loop through all variables in file
   results{ii+1} = {netcdf.inqVar(ncid,ii),netcdf.getVar(ncid,ii)};
+  %results = {netcdf.inqVar(ncid,ii),netcdf.getVar(ncid,ii)};
+  %assignin('base',results{1},results{2}); % create variables
 end
 netcdf.close(ncid)
 end % of function

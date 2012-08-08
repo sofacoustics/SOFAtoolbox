@@ -40,20 +40,20 @@ for ii=0:nvars-1 % loop through all variables in file
   end
   % TODO data should be handled by second elseif later (with [M R].FIR(n)]
   if(strcmp(varname,'Data'))
-    results{ii+1} = {varname,netcdf.getVar(ncid,ii,[0 MId 0],[DimLength(1) 1 DimLength(3)])};
+    results{ii+1} = {varname,netcdf.getVar(ncid,ii,[0 MId-1 0],[DimLength(1) 1 DimLength(3)])};
   elseif(size(dimids,2)==1) % scalar
     results{ii+1} = {varname,netcdf.getVar(ncid,ii,0,1)};
   elseif(size(dimids,2)==2) % 2-D matrix
     if(DimLength(1)==1) % [1 x]
       results{ii+1} = {varname,netcdf.getVar(ncid,ii,[0 0],[1 DimLength(2)])};
     elseif(DimLength(1)>1) % [M x]
-      results{ii+1} = {varname,netcdf.getVar(ncid,ii,[MId 0],[1 DimLength(2)])};
+      results{ii+1} = {varname,netcdf.getVar(ncid,ii,[MId-1 0],[1 DimLength(2)])};
     end
   elseif(size(dimids,2)==3) % 3-D matrix
     if(DimLength(1)==1) % [1 x y]
       results{ii+1} = {varname,netcdf.getVar(ncid,ii,[0 0 0],[1 DimLength(2) DimLength(3)])};
     elseif(DimLength(1)>1) % [M x y]
-      results{ii+1} = {varname,netcdf.getVar(ncid,ii,[MId 0 0],[1 DimLength(2) DimLength(3)])};
+      results{ii+1} = {varname,netcdf.getVar(ncid,ii,[MId-1 0 0],[1 DimLength(2) DimLength(3)])};
     end
   end
 end
