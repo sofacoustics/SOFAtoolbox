@@ -28,3 +28,10 @@
 - added new function SOFAloadVariables (a variant of SOFAload)
 - added new demo script "ARI_to_SOFA_lab_setup"
 - fixes in several functions
+
+*** v0.0.6 (14.08.2012) by Wolfgang Hrauda
+- added new functions for coordinate type conversion
+- functionality of SOFAgetData slightly expanded
+- dismissed function SOFAloadVariables (is now an option in SOFAload)
+- "ARI_to_SOFA_lab_setup" updated
+- minor fixes in several functions

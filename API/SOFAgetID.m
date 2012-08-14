@@ -10,7 +10,8 @@
 % Values that are equal to/greater/less than TargetValue will be returned.
 % The default value for Equality is '='. '=' and '==' are equivalent.
 % TargetValueRange specifies a +/- offset to TargetValue. Values within
-% that range will also be returned by the function.
+% that range will also be returned by the function. TargetValueRange can
+% either be a scalar or a vector matching the dimension of TargetValue.
 % results is a column vector that contains all Id's that have been found.
 
 % SOFA API - function SOFAgetID
@@ -23,8 +24,9 @@
 
 function results = SOFAgetID(Filename,TargetVarName,TargetValue,varargin)
 %% --------------- check and prepare variables ------------------
-
+results = 0; % default value
 TargetValueRange = 0; % default value for TargetValueRange
+TargetCoordinate = 0; % default value for TargetCoordinate
  % TODO all sorts of checks: exist, filetypes, dimensions
 
 % checking varargin
@@ -45,33 +47,40 @@ if(~all(size(varargin)== [0 0])) % if varargin is NOT empty -> check
   end
   V = size(varargin,2);
   for ii=1:V
-    %if(strcmp(varargin{ii}{1},'TargetCoordsType')) TargetCoordsType = varargin{ii}{2}; end
     if(strcmp(varargin{ii}{1},'TargetValueRange')) TargetValueRange = varargin{ii}{2};
+    end
+    if(strcmp(varargin{ii}{1},'TargetCoordinate')) TargetCoordinate = varargin{ii}{2};
     end
   end
 else % if varargin is empty
   Equality = '='; % default value for equality
   TargetValueRange = 0; % default value for TargetValueRange
+  TargetCoordinate = 0; % default value for TargetCoordinate
 end
-
+% only search for given coordinate
+if(~(TargetCoordinate==0)) TargetValue = TargetValue(TargetCoordinate); end
 count = 1; % counts number of entries that match TargetValue
 
 % TODO   coordinate type conversion?
 %% ----------------------- loop and search ----------------------
 global ncid;
-count = 1;
 
-dataset = SOFAload([Filename{ii}]);
+dataset = SOFAload(Filename);
 V = size(dataset,2); % get number of variables
 for n=1:V % -- go through all variables and search TargetVarName
   if(strcmp(dataset{n}{1},TargetVarName))      
     % -- go through all measurements and check equality
     for m=1:size(dataset{n}{2},1)
-      result = dataset{n}{2}(m,:);
+      if(TargetCoordinate==0) result = dataset{n}{2}(m,:);
+      else
+        result = dataset{n}{2}(m,TargetCoordinate);
+      end
       result = round(result*10000);
       result = cast(result,'int64');
       result = cast(result,'double');
       result = result/10000;
+      
+      %TargetValue
       if( ((strcmp(Equality,'=') | strcmp(Equality,'==')) && (all(result<=TargetValue+TargetValueRange) ...
          && all(result>=TargetValue-TargetValueRange))) | ...
       (strcmp(Equality,'<') && all(result<(TargetValue+TargetValueRange))) | ...

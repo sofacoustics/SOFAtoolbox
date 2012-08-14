@@ -21,6 +21,16 @@ end
 
 oData = {'Data',hM};
 oDataType = {'DataType','FIR'};
+
+oSourcePositionType = {'SourcePositionType','spherical'};
+oSourceViewType = {'SourceViewType','spherical'};
+oSourceUpType = {'SourceUpType','spherical'};
+oTransmitterPositionType = {'TransmitterPositionType','spherical'};
+oListenerPositionType = {'ListenerPositionType','spherical'};
+oListenerViewType = {'ListenerViewType','spherical'};
+oListenerUpType = {'ListenerUpType','spherical'};
+oReceiverPositionType = {'ReceiverPositionType','spherical'};
+
 oListenerRotationType = {'ListenerRotationType','spherical'};
 oPositionType = {'PositionType','Cartesian'};
 oSamplingRate = {'SamplingRate',stimPar.SamplingRate};
@@ -47,7 +57,9 @@ oMeasurementParameterAudioLatency = {'MeasurementParameterAudioLatency',meta.lat
 oMeasurementParameterSourceAmplitude = {'MeasurementParameterSourceAmplitude',meta.amp};
 oRoomType = {'RoomType','free-field'};
 
-varargin = {oData,oDataType,oListenerRotationType,oPositionType,oSamplingRate, ...
+varargin = {oData,oDataType,oSourcePositionType,oSourceViewType,oSourceUpType, ...
+    oTransmitterPositionType,oListenerPositionType,oListenerViewType, ...
+    oListenerUpType,oReceiverPositionType,oSamplingRate, ...
     oSubjectID,oApplicationName,oApplicationVersion,oSourcePosition,oSourceView, ...
     oSourceUp,oSourceRotation,oTransmitterPosition,oListenerPosition,oListenerView, ...
     oListenerUp,oListenerRotation,oReceiverPosition,oMeasurementID, ...
@@ -71,6 +83,4 @@ results2 = SOFAlistVariables(Filename,'SubjectID','ListenerRotation');
 % get all positions within a range of 80 to 100 degrees azimuth
 results3 = SOFAgetID({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',10});
 % get data set for each position that was found by getID (previous line)
-for ii=1:size(results3)
-  results4{ii} = SOFAgetData(Filename,results3(ii));
-end
+results4 = SOFAgetData(Filename,results3)

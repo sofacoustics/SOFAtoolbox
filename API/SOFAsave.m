@@ -2,7 +2,7 @@
 % results = SOFAsave(Filename,{var_name_1,value},var_name_2,value,...)
 % Filename specifies the name of the SOFA file to which the data is written.
 % The variable names and data can either be given as cell arrays or as
-% consecutive arguments (as indicated above). The existince of mandatory
+% consecutive arguments (as indicated above). The existence of mandatory
 % variables will be checked.
 % Coordinate variables are expected to have one of the following
 % dimensions (with M being the number of measurements):
@@ -76,7 +76,7 @@ end
 % -------- check if mandatroy variables exist --------
 for ii=1:size(MandatoryVars,2) % go through all mandatory variables
   if(~sum(strcmp(MandatoryVars{ii},VarNames))) % if there's no 1 anywhere
-    fprintf(2,'Error: Mandatory variable missing.\n');
+    fprintf(2,['Error: Mandatory variable ' MandatoryVars{ii} ' is missing.\n']);
     return;
   end
 end

@@ -9,11 +9,12 @@
 %% ARI to Sofa format conversion
 number = {'2' '4' '5' '30'};
 count = 1;
-for n=1:4
+results4{1}{1} = 0;
+for n_files=1:4
 % load ARI .mat file
-load(['NH' number{n} ' HRTFs.mat'])
+load(['NH' number{n_files} ' HRTFs.mat'])
 
-Filename = ['NH' number{n}];
+Filename = ['NH' number{n_files}];
 
 % convert audio channel to corresponding twist angle (setup at ARI lab)
 angles = [-30 -20 -10 0 10 20 30 40 50 60 70 80 -25 -15 -5 5 15 25 35 45 55 65];
@@ -28,12 +29,10 @@ oDataType = {'DataType','FIR'};
 oSourcePositionType = {'SourcePositionType','spherical'};
 oSourceViewType = {'SourceViewType','spherical'};
 oSourceUpType = {'SourceUpType','spherical'};
-oSourceRotationType = {'SourceRotationType','spherical'};
 oTransmitterPositionType = {'TransmitterPositionType','spherical'};
 oListenerPositionType = {'ListenerPositionType','spherical'};
 oListenerViewType = {'ListenerViewType','spherical'};
 oListenerUpType = {'ListenerUpType','spherical'};
-oListenerRotationType = {'ListenerRotationType','spherical'};
 oReceiverPositionType = {'ReceiverPositionType','spherical'};
 
 oSamplingRate = {'SamplingRate',stimPar.SamplingRate};
@@ -62,8 +61,8 @@ oRoomType = {'RoomType','free-field'};
 %%
 
 varargin = {oData,oDataType,oSourcePositionType,oSourceViewType,oSourceUpType, ...
-    oSourceRotationType,oTransmitterPositionType,oListenerPositionType,oListenerViewType, ...
-    oListenerUpType,oListenerRotationType,oReceiverPositionType,oSamplingRate, ...
+    oTransmitterPositionType,oListenerPositionType,oListenerViewType, ...
+    oListenerUpType,oReceiverPositionType,oSamplingRate, ...
     oSubjectID,oApplicationName,oApplicationVersion,oSourcePosition,oSourceView, ...
     oSourceUp,oSourceRotation,oTransmitterPosition,oListenerPosition,oListenerView, ...
     oListenerUp,oListenerRotation,oReceiverPosition,oMeasurementID, ...
@@ -73,18 +72,23 @@ varargin = {oData,oDataType,oSourcePositionType,oSourceViewType,oSourceUpType, .
 SOFAsave(Filename,varargin); % write data to sofa file
 
 % load data
-SOFAloadVariables(Filename);
+SOFAload(Filename,'var');
 % get all positions within a range of 80 to 100 degrees azimuth and
 % -10 to 10 degrees elevation and roll angle
-results3 = SOFAgetID({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',10});
-% get data set for each position that was found by getID
-for ii=1:size(results3)
-  results4{count} = SOFAgetData(Filename,results3(ii));
-  count = count + 1;
+%results3 = SOFAgetID({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',10},{'TargetCoordinate',1});
+results3 = SOFAgetID({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',[10 0 0]});
+
+result_temp = SOFAgetData(Filename,results3); % save data from current file
+for ii=1:size(result_temp,2)
+  if(n_files==1) % for first file a simple assignemnt is enough (no need to merge)
+    results4 = result_temp;
+  else % merge existing data and data from current file
+    results4{ii}{2} = cat(2,results4{ii}{2},result_temp{ii}{2});
+  end
 end
-count = count - 1; % revert increment of last loop execution
+%count = count - 1; % revert increment of last loop execution
 end
-for ii=1:count % display SubjectID's and ListenerRotations of all results
-  SubjectID = results4{ii}{14}
-  ListenerRotation = results4{ii}{25}{2} % all within requested value range!
+for ii=1:size(results4{1}{2},2) % display SubjectID's and ListenerRotations of all results
+  SubjectID = results4{12}{2}{ii}
+  ListenerRotation = results4{23}{2}{ii} % all within requested value range!
 end

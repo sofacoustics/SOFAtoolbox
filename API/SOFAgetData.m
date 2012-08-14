@@ -1,11 +1,13 @@
-% SOFAgetData: Read one set of data from a SOFA file for a given ID
+% SOFAgetData: Read several sets of data from a SOFA file for given IDs
 % results = SOFAgetData(Filename,MId)
 % Filename specifies the SOFA file from which the data is read.
-% MId is the number of the measurement of which the data is read.
+% MId is a vector of IDs specifying the measurement(s)
+% of which the data is read.
 % The function returns a cell array with the following structure:
-% results{x}{y}
+% results{x}{y}{id}
 % x ... number of variable
 % y = 1: variable name; y = 2: value
+% id ... adressing the different measurements
 
 % SOFA API - function SOFAgetData
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -22,38 +24,48 @@ if(isnumeric(Filename))
   results = 0;
   return;
 end
-if(~isnumeric(MId) | sum(size(MId))>2)
-  fprintf(2,'Error: MId must be a numeric scalar.\n');
+MId = MId(:);
+if(~isnumeric(MId) | size(MId,2)>1)
+  fprintf(2,'Error: MId must be a numeric scalar or vector.\n');
   results = 0;
   return;
 end
-
+if(~iscell(Filename)) Filename = cellstr(Filename); end % assure that Filename is a cell
 %% ------------------------- get data ---------------------------
-ncid = netcdf.open([Filename '.sofa'],'NC_NOWRITE');
+ncid = netcdf.open([Filename{1} '.sofa'],'NC_NOWRITE');
 
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid); % get number of variables in file
 
-for ii=0:nvars-1 % loop through all variables in file
-  [varname,xtype,dimids,natts] = netcdf.inqVar(ncid,ii);
-  for n=1:size(dimids,2)
-    [DimName DimLength(n)] = netcdf.inqDim(ncid,dimids(n));
-  end
-  % TODO data should be handled by second elseif later (with [M R].FIR(n)]
-  if(strcmp(varname,'Data'))
-    results{ii+1} = {varname,netcdf.getVar(ncid,ii,[0 MId-1 0],[DimLength(1) 1 DimLength(3)])};
-  elseif(size(dimids,2)==1) % scalar
-    results{ii+1} = {varname,netcdf.getVar(ncid,ii,0,1)};
-  elseif(size(dimids,2)==2) % 2-D matrix
-    if(DimLength(1)==1) % [1 x]
-      results{ii+1} = {varname,netcdf.getVar(ncid,ii,[0 0],[1 DimLength(2)])};
-    elseif(DimLength(1)>1) % [M x]
-      results{ii+1} = {varname,netcdf.getVar(ncid,ii,[MId-1 0],[1 DimLength(2)])};
+for id=1:size(MId)
+  for ii=0:nvars-1 % loop through all variables in file
+    [varname,xtype,dimids,natts] = netcdf.inqVar(ncid,ii);
+    % go through all dimensions of current variable and save their lengths to vectors
+    for n=1:size(dimids,2)
+      [DimName DimLength(n)] = netcdf.inqDim(ncid,dimids(n));
     end
-  elseif(size(dimids,2)==3) % 3-D matrix
-    if(DimLength(1)==1) % [1 x y]
-      results{ii+1} = {varname,netcdf.getVar(ncid,ii,[0 0 0],[1 DimLength(2) DimLength(3)])};
-    elseif(DimLength(1)>1) % [M x y]
-      results{ii+1} = {varname,netcdf.getVar(ncid,ii,[MId-1 0 0],[1 DimLength(2) DimLength(3)])};
+    % TODO data should be handled by second elseif later (with [M R].FIR(n)]
+    if(strcmp(varname,'Data'))
+      results{ii+1}{1} = varname;
+      results{ii+1}{2}{id} = netcdf.getVar(ncid,ii,[0 MId(id)-1 0],[DimLength(1) 1 DimLength(3)]);
+    elseif(size(dimids,2)==1) % scalar
+      results{ii+1}{1} = varname;
+      results{ii+1}{2}{id} = netcdf.getVar(ncid,ii,0,1);
+    elseif(size(dimids,2)==2) % 2-D matrix
+      if(DimLength(1)==1) % [1 x]
+        results{ii+1}{1} = varname;
+        results{ii+1}{2}{id} = netcdf.getVar(ncid,ii,[0 0],[1 DimLength(2)]);
+      elseif(DimLength(1)>1) % [M x]
+        results{ii+1}{1} = varname;
+        results{ii+1}{2}{id} = netcdf.getVar(ncid,ii,[MId(id)-1 0],[1 DimLength(2)]);
+      end
+    elseif(size(dimids,2)==3) % 3-D matrix
+      if(DimLength(1)==1) % [1 x y]
+        results{ii+1}{1} = varname;
+        results{ii+1}{2}{id} = netcdf.getVar(ncid,ii,[0 0 0],[1 DimLength(2) DimLength(3)]);
+      elseif(DimLength(1)>1) % [M x y]
+        results{ii+1}{1} = varname;
+        results{ii+1}{2}{id} = netcdf.getVar(ncid,ii,[MId(id)-1 0 0],[1 DimLength(2) DimLength(3)]);
+      end
     end
   end
 end
