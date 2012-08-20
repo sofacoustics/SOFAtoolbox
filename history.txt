@@ -6,22 +6,12 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v0.0.1 (31.07.2012) by Wolfgang Hrauda
-- demo script that loads ARI .mat file, converts it to SOFA format and writes to .nc-file
-  then reads all data from .nc.file
-
-*** v0.0.2 (01.08.2012) by Wolfgang Hrauda
-- finished matrix dimension check
-
-
-*** v0.0.3 (03.08.2012) by Wolfgang Hrauda
-- split demo script in two API functions and one script that calls them
-- change file extension to 'sofa'
-
-*** v0.0.4 (07.08.2012) by Wolfgang Hrauda
-- fixed some issues in SOFAsave
-- minor changes in SOFAload
-- added new functions SOFAgetID, SOFAgetData, SOFAlistVariables
+*** v0.0.6 (14.08.2012) by Wolfgang Hrauda
+- added new functions for coordinate type conversion
+- functionality of SOFAgetData slightly expanded
+- dismissed function SOFAloadVariables (is now an option in SOFAload)
+- "ARI_to_SOFA_lab_setup" updated
+- minor fixes in several functions
 
 *** v0.0.5 (08.08.2012) by Wolfgang Hrauda
 - implemented additional dimensions for string variables in SOFAsave
@@ -29,9 +19,18 @@
 - added new demo script "ARI_to_SOFA_lab_setup"
 - fixes in several functions
 
-*** v0.0.6 (14.08.2012) by Wolfgang Hrauda
-- added new functions for coordinate type conversion
-- functionality of SOFAgetData slightly expanded
-- dismissed function SOFAloadVariables (is now an option in SOFAload)
-- "ARI_to_SOFA_lab_setup" updated
-- minor fixes in several functions
+*** v0.0.4 (07.08.2012) by Wolfgang Hrauda
+- fixed some issues in SOFAsave
+- minor changes in SOFAload
+- added new functions SOFAgetID, SOFAgetData, SOFAlistVariables
+
+*** v0.0.3 (03.08.2012) by Wolfgang Hrauda
+- split demo script in two API functions and one script that calls them
+- change file extension to 'sofa'
+
+*** v0.0.2 (01.08.2012) by Wolfgang Hrauda
+- finished matrix dimension check
+
+*** v0.0.1 (31.07.2012) by Wolfgang Hrauda
+- demo script that loads ARI .mat file, converts it to SOFA format and writes to .nc-file
+  then reads all data from .nc.file
