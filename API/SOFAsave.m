@@ -1,9 +1,21 @@
 % SOFAsave: Creates a new SOFA file and writes an entire data set to it.
-% results = SOFAsave(Filename,{var_name_1,value},var_name_2,value,...)
+% [] = SOFAsave(Filename,Dataset,Compression)
 % Filename specifies the name of the SOFA file to which the data is written.
-% The variable names and data can either be given as cell arrays or as
-% consecutive arguments (as indicated above). The existence of mandatory
-% variables will be checked.
+% Dataset is either a struct or a cell array containing the data and meta
+% data to be written to the SOFA file (see below for exact format).
+% Compression is an optional numeric value between 0 and 9 specifying the
+% amount of compression to be applied to the data when writing to the netCDF file.
+% 0 is no compression and 9 is the most compression.
+% 
+% If Dataset is a struct, it must contain one field called 'Data' for the data
+% and additional fields for each metadata value. The name of these fields
+% are identical to the names of the metadata.
+% If Dataset is a cell, it must have the following structure:
+% Dataset{x}{y}
+% x ... number of variable
+% y = 1: variable name; y = 2: value
+% 
+% In both cases, the existence of mandatory variables will be checked.
 % Coordinate variables are expected to have one of the following
 % dimensions (with M being the number of measurements):
 % Source/ListenerPosition, -View, -Up: [1 3], [M 3]
@@ -21,24 +33,32 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function results = SOFAsave(Filename,varargin)
+function [] = SOFAsave(Filename,Dataset,varargin)
 global ncid;
 try
   netcdf.close(ncid)
 catch
 end
 %% -- check format and validity of input variables
-results = 0;
-varargin = varargin{:}; % make "column cell"
 
 % V ... number of input variables
-V = size(varargin,2);
+if(strcmp(class(Dataset),'struct'))
+  VarNames = fieldnames(Dataset);
+  V = size(VarNames,1);
+elseif(strcmp(class(Dataset),'cell'))
+  V = size(Dataset,2);
+end
 
-% list of mandatory variables
-% TODO complete list: orientation and position types, room?
-MandatoryVars = {'Data','SamplingRate','ListenerPosition','ListenerView', ...
-                 'ListenerUp','ListenerRotation','SourcePosition','SourceView', ...
-                 'SourceUp','SourceRotation','ReceiverPosition','TransmitterPosition'};
+% -- list of mandatory variables and default values
+% first entry of cell is variable name
+% second entry of cell is default value. empty string -> mandatory variable
+MandatoryVars = {{'Data',''},{'DataType','FIR'},{'SourcePositionType',''}, ...
+  {'SourceViewType',''},{'SourceUpType',''},{'TransmitterPositionType',''}, ...
+  {'ListenerPositionType',''},{'ListenerUpType',''},{'ReceiverPositionType',''}, ...
+  {'RoomType',''},{'SamplingRate',''},{'ListenerPosition',''},{'ListenerView',''}, ...
+  {'ListenerUp',''},{'ListenerRotation',[0 0 0]},{'ReceiverPosition',[0 0 0]}, ...
+  {'SourcePosition',''},{'SourceView',''},{'SourceUp',''},{'SourceRotation',[0 0 0]}, ...
+  {'TransmitterPosition',[0 0 0]}};
 
 % source/listener variables
 SourceListenerVars = {'ListenerPosition','ListenerView','ListenerUp','ListenerRotation', ...
@@ -53,31 +73,52 @@ if(~strcmp(cellstr(class(Filename)),'char')) % check type of filename
   fprintf(2,'Error: Filename must be a string.\n');
   return;
 end
-ii = 1;
-while ii<=V % loop through all input variables
-  if(~iscell(varargin{ii})) % pack all arguments into cells
-    varargin{ii} = {varargin{ii},varargin{ii+1}};
-    varargin(ii+1) = []; % delete superfluous entry
-    V = size(varargin,2); % reset V
+
+if(~isempty(varargin) && isnumeric(varargin{1}))
+  if(isscalar(varargin{1}) && varargin{1}>=0 && varargin{1}<=9)
+    Compression = varargin{1};
+  else
+    error('Error: Compression must be a numeric scalar value between 0 and 9.');
   end
-  if(~(mod(size(varargin{ii},2),2)==0)) % variable name and value are not given correctly
-    fprintf(2,'Error: Invalid Arguments.\n');
-    return;
-  end
-  if(~strcmp(cellstr(class(varargin{ii}{1})),'char')) % check type of variable name
-    varargin{ii}{3}{1};
-    fprintf(2,'Error: Invalid Arguments (variable names must be strings).\n');
-    return;
-  end
-  VarNames{ii} = varargin{ii}{1}; % save variable names for mandatory check
-  ii = ii + 1;
 end
+
+Temp = struct; % temporary variable to create a new struct from cell Dataset
+ii = 1;
+if(iscell(Dataset)) % -- all of this is only necessary if Dataset is a cell
+  while ii<=V % loop through all input variables
+    if(~(mod(size(Dataset{ii},2),2)==0)) % variable name and value are not given correctly
+      fprintf(2,'Error: Invalid Arguments.\n');
+      return;
+    end
+    if(~strcmp(cellstr(class(Dataset{ii}{1})),'char')) % check type of variable name
+      %Dataset{ii}{3}{1}; % TODO???
+      fprintf(2,'Error: Invalid Arguments (variable names must be strings).\n');
+      return;
+    end
+    Temp = setfield(Temp,Dataset{ii}{1},Dataset{ii}{2});
+    VarNames{ii} = Dataset{ii}{1}; % save variable names for mandatory check
+    ii = ii + 1;
+  end % -- end of while loop
+  Dataset = Temp; % Dataset is now a struct
+  clear Temp; % free memory
+
+% if dataset is neither cell nor struct (cell has already been checked)
+elseif(~isstruct(Dataset))
+  error('Dataset must be struct or cell array.');
+end
+
+Dataset.SOFAVersion = SOFAgetVersion(); % write SOFA version
 
 % -------- check if mandatroy variables exist --------
 for ii=1:size(MandatoryVars,2) % go through all mandatory variables
-  if(~sum(strcmp(MandatoryVars{ii},VarNames))) % if there's no 1 anywhere
-    fprintf(2,['Error: Mandatory variable ' MandatoryVars{ii} ' is missing.\n']);
-    return;
+  if(~sum(strcmp(MandatoryVars{ii}{1},VarNames))) % if there's no 1 anywhere
+    if(~isempty(MandatoryVars{ii}{2})) % if a default value exists
+      Dataset = setfield(Dataset,MandatoryVars{ii}{1},MandatoryVars{ii}{2}); % assign name of missing variable
+      V = V + 1; % update number of input variables
+    else % if no default value exists
+      fprintf(2,['Error: Mandatory variable ' MandatoryVars{ii}{1} ' is missing.\n']);
+      return;
+    end
   end
 end
 
@@ -87,46 +128,45 @@ end
 % R ... number of receivers
 % T ... number of transmitters
 
-for ii=1:V % loop through all input variables
-  if(strcmp(varargin{ii}{1},'Data'))
-    [N M R] = size(varargin{ii}{2}); % retrieve size of data array
-  end
-  if(strcmp(varargin{ii}{1},'TransmitterPosition'))
-   T = size(varargin{ii}{2},3); % retrieve number of transmitters
-  end
+VarNames = fieldnames(Dataset); % update VarNames
+V = size(VarNames,1); % update number of variables
+[M R] = size(Dataset.Data); % retrieve size of data array
+ % length of one piece of data for different data types:
+if(strcmp(Dataset.DataType,'FIR')) N = length(Dataset.Data(1,1).FIR);
+elseif(strcmp(Dataset.DataType,'SpectralMagnitudePhase')) N = length(Dataset.Data(1,1).Mag);
+% >->-><> add other Data types here in the future
+else
+  error('Unkown DataType.');
 end
+T = size(Dataset.TransmitterPosition,3); % retrieve number of transmitters
 
 % -------- check matrix dimensions --------
 for ii=1:V
-  if(strcmp(varargin{ii}{1},'Data')) % do nothing (Data sets dimensions)
-  elseif(sum(strcmp(SourceListenerVars,varargin{ii}{1}))) % Source/ListenerVars
-    if(~((all(size(varargin{ii}{2})==[M 3])) | (all(size(varargin{ii}{2})==[1 3]))))
-      fprintf(2,'Error: Dimensions of coordinate variables are not valid.\n');
-      return;
+  CurrentValue = getfield(Dataset,VarNames{ii});
+  if(strcmp(VarNames{ii},'Data')) % do nothing (Data sets dimensions)
+  elseif(sum(strcmp(SourceListenerVars,VarNames{ii}))) % Source/ListenerVars
+    if(~((all(size(CurrentValue)==[M 3])) || (all(size(CurrentValue)==[1 3]))))
+     error('Dimensions of coordinate variables are not valid.');
     end
-  elseif(strcmp(varargin{ii}{1},'ReceiverPosition')) % ReceiverPosition
-    if(~((all(size(varargin{ii}{2})==[1 3 1])) | (all(size(varargin{ii}{2})==[M 3 1]) | ...
-         (all(size(varargin{ii}{2})==[1 3 R])) | (all(size(varargin{ii}{2})==[M 3 R])))))
-      fprintf(2,'Error: Dimensions of ReceiverPosition are not valid.\n');
-      return;
+  elseif(strcmp(VarNames{ii},'ReceiverPosition')) % ReceiverPosition
+    if(~((all(size(CurrentValue)==[1 3 1])) || (all(size(CurrentValue)==[M 3 1]) || ...
+         (all(size(CurrentValue)==[1 3 R])) || (all(size(CurrentValue)==[M 3 R])))))
+      error('Dimensions of ReceiverPosition are not valid.');
     end
-  elseif(strcmp(varargin{ii}{1},'TransmitterPosition')) % TransmitterPosition
-    % T doesn't to be checked, as it is defined by the size of TransmitterPosition
-    if(~((all(size(varargin{ii}{2})==[1 3])) | (all(size(varargin{ii}{2})==[M 3]))))
-      fprintf(2,'Error: Dimensions of TransmitterPosition are not valid.\n');
-      return;
+  elseif(strcmp(VarNames{ii},'TransmitterPosition')) % TransmitterPosition
+    % T doesn't need to be checked, as it is defined by the size of TransmitterPosition
+    if(~((all(size(CurrentValue)==[1 3])) || (all(size(CurrentValue)==[M 3]))))
+      error('Dimensions of TransmitterPosition are not valid.');
     end
-  elseif(~(size(size(varargin{ii}{2}),2)>2))
+  elseif(~(size(size(CurrentValue),2)>2))
     % if matrix is not more than 2D -> check dimensions: [1 1], [M 1], [1 x], [M x]
-    if(~(all(size(varargin{ii}{2})==[1 1]) | all(size(varargin{ii}{2})==[M 1]) | ...
-        (size(varargin{ii}{2},1)==1 & size(varargin{ii}{2},2)>1) | ...
-        (size(varargin{ii}{2},1)==M & size(varargin{ii}{2},2)>1)))
-      fprintf(2,'Error: Invalid matrix dimensions.\n');
-      return;
+    if(~(all(size(CurrentValue)==[1 1]) || all(size(CurrentValue)==[M 1]) || ...
+        (size(CurrentValue,1)==1 && size(CurrentValue,2)>1) || ...
+        (size(CurrentValue,1)==M && size(CurrentValue,2)>1)))
+      error('Invalid matrix dimensions.');
     end
-  elseif((size(size(varargin{ii}{2}),2)>2)) % if matrix is more than 2D
-    fprintf(2,'Error: Invalid matrix dimensions.\n');
-    return;
+  elseif((size(size(CurrentValue),2)>2)) % if matrix is more than 2D
+    error('Invalid matrix dimensions.');
   end
 end
   %% -- N E T C D F save
@@ -141,8 +181,10 @@ end
 float = netcdf.getConstant('NC_FLOAT');
 
 MDimId = netcdf.defDim(ncid,'MDim',M);
-NDimId = netcdf.defDim(ncid,'NDim',N);
 RDimId = netcdf.defDim(ncid,'RDim',R);
+NDimId = netcdf.defDim(ncid,'NDim',N);
+
+% >->-><> define additional dimensions for future data types here
 
 ScalarDimId = netcdf.defDim(ncid,'ScalarDim',1);
 CoordDimId = netcdf.defDim(ncid,'CoordDim',3);
@@ -154,20 +196,20 @@ netcdf.endDef(ncid);
 for ii=1:V % loop through all input variables
   VarId = 0; % reset VarId (otherwise it becomes a vector!?)
   DimId = 0;
-  CurrentVarName = varargin{ii}{1};
-  CurrentVar = varargin{ii}{2};
+  CurrentVarName = VarNames{ii};
+  CurrentVar = getfield(Dataset,VarNames{ii});
   % --------------- check and prepare variables ------------------
   % -- convert all strings to cells
-  if(~isnumeric(CurrentVar)) % if CurrentVar is a string
+  if(~isnumeric(CurrentVar) && ~isstruct(CurrentVar)) % if CurrentVar is a string
     CurrentVar = cellstr(CurrentVar);
   end
   
   % dimensions (for length of string) if a cell only contains one string
-  if(~isnumeric(CurrentVar)) % -- if CurrentVar is a string
-    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) == 1) % [1 1]
+  if(~isnumeric(CurrentVar) && ~isstruct(CurrentVar)) % -- if CurrentVar is a string
+    if(size(CurrentVar,1) == 1 && size(CurrentVar,2) == 1) % [1 1]
       DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],length(CurrentVar{1}));
     end
-    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) > 1) % [1 x]
+    if(size(CurrentVar,1) == 1 && size(CurrentVar,2) > 1) % [1 x]
       xDimId = netcdf.defDim(ncid,[CurrentVarName 'xDimId'],size(CurrentVar,2));
       for n=1:size(CurrentVar,2) % go through all strings up to x
         lengths(n) = length(CurrentVar{n}); % store all string lengths
@@ -175,13 +217,13 @@ for ii=1:V % loop through all input variables
       % length of dimension is maximum of all string lengths
       DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(lengths));
     end
-    if(size(CurrentVar,1) == M & size(CurrentVar,2) == 1) % [M 1]
+    if(size(CurrentVar,1) == M && size(CurrentVar,2) == 1) % [M 1]
       for n=1:M % go through all strings up to x
         lengths(n) = length(CurrentVar{n});
       end
       DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(lengths));
     end
-    if(size(CurrentVar,1) == M & size(CurrentVar,2) > 1) % [M x]
+    if(size(CurrentVar,1) == M && size(CurrentVar,2) > 1) % [M x]
       xDimId = netcdf.defDim(ncid,[CurrentVarName 'xDimId'],size(CurrentVar,2));
       for n=1:M % go through all strings up to M and x (2D)
         for m=1:size(CurrentVar,2)
@@ -191,44 +233,44 @@ for ii=1:V % loop through all input variables
       DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(max(lengths)));
     end
   % dimensions of length x for normal, numeric variables, [1 x] or [M x]
-  elseif(~(strcmp(CurrentVarName,'Data') | ... % TODO find more elegant solution...
-     strcmp(CurrentVarName,'ListenerPosition') | strcmp(CurrentVarName,'ListenerView') | ...
-     strcmp(CurrentVarName,'ListenerUp') | strcmp(CurrentVarName,'ListenerRotation') | ...
-     strcmp(CurrentVarName,'SourcePosition') | strcmp(CurrentVarName,'SourceView') | ...
-     strcmp(CurrentVarName,'SourceUp') | strcmp(CurrentVarName,'SourceRotation') | ...
-     strcmp(CurrentVarName,'ReceiverPosition') | strcmp(CurrentVarName,'TransmitterPosition')))
-    if(size(CurrentVar,2) > 1) DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],size(CurrentVar,2)); end
+    elseif(~(strcmp(CurrentVarName,'Data') | sum(strcmp(CurrentVarName,SourceListenerVars)) | ...
+             sum(strcmp(CurrentVarName,TransmitterReceiverVars))))
+      if(size(CurrentVar,2) > 1) DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],size(CurrentVar,2)); end
   end
 
   % ------------------------ variables ---------------------------
-  if(~isnumeric(CurrentVar)) % --- define string variables ---
+  if(~isnumeric(CurrentVar) && ~isstruct(CurrentVar)) % --- define string variables ---
   % string variable, [1 1], [1 x], [M 1], [M x]
-    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) == 1) % [1 1]
+    if(size(CurrentVar,1) == 1 && size(CurrentVar,2) == 1) % [1 1]
       VarId = netcdf.defVar(ncid,CurrentVarName,2,[ScalarDimId DimId]);
     end
-    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) > 1) % [1 x]
+    if(size(CurrentVar,1) == 1 && size(CurrentVar,2) > 1) % [1 x]
       VarId = netcdf.defVar(ncid,CurrentVarName,2,[ScalarDimId xDimId DimId]);
     end
-    if(size(CurrentVar,1) == M & size(CurrentVar,2) == 1) % [M 1]
+    if(size(CurrentVar,1) == M && size(CurrentVar,2) == 1) % [M 1]
       VarId = netcdf.defVar(ncid,CurrentVarName,2,[MDimId ScalarDimId DimId]);
     end
-    if(size(CurrentVar,1) == M & size(CurrentVar,2) > 1) % [M x]
+    if(size(CurrentVar,1) == M && size(CurrentVar,2) > 1) % [M x]
       VarId = netcdf.defVar(ncid,CurrentVarName,2,[MDimId xDimId DimId]);
     end
   
   else % --- define numeric variables ---
-    if(strcmp(CurrentVarName,'Data')) % -- Data, float, [N M R]
-    VarId = netcdf.defVar(ncid,CurrentVarName,'double',[NDimId MDimId RDimId]);
-    
-    elseif(strcmp(CurrentVarName,'ListenerPosition') | strcmp(CurrentVarName,'ListenerView') | ...
-           strcmp(CurrentVarName,'ListenerUp') | strcmp(CurrentVarName,'ListenerRotation') | ...
-           strcmp(CurrentVarName,'SourcePosition') | strcmp(CurrentVarName,'SourceView') | ...
-           strcmp(CurrentVarName,'SourceUp') | strcmp(CurrentVarName,'SourceRotation')) % TODO find more elegant solution...
+    if(strcmp(CurrentVarName,'Data')) % -- Data, float, [M R N]
+      if(strcmp(Dataset.DataType,'FIR'))
+        VarId = netcdf.defVar(ncid,'Data.FIR','double',[MDimId RDimId NDimId]);
+      elseif(strcmp(Dataset.DataType,'SpectralMagnitudePhase'))
+        VarIdMag = netcdf.defVar(ncid,'Data.Mag','double',[MDimId RDimId NDimId]);
+        VarIdPhase = netcdf.defVar(ncid,'Data.Phase','double',[MDimId RDimId NDimId]);
+      
+      % >->-><> define additional variables for future data types here
+      %         (variable names must be 'Data.xxx'!)
+      end    
+    elseif(sum(strcmp(CurrentVarName,SourceListenerVars)))
       % -- positions and vectors, float, [1 3] or [M 3]
       if(size(CurrentVar,1) > 1) VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId CoordDimId]);
       else VarId = netcdf.defVar(ncid,CurrentVarName,float,[ScalarDimId CoordDimId]); end
       
-    elseif(strcmp(CurrentVarName,'ReceiverPosition') | strcmp(CurrentVarName,'TransmitterPosition'))
+    elseif(sum(strcmp(CurrentVarName,TransmitterReceiverVars)))
        % receiver/transmitter position, float, [1 3 1], [1 3 R], [M 3 1] or [M 3 R]
       if((size(CurrentVar,1) == 1) && (size(CurrentVar,3) == 1))
         VarId = netcdf.defVar(ncid,CurrentVarName,float,[ScalarDimId CoordDimId ScalarDimId]); end
@@ -248,28 +290,57 @@ for ii=1:V % loop through all input variables
       if((size(CurrentVar,1) == M) && (size(CurrentVar,2) > 1))
         VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId DimId]); end
     end
+    if(exist('Compression','var'))
+      netcdf.defVarDeflate(ncid,VarId,true,true,Compression);
+    end
   end
   % ------------------- write values to variables -----------------
-  if(~isnumeric(CurrentVar)) % string variables
-    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) == 1) % [1 1]
+  if(~isnumeric(CurrentVar) && ~isstruct(CurrentVar)) % string variables
+    if(size(CurrentVar,1) == 1 && size(CurrentVar,2) == 1) % [1 1]
       netcdf.putVar(ncid,VarId,char(CurrentVar));
     end
-    if(size(CurrentVar,1) == 1 & size(CurrentVar,2) > 1) % [1 x]
+    if(size(CurrentVar,1) == 1 && size(CurrentVar,2) > 1) % [1 x]
       for n=1:size(CurrentVar,2) % write elements of cell to variable one-by-one
         netcdf.putVar(ncid,VarId,[0 n-1 0],[1 1 length(CurrentVar{n})],CurrentVar{n});
       end
     end
-    if(size(CurrentVar,1) == M & size(CurrentVar,2) == 1) % [M 1]
+    if(size(CurrentVar,1) == M && size(CurrentVar,2) == 1) % [M 1]
       for n=1:M % write elements of cell to variable one-by-one
         netcdf.putVar(ncid,VarId,[n-1 0 0],[1 1 length(CurrentVar{n})],CurrentVar{n});
       end
     end
-    if(size(CurrentVar,1) == M & size(CurrentVar,2) > 1) % [M x]
+    if(size(CurrentVar,1) == M && size(CurrentVar,2) > 1) % [M x]
       for n=1:M % write elements of cell to variable one-by-one
         for m=1:size(CurrentVar,2)
           netcdf.putVar(ncid,VarId,[n-1 m-1 0],[1 1 length(CurrentVar{n,m})],CurrentVar{n,m});
         end
       end
+    end
+  elseif(strcmp(CurrentVarName,'Data')) % write data variables
+    if(strcmp(Dataset.DataType,'FIR'))
+      Temp = zeros(M,R,N); % preallocating memory
+      for m=1:M
+        for r=1:R
+          Temp(m,r,:) = CurrentVar(m,r).FIR;
+        end
+      end
+      netcdf.putVar(ncid,VarId,Temp);
+      clear Temp;
+    elseif(strcmp(Dataset.DataType,'SpectralMagnitudePhase'))
+      Temp1 = zeros(M,R,N); % preallocating memory
+      Temp2 = zeros(M,R,N); % preallocating memory
+      for m=1:M
+        for r=1:R
+          Temp1(m,r,:) = CurrentVar(m,r).Mag;
+          Temp2(m,r,:) = CurrentVar(m,r).Phase;
+        end
+      end
+      netcdf.putVar(ncid,VarIdMag,Temp1);
+      netcdf.putVar(ncid,VarIdPhase,Temp2);
+      clear Temp1;
+      clear Temp2;
+      
+    % >->-><> write values of data for future data types here
     end
     
   else % numeric variables

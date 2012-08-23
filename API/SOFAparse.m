@@ -1,7 +1,6 @@
-% SOFAgetID: Searches measurements where a certain variable has a certain
+% SOFAparse: Searches measurements where a certain variable has a certain
 % value and returns the Id's of these measurements as a vector.
-% results = SOFAgetID(Filename,TargetVarName,TargetValue,Equality, ...
-% TargetValueRange)
+% results = SOFAparse(Filename,TargetVarName,TargetValue,Equality,TargetValueRange)
 % Filename specifies the SOFA file which is read.
 % TargetVarName is the name of the variable of which certain values are
 % looked for.
@@ -14,7 +13,7 @@
 % either be a scalar or a vector matching the dimension of TargetValue.
 % results is a column vector that contains all Id's that have been found.
 
-% SOFA API - function SOFAgetID
+% SOFA API - function SOFAparse
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
@@ -22,7 +21,7 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function results = SOFAgetID(Filename,TargetVarName,TargetValue,varargin)
+function results = SOFAparse(Filename,TargetVarName,TargetValue,varargin)
 %% --------------- check and prepare variables ------------------
 results = 0; % default value
 TargetValueRange = 0; % default value for TargetValueRange
@@ -36,7 +35,7 @@ if(~all(size(varargin)== [0 0])) % if varargin is NOT empty -> check
   V = size(varargin,2);
   if(1) % TODO all sorts of checks: exist, filetypes, dimensions
   end
-  if(~iscell(varargin)) varargin = cellstr(varargin); end % make sure it is a cell
+  if(~iscell(varargin)) varargin = cellstr(varargin); end % make sure it is a cell TODO: numeric values are allowed for varargin!, isn't varargin always a cell anyway?
   if(~isnumeric(varargin{1}) && (strcmp(varargin{1},'=') | strcmp(varargin{1},'<') | ...
      strcmp(varargin{1},'>') | strcmp(varargin{1},'<=') | (strcmp(varargin{1},'==') | ...
      strcmp(varargin{1},'>='))))
@@ -47,9 +46,9 @@ if(~all(size(varargin)== [0 0])) % if varargin is NOT empty -> check
   end
   V = size(varargin,2);
   for ii=1:V
-    if(strcmp(varargin{ii}{1},'TargetValueRange')) TargetValueRange = varargin{ii}{2};
+    if(strcmp(varargin{ii},'TargetValueRange')) TargetValueRange = varargin{ii+1};
     end
-    if(strcmp(varargin{ii}{1},'TargetCoordinate')) TargetCoordinate = varargin{ii}{2};
+    if(strcmp(varargin{ii},'TargetCoordinate')) TargetCoordinate = varargin{ii+1};
     end
   end
 else % if varargin is empty
@@ -66,31 +65,27 @@ count = 1; % counts number of entries that match TargetValue
 global ncid;
 
 dataset = SOFAload(Filename);
-V = size(dataset,2); % get number of variables
-for n=1:V % -- go through all variables and search TargetVarName
-  if(strcmp(dataset{n}{1},TargetVarName))      
-    % -- go through all measurements and check equality
-    for m=1:size(dataset{n}{2},1)
-      if(TargetCoordinate==0) result = dataset{n}{2}(m,:);
-      else
-        result = dataset{n}{2}(m,TargetCoordinate);
-      end
-      result = round(result*10000);
-      result = cast(result,'int64');
-      result = cast(result,'double');
-      result = result/10000;
-      
-      %TargetValue
-      if( ((strcmp(Equality,'=') | strcmp(Equality,'==')) && (all(result<=TargetValue+TargetValueRange) ...
-         && all(result>=TargetValue-TargetValueRange))) | ...
-      (strcmp(Equality,'<') && all(result<(TargetValue+TargetValueRange))) | ...
-      (strcmp(Equality,'>') && all(result>(TargetValue-TargetValueRange))) | ...
-      (strcmp(Equality,'<=') && all(result<=(TargetValue+TargetValueRange))) | ...          
-      (strcmp(Equality,'>=') && all(result>=(TargetValue-TargetValueRange))) )
-        results(count,:) = m;
-        count = count + 1;
-      end
-    end
+%V = size(fieldnames(dataset),1); % get number of variables
+% -- go through all measurements and check equality
+for m=1:size(dataset.(TargetVarName),1)
+  if(TargetCoordinate==0) result = dataset.(TargetVarName)(m,:);
+  else
+    result = dataset.(TargetVarName)(m,TargetCoordinate);
+  end
+  result = round(result*10000);
+  result = cast(result,'int64');
+  result = cast(result,'double');
+  result = result/10000;
+  
+  %TargetValue
+  if( ((strcmp(Equality,'=') | strcmp(Equality,'==')) && (all(result<=TargetValue+TargetValueRange) ...
+     && all(result>=TargetValue-TargetValueRange))) | ...
+  (strcmp(Equality,'<') && all(result<(TargetValue+TargetValueRange))) | ...
+  (strcmp(Equality,'>') && all(result>(TargetValue-TargetValueRange))) | ...
+  (strcmp(Equality,'<=') && all(result<=(TargetValue+TargetValueRange))) | ...          
+  (strcmp(Equality,'>=') && all(result>=(TargetValue-TargetValueRange))) )
+    results(count,:) = m;
+    count = count + 1;
   end
 end
 end

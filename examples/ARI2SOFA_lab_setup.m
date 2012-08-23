@@ -8,87 +8,84 @@
 
 %% ARI to Sofa format conversion
 number = {'2' '4' '5' '30'};
-count = 1;
-results4{1}{1} = 0;
+
 for n_files=1:4
 % load ARI .mat file
-load(['NH' number{n_files} ' HRTFs.mat'])
+load(['HRTF ARI NH' number{n_files} '.mat'])
 
 Filename = ['NH' number{n_files}];
 
 % convert audio channel to corresponding twist angle (setup at ARI lab)
 angles = [-30 -20 -10 0 10 20 30 40 50 60 70 80 -25 -15 -5 5 15 25 35 45 55 65];
-angles = pi*(angles/180); % convert to rad
 for n=1:size(hM,2)
   Twist(n,1) = angles(meta.pos(n,3));
 end
 
-oData = {'Data',hM};
-oDataType = {'DataType','FIR'};
-
-oSourcePositionType = {'SourcePositionType','spherical'};
-oSourceViewType = {'SourceViewType','spherical'};
-oSourceUpType = {'SourceUpType','spherical'};
-oTransmitterPositionType = {'TransmitterPositionType','spherical'};
-oListenerPositionType = {'ListenerPositionType','spherical'};
-oListenerViewType = {'ListenerViewType','spherical'};
-oListenerUpType = {'ListenerUpType','spherical'};
-oReceiverPositionType = {'ReceiverPositionType','spherical'};
-
-oSamplingRate = {'SamplingRate',stimPar.SamplingRate};
-oSubjectID = {'SubjectID',cellstr(stimPar.SubjectID)};
-oApplicationName = {'ApplicationName','test application name'};
-oApplicationVersion = {'ApplicationVersion',stimPar.Version};
-oSourcePosition = {'SourcePosition',[0 0 0]};
-oSourceView = {'SourceView',[0 0 1]};
-oSourceUp = {'SourceUp',[0 90 1]};
-oSourceRotation = {'SourceRotation',[repmat(0,size(hM,2),1) repmat(0,size(hM,2),1) Twist]};
-oTransmitterPosition = {'TransmitterPosition',[90 0 5]}; % azi elev radius
-oListenerPosition = {'ListenerPosition',[0 0 0]};
-oListenerView = {'ListenerView',[0 0 1]};
-oListenerUp = {'ListenerUp',[0 90 1]};
-oListenerRotation = {'ListenerRotation',[meta.pos(:,1) meta.pos(:,2) repmat(0,size(hM,2),1)]};
-oReceiverPosition = {'ReceiverPosition',zeros(1,3,2)};
-oReceiverPosition{2}(:,:,1) = [90 0 2]; % right ear
-oReceiverPosition{2}(:,:,2) = [270 0 2]; % left ear
-oMeasurementID = {'MeasurementID',stimPar.ID};
-oMeasurementParameterSourceAudioChannel = {'MeasurementParameterSourceAudioChannel',meta.pos(:,3)};
-oMeasurementParameterItemIndex = {'MeasurementParameterItemIndex',meta.itemidx};
-oMeasurementParameterAudioLatency = {'MeasurementParameterAudioLatency',meta.lat};
-oMeasurementParameterSourceAmplitude = {'MeasurementParameterSourceAmplitude',meta.amp};
-oRoomType = {'RoomType','free-field'};
-
-%%
-
-varargin = {oData,oDataType,oSourcePositionType,oSourceViewType,oSourceUpType, ...
-    oTransmitterPositionType,oListenerPositionType,oListenerViewType, ...
-    oListenerUpType,oReceiverPositionType,oSamplingRate, ...
-    oSubjectID,oApplicationName,oApplicationVersion,oSourcePosition,oSourceView, ...
-    oSourceUp,oSourceRotation,oTransmitterPosition,oListenerPosition,oListenerView, ...
-    oListenerUp,oListenerRotation,oReceiverPosition,oMeasurementID, ...
-    oMeasurementParameterSourceAudioChannel,oMeasurementParameterItemIndex, ...
-    oMeasurementParameterAudioLatency,oMeasurementParameterSourceAmplitude,oRoomType};
-
-SOFAsave(Filename,varargin); % write data to sofa file
-
-% load data
-SOFAload(Filename,'var');
-% get all positions within a range of 80 to 100 degrees azimuth and
-% -10 to 10 degrees elevation and roll angle
-%results3 = SOFAgetID({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',10},{'TargetCoordinate',1});
-results3 = SOFAgetID({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',[10 0 0]});
-
-result_temp = SOFAgetData(Filename,results3); % save data from current file
-for ii=1:size(result_temp,2)
-  if(n_files==1) % for first file a simple assignemnt is enough (no need to merge)
-    results4 = result_temp;
-  else % merge existing data and data from current file
-    results4{ii}{2} = cat(2,results4{ii}{2},result_temp{ii}{2});
+for n=1:size(hM,1) % compose data matrix from hM
+  for m=1:size(hM,2)
+    for r=1:size(hM,3)
+      data(m,r).FIR(n) = hM(n,m,r);
+    end
   end
 end
-%count = count - 1; % revert increment of last loop execution
+
+Subject.Data = data;
+
+Subject.DataType = 'FIR';
+Subject.SourcePositionType = 'spherical';
+Subject.SourceUpType = 'spherical';
+Subject.SourceViewType = 'spherical';
+Subject.TransmitterPositionType = 'spherical';
+Subject.ListenerPositionType = 'spherical';
+Subject.ListenerViewType = 'spherical';
+Subject.ListenerUpType = 'spherical';
+Subject.ReceiverPositionType = 'spherical';
+
+Subject.SamplingRate = stimPar.SamplingRate;
+Subject.SubjectID = stimPar.SubjectID;
+Subject.ApplicationName = 'test application name';
+Subject.ApplicationVersion = stimPar.Version;
+Subject.SourcePosition = [0 0 0];
+Subject.SourceView = [0 0 1]; % "x-axis"
+Subject.SourceUp = [0 90 1]; % "z-axis"
+Subject.SourceRotation = [repmat(0,size(hM,2),1) repmat(0,size(hM,2),1) Twist];
+Subject.TransmitterPosition = [90 0 5]; % azi elev radius
+Subject.ListenerPosition = [0 0 0];
+Subject.ListenerView = [0 0 1];
+Subject.ListenerUp = [0 90 1];
+Subject.ListenerRotation = [meta.pos(:,1) meta.pos(:,2) repmat(0,size(hM,2),1)];
+Subject.ReceiverPosition = zeros(1,3,2);
+Subject.ReceiverPosition(:,:,1) = [90 0 2]; % right ear
+Subject.ReceiverPosition(:,:,2) = [270 0 2]; % left ear
+Subject.MeasurementID = stimPar.ID;
+Subject.MeasurementParameterSourceAudioChannel = meta.pos(:,3);
+Subject.MeasurementParameterItemIndex = meta.itemidx;
+Subject.MeasurementParameterAudioLatency = meta.lat;
+Subject.MeasurementParameterSourceAmplitude = meta.amp;
+Subject.RoomType = 'free-field';
+
+SOFAsave(Filename,Subject); % write data to sofa file
+
+% get all positions within a range of 80 to 100 degrees azimuth and
+% -10 to 10 degrees elevation and roll angle
+%Ids = SOFAparse({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',10},{'TargetCoordinate',1});
+Ids = SOFAparse({Filename},'ListenerRotation',[90 0 0],'=','TargetValueRange',[10 0 0]);
+
+result_temp = SOFAget(Filename,Ids); % save data from current file
+FieldNames = fieldnames(result_temp);
+for ii=1:size(FieldNames,1)
+  if(n_files==1) % for first file a simple assignemnt is enough (no need to merge)
+    results = result_temp;
+  else % merge existing data and data from current file
+    CurrentFieldName = FieldNames{ii};
+    results.(CurrentFieldName) = cat(2,results.(CurrentFieldName),result_temp.(CurrentFieldName));
+  end
 end
-for ii=1:size(results4{1}{2},2) % display SubjectID's and ListenerRotations of all results
-  SubjectID = results4{12}{2}{ii}
-  ListenerRotation = results4{23}{2}{ii} % all within requested value range!
+end % end of loop through files
+
+% display SubjectID's and ListenerRotations of all results
+FieldNames = fieldnames(results);
+for ii=1:size(results.SubjectID,2) 
+  SubjectID = results.SubjectID{ii}
+  ListenerRotation = results.ListenerRotation{ii}
 end
