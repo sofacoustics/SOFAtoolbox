@@ -6,6 +6,11 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.0.7 (23.08.2012) by Wolfgang Hrauda
+- now using strcutures or cells as input and output values of functions
+- added and renamed several functions and scripts
+- updates in several functions and scripts
+
 *** v0.0.6 (14.08.2012) by Wolfgang Hrauda
 - added new functions for coordinate type conversion
 - functionality of SOFAgetData slightly expanded
