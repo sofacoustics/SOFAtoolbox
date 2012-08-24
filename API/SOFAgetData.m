@@ -48,6 +48,7 @@ else
   error('ReturnType must be either ''struct'' or ''cell''.');
 end
 ncid = netcdf.open([char(Filename) '.sofa'],'NC_NOWRITE');
+try
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid); % get number of variables in file
 
 %% ------------------------- get data ---------------------------
@@ -65,18 +66,25 @@ for id=1:size(MId) % --- LOOP through all requested Ids
       result = netcdf.getVar(ncid,ii,[MId(id)-1 0 0],[1 R N]); % read a single data entry
       % ------ return type: 'struct' ------
       if(strcmp(ReturnType,'struct'))
-        for r=1:R
-          results(r).(CurrentFieldName){id} = reshape(result(1,r,:),1,N);
-        end
+        results.(CurrentFieldName){id} = result;
+%         for r=1:R
+%           results(r).(CurrentFieldName){id} = reshape(result(1,r,:),1,N);
+%         end
         % ------ return type: 'cell' ------
       elseif(strcmp(ReturnType,'cell'))
         results{1} = 'Data'; % variable name is 'Data' only (if returning cell)
-        for r=1:R
-          results{2}(r).(CurrentFieldName){id} = reshape(result(1,r,:),1,N);
-        end
+        results{2}.(CurrentFieldname){id} = result;
+%         for r=1:R
+%           results{2}(r).(CurrentFieldName){id} = reshape(result(1,r,:),1,N);
+%         end
       end
     end
   end
+end
+catch
+  if(exist('ncid','var') && ~isempty(ncid)) netcdf.close(ncid); end
+  error(['An error occured during reading the SOFA file: ' lasterr()]);
+  % TODO lasterr() should not be used any more...
 end
 netcdf.close(ncid)
 end % of function

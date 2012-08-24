@@ -24,7 +24,7 @@ end
 for n=1:size(hM,1) % compose data matrix from hM
   for m=1:size(hM,2)
     for r=1:size(hM,3)
-      data(m,r).FIR(n) = hM(n,m,r);
+      data.FIR(m,r,n) = hM(n,m,r);
     end
   end
 end

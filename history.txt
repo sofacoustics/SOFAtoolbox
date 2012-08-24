@@ -6,6 +6,11 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.0.8 (24.08.2012) by Wolfgang Hrauda
+- changed data structure format
+- updates and fixes in several functions and scripts
+- added Eigenmike.sofa as a demo file
+
 *** v0.0.7 (23.08.2012) by Wolfgang Hrauda
 - now using strcutures or cells as input and output values of functions
 - added and renamed several functions and scripts

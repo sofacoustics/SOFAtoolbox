@@ -34,11 +34,6 @@
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
 function [] = SOFAsave(Filename,Dataset,varargin)
-global ncid;
-try
-  netcdf.close(ncid)
-catch
-end
 %% -- check format and validity of input variables
 
 % V ... number of input variables
@@ -70,8 +65,7 @@ TransmitterReceiverVars = {'ReceiverPosition','TransmitterPosition'};
 
 % ----------- check input variable types -------------
 if(~strcmp(cellstr(class(Filename)),'char')) % check type of filename
-  fprintf(2,'Error: Filename must be a string.\n');
-  return;
+  error('Filename must be a string.');
 end
 
 if(~isempty(varargin) && isnumeric(varargin{1}))
@@ -130,10 +124,8 @@ end
 
 VarNames = fieldnames(Dataset); % update VarNames
 V = size(VarNames,1); % update number of variables
-[M R] = size(Dataset.Data); % retrieve size of data array
- % length of one piece of data for different data types:
-if(strcmp(Dataset.DataType,'FIR')) N = length(Dataset.Data(1,1).FIR);
-elseif(strcmp(Dataset.DataType,'SpectralMagnitudePhase')) N = length(Dataset.Data(1,1).Mag);
+if(strcmp(Dataset.DataType,'FIR')) [M R N] = size(Dataset.Data.FIR); % retrieve size of data array
+elseif(strcmp(Dataset.DataType,'SpectralMagnitudePhase')) [M R N] = size(Dataset.Data.Mag);
 % >->-><> add other Data types here in the future
 else
   error('Unkown DataType.');
@@ -142,7 +134,7 @@ T = size(Dataset.TransmitterPosition,3); % retrieve number of transmitters
 
 % -------- check matrix dimensions --------
 for ii=1:V
-  CurrentValue = getfield(Dataset,VarNames{ii});
+  CurrentValue = Dataset.(VarNames{ii});
   if(strcmp(VarNames{ii},'Data')) % do nothing (Data sets dimensions)
   elseif(sum(strcmp(SourceListenerVars,VarNames{ii}))) % Source/ListenerVars
     if(~((all(size(CurrentValue)==[M 3])) || (all(size(CurrentValue)==[1 3]))))
@@ -170,8 +162,8 @@ for ii=1:V
   end
 end
   %% -- N E T C D F save
-
-  ncid = netcdf.create([Filename '.sofa'],'NETCDF4');
+ncid = netcdf.create([Filename '.sofa'],'NETCDF4');
+try
 
 % ----------------------- dimensions ---------------------------
 % DimId ... vector which contains dimension Ids for every string
@@ -183,12 +175,13 @@ float = netcdf.getConstant('NC_FLOAT');
 MDimId = netcdf.defDim(ncid,'MDim',M);
 RDimId = netcdf.defDim(ncid,'RDim',R);
 NDimId = netcdf.defDim(ncid,'NDim',N);
+TDimId = netcdf.defDim(ncid,'TDim',T);
 
 % >->-><> define additional dimensions for future data types here
 
 ScalarDimId = netcdf.defDim(ncid,'ScalarDim',1);
 CoordDimId = netcdf.defDim(ncid,'CoordDim',3);
-UnlimitedDimId= netcdf.defDim(ncid,'UnlimitedDim',netcdf.getConstant('NC_UNLIMITED'));
+%UnlimitedDimId= netcdf.defDim(ncid,'UnlimitedDim',netcdf.getConstant('NC_UNLIMITED'));
 
 netcdf.endDef(ncid);
 
@@ -197,7 +190,7 @@ for ii=1:V % loop through all input variables
   VarId = 0; % reset VarId (otherwise it becomes a vector!?)
   DimId = 0;
   CurrentVarName = VarNames{ii};
-  CurrentVar = getfield(Dataset,VarNames{ii});
+  CurrentVar = Dataset.(VarNames{ii});
   % --------------- check and prepare variables ------------------
   % -- convert all strings to cells
   if(~isnumeric(CurrentVar) && ~isstruct(CurrentVar)) % if CurrentVar is a string
@@ -207,35 +200,35 @@ for ii=1:V % loop through all input variables
   % dimensions (for length of string) if a cell only contains one string
   if(~isnumeric(CurrentVar) && ~isstruct(CurrentVar)) % -- if CurrentVar is a string
     if(size(CurrentVar,1) == 1 && size(CurrentVar,2) == 1) % [1 1]
-      DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],length(CurrentVar{1}));
+      DimId = netcdf.defDim(ncid,[CurrentVarName 'DIM'],length(CurrentVar{1}));
     end
     if(size(CurrentVar,1) == 1 && size(CurrentVar,2) > 1) % [1 x]
-      xDimId = netcdf.defDim(ncid,[CurrentVarName 'xDimId'],size(CurrentVar,2));
+      xDimId = netcdf.defDim(ncid,[CurrentVarName 'xDIM'],size(CurrentVar,2));
       for n=1:size(CurrentVar,2) % go through all strings up to x
         lengths(n) = length(CurrentVar{n}); % store all string lengths
       end
       % length of dimension is maximum of all string lengths
-      DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(lengths));
+      DimId = netcdf.defDim(ncid,[CurrentVarName 'DIM'],max(lengths));
     end
     if(size(CurrentVar,1) == M && size(CurrentVar,2) == 1) % [M 1]
       for n=1:M % go through all strings up to x
         lengths(n) = length(CurrentVar{n});
       end
-      DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(lengths));
+      DimId = netcdf.defDim(ncid,[CurrentVarName 'DIM'],max(lengths));
     end
     if(size(CurrentVar,1) == M && size(CurrentVar,2) > 1) % [M x]
-      xDimId = netcdf.defDim(ncid,[CurrentVarName 'xDimId'],size(CurrentVar,2));
+      xDimId = netcdf.defDim(ncid,[CurrentVarName 'xDIM'],size(CurrentVar,2));
       for n=1:M % go through all strings up to M and x (2D)
         for m=1:size(CurrentVar,2)
           lengths(n,m) = length(CurrentVar{n,m});
         end
       end
-      DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],max(max(lengths)));
+      DimId = netcdf.defDim(ncid,[CurrentVarName 'DIM'],max(max(lengths)));
     end
   % dimensions of length x for normal, numeric variables, [1 x] or [M x]
     elseif(~(strcmp(CurrentVarName,'Data') | sum(strcmp(CurrentVarName,SourceListenerVars)) | ...
              sum(strcmp(CurrentVarName,TransmitterReceiverVars))))
-      if(size(CurrentVar,2) > 1) DimId = netcdf.defDim(ncid,[CurrentVarName 'DimId'],size(CurrentVar,2)); end
+      if(size(CurrentVar,2) > 1) DimId = netcdf.defDim(ncid,[CurrentVarName 'xDIM'],size(CurrentVar,2)); end
   end
 
   % ------------------------ variables ---------------------------
@@ -278,7 +271,9 @@ for ii=1:V % loop through all input variables
         VarId = netcdf.defVar(ncid,CurrentVarName,float,[ScalarDimId CoordDimId RDimId]); end
       if((size(CurrentVar,1) > 1) && (size(CurrentVar,3) == 1))
         VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId CoordDimId ScalarDimId]); end
-      if((size(CurrentVar,1) > 1) && (size(CurrentVar,3) > 1))
+      if((size(CurrentVar,1) > 1) && (size(CurrentVar,3) > 1) && strcmp(CurrentVarName,'TransmitterPosition'))
+        VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId CoordDimId TDimId]); end      
+      if((size(CurrentVar,1) > 1) && (size(CurrentVar,3) > 1) && strcmp(CurrentVarName,'ReceiverPosition'))
         VarId = netcdf.defVar(ncid,CurrentVarName,float,[MDimId CoordDimId RDimId]); end
     else % "normal" numeric variables, float, [1 1], [M 1], [1 x], [M x]
       if((size(CurrentVar,1) == 1) && (size(CurrentVar,2) == 1))
@@ -318,27 +313,10 @@ for ii=1:V % loop through all input variables
     end
   elseif(strcmp(CurrentVarName,'Data')) % write data variables
     if(strcmp(Dataset.DataType,'FIR'))
-      Temp = zeros(M,R,N); % preallocating memory
-      for m=1:M
-        for r=1:R
-          Temp(m,r,:) = CurrentVar(m,r).FIR;
-        end
-      end
-      netcdf.putVar(ncid,VarId,Temp);
-      clear Temp;
+      netcdf.putVar(ncid,VarId,CurrentVar.FIR);
     elseif(strcmp(Dataset.DataType,'SpectralMagnitudePhase'))
-      Temp1 = zeros(M,R,N); % preallocating memory
-      Temp2 = zeros(M,R,N); % preallocating memory
-      for m=1:M
-        for r=1:R
-          Temp1(m,r,:) = CurrentVar(m,r).Mag;
-          Temp2(m,r,:) = CurrentVar(m,r).Phase;
-        end
-      end
-      netcdf.putVar(ncid,VarIdMag,Temp1);
-      netcdf.putVar(ncid,VarIdPhase,Temp2);
-      clear Temp1;
-      clear Temp2;
+      netcdf.putVar(ncid,VarIdMag,CurrentVar.Mag);
+      netcdf.putVar(ncid,VarIdPhase,CurrentVar.Phase);
       
     % >->-><> write values of data for future data types here
     end
@@ -347,6 +325,10 @@ for ii=1:V % loop through all input variables
     netcdf.putVar(ncid,VarId,CurrentVar);
   end
 end
-
+catch
+  if(exist('ncid','var') && ~isempty(ncid)) netcdf.close(ncid); end
+  error(['An error occured during reading the SOFA file: ' lasterr()]);
+  % TODO lasterr() should not be used any more...
+end
 netcdf.close(ncid);
 end % of function

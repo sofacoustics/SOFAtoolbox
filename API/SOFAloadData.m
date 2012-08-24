@@ -40,6 +40,7 @@ else
   error('ReturnType must be either ''struct'' or ''cell''.');
 end
 ncid = netcdf.open([char(Filename) '.sofa'],'NC_NOWRITE');
+try
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid); % get number of variables in file
 
 %% ---------- LOOP through all variables in file ----------
@@ -48,27 +49,21 @@ for ii=0:nvars-1
   % ----------------- read DATA variables -----------------
   if(strncmp(result{1},'Data.',5)) % if current variables is a Data variable
     result{2} = netcdf.getVar(ncid,ii); % get values from current variable
-    M = size(result{2},1); % get size of data array
-    R = size(result{2},2);
-    N = size(result{2},3);
     CurrentFieldName = result{1}(6:end); % field name is without 'Data.'
     % ------ return type: 'struct' ------
     if(strcmp(ReturnType,'struct'))
-      for m=1:M
-        for r=1:R
-          results(m,r).(CurrentFieldName) = reshape(result{2}(m,r,:),1,N);
-        end
-      end
+      results.(CurrentFieldName) = result{2};
       % ------ return type: 'cell' ------
     elseif(strcmp(ReturnType,'cell'))
-      for m=1:M
-        for r=1:R
-          results{2}(m,r).(CurrentFieldName) = reshape(result{2}(m,r,:),1,N);
-        end
-      end
+      results{2}.(CurrentFieldName) = result{2};
       results{1} = 'Data'; % variable name is 'Data' only (if returning cell)
     end
   end
+end
+catch
+  if(exist('ncid','var') && ~isempty(ncid)) netcdf.close(ncid); end
+  error(['An error occured during reading the SOFA file: ' lasterr()]);
+  % TODO lasterr() should not be used any more...
 end
 netcdf.close(ncid)
 end % of function

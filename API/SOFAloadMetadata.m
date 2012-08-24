@@ -38,9 +38,11 @@ ReturnType = 'struct'; % set default value for ReturnType
 if(size(varargin,2)==1)
   varargin = cellstr(varargin);
 end
-if(strcmp(varargin{1},'struct') || strcmp(varargin{1},'cell'))
-   ReturnType = varargin{1};
-   varargin(1) = []; % delete ReturnType entry from varargin
+if(~all(size(varargin)==[0 0]))
+  if(strcmp(varargin{1},'struct') || strcmp(varargin{1},'cell'))
+    ReturnType = varargin{1};
+    varargin(1) = []; % delete ReturnType entry from varargin
+  end
 end
 
 if(strcmp(ReturnType,'struct'))
@@ -51,6 +53,7 @@ else % should not happen anyway, but who knows
   error('ReturnType must be either ''struct'' or ''cell''.');
 end
 ncid = netcdf.open([char(Filename) '.sofa'],'NC_NOWRITE');
+try
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid); % get number of variables in file
 
 count = 0;
@@ -58,7 +61,7 @@ for ii=0:nvars-1 % loop through all variables in file
   result = {netcdf.inqVar(ncid,ii),netcdf.getVar(ncid,ii)};
   % -- conversion of string variable to cells
   if(~isnumeric(result{2}) && ~isstruct(result{2})) % string variables
-    if(size(result{2},1) == 1 & size(result{2},2) >= 1) % [1 len_of_str]
+    if(((size(result{2},1) == 1) && (size(result{2},2) >= 1)) && (size(size(result{2}),2)<=2)) % [1 len_of_str] and less than 3-D
       result{2} = cellstr(strtrim(result{2}));
     else % multidimensional...
       for x=1:size(result{2},2)
@@ -79,6 +82,11 @@ for ii=0:nvars-1 % loop through all variables in file
       count = count + 1;
     end
   end
+end
+catch
+  if(exist('ncid','var') && ~isempty(ncid)) netcdf.close(ncid); end
+  error(['An error occured during reading the SOFA file: ' lasterr()]);
+  % TODO lasterr() should not be used any more...
 end
 netcdf.close(ncid)
 end % of function

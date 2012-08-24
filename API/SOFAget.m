@@ -54,7 +54,7 @@ end
 
 %% ------------------------- get data ---------------------------
 ncid = netcdf.open([Filename '.sofa'],'NC_NOWRITE');
-
+try
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid); % get number of variables in file
 
 for id=1:size(MId)
@@ -119,5 +119,10 @@ elseif(strcmp(ReturnType,'cell'))
   results{count+1} = Data; % count has already been incremented after last Metadata was added
 end
 end % of for loop
+catch
+  if(exist('ncid','var') && ~isempty(ncid)) netcdf.close(ncid); end
+  error(['An error occured during reading the SOFA file: ' lasterr()]);
+  % TODO lasterr() should not be used any more...
+end
 netcdf.close(ncid);
 end

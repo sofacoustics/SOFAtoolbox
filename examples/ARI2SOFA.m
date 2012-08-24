@@ -23,9 +23,7 @@ end
 for m=1:size(hM,2)
   for r=1:size(hM,3)
     for n=1:size(hM,1)
-      %data(m,r).FIR(n) = hM(n,m,r);
-      data(m,r).Mag(n) = hM(n,m,r);
-      data(m,r).Phase(n) = hM(n,m,r);
+      data.FIR(m,r,n) = hM(n,m,r);
     end
   end
 end
@@ -33,14 +31,14 @@ end
 oData = {'Data',data};
 oDataType = {'DataType','FIR'};
 
-oSourcePositionType = {'SourcePositionType','spherical'};
-oSourceViewType = {'SourceViewType','spherical'};
-oSourceUpType = {'SourceUpType','spherical'};
-oTransmitterPositionType = {'TransmitterPositionType','spherical'};
-oListenerPositionType = {'ListenerPositionType','spherical'};
-oListenerViewType = {'ListenerViewType','spherical'};
-oListenerUpType = {'ListenerUpType','spherical'};
-oReceiverPositionType = {'ReceiverPositionType','spherical'};
+oSourcePositionType = {'SourcePositionType','cartesian'};
+oSourceViewType = {'SourceViewType','cartesian'};
+oSourceUpType = {'SourceUpType','cartesian'};
+oTransmitterPositionType = {'TransmitterPositionType','cartesian'};
+oListenerPositionType = {'ListenerPositionType','cartesian'};
+oListenerViewType = {'ListenerViewType','cartesian'};
+oListenerUpType = {'ListenerUpType','cartesian'};
+oReceiverPositionType = {'ReceiverPositionType','cartesian'};
 
 oSamplingRate = {'SamplingRate',stimPar.SamplingRate};
 oSubjectID = {'SubjectID',cellstr(stimPar.SubjectID)};
@@ -70,15 +68,15 @@ oRoomType = {'RoomType','free-field'};
 
 Subject.Data = data;
 
-Subject.DataType = 'SpectralMagnitudePhase';
-Subject.SourcePositionType = 'spherical';
-Subject.SourceUpType = 'spherical';
-Subject.SourceViewType = 'spherical';
-Subject.TransmitterPositionType = 'spherical';
-Subject.ListenerPositionType = 'spherical';
-Subject.ListenerViewType = 'spherical';
-Subject.ListenerUpType = 'spherical';
-Subject.ReceiverPositionType = 'spherical';
+Subject.DataType = 'FIR';
+Subject.SourcePositionType = 'cartesian';
+Subject.SourceUpType = 'cartesian';
+Subject.SourceViewType = 'cartesian';
+Subject.TransmitterPositionType = 'cartesian';
+Subject.ListenerPositionType = 'cartesian';
+Subject.ListenerViewType = 'cartesian';
+Subject.ListenerUpType = 'cartesian';
+Subject.ReceiverPositionType = 'cartesian';
 
 Subject.SamplingRate = stimPar.SamplingRate;
 Subject.SubjectID = stimPar.SubjectID;
@@ -114,12 +112,7 @@ Subject.RoomType = 'free-field';
 %     oMeasurementParameterSourceAudioChannel,oMeasurementParameterItemIndex, ...
 %     oMeasurementParameterAudioLatency,oMeasurementParameterSourceAmplitude,oRoomType};
   
-% global ncid; % just for debugging
-% ncid = 0;
-try
-  netcdf.close(ncid)
-catch
-end
+
 
 SOFAsave(Filename,Subject,1); % write data to sofa file
 
@@ -129,6 +122,6 @@ results1 = SOFAload(Filename);
 % print a list of Metadata
 SOFAlistMetadata(Filename);
 % get all positions within a range of 80 to 100 degrees azimuth
-results3 = SOFAparse({Filename},'ListenerRotation',[90 0 0],'=',{'TargetValueRange',10});
+results3 = SOFAparse({Filename},'ListenerRotation',[90 0 0],'=','TargetValueRange',10);
 % get dataset for each position that was found by parse (previous line)
 results4 = SOFAget(Filename,results3)

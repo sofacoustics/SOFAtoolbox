@@ -57,26 +57,33 @@ else % if varargin is empty
   TargetCoordinate = 0; % default value for TargetCoordinate
 end
 % only search for given coordinate
-if(~(TargetCoordinate==0)) TargetValue = TargetValue(TargetCoordinate); end
+if(~(TargetCoordinate==0) && size(TargetValue,2)>=TargetCoordinate)
+  TargetValue = TargetValue(TargetCoordinate);
+end
+
 count = 1; % counts number of entries that match TargetValue
 
-% TODO   coordinate type conversion?
 %% ----------------------- loop and search ----------------------
-global ncid;
-
 dataset = SOFAload(Filename);
 %V = size(fieldnames(dataset),1); % get number of variables
 % -- go through all measurements and check equality
 for m=1:size(dataset.(TargetVarName),1)
   if(TargetCoordinate==0) result = dataset.(TargetVarName)(m,:);
   else
-    result = dataset.(TargetVarName)(m,TargetCoordinate);
+    if(size(dataset.(TargetVarName),2)>=TargetCoordinate)
+      result = dataset.(TargetVarName)(m,TargetCoordinate);
+    else
+      error('Invalid value for TargetCoordinate.');
+    end
   end
   result = round(result*10000);
   result = cast(result,'int64');
   result = cast(result,'double');
   result = result/10000;
   
+  if(~all(size(TargetValue)==size(result)) && TargetCoordinate==0)
+    error('error');
+  end
   %TargetValue
   if( ((strcmp(Equality,'=') | strcmp(Equality,'==')) && (all(result<=TargetValue+TargetValueRange) ...
      && all(result>=TargetValue-TargetValueRange))) | ...
