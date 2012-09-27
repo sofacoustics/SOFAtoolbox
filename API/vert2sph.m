@@ -1,13 +1,17 @@
-% vert2sph: Converts vertical-polar coordinates to spherical coordinates.
-% [azi_out,elev] = vert2sph(azi_in,elev)
+function [azi,ele]=vert2sph(azi,ele)
+%VERT2SPH Coordinate Transform
+%   [azi_out,elev] = vert2sph(azi_in,elev) converts vertical-polar
+%   coordinates to spherical coordinates.
 %
-% Input:
-%   azi_in ... azimuth angles (-90 <= azi <= 90)
-%   elev ... elevation angels (-90 <= elev <= 270)
+%   Input:
+%       azi ... azimuth (-90 <= azi <= 90)
+%       ele ... elevation (-90 <= ele <= 270)
 %
-% Output:
-%   azi_out ... azimuth angles (0 <= azi < 360)
-%   elev ... elevation angels (-90 <= elev <= 90)
+%   Output:
+%       azi ... azimuth (0 <= azi < 360)
+%       ele ... elevation (-90 <= ele <= 90)
+%
+%   See also SPH2HOR, SPH2NAV, SPH2VERT, NAV2SPH, HOR2SPH
 
 % SOFA API - function vert2sph
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -17,19 +21,18 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function [azi_out,elev_out]=vert2sph(azi_in,elev_in)
-  if(azi_in>-90 && azi_in<0) % azi_in between -90 and 0 deg
-    azi_out = azi_in + 360;
-  else % azi_in between 0 and 180
-    azi_out = azi_in;
+  if(azi>-90 && azi<0) % azi between -90 and 0 deg
+    azi = azi + 360;
+  else % azi between 0 and 180
+    azi = azi;
   end
-  if(elev_in>90 && elev_in<=180)
-    azi_out = mod(azi_out+180,360);
-    elev_out = 180 - elev_in;
-  elseif(elev_in>180 && elev_in<=270)
-    azi_out = mod(azi_out+180,360);
-    elev_out = -(elev_in -180);
+  if(elev>90 && elev<=180)
+    azi = mod(azi+180,360);
+    ele = 180 - ele;
+  elseif(ele>180 && ele<=270)
+    azi = mod(azi+180,360);
+    ele = -(ele -180);
   else
-    elev_out = elev_in;
+    ele = ele;
   end
 end % end of function

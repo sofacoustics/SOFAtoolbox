@@ -1,7 +1,9 @@
-% SOFAlistVariables: Lists all Metadata contained in a SOFA file.
-% [] = SOFAlistMetadata(Filename)
-% The function opens the SOFA file, and prints the names of all Metadata
-% variables contained in the SOFA file specified by Filename.
+function [] = SOFAlistMetadata(Filename)
+%SOFALISTVARIABLES 
+%   [] = SOFAlistMetadata(Filename) lists all Metadata contained in a SOFA file.
+% 
+%	The function opens the SOFA file, and prints the names of all Metadata 
+%   variables contained in the SOFA file specified by Filename.
 
 % SOFA API - function SOFAlistVariables
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -11,7 +13,6 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function [] = SOFAlistMetadata(Filename)
 if(isnumeric(Filename))
   error('Filename must be a string.');
 end

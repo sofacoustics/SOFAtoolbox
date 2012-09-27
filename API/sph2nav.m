@@ -1,13 +1,17 @@
-% sph2nav: Converts spherical coordinates to navigational coordinates.
-% [azi_out,elev] = sph2nav(azi_in,elev)
+function [azi,ele] = sph2nav(azi,ele)
+%SPH2NAV  Coordinate Transform
+%   [azi,ele] = sph2nav(azi,ele) converts spherical coordinates to
+%   navigational coordinates.
 %
-% Input:
-%   azi_in ... azimuth angles (0 <= azi < 360)
-%   elev ... elevation angels (-90 <= elev <= 90)
+%   Input:
+%       azi ... azimuth (0 <= azi < 360)
+%       ele ... elevation (-90 <= ele <= 90)
 %
-% Output:
-%   azi_out ... azimuth angles (-180 <= azi <= 180)
-%   elev ... elevation angels (-90 <= elev <= 90)
+%   Output:
+%       azi ... azimuth (-180 <= azi <= 180)
+%       ele ... elevation (-90 <= ele <= 90)
+%
+%   See also SPH2HOR, SPH2VERT, VERT2SPH, NAV2SPH, HOR2SPH
 
 % SOFA API - function sph2nav
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -17,11 +21,10 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function [azi_out,elev_out] = sph2nav(azi_in,elev_in)
-  if(azi_in>=0 && azi_in<=180) % azi_in between 0 and 180 deg
-    azi_out = azi_in;
+  if(azi>=0 && azi<=180) % azi_in between 0 and 180 deg
+    azi = azi;
   else % azi_in between 180 and 360
-    azi_out = -(360-azi_in);
+    azi = -(360-azi);
   end
-  elev_out = elev_in; % elevation remains the same
+  ele = ele; % elevation remains the same
 end % end of function

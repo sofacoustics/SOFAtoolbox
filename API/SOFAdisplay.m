@@ -1,5 +1,6 @@
-% SOFAdisplay: Displays information about specified SOFA file
-% results = SOFAdisplay(Filename)
+function [] = SOFAdisplay(Filename)
+%SOFADISPLAY 
+%   [] = SOFAdisplay(Filename) displays information about specified SOFA file
 
 % SOFA API - function SOFAdisplay
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -9,6 +10,5 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function [] = SOFAdisplay(Filename)
   ncdisp([Filename '.sofa']);
 end

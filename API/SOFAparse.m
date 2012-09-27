@@ -1,17 +1,20 @@
-% SOFAparse: Searches measurements where a certain variable has a certain
-% value and returns the Id's of these measurements as a vector.
-% results = SOFAparse(Filename,TargetVarName,TargetValue,Equality,TargetValueRange)
-% Filename specifies the SOFA file which is read.
-% TargetVarName is the name of the variable of which certain values are
-% looked for.
-% TargetValue is the value of TargetVarName that will be looked for.
-% Equality is optional and can be '=', '==', '<', '>', '<=' or '>='.
-% Values that are equal to/greater/less than TargetValue will be returned.
-% The default value for Equality is '='. '=' and '==' are equivalent.
-% TargetValueRange specifies a +/- offset to TargetValue. Values within
-% that range will also be returned by the function. TargetValueRange can
-% either be a scalar or a vector matching the dimension of TargetValue.
-% results is a column vector that contains all Id's that have been found.
+function results = SOFAparse(Filename,TargetVarName,TargetValue,varargin)
+%SOFAPARSE
+%   results = SOFAparse(Filename,TargetVarName,TargetValue,Equality,TargetValueRange) 
+%   searches measurements where a certain variable has a certain
+%   value and returns the Id's of these measurements as a vector.
+%
+%   Filename specifies the SOFA file which is read.
+%   TargetVarName is the name of the variable of which certain values are
+%   looked for.
+%   TargetValue is the value of TargetVarName that will be looked for.
+%   Equality is optional and can be '=', '==', '<', '>', '<=' or '>='.
+%   Values that are equal to/greater/less than TargetValue will be returned.
+%   The default value for Equality is '='. '=' and '==' are equivalent.
+%   TargetValueRange specifies a +/- offset to TargetValue. Values within
+%   that range will also be returned by the function. TargetValueRange can
+%   either be a scalar or a vector matching the dimension of TargetValue.
+%   results is a column vector that contains all Id's that have been found.
 
 % SOFA API - function SOFAparse
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -21,7 +24,6 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function results = SOFAparse(Filename,TargetVarName,TargetValue,varargin)
 %% --------------- check and prepare variables ------------------
 results = 0; % default value
 TargetValueRange = 0; % default value for TargetValueRange
@@ -57,10 +59,7 @@ else % if varargin is empty
   TargetCoordinate = 0; % default value for TargetCoordinate
 end
 % only search for given coordinate
-if(~(TargetCoordinate==0) && size(TargetValue,2)>=TargetCoordinate)
-  TargetValue = TargetValue(TargetCoordinate);
-end
-
+if(~(TargetCoordinate==0) && size(TargetValue,2)>=TargetCoordinate) TargetValue = TargetValue(TargetCoordinate); end
 count = 1; % counts number of entries that match TargetValue
 
 %% ----------------------- loop and search ----------------------
@@ -95,4 +94,5 @@ for m=1:size(dataset.(TargetVarName),1)
     count = count + 1;
   end
 end
-end
+
+end % of function

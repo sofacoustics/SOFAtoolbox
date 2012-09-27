@@ -1,21 +1,26 @@
 function [azi,ele]=hor2sph(lat,pol)
+%HOR2SPH  Coordinate Transform.
+%   [azi,ele]=hor2sph(lat,pol) converts coordinates in horizotal polar format to the spherical
+%   one.
 % 
-% hor2sph converts coordinates in horizotal polar format to the spherical
-% one.
+%   Input:
+%       lat ... lateral angle (-90 <= lat <= 90)
+%       pol ... polar angle (-90 <= pol < 270)
 % 
-% Input:
-%   lat: lateral angles (-90 <= lat <= 90)
-%     
-%   pol: polar angles (-90 <= pol < 270)
-% 
-% Output:
-%   azi: azimuth (0 <= azi < 360)
-%     
-%   ele: elevation (-90 <= ele <= 90)
-% 
-% Created by Harald Ziegelwanger, OEAW Acoustical Research Institute
-% Last Modification: 09.05.2012 by Harald Ziegelwanger
-% Name of function changed on 08.13.2012 by Wolfgang Hrauda
+%   Output:
+%       azi ... azimuth (0 <= azi < 360)
+%       ele ... elevation (-90 <= ele <= 90)
+%
+%   See also SPH2HOR, SPH2NAV, SPH2VERT, VERT2SPH, NAV2SPH
+
+% SOFA API - function hor2sph
+% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
+% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% You may not use this work except in compliance with the Licence.
+% You may obtain a copy of the Licence at: http://www.osor.eu/eupl
+% Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the Licence for the specific language governing  permissions and
+% limitations under the Licence. 
 
 if lat==90
     azi=lat;

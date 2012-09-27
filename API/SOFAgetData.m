@@ -1,17 +1,20 @@
-% SOFAgetData: Read several sets of data from a SOFA file for given IDs
-% results = SOFAload(Filename,MId,ReturnType)
-% Filename specifies the SOFA file from which the data is read.
-% MId is a vector of IDs specifying the measurement(s)
-% of which the data is read.
-% ReturnType is optional and specifies whether the function returns the
-% lodaded values as a struct or as a cell array. Default value is 'struct'.
-% If ReturnType is 'struct', the function returns a structure array which
-% contains the data from the SOFA file.
-% If ReturnType is 'cell', the function returns a cell array with the same
-% contents as in the case of 'struct' but with the following structure:
-% results{y}{id}
-% y = 1: variable name; y = 2: value
-% id ... adressing the different measurements
+function results = SOFAgetData(Filename,MId,varargin)
+%SOFAGETDATA
+%   results = SOFAload(Filename,MId,ReturnType) reads several sets of data 
+%   from a SOFA file for given IDs
+%
+%   Filename specifies the SOFA file from which the data is read.
+%   MId is a vector of IDs specifying the measurement(s)
+%   of which the data is read.
+%   ReturnType is optional and specifies whether the function returns the 
+%   lodaded values as a struct or as a cell array. Default value is 'struct'.
+%   If ReturnType is 'struct', the function returns a structure array which 
+%   contains the data from the SOFA file.
+%   If ReturnType is 'cell', the function returns a cell array with the same 
+%   contents as in the case of 'struct' but with the following structure: 
+%   results{y}{id}
+%   y = 1: variable name; y = 2: value
+%   id ... adressing the different measurements
 
 % SOFA API - function SOFAgetData
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -21,7 +24,7 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function results = SOFAgetData(Filename,MId,varargin)
+%% --------------- check and prepare variables ------------------
 if(isnumeric(Filename))
   error('Filename must be a string.');
 end
@@ -87,4 +90,5 @@ catch
   % TODO lasterr() should not be used any more...
 end
 netcdf.close(ncid)
+
 end % of function

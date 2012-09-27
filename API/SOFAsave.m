@@ -1,29 +1,32 @@
-% SOFAsave: Creates a new SOFA file and writes an entire data set to it.
-% [] = SOFAsave(Filename,Dataset,Compression)
-% Filename specifies the name of the SOFA file to which the data is written.
-% Dataset is either a struct or a cell array containing the data and meta
-% data to be written to the SOFA file (see below for exact format).
-% Compression is an optional numeric value between 0 and 9 specifying the
-% amount of compression to be applied to the data when writing to the netCDF file.
-% 0 is no compression and 9 is the most compression.
-% 
-% If Dataset is a struct, it must contain one field called 'Data' for the data
-% and additional fields for each metadata value. The name of these fields
-% are identical to the names of the metadata.
-% If Dataset is a cell, it must have the following structure:
-% Dataset{x}{y}
-% x ... number of variable
-% y = 1: variable name; y = 2: value
-% 
-% In both cases, the existence of mandatory variables will be checked.
-% Coordinate variables are expected to have one of the following
-% dimensions (with M being the number of measurements):
-% Source/ListenerPosition, -View, -Up: [1 3], [M 3]
-% Transmitter/ReceiverPosition: [1 3 1], [1 3 R], [M 3 1], [M 3 R]
-% (with R being the number of receivers or transmitters respectively)
+function [] = SOFAsave(Filename,Dataset,varargin)
+%SOFASAVE 
+%   [] = SOFAsave(Filename,Dataset,Compression) creates a new SOFA file and
+%   writes an entire data set to it.
 %
-% All other meta data variables must have one of the following dimensions:
-% [1 1], [1 x], [M 1], [M x] (x is arbitary)
+%   Filename specifies the name of the SOFA file to which the data is written.
+%   Dataset is either a struct or a cell array containing the data and meta
+%   data to be written to the SOFA file (see below for exact format).
+%   Compression is an optional numeric value between 0 and 9 specifying the
+%   amount of compression to be applied to the data when writing to the netCDF file.
+%   0 is no compression and 9 is the most compression.
+% 
+%   If Dataset is a struct, it must contain one field called 'Data' for the data
+%   and additional fields for each metadata value. The name of these fields
+%   are identical to the names of the metadata.
+%   If Dataset is a cell, it must have the following structure:
+%   Dataset{x}{y}
+%   x ... number of variable
+%   y = 1: variable name; y = 2: value
+% 
+%   In both cases, the existence of mandatory variables will be checked.
+%   Coordinate variables are expected to have one of the following
+%   dimensions (with M being the number of measurements):
+%   Source/ListenerPosition, -View, -Up: [1 3], [M 3]
+%   Transmitter/ReceiverPosition: [1 3 1], [1 3 R], [M 3 1], [M 3 R]
+%   (with R being the number of receivers or transmitters respectively)
+%
+%   All other meta data variables must have one of the following dimensions:
+%   [1 1], [1 x], [M 1], [M x] (x is arbitary)
 
 % SOFA API - function SOFAsave
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -33,9 +36,7 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function [] = SOFAsave(Filename,Dataset,varargin)
-%% -- check format and validity of input variables
-
+%% ------------ check format and validity of input variables --------------
 % V ... number of input variables
 if(strcmp(class(Dataset),'struct'))
   VarNames = fieldnames(Dataset);
@@ -161,7 +162,8 @@ for ii=1:V
     error('Invalid matrix dimensions.');
   end
 end
-  %% -- N E T C D F save
+
+%% ---------------------- N E T C D F save ----------------------
 ncid = netcdf.create([Filename '.sofa'],'NETCDF4');
 try
 
@@ -331,4 +333,5 @@ catch
   % TODO lasterr() should not be used any more...
 end
 netcdf.close(ncid);
+
 end % of function

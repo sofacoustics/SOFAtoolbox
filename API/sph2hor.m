@@ -1,21 +1,26 @@
 function [lat,pol]=sph2hor(azi,ele)
+%SPH2HOR  Coordinate Transform
+%   [lat,pol]=sph2hor(azi,ele) converts coordinates in spherical format to the horizontal polar
+%   one.
 % 
-% sph2hor converts coordinates in spherical format to the horizontal polar
-% one.
+%   Input:
+%       azi ... azimuth (0 <= azi < 360)
+%       ele ... elevation (-90 <= ele <= 90)
 % 
-% Input:
-%   azi: azimuth (0 <= azi < 360)
-%     
-%   ele: elevation (-90 <= ele <= 90)
-% 
-% Output:
-%   lat: lateral angles (-90 <= lat <= 90)
-%     
-%   pol: polar angles (-90 <= pol < 270)
-% 
-% Created by Harald Ziegelwanger, OEAW Acoustical Research Institute
-% Last Modification: 09.05.2012 by Harald Ziegelwanger
-% Name of function changed on 08.13.2012 by Wolfgang Hrauda
+%   Output:
+%       lat ... lateral angle (-90 <= lat <= 90)
+%       pol ... polar angle (-90 <= pol < 270)
+%
+%   See also SPH2NAV, SPH2VERT, VERT2SPH, NAV2SPH, HOR2SPH
+
+% SOFA API - function sph2hor
+% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
+% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% You may not use this work except in compliance with the Licence.
+% You may obtain a copy of the Licence at: http://www.osor.eu/eupl
+% Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the Licence for the specific language governing  permissions and
+% limitations under the Licence. 
 
 azi=azi/180*pi;
 ele=ele/180*pi;

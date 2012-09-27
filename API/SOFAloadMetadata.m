@@ -1,20 +1,23 @@
-% SOFAloadMetadata: Read all metadata from a SOFA file.
-% results = SOFAloadMetadata(Filename,ReturnType,'VarName1','VarName2',...)
-% Filename specifies the SOFA file from which the data is read.
-% ReturnType is optional and specifies whether the function returns the
-% lodaded values as a struct or as a cell array. Default value is 'struct'.
-% If ReturnType is 'struct', the function returns a struct which contains
-% one field for each metadata value. The name of these fields are identical
-% to the names of the metadata.
-% If ReturnType is 'cell', the function returns a cell array with
-% the following structure:
-% results{x}{y}
-% x ... number of variable
-% y = 1: variable name; y = 2: value
+function results = SOFAloadMetadata(Filename,varargin)
+%SOFALOADMETADATA
+%   results = SOFAloadMetadata(Filename,ReturnType,'VarName1','VarName2',...)
+%   reads all metadata from a SOFA file.
 %
-% Additionally, an arbitary number of Metadata variable names may be passed
-% to the function. In this case, the function only returns the values of
-% the specified variables. Otherwise, all Metadata variables will be returned.
+%   Filename specifies the SOFA file from which the data is read.
+%   ReturnType is optional and specifies whether the function returns the
+%   lodaded values as a struct or as a cell array. Default value is 'struct'.
+%   If ReturnType is 'struct', the function returns a struct which contains
+%   one field for each metadata value. The name of these fields are identical
+%   to the names of the metadata.
+%   If ReturnType is 'cell', the function returns a cell array with
+%   the following structure:
+%   results{x}{y}
+%   x ... number of variable
+%   y = 1: variable name; y = 2: value
+%
+%   Additionally, an arbitary number of Metadata variable names may be passed
+%   to the function. In this case, the function only returns the values of
+%   the specified variables. Otherwise, all Metadata variables will be returned.
 
 % SOFA API - function SOFAloadMetadata
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -24,8 +27,7 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function results = SOFAloadMetadata(Filename,varargin)
-%% -- N E T C D F load
+%% --------------- check and prepare variables ------------------
 if(isnumeric(Filename))
   error('Filename must be a string.');
 end
@@ -52,6 +54,8 @@ elseif(strcmp(ReturnType,'cell'))
 else % should not happen anyway, but who knows
   error('ReturnType must be either ''struct'' or ''cell''.');
 end
+
+%% ---------------------- N E T C D F load ----------------------
 ncid = netcdf.open([char(Filename) '.sofa'],'NC_NOWRITE');
 try
 [ndims,nvars,ngatts,unlimdimid] = netcdf.inq(ncid); % get number of variables in file
@@ -89,4 +93,5 @@ catch
   % TODO lasterr() should not be used any more...
 end
 netcdf.close(ncid)
+
 end % of function

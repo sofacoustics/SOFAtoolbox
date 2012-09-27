@@ -1,13 +1,17 @@
-% sph2vert: Converts vertical-polar coordinates to spherical coordinates.
-% [azi_out,elev] = sph2vert(azi_in,elev)
+function [azi,ele] = sph2vert(azi,ele)
+%SPH2VERT  Coordinate Transform
+%   [azi,ele] = sph2vert(azi,ele) converts vertical-polar
+%   coordinates to spherical coordinates.
 %
-% Input:
-%   azi_in ... azimuth angles (0 <= azi <= 360)
-%   elev ... elevation angels (-90 <= elev <= 90)
+%   Input:
+%       azi ... azimuth (0 <= azi <= 360)
+%       ele ... elevation (-90 <= ele <= 90)
 %
-% Output:
-%   azi_out ... azimuth angles (-90 <= azi <= 90)
-%   elev ... elevation angels (-90 <= elev <= 270)
+%   Output:
+%       azi ... azimuth (-90 <= azi <= 90)
+%       ele ... elevation (-90 <= ele <= 270)
+%
+%   See also SPH2HOR, SPH2NAV, VERT2SPH, NAV2SPH, HOR2SPH
 
 % SOFA API - function sph2vert
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -17,18 +21,17 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function [azi_out,elev_out] = sph2vert(azi_in,elev_in)
-  if(azi_in>=270 && azi_in<360) % azi_in between 270 and 360 deg
-    azi_out = -(360-azi_in);
-    elev_out = elev_in;
-  elseif(azi_in>=180 && azi_in<270) % azi_in between 180 and 270 deg
-    azi_out = azi_in - 180;
-    elev_out = 180 - elev_in;
-  elseif(azi_in>=90 && azi_in<180) % azi_in between 90 and 180 deg
-    azi_out = azi_in - 180;
-    elev_out = 180 - elev_in;
+  if(azi>=270 && azi_in<360) % azi_in between 270 and 360 deg
+    azi = -(360-azi);
+    ele = ele;
+  elseif(azi>=180 && azi<270) % azi_in between 180 and 270 deg
+    azi = azi - 180;
+    ele = 180 - ele;
+  elseif(azi>=90 && azi<180) % azi_in between 90 and 180 deg
+    azi = azi - 180;
+    ele = 180 - ele;
   else % azi_in between 0 and 90 deg and outside 360 deg
-    azi_out = azi_in;
-    elev_out = elev_in;
+    azi = azi;
+    ele = ele;
   end
 end % end of function

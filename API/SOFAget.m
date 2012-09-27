@@ -1,21 +1,23 @@
-% SOFAgetData: Read several sets of data and Metadata from
-% a SOFA file for given IDs
-% results = SOFAget(Filename,MId,ReturnType)
-% Filename specifies the SOFA file from which the data is read.
-% MId is a vector of IDs specifying the measurement(s)
-% of which the data is read.
-% ReturnType is optional and specifies whether the function returns the
-% lodaded values as a struct or as a cell array. Default value is 'struct'.
+function results = SOFAget(Filename,MId,varargin)
+%SOFAGETDATA
+%   results = SOFAget(Filename,MId,varargin) reads several sets of data and Metadata from
+%   a SOFA file for given IDs
 %
-% If ReturnType is 'struct', the function returns a struct which contains
-% one field called 'Data' for the data and additional fields for each
-% metadata value. The name of these fields are identical to the names of the metadata.
-% If ReturnType is 'cell', the function returns a cell array with
-% the following structure:
-% results{x}{y}{id}
-% x ... number of variable
-% y = 1: variable name; y = 2: value
-% id ... adressing the different measurements
+%   Filename specifies the SOFA file from which the data is read.
+%   MId is a vector of IDs specifying the measurement(s)
+%   of which the data is read.
+%   ReturnType is optional and specifies whether the function returns the
+%   lodaded values as a struct or as a cell array. Default value is 'struct'.
+%
+%   If ReturnType is 'struct', the function returns a struct which contains
+%   one field called 'Data' for the data and additional fields for each
+%   metadata value. The name of these fields are identical to the names of the metadata.
+%   If ReturnType is 'cell', the function returns a cell array with
+%   the following structure:
+%   results{x}{y}{id}
+%   x ... number of variable
+%   y = 1: variable name; y = 2: value
+%   id ... adressing the different measurements
 
 % SOFA API - function SOFAget
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
@@ -25,7 +27,6 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-function results = SOFAget(Filename,MId,varargin)
 %% --------------- check and prepare variables ------------------
 if(isnumeric(Filename))
   error('Filename must be a string.');
@@ -125,4 +126,5 @@ catch
   % TODO lasterr() should not be used any more...
 end
 netcdf.close(ncid);
-end
+
+end % of function
