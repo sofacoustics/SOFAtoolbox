@@ -6,6 +6,11 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.0.9 (31.1.2013) by Piotr Majdak
+- included octave part from Hagen Wierstorf
+- changed the data structure format
+- added try-catch to SOFAsave to avoid open file handles
+
 *** v0.0.8 (24.08.2012) by Wolfgang Hrauda
 - changed data structure format
 - updates and fixes in several functions and scripts
