@@ -1,0 +1,34 @@
+* the handling of the data matrix is not ideal at the moment. The struct
+  construct could be annoying when you want to easily get your data into the
+  SOFA file. That should be changed. *** Changed to Data.XXX(M,R,N)
+
+* if the SOFAsave functions ends with an error, it stops without closing the
+  ncid, which is not a good practice and can mean you have to close Matlab,
+  before you can again working on the NC file.  *** try-catch added
+
+* the handling of the arguments to the SOFAsave function is not ideal. it would
+  be better to have 
+  SOFAsave(Filename,'Data',data,'DataType','FIR')
+  instead of
+  SOFAsave(Filename,{{'Data',data},{'DataType','FIR'}})
+  *** We use structures now
+
+* SOFAloadMetadata: the reading as struct metadata is not workin at the moment
+
+* check if the data is stored as radians or degree
+
+* the SOFAparse function is not working probably at the moment. I was only able
+  to find the ID for an angle of 0°
+
+* the filename is always handled with [Filename '.sofa'], that is not a good
+  behavior, I will change it to just Filename. *** Agreed.
+
+
+===== Per file suggestions ===============================================
+NETCDFsave:
+* currently a string, or a string matrix is converted to a cellstr first and the
+  dimensions of the cell is checked. It is supposed, that the dimension of the
+  cell could be MxN. But this is not possible in my opinion. cellstr works only
+  for a matrix (not a(1,2,3)), and therefore the size off the cell is always
+  Mx1, which makes the whole conversion to the cell useless.
+
