@@ -19,7 +19,7 @@ basepath=which('SOFAstart');
 % Kill the function name from the path.
 basepath=basepath(1:end-12);
 % Add the base path and the needed sub-directories
-if exist('addpath',5)
+if exist('addpath','builtin')
   addpath(basepath);
   addpath([basepath filesep 'helper']);
   addpath([basepath filesep 'CoordinateTransform']);
