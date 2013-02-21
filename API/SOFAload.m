@@ -15,41 +15,59 @@ function results = SOFAload(Filename,varargin)
 %   y = 1: variable name; y = 2: value
 
 % SOFA API - function SOFAload
-% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
+% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: http://www.osor.eu/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-%% --------------- check and prepare variables ------------------
-if(isnumeric(Filename))
-  error('Filename must be a string.');
+%% --------------------- check and prepare variables ----------------------
+if ~ischar(Filename)
+	error('Filename must be a string.');
 end
+if ~strcmp(Filename(end-4:end),'.sofa')
+    Filename=[Filename '.sofa'];
+end
+
 ReturnType = 'struct'; % set default value for ReturnType
-if(size(varargin,2)==1)
-  varargin = cellstr(varargin);
-  ReturnType = varargin{1};
+if size(varargin,2)==1
+	varargin = cellstr(varargin);
+	ReturnType = varargin{1};
 end
-if(isnumeric(ReturnType))
-  error('ReturnType must be a string.');
+if ~ischar(ReturnType)
+	error('ReturnType must be a string.');
 end
-
-if(strcmp(ReturnType,'struct'))
-  results = struct; % initialize struct variable
-elseif(strcmp(ReturnType,'cell'))
-  % no need to initialize
-else
-  error('ReturnType must be either ''struct'' or ''cell''.');
-end
-
-%% ---------------------- N E T C D F load ----------------------
-if(strcmp(ReturnType,'struct'))
-  results = SOFAloadMetadata(Filename,'struct');
-  results.Data = SOFAloadData(Filename,'struct'); % append data
-elseif(strcmp(ReturnType,'cell'))
-  results = SOFAloadMetadata(Filename,'cell');
-  results{size(results,2)+1} = SOFAloadData(Filename,'cell');
+switch ReturnType
+    case 'struct'
+        results = struct; % initialize struct variable
+    case 'cell'
+        
+    otherwise
+        error('ReturnType must be either ''struct'' or ''cell''.');
 end
 
-end % of function
+%% --------------------------- N E T C D F load ---------------------------
+[varName,varContent]=NETCDFload(Filename,'meta');
+for ii=1:length(varName)
+    if strcmp(ReturnType,'struct')
+        results.(varName{ii})=varContent{ii};
+    elseif strcmp(ReturnType,'cell')
+        result{1}=varName{ii};
+        result{2}=varContent{ii};
+        results{ii}=result;
+    end
+end
+
+[varName,varContent]=NETCDFload(Filename,'data');
+for ii=1:length(varName)
+    if strcmp(ReturnType,'struct')
+        results.Data.(varName{ii}(6:end))=varContent{ii};
+    elseif strcmp(ReturnType,'cell')
+        result{1}=['Data' varName{ii}(6:end)];
+        result{2}=varContent{ii};
+        results{length(results)+1}=result;
+    end
+end
+
+end %of function
