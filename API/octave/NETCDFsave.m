@@ -1,130 +1,123 @@
 function NETCDFsave(Filename,Dataset,Compression)
-% NETCDFsave savesthe given Dataset to the Filename using netCDF
-%
-%   Usage: NETCDFsave(Filename,Dataset,Compression)
-%
+%NETCDFSAVE
+%   NETCDFsave(Filename,Dataset,Compression) saves all data and metadata to
+%   a SOFA file.
 
-VarNames = fieldnames(Dataset); % update VarNames
-numVar = size(VarNames,1); % update number of variables
+% SOFA API - function SOFAloadData
+% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
+% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% You may not use this work except in compliance with the Licence.
+% You may obtain a copy of the Licence at: http://www.osor.eu/eupl
+% Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
+%% --------------------- check and prepare variables ----------------------
+varNames = fieldnames(Dataset);
+numVars = size(varNames,1);
+dimNames = SOFAgetDimensions();
+SourceListenerVars=SOFAgetVariables('sourcelistener');
+TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
+[numMeasurements,numReceivers,numSamples]=SOFAcheckDimensions(Dataset);
 
-% get names for the dimensions, this is put in an extra function in order to
-% change the names consistently at one place
-DimNames = SOFAdimensions();
-
-
-%% ----- N E T C D F save ------------------------------------------------
-
+%% --------------------------- N E T C D F save ---------------------------
 % create file
-nc = netcdf(Filename,'c','64bit-offset');
-%nc = netcdf(Filename,'c');
+ncid = netcdf(Filename,'c','64bit-offset');
 
 % define some fixed dimension sizes
-nc(DimNames.Scalar) = 1;
-nc(DimNames.Coordinates) = 3;
+ncid(dimNames.Scalar) = 1;
+ncid(dimNames.Coordinates) = 3;
 % FIXME: this is not working at themoment
-%nc(DimNames.String) = 0; % unlimited length
+%ncid(dimNames.String) = 0; % unlimited length
+ncid(dimNames.Measurements)=numMeasurements;
+ncid(dimNames.Receivers)=numReceivers;
+ncid(dimNames.Samples)=numSamples;
 
-% loop through all input variables
-for ii=1:numVar
+
+
+for ii=1:numVars % loop through all input variables
   
-  CurrentVarName = VarNames{ii};
-  CurrentVar = getfield(Dataset,VarNames{ii});
+    
+  currentVarName = varNames{ii};
+  currentVarValue = getfield(Dataset,varNames{ii});
 
   % ----- STRING VARIABLES -----------------------------------------------
-  if ischar(CurrentVar) % -- if CurrentVar is a string
-    if size(CurrentVar,1)==1
-      nc(CurrentVarName) = size(CurrentVar,2);      % define dimension
-      nc{CurrentVarName} = ncchar(CurrentVarName);  % allocate dim
+  if ischar(currentVarValue) % -- if currentVarValue is a string
+    if size(currentVarValue,1)==1
+      ncid(currentVarName) = size(currentVarValue,2);      % define dimension
+      ncid{currentVarName} = ncchar(currentVarName);  % allocate dim
     else
-      nc(['x' CurrentVarName]) = size(CurrentVar,1);
-      nc(['y' CurrentVarName]) = size(CurrentVar,2);
-      nc{CurrentVarName} = ncchar(['x' CurrentVarName], ...
-        ['y' CurrentVarName]);
+      ncid(['x' currentVarName]) = size(currentVarValue,1);
+      ncid(['y' currentVarName]) = size(currentVarValue,2);
+      ncid{currentVarName} = ncchar(['x' currentVarName], ...
+        ['y' currentVarName]);
     end
-    nc{CurrentVarName}(:) = CurrentVar;                     % store variable
+    ncid{currentVarName}(:) = currentVarValue;                     % store variable
 
   % ----- DATA MATRIX ----------------------------------------------------
-  elseif strcmp(CurrentVarName,'Data')  % data [measurements receiver samples]
-    M = size(CurrentVar,1);
-    R = size(CurrentVar,2);
-    nc(DimNames.Measurements) = M;
-    nc(DimNames.Receivers) = R;
+  elseif strcmp(currentVarName,'Data')  % data [measurements receiver samples]
+    numMeasurements = size(currentVarValue,1);
+    numReceivers = size(currentVarValue,2);
+    ncid(dimNames.Measurements) = numMeasurements;
+    ncid(dimNames.Receivers) = numReceivers;
     if strcmp(Dataset.DataType,'FIR')
-      N = length(CurrentVar(1,1).FIR);
-      nc(DimNames.Samples) = N;
-      nc{'Data.FIR'} = ncdouble(DimNames.Measurements, ...
-                                DimNames.Receivers, ...
-                                DimNames.Samples);
-      Temp = zeros(M,R,N); % preallocating memory
-      for m=1:M
-        for r=1:R
-          Temp(m,r,:) = CurrentVar(m,r).FIR;
-        end
-      end
-      nc{'Data.FIR'}(:) = Temp;
-      clear Temp;
+      numSamples = length(currentVarValue(1,1).FIR);
+      ncid(dimNames.Samples) = numSamples;
+      ncid{'Data.FIR'} = ncdouble(dimNames.Measurements, ...
+                                dimNames.Receivers, ...
+                                dimNames.Samples);
+      ncid{'Data.FIR'}(:) = currentVarValue.FIR;
     elseif strcmp(Dataset.dataType,'SpectraMagnitudePhase')
-      N = length(CurrentVar(1,1).Mag);
-      nc(DimNames.Samples) = N;
-      nc{'Data.Mag'} = ncdouble(DimNames.Measurements, ...
-                                DimNames.Receivers, ...
-                                DimNames.Samples);
-      nc{'Data.Phase'} = ncdouble(DimNames.Measurements, ...
-                                  DimNames.Receivers, ...
-                                  DimNames.Samples);
-      Temp1 = zeros(M,R,N); % preallocating memory
-      Temp2 = zeros(M,R,N); % preallocating memory
-      for m=1:M
-        for r=1:R
-          Temp1(m,r,:) = CurrentVar(m,r).Mag;
-          Temp2(m,r,:) = CurrentVar(m,r).Phase;
-        end
-      end
-      nc{'Data.Mag'}(:) = Temp1;
-      nc{'Data.Phase'}(:) = Temp2;
-      clear Temp1;
-      clear Temp2;
+      numSamples = length(currentVarValue(1,1).Mag);
+      ncid(dimNames.Samples) = numSamples;
+      ncid{'Data.Mag'} = ncdouble(dimNames.Measurements, ...
+                                dimNames.Receivers, ...
+                                dimNames.Samples);
+      ncid{'Data.Phase'} = ncdouble(dimNames.Measurements, ...
+                                  dimNames.Receivers, ...
+                                  dimNames.Samples);
+
+      ncid{'Data.Mag'}(:) = currentVarValue.Mag;
+      ncid{'Data.Phase'}(:) = currentVarValue.Phase;
     end
 
   % ----- NUMERIC VARIABLES ----------------------------------------------
-  elseif ndims(CurrentVar)==2
+  elseif ndims(currentVarValue)==2
     % positions and vectors
-    if size(CurrentVar)==[1 3]                                     % [1 3]
-      nc{CurrentVarName} = ncfloat(DimNames.Scalar,DimNames.Coordinates);
-    elseif size(CurrentVar)==[M 3]                                 % [M 3]
-      nc{CurrentVarName} = ncfloat(DimNames.Measurements,DimNames.Coordinates);
+    if size(currentVarValue)==[1 3]                                     % [1 3]
+      ncid{currentVarName} = ncfloat(dimNames.Scalar,dimNames.Coordinates);
+    elseif size(currentVarValue)==[numMeasurements 3]                                 % [numMeasurements 3]
+      ncid{currentVarName} = ncfloat(dimNames.Measurements,dimNames.Coordinates);
     % "normal" numeric variables
-    elseif size(CurrentVar)==[1 1]                                 % [1 1]
-      nc{CurrentVarName} = ncfloat(DimNames.Scalar,DimNames.Scalar);
-    elseif size(CurrentVar)==[M 1]                                 % [M 1]
-      nc{CurrentVarName} = ncfloat(DimNames.Measurements,DimNames.Scalar);
-    elseif size(CurrentVar,1)==1                                   % [1 x]
-      nc(CurrentVarName) = size(CurrentVar,2);
-      nc{CurrentVarName} = ncfloat(DimNames.Scalar,CurrentVarName);
-    elseif size(CurrentVar,1)==M                                   % [M x]
-      nc(CurrentVarName) = size(CurrentVar,2);
-      nc{CurrentVarName} = ncfloat(DimNames.Measurements,CurrentVarName);
+    elseif size(currentVarValue)==[1 1]                                 % [1 1]
+      ncid{currentVarName} = ncfloat(dimNames.Scalar,dimNames.Scalar);
+    elseif size(currentVarValue)==[numMeasurements 1]                                 % [numMeasurements 1]
+      ncid{currentVarName} = ncfloat(dimNames.Measurements,dimNames.Scalar);
+    elseif size(currentVarValue,1)==1                                   % [1 x]
+      ncid(currentVarName) = size(currentVarValue,2);
+      ncid{currentVarName} = ncfloat(dimNames.Scalar,currentVarName);
+    elseif size(currentVarValue,1)==numMeasurements                                   % [numMeasurements x]
+      ncid(currentVarName) = size(currentVarValue,2);
+      ncid{currentVarName} = ncfloat(dimNames.Measurements,currentVarName);
     end
     % store variable
-    nc{CurrentVarName}(:) = CurrentVar;
-  elseif ndims(CurrentVar)==3
+    ncid{currentVarName}(:) = currentVarValue;
+  elseif ndims(currentVarValue)==3
     % receiver/transmitter positions
-    if size(CurrentVar)==[1 3 1]                                   % [1 3 1]
-      nc{CurrentVarName} = ...
-        ncfloat(DimNames.Scalar,DimNames.Coordinates,DimNames.Scalar);
-    elseif size(CurrentVar)==[1 3 R]                               % [1 3 R]
-      nc{CurrentVarName} = ...
-        ncfloat(DimNames.Scalar,DimNames.Coordinates,DimNames.Receivers);
-    elseif size(CurrentVar)==[M 3 1]                               % [M 3 1]
-      nc{CurrentVarName} = ...
-        ncfloat(DimNames.Measurements,DimNames.Coordinates,DimNames.Scalar);
-    elseif size(CurrentVar)==[M 3 R]                               % [M 3 R]
-      nc{CurrentVarName} = ...
-        ncfloat(DimNames.Measurements,DimNames.Coordinateso,DimNames.Receivers);
+    if size(currentVarValue)==[1 3 1]                                   % [1 3 1]
+      ncid{currentVarName} = ...
+        ncfloat(dimNames.Scalar,dimNames.Coordinates,dimNames.Scalar);
+    elseif size(currentVarValue)==[1 3 numReceivers]                               % [1 3 numReceivers]
+      ncid{currentVarName} = ...
+        ncfloat(dimNames.Scalar,dimNames.Coordinates,dimNames.Receivers);
+    elseif size(currentVarValue)==[numMeasurements 3 1]                               % [numMeasurements 3 1]
+      ncid{currentVarName} = ...
+        ncfloat(dimNames.Measurements,dimNames.Coordinates,dimNames.Scalar);
+    elseif size(currentVarValue)==[numMeasurements 3 numReceivers]                               % [numMeasurements 3 numReceivers]
+      ncid{currentVarName} = ...
+        ncfloat(dimNames.Measurements,dimNames.Coordinateso,dimNames.Receivers);
     end
     % store variable
-    nc{CurrentVarName}(:) = CurrentVar;
+    ncid{currentVarName}(:) = currentVarValue;
   
   
   else
@@ -133,6 +126,6 @@ for ii=1:numVar
 
 end
 
-close(nc);
+close(ncid);
 
-% vim:sw=2:ts=2
+end %of function

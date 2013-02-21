@@ -1,12 +1,17 @@
-% SOFAstart added all needed pathes and checks if we need the Matlab or Octave
-% version of the API
+%SOFASTART 
 %
-%   Usage: SOFAstart
+%   SOFAstart adds all needed pathes and checks if we need the Matlab or Octave
+%   version of the API
 
-% AUTHOR: Hagen Wierstorf
+% SOFA API - function SOFAload
+% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
+% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% You may not use this work except in compliance with the Licence.
+% You may obtain a copy of the Licence at: http://www.osor.eu/eupl
+% Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the Licence for the specific language governing  permissions and limitations under the Licence.
 
-
-%% ----- Adding Path's ---------------------------------------------------
+%% ---------------------------- Adding Path's -----------------------------
 % Get the basepath as the directory this function resides in.
 % The 'which' solution below is more portable than 'mfilename'
 % becase old versions of Matlab does not have "mfilename('fullpath')"
@@ -14,22 +19,22 @@ basepath=which('SOFAstart');
 % Kill the function name from the path.
 basepath=basepath(1:end-12);
 % Add the base path and the needed sub-directories
-if exist('addpath')
+if exist('addpath',5)
   addpath(basepath);
-  addpath([basepath,'/helper']);
+  addpath([basepath filesep 'helper']);
+  addpath([basepath filesep 'CoordinateTransform']);
   if isoctave
-    addpath([basepath,'/octave']);
+    addpath([basepath filesep 'octave']);
   else
-    addpath([basepath,'/matlab']);
+    addpath([basepath filesep 'matlab']);
   end
 else
   path(path,basepath);
-  path(path,[basepath,'/helper']);
+  path(path,[basepath filesep 'helper']);
+  path(path,[basepath filesep 'CoordinateTransform']);
   if isoctave
-    path(path,[basepath,'/octave']);
+    path(path,[basepath filesep 'octave']);
   else
-    path(path,[basepath,'/matlab']);
+    path(path,[basepath filesep 'matlab']);
   end
 end
-
-% vim:sw=2:ts=2

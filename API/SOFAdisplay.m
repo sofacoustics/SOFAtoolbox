@@ -10,5 +10,13 @@ function [] = SOFAdisplay(Filename)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-  ncdisp([Filename]);
+if ~ischar(Filename)
+	error('Filename must be a string.');
 end
+if ~strcmp(Filename(end-4:end),'.sofa')
+    Filename=[Filename '.sofa'];
+end
+
+NETCDFdisplay(Filename);
+
+end %of function
