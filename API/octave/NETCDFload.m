@@ -1,12 +1,12 @@
-function [varName,varContent] = NETCDFload(Filename,varargin)
+function [varName,varContent] = NETCDFload(filename,varargin)
 %NETCDFLOAD
-%   results = NETCDFload(Filename,ReturnType) reads all data (no metadata) from
+%   [varName,varContent] = NETCDFload(filename,ReturnType) reads all data (no metadata) from
 %   a SOFA file.
 %
-%   Filename specifies the SOFA file from which the data is read.
+%   filename specifies the SOFA file from which the data is read.
 
-% SOFA API - function SOFAloadData
-% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences;
+% SOFA API - function octave/NETCDFload
+% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: http://www.osor.eu/eupl
@@ -19,7 +19,7 @@ end
 
 %% --------------------------- N E T C D F load ---------------------------
 try
-    ncid = netcdf(Filename,'r'); % open file
+    ncid = netcdf(filename,'r','netcdf4'); % open file
     sofa = ncvar(ncid); % get the variables stored in the file
     numVars = length(sofa); % get number of variables in file    
 
@@ -63,14 +63,7 @@ catch
     end
     error(['An error occured during reading the SOFA file:\n' lasterror.message]);
 end_try_catch
-close(ncid)
 
-% for ii=1:length(varContent)
-% 	if ndims(varContent{ii})<3
-%         varContent{ii}=transpose(varContent{ii});
-% 	elseif ndims(varContent{ii})==3
-%         varContent{ii}=permute(varContent{ii},[3 2 1]);
-% 	end
-% end
+close(ncid)
 
 end %of function

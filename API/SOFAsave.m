@@ -1,9 +1,9 @@
-function [] = SOFAsave(Filename,Dataset,varargin)
+function [] = SOFAsave(filename,Dataset,varargin)
 %SOFASAVE 
-%   [] = SOFAsave(Filename,Dataset,Compression) creates a new SOFA file and
+%   [] = SOFAsave(filename,Dataset,Compression) creates a new SOFA file and
 %   writes an entire data set to it.
 %
-%   Filename specifies the name of the SOFA file to which the data is written.
+%   filename specifies the name of the SOFA file to which the data is written.
 %   Dataset is either a struct or a cell array containing the data and meta
 %   data to be written to the SOFA file (see below for exact format).
 %   Compression is an optional numeric value between 0 and 9 specifying the
@@ -38,13 +38,8 @@ function [] = SOFAsave(Filename,Dataset,varargin)
 
 %% --------------------- check and prepare variables ----------------------
 % ------------------------- check input variables -------------------------
-% -- check Filename --
-if ~ischar(Filename)
-	error('Filename must be a string.');
-end
-if ~strcmp(Filename(end-4:end),'.sofa')
-    Filename=[Filename '.sofa'];
-end
+filename=SOFAcheckFilename(filename);
+
 % -- check varargin --
 if ~isempty(varargin) && isnumeric(varargin{1})
 	if isscalar(varargin{1}) && varargin{1}>=0 && varargin{1}<=9
@@ -104,6 +99,6 @@ end
 Dataset.SOFAVersion = SOFAgetVersion(); % write SOFA version
 
 %% --------------------------- N E T C D F save ---------------------------
-NETCDFsave(Filename,Dataset,Compression);
+NETCDFsave(filename,Dataset,Compression);
 
 end %of function

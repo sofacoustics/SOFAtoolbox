@@ -1,12 +1,12 @@
-function [varName,varContent] = NETCDFload(Filename,varargin)
+function [varName,varContent] = NETCDFload(filename,varargin)
 %NETCDFLOAD
-%   results = NETCDFload(Filename,ReturnType) reads all data (no metadata) from
+%   [varName,varContent] = NETCDFload(filename,ReturnType) reads all data (no metadata) from
 %   a SOFA file.
 %
-%   Filename specifies the SOFA file from which the data is read.
+%   filename specifies the SOFA file from which the data is read.
 
-% SOFA API - function SOFAloadData
-% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences;
+% SOFA API - function matlab/NETCDFload
+% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: http://www.osor.eu/eupl
@@ -19,7 +19,7 @@ end
 
 %% --------------------------- N E T C D F load ---------------------------
 try
-    ncid = netcdf.open(Filename,'NC_NOWRITE');% open file
+    ncid = netcdf.open(filename,'NC_NOWRITE');% open file
     [~,numVars,~,~] = netcdf.inq(ncid); % get number of variables stored in file
     
     count=1;

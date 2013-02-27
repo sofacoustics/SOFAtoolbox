@@ -1,11 +1,11 @@
-function [] = SOFAlistMetadata(Filename)
+function [] = SOFAlistMetadata(filename)
 %SOFALISTVARIABLES 
-%   [] = SOFAlistMetadata(Filename) lists all Metadata contained in a SOFA file.
+%   [] = SOFAlistMetadata(filename) lists all Metadata contained in a SOFA file.
 % 
 %	The function opens the SOFA file, and prints the names of all Metadata 
-%   variables contained in the SOFA file specified by Filename.
+%   variables contained in the SOFA file specified by filename.
 
-% SOFA API - function SOFAlistVariables
+% SOFA API - function SOFAlistMetadata
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
@@ -13,15 +13,10 @@ function [] = SOFAlistMetadata(Filename)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-if ~ischar(Filename)
-	error('Filename must be a string.');
-end
-if ~strcmp(Filename(end-4:end),'.sofa')
-    Filename=[Filename '.sofa'];
-end
+filename=SOFAcheckFilename(filename);
 
-varNames = NETCDFload(Filename,'meta');
-fprintf(['Metadata in file ' Filename ':\n\n']);
+varNames = NETCDFload(filename,'meta');
+fprintf(['Metadata in file ' filename ':\n\n']);
 disp(varNames');
 
 end % of function

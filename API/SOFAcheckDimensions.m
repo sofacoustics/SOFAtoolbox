@@ -1,7 +1,7 @@
-function [M,R,N,T] = SOFAcheckDimensions(Dataset)
+function [M,R,N,T] = SOFAcheckDimensions(dataset)
 %SOFACHECKDIMENSIONS 
-%   [] = SOFAcheckDimensions(Dataset) checks dimensions of variables
-%   contained in Dataset.
+%   [] = SOFAcheckDimensions(dataset) checks dimensions of variables
+%   contained in dataset.
 
 % SOFA API - function SOFAdisplay
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
@@ -12,46 +12,46 @@ function [M,R,N,T] = SOFAcheckDimensions(Dataset)
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
 % -------------------------- prepare dimensions ---------------------------
-VarNames = fieldnames(Dataset);
-numVars = size(VarNames,1);
-switch Dataset.DataType
+varNames = fieldnames(dataset);
+numVars = size(varNames,1);
+switch dataset.DataType
 	case 'FIR'
-		[M R N] = size(Dataset.Data.FIR);
+		[M R N] = size(dataset.Data.FIR);
 	case 'SpectralMagnitudePhase'
-		[M R N] = size(Dataset.Data.Mag);
+		[M R N] = size(dataset.Data.Mag);
 	otherwise
 		error('Unknown DataType');
 end
-T = size(Dataset.TransmitterPosition,3);
+T = size(dataset.TransmitterPosition,3);
 SourceListenerVars=SOFAgetVariables('sourcelistener');
 % TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
 
 % ------------------------ check matrix dimensions ------------------------
 for ii=1:numVars
-    CurrentValue = Dataset.(VarNames{ii});
-    if strcmp(VarNames{ii},'Data') % do nothing (Data sets dimensions)
-    elseif sum(strcmp(SourceListenerVars,VarNames{ii})) % Source/ListenerVars
-        if ~((all(size(CurrentValue)==[M 3])) || (all(size(CurrentValue)==[1 3])))
+    currentValue = dataset.(varNames{ii});
+    if strcmp(varNames{ii},'Data') % do nothing (Data sets dimensions)
+    elseif sum(strcmp(SourceListenerVars,varNames{ii})) % Source/ListenerVars
+        if ~((all(size(currentValue)==[M 3])) || (all(size(currentValue)==[1 3])))
             error('Dimensions of coordinate variables are not valid.');
         end
-    elseif strcmp(VarNames{ii},'ReceiverPosition') % ReceiverPosition
-        if ~((all(size(CurrentValue)==[1 3 1])) || (all(size(CurrentValue)==[M 3 1]) || ...
-            (all(size(CurrentValue)==[1 3 R])) || (all(size(CurrentValue)==[M 3 R]))))
+    elseif strcmp(varNames{ii},'ReceiverPosition') % ReceiverPosition
+        if ~((all(size(currentValue)==[1 3 1])) || (all(size(currentValue)==[M 3 1]) || ...
+            (all(size(currentValue)==[1 3 R])) || (all(size(currentValue)==[M 3 R]))))
             error('Dimensions of ReceiverPosition are not valid.');
         end
-    elseif strcmp(VarNames{ii},'TransmitterPosition') % TransmitterPosition
+    elseif strcmp(varNames{ii},'TransmitterPosition') % TransmitterPosition
         % T doesn't need to be checked, as it is defined by the size of TransmitterPosition
-        if ~((all(size(CurrentValue)==[1 3])) || (all(size(CurrentValue)==[M 3])))
+        if ~((all(size(currentValue)==[1 3])) || (all(size(currentValue)==[M 3])))
             error('Dimensions of TransmitterPosition are not valid.');
         end
-    elseif ~(size(size(CurrentValue),2)>2)
+    elseif ~(size(size(currentValue),2)>2)
         % if matrix is not more than 2D -> check dimensions: [1 1], [M 1], [1 x], [M x]
-        if ~(all(size(CurrentValue)==[1 1]) || all(size(CurrentValue)==[M 1]) || ...
-            (size(CurrentValue,1)==1 && size(CurrentValue,2)>1) || ...
-            (size(CurrentValue,1)==M && size(CurrentValue,2)>1))
+        if ~(all(size(currentValue)==[1 1]) || all(size(currentValue)==[M 1]) || ...
+            (size(currentValue,1)==1 && size(currentValue,2)>1) || ...
+            (size(currentValue,1)==M && size(currentValue,2)>1))
             error('Invalid matrix dimensions.');
         end
-    elseif size(size(CurrentValue),2)>2 % if matrix is more than 2D
+    elseif size(size(currentValue),2)>2 % if matrix is more than 2D
         error('Invalid matrix dimensions.');
     end
 end

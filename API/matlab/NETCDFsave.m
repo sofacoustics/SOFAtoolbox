@@ -1,10 +1,10 @@
-function NETCDFsave(Filename,Dataset,Compression)
+function NETCDFsave(filename,Dataset,Compression)
 %NETCDFSAVE
-%   NETCDFsave(Filename,Dataset,Compression) saves all data and metadata to
+%   NETCDFsave(filename,Dataset,Compression) saves all data and metadata to
 %   a SOFA file.
 
-% SOFA API - function SOFAloadData
-% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
+% SOFA API - function matlab/NETCDFsave
+% Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: http://www.osor.eu/eupl
@@ -21,7 +21,7 @@ TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
 
 %% --------------------------- N E T C D F save ---------------------------
 try
-    ncid = netcdf.create(Filename,'netcdf4');
+    ncid = netcdf.create(filename,'netcdf4');
 
     % define some constants and fixed dimensions
     float = netcdf.getConstant('NC_FLOAT');

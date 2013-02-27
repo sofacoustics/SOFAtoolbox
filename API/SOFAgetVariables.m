@@ -2,7 +2,7 @@ function vars = SOFAgetVariables(type)
 %SOFAGETVARIABLES
 %   vars = SOFAgetVariables(type) returns a list of variables.
 
-% SOFA API - function SOFAsave
+% SOFA API - function SOFAgetVariables
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or ñ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.

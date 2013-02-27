@@ -1,7 +1,7 @@
-function results = SOFAload(Filename,varargin)
+function results = SOFAload(filename,varargin)
 %SOFALOAD 
-%   results = SOFAload(Filename,ReturnType) reads all data from a SOFA file.
-%   Filename specifies the SOFA file from which the data is read.
+%   results = SOFAload(filename,ReturnType) reads all data from a SOFA file.
+%   filename specifies the SOFA file from which the data is read.
 %
 %   ReturnType is optional and specifies whether the function returns the
 %   lodaded values as a struct or as a cell array. Default value is 'struct'.
@@ -23,12 +23,7 @@ function results = SOFAload(Filename,varargin)
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
 %% --------------------- check and prepare variables ----------------------
-if ~ischar(Filename)
-	error('Filename must be a string.');
-end
-if ~strcmp(Filename(end-4:end),'.sofa')
-    Filename=[Filename '.sofa'];
-end
+filename=SOFAcheckFilename(filename);
 
 ReturnType = 'struct'; % set default value for ReturnType
 if size(varargin,2)==1
@@ -48,7 +43,7 @@ switch ReturnType
 end
 
 %% --------------------------- N E T C D F load ---------------------------
-[varName,varContent]=NETCDFload(Filename,'meta');
+[varName,varContent]=NETCDFload(filename,'meta');
 for ii=1:length(varName)
     if strcmp(ReturnType,'struct')
         results.(varName{ii})=varContent{ii};
@@ -59,7 +54,7 @@ for ii=1:length(varName)
     end
 end
 
-[varName,varContent]=NETCDFload(Filename,'data');
+[varName,varContent]=NETCDFload(filename,'data');
 for ii=1:length(varName)
     if strcmp(ReturnType,'struct')
         results.Data.(varName{ii}(6:end))=varContent{ii};
