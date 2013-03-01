@@ -21,7 +21,7 @@ TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
 
 %% --------------------------- N E T C D F save ---------------------------
 % create file
-ncid = netcdf(filename,'c','NETCDF4');
+ncid = netcdf(filename,'c','NETCDF4 with classical model');%'NETCDF4 with classical model'
 
 % define some fixed dimension sizes
 ncid(dimNames.Scalar) = 1;
@@ -40,16 +40,17 @@ for ii=1:numVars % loop through all input variables
 
     % ----- STRING VARIABLES ----------------------------------------------
     if ischar(currentVarValue) % -- if currentVarValue is a string
-        currentVarValue=transpose(currentVarValue);
-        if size(currentVarValue,1)==1
-            ncid(currentVarName) = size(currentVarValue,2);      % define dimension
-            ncid{currentVarName} = ncchar(currentVarName);  % allocate dim
-        else
-            ncid(['x' currentVarName]) = size(currentVarValue,1);
-            ncid(['y' currentVarName]) = size(currentVarValue,2);
-            ncid{currentVarName} = ncchar(['x' currentVarName], ...
-                ['y' currentVarName]);
-        end
+%         currentVarValue=transpose(currentVarValue);
+%         if size(currentVarValue,1)==1
+            ncid([currentVarName 'DIM']) = size(currentVarValue,2); %old:2     % define dimension
+            ncid{currentVarName} = ncchar([currentVarName 'DIM'],dimNames.Scalar);  % allocate dim
+%             ncid{currentVarName} = ncchar(dimNames.Scalar);
+%         else
+%             ncid(['x' currentVarName]) = size(currentVarValue,1);
+%             ncid(['y' currentVarName]) = size(currentVarValue,2);
+%             ncid{currentVarName} = ncchar(['x' currentVarName], ...
+%                 ['y' currentVarName]);
+%         end
         ncid{currentVarName}(:) = currentVarValue;                     % store variable
 
     % ----- DATA MATRIX ---------------------------------------------------
@@ -117,5 +118,15 @@ for ii=1:numVars % loop through all input variables
 end
 
 close(ncid);
+
+if isunix
+    unix(['nccopy -k 4 -d ' num2str(Compression) ' ' filename ' temp_netCDF3_to_netCDF4.nc']);
+    unix(['cp temp_netCDF3_to_netCDF4.nc ' filename]);
+    unix('rm temp_netCDF3_to_netCDF4.nc');
+else
+    dos(['nccopy -k 4 -d ' num2str(Compression) ' ' filename ' temp_netCDF3_to_netCDF4.nc']);
+    dos(['cp temp_netCDF3_to_netCDF4.nc ' filename]);
+    dos('rm temp_netCDF3_to_netCDF4.nc');
+end
 
 end %of function
