@@ -6,6 +6,11 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.0.10 (5.30.2013) by Piotr Majdak
+- ARI2SOFA: changed to a function now, the fields are more clear defined
+- SOFAsave: transmitted and receiver separated, dimensions changed
+- Specs are being drastically changed - beware of using this version at the current development state
+
 *** v0.0.9 (31.1.2013) by Piotr Majdak
 - included octave part from Hagen Wierstorf
 - changed the data structure format

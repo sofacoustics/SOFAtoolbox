@@ -22,7 +22,7 @@ switch dataset.DataType
 	otherwise
 		error('Unknown DataType');
 end
-T = size(dataset.TransmitterPosition,3);
+T = size(dataset.TransmitterPosition,1);
 SourceListenerVars=SOFAgetVariables('sourcelistener');
 % TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
 
@@ -35,13 +35,12 @@ for ii=1:numVars
             error('Dimensions of coordinate variables are not valid.');
         end
     elseif strcmp(varNames{ii},'ReceiverPosition') % ReceiverPosition
-        if ~((all(size(currentValue)==[1 3 1])) || (all(size(currentValue)==[M 3 1]) || ...
-            (all(size(currentValue)==[1 3 R])) || (all(size(currentValue)==[M 3 R]))))
+        if ~((all(size(currentValue)==[R 3])) || (all(size(currentValue)==[R 3 M])))
             error('Dimensions of ReceiverPosition are not valid.');
         end
     elseif strcmp(varNames{ii},'TransmitterPosition') % TransmitterPosition
         % T doesn't need to be checked, as it is defined by the size of TransmitterPosition
-        if ~((all(size(currentValue)==[1 3])) || (all(size(currentValue)==[M 3])))
+        if ~((all(size(currentValue)==[T 3])) || (all(size(currentValue)==[T M 3])))
             error('Dimensions of TransmitterPosition are not valid.');
         end
     elseif ~(size(size(currentValue),2)>2)

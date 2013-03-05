@@ -14,7 +14,7 @@ function DimNames = SOFAgetDimensions()
 DimNames.Measurements = 'Measurements';
 DimNames.Receivers = 'Receivers';
 DimNames.Samples = 'Samples';
-%DimNames.Transmitters = 'Transmitters';
+DimNames.Transmitters = 'Transmitters';
 
 %
 DimNames.Coordinates = 'Coordinates';
