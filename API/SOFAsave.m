@@ -50,38 +50,42 @@ if ~isempty(varargin) && isnumeric(varargin{1})
 else
     % setting a default compression
     % FIXME: (hagenw) what value should be the default compression?
-    Compression = 9;
-end
-% -- check Dataset --
-if isstruct(Dataset)
-    VarNames = fieldnames(Dataset);
-    numVars = size(VarNames,1);%... number of input variables
-elseif iscell(Dataset)
-    numVars = size(Dataset,2);%... number of input variables
-end
-Temp = struct; %... temporary variable to create a new struct from cell Dataset
-ii = 1;
-if iscell(Dataset) % all of this is only necessary if Dataset is a cell
-	while ii<=numVars % loop through all input variables
-        if mod(size(Dataset{ii},2),2)~=0 % variable name and value are not given correctly
-            fprintf(2,'Error: Invalid Arguments.\n');
-            return;
-        end
-        if ~strcmp(cellstr(class(Dataset{ii}{1})),'char') % check type of variable name
-            %Dataset{ii}{3}{1}; % TODO???
-            fprintf(2,'Error: Invalid Arguments (variable names must be strings).\n');
-            return;
-        end
-        Temp = setfield(Temp,Dataset{ii}{1},Dataset{ii}{2});
-        VarNames{ii} = Dataset{ii}{1}; % save variable names for mandatory check
-        ii = ii + 1;
-    end
-    Dataset = Temp; % Dataset is now a struct
-    clear Temp; % free memory
-elseif ~isstruct(Dataset)
-    error('Dataset must be struct or cell array.');
+    Compression = 1;
 end
 
+% -- check Dataset --
+% if isstruct(Dataset)
+    VarNames = fieldnames(Dataset);
+    numVars = size(VarNames,1);%... number of input variables
+% elseif iscell(Dataset)
+%     numVars = size(Dataset,2);%... number of input variables
+% end
+% Temp = struct; %... temporary variable to create a new struct from cell Dataset
+% ii = 1;
+% if iscell(Dataset) % all of this is only necessary if Dataset is a cell
+% 	while ii<=numVars % loop through all input variables
+%         if mod(size(Dataset{ii},2),2)~=0 % variable name and value are not given correctly
+%             fprintf(2,'Error: Invalid Arguments.\n');
+%             return;
+%         end
+%         if ~strcmp(cellstr(class(Dataset{ii}{1})),'char') % check type of variable name
+%             %Dataset{ii}{3}{1}; % TODO???
+%             fprintf(2,'Error: Invalid Arguments (variable names must be strings).\n');
+%             return;
+%         end
+%         Temp = setfield(Temp,Dataset{ii}{1},Dataset{ii}{2});
+%         VarNames{ii} = Dataset{ii}{1}; % save variable names for mandatory check
+%         ii = ii + 1;
+%     end
+%     Dataset = Temp; % Dataset is now a struct
+%     clear Temp; % free memory
+% elseif ~isstruct(Dataset)
+%     error('Dataset must be struct or cell array.');
+% end
+
+% TODO: Here we need to look at the scheme and get all attributes/variables
+% according to that scheme. If a data is not given, it will be set to
+% default.
 % --------------------------- prepare variables ---------------------------
 mandatoryVars=SOFAgetVariables('mandatory'); %... mandatory variables
 % -- check if mandatroy variables exist --

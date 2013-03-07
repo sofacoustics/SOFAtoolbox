@@ -6,7 +6,13 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v0.0.10 (5.30.2013) by Piotr Majdak
+*** v0.0.11 (7.3.2013) by Piotr Majdak
+- Conventions added
+- Octave branch deleted
+- Examples: ARI2SOFA as a function
+- General: adapted to current specs. Don't use yet.
+
+*** v0.0.10 (5.3.2013) by Piotr Majdak
 - ARI2SOFA: changed to a function now, the fields are more clear defined
 - SOFAsave: transmitted and receiver separated, dimensions changed
 - Specs are being drastically changed - beware of using this version at the current development state

@@ -1,0 +1,80 @@
+netcdf sofa {
+		// This is a SOFA file
+:Conventions="SOFA";
+
+		// global attributes
+:SOFAConvention="SimpleDRIRMicArray";
+:SOFAConventionVersion="0.0.1";
+:ApplicationName="ncgen";
+:ApplicationVersion="0.0.0";
+:AuthorContact="piotr@majdak.com";
+:Licence="CC BY-SA 3.0";
+:Organization="ARI, OeAW";
+:DatabaseName="ARI";
+:SubjectID="NH04";
+
+dimensions: 
+N = unlimited, M=unlimited; C=3;	// SOFA defined
+R=16, T=1; // Measurement specific
+strlen=64;	// max. string len
+
+variables:
+		// general dimensions
+int		R(R),T(T),M(M),C(C),N(N);
+R:LongName="number of receivers";
+T:LongName="number of transmitters";
+M:LongName="number of measurements";
+C:LongName="coordinate triplet";
+
+		// Data-type
+:DataType="FIR";
+float	Data.IR(M,R,N);
+float	Data.SamplingRate;
+N:LongName="time";
+N:Units="samples";
+Data.SamplingRate:Units="hertz";
+
+		// Listener
+float	ListenerPosition(M,C);
+ListenerPosition:Type="cartesian";
+ListenerPosition:Units="meter";
+float	ListenerUp(M,C);
+ListenerUp:Type="cartesian";
+ListenerUp:Units="meter";
+float	ListenerView(M,C);
+ListenerView:Type="cartesian";
+ListenerView:Units="meter";
+
+		// Receivers
+float	ReceiverPosition(R,C,M);
+ReceiverPosition:Type="spherical";
+ReceiverPosition:Units="degrees,degrees,meter";
+
+		// Source
+float	SourcePosition(M,C);
+SourcePosition:Type="cartesian";
+SourcePosition:Units="meter";
+float	SourceUp(M,C);
+SourceUp:Type="cartesian";
+SourceUp:Units="meter";
+float	SourceView(M,C);
+SourceView:Type="cartesian";
+SourceView:Units="meter";
+
+		// Transmitters
+float 	TransmitterPosition(C);
+TransmitterPosition:Type="cartesian";
+TransmitterPosition:Units="meter";
+
+		// Room
+:RoomType="dae";
+char RoomDAEFileName(strlen);
+RoomDAEFileName:Description="a room";
+
+		// Measurements
+int 	MeasurementTimeCreated(M);
+char 	MeasurementID(strlen,M);
+		
+data:
+	TransmitterPosition=0, 0, 0;
+}

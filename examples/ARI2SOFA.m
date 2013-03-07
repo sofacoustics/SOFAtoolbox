@@ -1,7 +1,12 @@
-function ARI2SOFA(fn,hM,meta,stimPar)
-% ARI2SOFA(FN,hM,meta,stimPar) save the HRTFs describen in hM, meta, and
-% stimPar (see ARI HRTF format) in a SOFA file with the filename FN. 
+function ARI2SOFA(fn,hM,meta,stimPar,compression)
+% ARI2SOFA(FN,hM,meta,stimPar) saves the HRTFs describen in hM, meta, and
+% stimPar (see ARI HRTF format) in a SOFA file with the filename FN.
 %
+% ARI2SOFA(FN,hM,meta,stimPar,C) uses C as compression (0..uncompressed,
+% 9..most compressed). Default=1, results in a nice compression within a
+% reasonable processing time.
+%
+
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
@@ -11,28 +16,9 @@ function ARI2SOFA(fn,hM,meta,stimPar)
 
 % created by Wolfgang Hrauda (summer 2012)
 % Piotr Majdak (script->function, generalizations, optimizations)
-%% ARI to Sofa format conversion
 
-% load ARI .mat file
-%load('HRTF ARI NH4.mat')
-
-
-% convert audio channel to corresponding twist angle (setup at ARI lab) 
-% [PM:Why do we need that?]
-% angles = [-30 -20 -10 0 10 20 30 40 50 60 70 80 -25 -15 -5 5 15 25 35 45 55 65];
-% for n=1:size(hM,2)
-%   Twist(n,1) = angles(meta.pos(n,3));
-% end
-
- % compose data matrix from hM
-data.FIR=shiftdim(hM,1);
-% for m=1:size(hM,2)
-%   for r=1:size(hM,3)
-%     for n=1:size(hM,1)
-%       data.FIR(m,r,n) = hM(n,m,r);
-%     end
-%   end
-% end
+if ~exist('compression','var'), compression=1; end
+data.FIR=shiftdim(hM,1); % hM is [N M R], data.FIR must be [M R N]
 
 	% Define the scheme
 Obj.Scheme = 'SimpleFreeFieldHRTF';
@@ -79,8 +65,8 @@ Obj.MeasurementParameterSourceAmplitude = meta.amp;
 	% Room type
 Obj.RoomType = 'free field';
 
-
-SOFAsave(fn,Obj,9); % write data to sofa file
+	% write data to sofa file
+SOFAsave(fn,Obj,compression); 
 
 % some very basic examples how the functions might be used:
 % load the entire data

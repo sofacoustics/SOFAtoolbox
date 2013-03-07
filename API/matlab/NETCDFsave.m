@@ -35,6 +35,12 @@ try
 
     netcdf.endDef(ncid);
 
+			% This is an example how to write global attributes.
+			% TODO: separate structure fields by global attribute, variables and
+			% variable attributes
+		varid = netcdf.getConstant('GLOBAL');
+		netcdf.putAtt(ncid,varid,'Scheme',Dataset.Scheme);
+		
     for ii=1:numVars % loop through all input variables
         currentVarName = varNames{ii};
 				disp(currentVarName);
