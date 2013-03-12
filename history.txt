@@ -6,6 +6,9 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.0.12 (12.3.2013) by Piotr Majdak
+- Conventions: transmitter renamed to emitter
+
 *** v0.0.11 (7.3.2013) by Piotr Majdak
 - Conventions added
 - Octave branch deleted

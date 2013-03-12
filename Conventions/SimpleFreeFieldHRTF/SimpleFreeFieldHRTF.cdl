@@ -11,17 +11,17 @@ netcdf sofa {
 :Licence="CC BY-SA 3.0";
 :Organization="ARI, OeAW";
 :DatabaseName="ARI";
-:SubjectID="NH04";
+:SubjectID="template";
 
 dimensions: 
 N = unlimited, M=unlimited; C=3;	// SOFA defined
-R=2, T=1; // Measurement specific
+R=2, E=1; // Measurement specific
 
 variables:
 		// general dimensions
-int		R(R),T(T),M(M),C(C),N(N);
+int		R(R),E(E),M(M),C(C),N(N);
 R:LongName="number of receivers";
-T:LongName="number of transmitters";
+E:LongName="number of emitters";
 M:LongName="number of measurements";
 C:LongName="coordinate triplet";
 
@@ -63,10 +63,10 @@ float	SourceView(C);
 SourceView:Type="cartesian";
 SourceView:Units="meter";
 
-		// Transmitters
-float 	TransmitterPosition(C);
-TransmitterPosition:Type="cartesian";
-TransmitterPosition:Units="meter";
+		// Emitters
+float 	EmitterPosition(C);
+EmitterPosition:Type="cartesian";
+EmitterPosition:Units="meter";
 
 		// Room
 :RoomType="free field";
@@ -75,7 +75,7 @@ data:
 	SourcePosition=0,0,0;
 	SourceUp=0,0,1;
 	SourceView=1,0,0;
-	TransmitterPosition=0,0,0;
+	EmitterPosition=0,0,0;
 	ListenerPosition=1.2,0,0;
 	ListenerView=0,0,0;
 	ListenerUp=1.2,0,0;
