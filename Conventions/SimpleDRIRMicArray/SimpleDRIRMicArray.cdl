@@ -26,8 +26,9 @@ E:LongName="number of emitters";
 M:LongName="number of measurements";
 C:LongName="coordinate triplet";
 
+
 		// Data-type
-:DataType="FIR";
+:DataType="IR";
 float	Data.IR(M,R,N);
 float	Data.SamplingRate;
 N:LongName="time";

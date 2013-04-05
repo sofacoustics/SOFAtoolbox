@@ -5,13 +5,15 @@ netcdf sofa {
 		// global attributes
 :SOFAConvention="SimpleFreeFieldHRTF";
 :SOFAConventionVersion="0.0.1";
-:ApplicationName="ncgen";
-:ApplicationVersion="0.0.0";
-:AuthorContact="piotr@majdak.com";
+:APIName="Matlab ARI";
+:APIVersion="0.0.1";
+:ApplicationName="";
+:ApplicationVersion="";
+:AuthorContact="";
 :Licence="CC BY-SA 3.0";
-:Organization="ARI, OeAW";
-:DatabaseName="ARI";
-:SubjectID="template";
+:Organization="";
+:DatabaseName="";
+:SubjectID="";
 
 dimensions: 
 N = unlimited, M=unlimited; C=3;	// SOFA defined
@@ -26,7 +28,7 @@ M:LongName="number of measurements";
 C:LongName="coordinate triplet";
 
 		// Data-type
-:DataType="FIR";
+:DataType="IR";
 float	Data.IR(M,R,N);
 float	Data.SamplingRate;
 N:LongName="time";
@@ -45,7 +47,7 @@ ListenerView:Type="cartesian";
 ListenerView:Units="meter";
 float	ListenerRotation(M,C);
 ListenerRotation:Type="din9300";
-ListenerPosition:Type="degrees";
+ListenerRotation:Unit="degrees";
 
 		// Receivers
 float	ReceiverPosition(R,C);
@@ -78,6 +80,7 @@ data:
 	EmitterPosition=0,0,0;
 	ListenerPosition=1.2,0,0;
 	ListenerView=0,0,0;
+	ListenerUp=1.2,0,0;
 	ListenerUp=1.2,0,0;
 	ReceiverPosition=0,-0.09,0 ,0,0.09,0;
 }
