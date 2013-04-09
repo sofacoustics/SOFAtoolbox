@@ -28,7 +28,7 @@ C:LongName="coordinate triplet";
 
 
 		// Data-type
-:DataType="IR";
+:DataType="FIR";
 float	Data.IR(M,R,N);
 float	Data.SamplingRate;
 N:LongName="time";

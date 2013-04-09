@@ -30,7 +30,7 @@ data.FIR=shiftdim(hM,1); % hM is [N M R], data.FIR must be [M R N]
 	% Define the data, its type, and the data-type-specific metadata
 Obj.Data.IR = data.FIR;
 % a=1;
-Obj.DataType = 'IR';
+% Obj.DataType = 'FIR';
 Obj.SamplingRate = stimPar.SamplingRate;
 
 % 	% Define general information about the file

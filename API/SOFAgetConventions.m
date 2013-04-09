@@ -19,18 +19,18 @@ switch sofaconventions
     case 'SimpleFreeFieldHRTF'
        
 % Define general information about the file
-        Obj.Conventions='SOFA';
-        Obj.SOFAConventions=sofaconventions;
-        Obj.SOFAConventionVersion='0.0.1';
-        Obj.APIName='Matlab ARI';
-        Obj.APIVersion='0.0.1';
-        Obj.ApplicationName='';
-        Obj.ApplicationVersion='';
-        Obj.AuthorContact='';
-        Obj.Licence='CC BY-SA 3.0';
-        Obj.Organization='';
-        Obj.DatabaseName='';
-        Obj.SubjectID='';
+        Obj.GLOBAL_Conventions='SOFA';
+        Obj.GLOBAL_SOFAConventions=sofaconventions;
+        Obj.GLOBAL_SOFAConventionVersion='0.0.1';
+        Obj.GLOBAL_APIName='Matlab ARI';
+        Obj.GLOBAL_APIVersion='0.0.1';
+        Obj.GLOBAL_ApplicationName='';
+        Obj.GLOBAL_ApplicationVersion='';
+        Obj.GLOBAL_AuthorContact='';
+        Obj.GLOBAL_Licence='CC BY-SA 3.0';
+        Obj.GLOBAL_Organization='';
+        Obj.GLOBAL_DatabaseName='';
+        Obj.GLOBAL_SubjectID='';
         Obj.R=NaN;
         Obj.E=NaN;
         Obj.N=NaN;
@@ -44,7 +44,7 @@ switch sofaconventions
 
 % Data-type        
         Obj.Data.IR = zeros(3,2,1);
-        Obj.DataType = 'IR';
+        Obj.DataType = 'FIR';
         Obj.Data.SamplingRate = 48000;
         Obj.Data.SamplingRateUnits = 'hertz';
         Obj.NLongName='time';
@@ -119,7 +119,7 @@ switch sofaconventions
 
 % Data-type        
         Obj.Data.IR = zeros(3,2,1);
-        Obj.DataType = 'IR';
+        Obj.DataType = 'FIR';
         Obj.Data.SamplingRate = 48000;
         Obj.Data.SamplingRateUnits = 'hertz';
         Obj.NLongName='time';
