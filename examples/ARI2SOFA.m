@@ -19,19 +19,16 @@ function Obj=ARI2SOFA(fn,hM,meta,stimPar,compression)
 % Last Updates: Michael Mihocic, 04.2013
 
 %% Convention
-Obj = SOFAgetConventions('SimpleFreeFieldHRIR');
+[Obj,Var,DataVar] = SOFAgetConventions('SimpleFreeFieldHRIR');
 
 %% Default compression
 if ~exist('compression','var'), compression=1; end
-data.FIR=shiftdim(hM,1); % hM is [N M R], data.FIR must be [M R N]
+data.FIR=shiftdim(hM,1); % hM is [N M R], data.IR must be [M R N]
 
 %% Fill data to empty structure
 	% Define the data, its type, and the data-type-specific metadata
 Obj.Data.IR = data.FIR;
 Obj.Data.SamplingRate = stimPar.SamplingRate;
-	% Update dimensions
-Obj.M=size(data.FIR,1);
-Obj.N=size(data.FIR,3);
 
 % 	% Define general information about the file
 Obj.GLOBAL_SubjectID = stimPar.SubjectID;
@@ -70,7 +67,14 @@ Obj.ListenerRotation = [meta.pos(1:size(hM,2),4) meta.pos(1:size(hM,2),5) zeros(
 % Obj.MeasurementParameterSourceAmplitude = meta.amp;
 
 	% Room type
-% Obj.RoomType = 'free field';
+% Obj.GLOBAL_RoomType = 'free field';
+
+%% Update dimensions MRNECQ
+Obj.M=size(Obj.Data.IR,1);
+Obj.R=size(Obj.Data.IR,2);
+Obj.N=size(Obj.Data.IR,3);
+Obj.E=size(Obj.EmitterPosition,1);
+Obj.C=3;
 
 %% write data to sofa file
 SOFAsave(fn,Obj,compression); 
