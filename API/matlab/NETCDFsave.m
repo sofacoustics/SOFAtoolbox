@@ -1,4 +1,4 @@
-function NETCDFsave(filename,Obj,Var,DataVar,dims,Compression)
+function NETCDFsave(filename,Obj,Var,DataVar,Dims,Compression)
 %NETCDFSAVE
 %   NETCDFsave(filename,Dataset,Compression) saves all data and metadata to
 %   a SOFA file.
@@ -36,12 +36,12 @@ try
 	
 %% Define dimensions
 
-	dimid=nan(size(dims));
-	dimsize=nan(size(dims));
-	for ii=1:length(dims)
-		var=dims(ii);
+	dimid=nan(size(Dims));
+	dimsize=nan(size(Dims));
+	for ii=1:length(Dims)
+		var=Dims(ii);
 		if isfield(Obj, var)			
-			dimid(ii) = netcdf.defDim(ncid,dims(ii),Obj.(var)); 
+			dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.(var)); 
 			dimsize(ii)=Obj.(var);
 		end
 	end
@@ -50,7 +50,7 @@ try
 %% Save dimension variables
 
 	for ii=1:length(dimsize)
-		var=dims(ii);
+		var=Dims(ii);
 		if ~isnan(dimid(ii))
 			VarId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_INT'),dimid(ii));
 			netcdf.putVar(ncid,VarId,1:Obj.(var));
@@ -67,7 +67,7 @@ try
 	for ii=1:length(fv)
 		var=fv{ii};
 		if isempty(strfind(var,'_'))	% skip all attributes	
-			ids=cell2mat(regexp(dims,cellstr((Var.(var))')));
+			ids=cell2mat(regexp(Dims,cellstr((Var.(var))')));
 			varId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),dimid(ids));	
 			netcdf.putVar(ncid,varId,Obj.(var));
 			for jj=1:length(f)
@@ -83,7 +83,7 @@ try
 	for ii=1:length(fd)
 		var=fd{ii};
 		if isempty(strfind(var,'_'))	% skip all attributes				
-			ids=cell2mat(regexp(dims,cellstr((DataVar.(var))')));
+			ids=cell2mat(regexp(Dims,cellstr((DataVar.(var))')));
 			varId = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_DOUBLE'),dimid(ids));	
 			netcdf.putVar(ncid,varId,Obj.Data.(var));
 			for jj=1:length(fod)
@@ -101,6 +101,5 @@ catch ME
 	error(['Error processing ' var ' (line ' num2str(ME.stack.line) ')' 10 ...
 					'Error message: ' ME.message]);
 end
-
 netcdf.close(ncid);
 	

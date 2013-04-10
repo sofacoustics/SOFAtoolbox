@@ -1,4 +1,4 @@
-function [Obj] = NETCDFload(filename,varargin)
+function [Obj,Var,DataVar,Dims] = NETCDFload(filename,varargin)
 %NETCDFLOAD
 %   [varName,varContent] = NETCDFload(filename,ReturnType) reads all data (no metadata) from
 %   a SOFA file.
@@ -42,10 +42,16 @@ try
 
 	varids=netcdf.inqVarIDs(ncid);
 	for ii=0:numvars-1
-    [var,~,~,natts] = netcdf.inqVar(ncid,varids(ii+1));	
-		if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables
+    [var,~,vardimids,natts] = netcdf.inqVar(ncid,varids(ii+1));	
+		if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables			
 			data=netcdf.getVar(ncid,varids(ii+1));
-			if strfind(var,'Data.'), Obj.Data.(var(6:end))=data; else	Obj.(var)=data; end
+			if strfind(var,'Data.'), 
+				Obj.Data.(var(6:end))=data; 
+				DataVar.(var(6:end))=cell2mat(dims(vardimids+1))';
+			else
+				Obj.(var)=data; 
+				Var.(var)=cell2mat(dims(vardimids+1))';
+			end
 		end
 		if natts
 			for jj=0:natts-1
@@ -61,5 +67,5 @@ catch ME
 	error(['Error processing ' var ' (line ' num2str(ME.stack.line) ')' 10 ...
 					'Error message: ' ME.message]);
 end
-
+Dims=cell2mat(dims)';
 netcdf.close(ncid);
