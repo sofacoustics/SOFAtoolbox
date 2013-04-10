@@ -3,9 +3,9 @@ netcdf sofa {
 :Conventions="SOFA";
 
 		// global attributes
-:SOFAConvention="SimpleFreeFieldHRTF";
+:SOFAConvention="SimpleFreeFieldHRIR";
 :SOFAConventionVersion="0.0.1";
-:APIName="Matlab ARI";
+:APIName="ARI Matlab";
 :APIVersion="0.0.1";
 :ApplicationName="";
 :ApplicationVersion="";

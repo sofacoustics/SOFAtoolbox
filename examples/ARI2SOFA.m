@@ -1,4 +1,4 @@
-function ARI2SOFA(fn,hM,meta,stimPar,compression)
+function Obj=ARI2SOFA(fn,hM,meta,stimPar,compression)
 % ARI2SOFA(FN,hM,meta,stimPar) saves the HRTFs describen in hM, meta, and
 % stimPar (see ARI HRTF format) in a SOFA file with the filename FN.
 %
@@ -19,8 +19,7 @@ function ARI2SOFA(fn,hM,meta,stimPar,compression)
 % Last Updates: Michael Mihocic, 04.2013
 
 %% Convention
-Obj = SOFAgetConventions('SimpleFreeFieldHRTF');
-% Obj = SOFAgetConventions('SimpleDRIRMicArray');
+Obj = SOFAgetConventions('SimpleFreeFieldHRIR');
 
 %% Default compression
 if ~exist('compression','var'), compression=1; end
@@ -29,42 +28,39 @@ data.FIR=shiftdim(hM,1); % hM is [N M R], data.FIR must be [M R N]
 %% Fill data to empty structure
 	% Define the data, its type, and the data-type-specific metadata
 Obj.Data.IR = data.FIR;
-% a=1;
-% Obj.DataType = 'FIR';
-Obj.SamplingRate = stimPar.SamplingRate;
+Obj.Data.SamplingRate = stimPar.SamplingRate;
+	% Update dimensions
+Obj.M=size(data.FIR,1);
+Obj.N=size(data.FIR,3);
 
 % 	% Define general information about the file
-Obj.SubjectID = stimPar.SubjectID;
-Obj.DatabaseName = 'ARI';
-Obj.ApplicationName = 'ExpSuite';
-Obj.ApplicationVersion = stimPar.Version;
-Obj.Organization = 'Acoustics Research Institute';
-Obj.AuthorContact = 'michael.mihocic@oeaw.ac.at';
+Obj.GLOBAL_SubjectID = stimPar.SubjectID;
+Obj.GLOBAL_DatabaseName = 'ARI';
+Obj.GLOBAL_ApplicationName = 'ExpSuite';
+Obj.GLOBAL_ApplicationVersion = stimPar.Version;
+Obj.GLOBAL_Organization = 'Acoustics Research Institute';
+Obj.GLOBAL_AuthorContact = 'michael.mihocic@oeaw.ac.at';
 
-	% Define the Source
-Obj.TransmitterPositionType = 'cartesian';
-Obj.TransmitterPosition = [0 0 0];	% one transmitter on the source
-Obj.SourcePositionType = 'cartesian';
-Obj.SourceUpType = 'cartesian';
-Obj.SourceViewType = 'cartesian';
-Obj.SourcePosition = [0 0 0];
-Obj.SourceView = [1 0 0];
-Obj.SourceUp = [0 0 1];
+	 % Define the Source
+% Obj.TransmitterPositionType = 'cartesian';
+% Obj.TransmitterPosition = [0 0 0];	% one transmitter on the source
+% Obj.SourcePositionType = 'cartesian';
+% Obj.SourceUpType = 'cartesian';
+% Obj.SourceViewType = 'cartesian';
+% Obj.SourcePosition = [0 0 0];
+% Obj.SourceView = [1 0 0];
+% Obj.SourceUp = [0 0 1];
 
-	% Define the Listener
-%     Obj.R=2;
-%     Obj.E=1;
-%     Obj.M='unlimited';
-%     Obj.C=3;
-Obj.ReceiverPositionType = 'cartesian';
-Obj.ReceiverPosition = [0 -0.09 0; 0 0.09 0];
-Obj.ListenerPositionType = 'cartesian';
-Obj.ListenerViewType = 'cartesian';
-Obj.ListenerUpType = 'cartesian';
+	% Define receivers and the listener
+% Obj.ReceiverPositionType = 'cartesian';
+% Obj.ReceiverPosition = [0 -0.09 0; 0 0.09 0];
+% Obj.ListenerPositionType = 'cartesian';
+% Obj.ListenerViewType = 'cartesian';
+% Obj.ListenerUpType = 'cartesian';
 Obj.ListenerPosition = [1.2 0 0];
 Obj.ListenerView = [0 0 0];
 Obj.ListenerUp = [1.2 0 1];
-Obj.ListenerRotation = [meta.pos(:,4) meta.pos(:,5) zeros(size(meta.pos(:,1)))];
+Obj.ListenerRotation = [meta.pos(1:size(hM,2),4) meta.pos(1:size(hM,2),5) zeros(size(hM,2),1)];
 
 % 	% Additional measurement metadata
 % Obj.MeasurementID = stimPar.ID;
