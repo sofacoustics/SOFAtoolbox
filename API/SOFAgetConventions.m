@@ -10,12 +10,14 @@ function [Obj,Var,DataVar] = SOFAgetConventions(sofaconventions,flags)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-% Last Update: Michael Mihocic, 04.2013
+% Last Update: Michael Mihocic, 10.04.2013
 
 
 if ~exist('flags','var')
     flags='m';
 end
+
+dims={'R';'E';'N';'M';'C';'Q'}; % dimensions
 
 %% ---------------------- return specified variables ----------------------
 %% SimpleFreeFieldHRIR
@@ -64,13 +66,13 @@ switch sofaconventions
          'ReceiverPosition' NaN(2,3) 'm'  {'RC','RCM'}; ...
          'ReceiverPosition_Type' 'cartesian' 'm'  ''; ...
          'ReceiverPosition_Units' 'meter' 'm'  ''; ...
-         'SourcePosition' NaN(1,3) 'm'  ''; ...
+         'SourcePosition' NaN(1,3) 'm'  {'C','MC'}; ...
          'SourcePosition_Type' 'cartesian' 'm'  ''; ...
          'SourcePosition_Units' 'meter' 'm'  ''; ...
-         'SourceUp' NaN(1,3) 'm'  ''; ...
+         'SourceUp' NaN(1,3) 'm'  {'C','MC'}; ...
          'SourceUp_Type' 'cartesian' 'm'  ''; ...
          'SourceUp_Units' 'meter' 'm'  ''; ...
-         'SourceView' NaN(1,3) 'm'  ''; ...
+         'SourceView' NaN(1,3) 'm'  {'C','MC'}; ...
          'SourceView_Type' 'cartesian' 'm'  ''; ...
          'SourceView_Units' 'meter' 'm'  ''; ...         
          'EmitterPosition' NaN(1,3) 'm'  {'RC','RCM'}; ...
@@ -164,18 +166,21 @@ end
 %% create metadata structure
 for ii=1:size(metadataarray,1)
     skip=0;
-    for jj=1:size(flags,2)
-%         strfind(varNames{ii},'_'),2) > 1
-        if size( strfind( metadataarray{ii,3},flags(jj)),2 )==0;
-            skip=1;
+    if ~strcmp(metadataarray{ii,1},dims)
+        for jj=1:size(flags,2)
+    %         strfind(varNames{ii},'_'),2) > 1
+            if size( strfind( metadataarray{ii,3},flags(jj)),2 )==0;
+                skip=1;
+            end
+        end
+        if skip==0
+            Obj.(metadataarray{ii,1})=metadataarray{ii,2};
+            if size(strfind(metadataarray{ii,1},'_'),2)==0;
+                Var.(metadataarray{ii,1})=metadataarray{ii,4};
+            end
         end
     end
-    if skip==0
-        Obj.(metadataarray{ii,1})=metadataarray{ii,2};
-        if size(strfind(metadataarray{ii,1},'_'),2)==0;
-            Var.(metadataarray{ii,1})=metadataarray{ii,4};
-        end
-    end
+
 end
 
 %% create data structure

@@ -1,4 +1,4 @@
-function [] = SOFAsave(filename,Obj,Var,DataVar,varargin)
+function [] = SOFAsave(filename,Obj,varargin)
 %SOFASAVE 
 %   [] = SOFAsave(filename,Obj,Compression) creates a new SOFA file and
 %   writes an entire data set to it.
@@ -36,14 +36,24 @@ function [] = SOFAsave(filename,Obj,Var,DataVar,varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-% Last Update: Michael Mihocic, 09.04.2013
+% Last Update: Michael Mihocic, 10.04.2013
 
-% --------------------- check and prepare variables ----------------------
-%% check input variables
+%% --------------------- check and prepare variables ----------------------
+
+%% check file name
 filename=SOFAcheckFilename(filename);
+% if ~ischar(filename)
+% 	error('Filename must be a string.');
+% end
+% idx=strfind(filename,'.');
+% if isempty(idx)
+%     filename=[filename '.sofa'];
+% elseif ~strcmp(filename(idx+1:end),'sofa')
+%     error(['SOFA-API does not support *' filename(idx:end) '-files!'])
+% end
 
 %% Check convention: mandatory variables
-ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
+[ObjCheck,Var,DataVar] = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
 varNames = fieldnames(ObjCheck);
 
 for ii=1:size(varNames,1);
@@ -52,6 +62,14 @@ for ii=1:size(varNames,1);
         error(['Mandatory variable/attribute not existing: ' varNames{ii}]);
     end
 end
+
+% %% Get/set dimensions
+% varNames = fieldnames(Var);
+% for ii=1:size(varNames,1)
+%     for jj=1:size(Var.(varNames{ii}),2)
+%         disp(Var.(varNames{jj}));
+%     end
+% end
 
 %% Check convention: read-only variables
 ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'rm');
@@ -69,7 +87,6 @@ for ii=1:size(varNames,1);
             error(['Read-only variable/attribute was modified: ' varNames{ii}]);
         end
     end
-
 end
 
 %% check attributes (syntax, 1-dimensional string)
@@ -77,14 +94,11 @@ varNames = fieldnames(Obj);
 for ii=1:size(varNames,1);
     
     if size(strfind(varNames{ii},'_'),2) == 1
-%         disp(['attribute: ' varNames{ii}]);
         if ~ischar(Obj.(varNames{ii}))
-            error(['Attribute no valid string: ' varNames{ii} ' = ' num2str(Obj.(varNames{ii}))]);
+            error(['Attribute not a valid string: ' varNames{ii} ' = ' num2str(Obj.(varNames{ii}))]);
         end
     elseif size(strfind(varNames{ii},'_'),2) > 1
         error(['Attribute not valid (only one underscore "_" is allowed in attribute name): ' varNames{ii}]);
-    else 
-%         disp(['variable: ' varNames{ii}]);
     end
     
 end
