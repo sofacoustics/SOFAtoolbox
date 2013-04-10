@@ -1,4 +1,4 @@
-function [] = SOFAsave(filename,Obj,varargin)
+function [] = SOFAsave(filename,Obj,Var,DataVar,varargin)
 %SOFASAVE 
 %   [] = SOFAsave(filename,Obj,Compression) creates a new SOFA file and
 %   writes an entire data set to it.
@@ -36,13 +36,60 @@ function [] = SOFAsave(filename,Obj,varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-% Last Update: Michael Mihocic, 04.2013
+% Last Update: Michael Mihocic, 09.04.2013
 
-%% --------------------- check and prepare variables ----------------------
-% ------------------------- check input variables -------------------------
+% --------------------- check and prepare variables ----------------------
+%% check input variables
 filename=SOFAcheckFilename(filename);
 
-% -- check varargin --
+%% Check convention: mandatory variables
+ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
+varNames = fieldnames(ObjCheck);
+
+for ii=1:size(varNames,1);
+    % check if variable/attribute is existing
+    if ~isfield(Obj,varNames{ii})
+        error(['Mandatory variable/attribute not existing: ' varNames{ii}]);
+    end
+end
+
+%% Check convention: read-only variables
+ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'rm');
+varNames = fieldnames(ObjCheck);
+
+for ii=1:size(varNames,1);
+    % check if variable/attribute is existing
+%     if Obj.(varNames{ii}) ~= ObjCheck.(varNames{ii})
+    if ischar(Obj.(varNames{ii}))
+        if ~strcmp(Obj.(varNames{ii}), ObjCheck.(varNames{ii}))
+            error(['Read-only variable/attribute was modified: ' varNames{ii}]);
+        end
+    else
+        if Obj.(varNames{ii}) ~= ObjCheck.(varNames{ii})
+            error(['Read-only variable/attribute was modified: ' varNames{ii}]);
+        end
+    end
+
+end
+
+%% check attributes (syntax, 1-dimensional string)
+varNames = fieldnames(Obj);
+for ii=1:size(varNames,1);
+    
+    if size(strfind(varNames{ii},'_'),2) == 1
+%         disp(['attribute: ' varNames{ii}]);
+        if ~ischar(Obj.(varNames{ii}))
+            error(['Attribute no valid string: ' varNames{ii} ' = ' num2str(Obj.(varNames{ii}))]);
+        end
+    elseif size(strfind(varNames{ii},'_'),2) > 1
+        error(['Attribute not valid (only one underscore "_" is allowed in attribute name): ' varNames{ii}]);
+    else 
+%         disp(['variable: ' varNames{ii}]);
+    end
+    
+end
+
+%% check varargin 
 if ~isempty(varargin) && isnumeric(varargin{1})
 	if isscalar(varargin{1}) && varargin{1}>=0 && varargin{1}<=9
         Compression = varargin{1};
@@ -55,6 +102,6 @@ else
 end
 
 %% Save file
-NETCDFsave(filename,Obj,Compression);
+NETCDFsave(filename,Obj,Var,DataVar,Compression);
 
 end %of function

@@ -1,6 +1,6 @@
-function Obj = SOFAgetConventions(sofaconventions)
+function [Obj,Var,DataVar] = SOFAgetConventions(sofaconventions,flags)
 %SOFAGETVARIABLES
-%   Obj = SOFAgetConventions(sofaconventions) returns a list of variables.
+%   Obj = SOFAgetConventions(sofaconventions,flags) returns a list of variables and attributes.
 
 % SOFA API - function SOFAgetConventions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -13,160 +13,187 @@ function Obj = SOFAgetConventions(sofaconventions)
 % Last Update: Michael Mihocic, 04.2013
 
 
+if ~exist('flags','var')
+    flags='m';
+end
+
 %% ---------------------- return specified variables ----------------------
-%% SimpleFreeFieldHRTF
+%% SimpleFreeFieldHRIR
 switch sofaconventions
-    case 'SimpleFreeFieldHRTF'
-       
-% Define general information about the file
-        Obj.GLOBAL_Conventions='SOFA';
-        Obj.GLOBAL_SOFAConventions=sofaconventions;
-        Obj.GLOBAL_SOFAConventionVersion='0.0.1';
-        Obj.GLOBAL_APIName='Matlab ARI';
-        Obj.GLOBAL_APIVersion='0.0.1';
-        Obj.GLOBAL_ApplicationName='';
-        Obj.GLOBAL_ApplicationVersion='';
-        Obj.GLOBAL_AuthorContact='';
-        Obj.GLOBAL_Licence='CC BY-SA 3.0';
-        Obj.GLOBAL_Organization='';
-        Obj.GLOBAL_DatabaseName='';
-        Obj.GLOBAL_SubjectID='';
-        Obj.R=NaN;
-        Obj.E=NaN;
-        Obj.N=NaN;
-        Obj.M=NaN;
-        Obj.C=3;
-        Obj.RLongName='number of receivers';
-        Obj.ELongName='number of emitters';
-        Obj.MLongName='number of measurements';
-        Obj.CLongName='coordinate triplet';
-        Obj.RoomType='free field';
-
-% Data-type        
-        Obj.Data.IR = zeros(3,2,1);
-        Obj.DataType = 'FIR';
-        Obj.Data.SamplingRate = 48000;
-        Obj.Data.SamplingRateUnits = 'hertz';
-        Obj.NLongName='time';
-        Obj.NUnits='samples';
-
-%  Listener
-        Obj.ListenerPosition = NaN(1,3);
-        Obj.ListenerPositionType = 'cartesian';
-        Obj.ListenerPositionUnits = 'meter';
-        Obj.ListenerUp = NaN(1,3);
-        Obj.ListenerUpType = 'cartesian';
-        Obj.ListenerUpUnits = 'meter';
-        Obj.ListenerView = NaN(1,3);
-        Obj.ListenerViewType = 'cartesian';
-        Obj.ListenerViewUnits = 'meter';
-        Obj.ListenerRotation = NaN(1,3);
-        Obj.ReceiverRotationType = 'din9300';
-        Obj.ReceiverRotationUnits = 'degrees';
-
-% Receivers        
-%         Obj.ReceiverPosition = [0 -0.09 0; 0 0.09 0];
-        Obj.ReceiverPosition = NaN(2,3);
-        Obj.ReceiverPositionType = 'cartesian';
-        Obj.ReceiverPositionUnits = 'meter';        
-        
-% Source        
-        Obj.SourcePosition = NaN(1,3);
-        Obj.SourcePositionType = 'cartesian';
-        Obj.SourcePositionUnits = 'meter';          
-        Obj.SourceUp = NaN(1,3);
-        Obj.SourceUpType = 'cartesian';
-        Obj.SourceUpUnits = 'meter'; 
-        Obj.SourceView = NaN(1,3);
-        Obj.SourceViewType = 'cartesian';
-        Obj.SourceViewUnits = 'meter'; 
-        
-% Emitters
-        Obj.EmitterPosition = NaN(1,3);
-        Obj.EmitterPositionType = 'cartesian';
-        Obj.EmitterPositionUnits = 'meter';    
-
-% Transmitters
-        Obj.TransmitterPosition = NaN(1,3);
-        Obj.TransmitterPositionType = 'cartesian';
-        Obj.TransmitterPositionUnits = 'meter';          
+    case 'SimpleFreeFieldHRIR'
+        % name, value, flags, dimensions
+        % flags: m: mandatory, r: readonly
+        metadataarray={ ...
+         'GLOBAL_Conventions' 'SOFA' 'r'  ''; ...
+         'GLOBAL_SOFAConventions' sofaconventions 'rm'  ''; ...
+         'GLOBAL_SOFAConventionVersion' '0.0.1' 'rm'  ''; ...
+         'GLOBAL_APIName' 'Matlab ARI' 'rm'  ''; ...
+         'GLOBAL_APIVersion' '0.0.1' 'rm'  ''; ...
+         'GLOBAL_ApplicationName' '' 'm'  ''; ...
+         'GLOBAL_ApplicationVersion' '' 'm'  ''; ...
+         'GLOBAL_AuthorContact' 'sofaconventions' 'm'  ''; ...
+         'GLOBAL_Licence' 'CC BY-SA 3.0' 'm'  ''; ...
+         'GLOBAL_Organization' '' 'm'  ''; ...
+         'GLOBAL_DatabaseName' '' 'm'  ''; ...
+         'GLOBAL_SubjectID' '' 'm'  ''; ...
+         'GLOBAL_RoomType' 'free field' 'm'  ''; ...
+         'GLOBAL_DataType' 'FIR' 'm'  ''; ...
+         'R' NaN 'm'  ''; ...
+         'E' NaN 'm'  ''; ...
+         'N' NaN 'm'  ''; ...
+         'M' NaN 'm'  ''; ...
+         'C' 3 'rm'  ''; ...
+         'R_LongName' 'number of receivers' 'm'  ''; ...
+         'E_LongName' 'number of emitters' 'm'  ''; ...
+         'M_LongName' 'number of measurements' 'm'  ''; ...
+         'C_LongName' 'coordinate triplet' 'm'  ''; ...
+         'N_LongName' 'time' 'm'  ''; ...
+         'N_Units' 'samples' 'm'  ''; ...
+         'ListenerPosition' NaN(1,3) 'm'  {'C','MC'}; ...
+         'ListenerPosition_Type' 'cartesian' 'm'  ''; ...
+         'ListenerPosition_Units' 'meter' 'm'  ''; ...
+         'ListenerUp' NaN(1,3) 'm'  {'C','MC'}; ...
+         'ListenerUp_Type' 'cartesian' 'm'  ''; ...
+         'ListenerUp_Units' 'meter' 'm'  ''; ...
+         'ListenerView' NaN(1,3) 'm'  {'C','MC'}; ...
+         'ListenerView_Type' 'cartesian' 'm'  ''; ...
+         'ListenerView_Units' 'meter' 'm'  ''; ...
+         'ListenerRotation' NaN(1,3) 'm'  {'C','MC'}; ...
+         'ReceiverRotation_Type' 'din9300' 'm'  ''; ...
+         'ReceiverRotation_Units' 'degrees' 'm'  ''; ...
+         'ReceiverPosition' NaN(2,3) 'm'  {'RC','RCM'}; ...
+         'ReceiverPosition_Type' 'cartesian' 'm'  ''; ...
+         'ReceiverPosition_Units' 'meter' 'm'  ''; ...
+         'SourcePosition' NaN(1,3) 'm'  ''; ...
+         'SourcePosition_Type' 'cartesian' 'm'  ''; ...
+         'SourcePosition_Units' 'meter' 'm'  ''; ...
+         'SourceUp' NaN(1,3) 'm'  ''; ...
+         'SourceUp_Type' 'cartesian' 'm'  ''; ...
+         'SourceUp_Units' 'meter' 'm'  ''; ...
+         'SourceView' NaN(1,3) 'm'  ''; ...
+         'SourceView_Type' 'cartesian' 'm'  ''; ...
+         'SourceView_Units' 'meter' 'm'  ''; ...         
+         'EmitterPosition' NaN(1,3) 'm'  {'RC','RCM'}; ...
+         'EmitterPosition_Type' 'cartesian' 'm'  ''; ...
+         'EmitterPosition_Units' 'meter' 'm'  ''; ...         
+        }; 
+    dataarray={ ...
+         'IR' zeros(3,2,1) 'm'  'mRn'; ...
+         'SamplingRate' 48000 'm'  ''; ...
+         'SamplingRate_Units' 'hertz' 'm'  ''; ...
+     };
+%     f={'varname', 'varvalue', 'm', 'readonly'};
+                  
  
     case 'SimpleDRIRMicArray'
 %% SimpleDRIRMicArray  
 
-        Obj.Conventions='SOFA';
-        Obj.SOFAConventions=sofaconventions;
-        Obj.SOFAConventionVersion='0.0.1';
-        Obj.APIName='Matlab ARI';
-        Obj.APIVersion='0.0.1';
-        Obj.ApplicationName='';
-        Obj.ApplicationVersion='';
-        Obj.AuthorContact='';
-        Obj.Licence='CC BY-SA 3.0';
-        Obj.Organization='';
-        Obj.DatabaseName='';
-        Obj.SubjectID='';
-        Obj.R=NaN;
-        Obj.E=NaN;
-        Obj.N=NaN;
-        Obj.M=NaN;
-        Obj.C=3;
-        Obj.RLongName='number of receivers';
-        Obj.ELongName='number of emitters';
-        Obj.MLongName='number of measurements';
-        Obj.CLongName='coordinate triplet';
-        Obj.RoomType='dae';
+%         GLOBAL_Conventions='SOFA';
+%         GLOBAL_SOFAConventions=sofaconventions;
+%         GLOBAL_SOFAConventionVersion='0.0.1';
+%         GLOBAL_APIName='Matlab ARI';
+%         GLOBAL_APIVersion='0.0.1';
+%         GLOBAL_ApplicationName='';
+%         GLOBAL_ApplicationVersion='';
+%         GLOBAL_AuthorContact='';
+%         GLOBAL_Licence='CC BY-SA 3.0';
+%         GLOBAL_Organization='';
+%         GLOBAL_DatabaseName='';
+%         GLOBAL_SubjectID='';
+%         
+%         R=NaN;
+%         E=NaN;
+%         N=NaN;
+%         M=NaN;
+%         C=3;
+%         R_LongName='number of receivers';
+%         E_LongName='number of emitters';
+%         M_LongName='number of measurements';
+%         C_LongName='coordinate triplet';
+%         RoomType='dae';
+% 
+% % Data-type        
+%         Data.IR = zeros(3,2,1);
+%         DataType = 'FIR';
+%         Data.SamplingRate = 48000;
+%         Data.SamplingRate_Units = 'hertz';
+%         N_LongName='time';
+%         N_Units='samples';
+% 
+% %  Listener
+%         ListenerPosition = NaN(1,3);
+%         ListenerPosition_Type = 'cartesian';
+%         ListenerPosition_Units = 'meter';
+%         ListenerUp = NaN(1,3);
+%         ListenerUp_Type = 'cartesian';
+%         ListenerUp_Units = 'meter';
+%         ListenerView = NaN(1,3);
+%         ListenerView_Type = 'cartesian';
+%         ListenerView_Units = 'meter';
+% 
+% % Receivers        
+% %         ReceiverPosition = [0 -0.09 0; 0 0.09 0];
+%         ReceiverPosition = NaN(2,3);
+%         ReceiverPosition_Type = 'spherical';
+%         ReceiverPosition_Units = 'degrees';        
+%         
+% % Source        
+%         SourcePosition = NaN(1,3);
+%         SourcePosition_Type = 'cartesian';
+%         SourcePosition_Units = 'meter';          
+%         SourceUp = NaN(1,3);
+%         SourceUp_Type = 'cartesian';
+%         SourceUp_Units = 'meter'; 
+%         SourceView = NaN(1,3);
+%         SourceView_Type = 'cartesian';
+%         SourceView_Units = 'meter'; 
+%         
+% % Emitters
+%         EmitterPosition = NaN(1,3);
+%         EmitterPosition_Type = 'cartesian';
+%         EmitterPosition_Units = 'meter';    
+%     
+%         RoomDAEFileName = 'room';
+%         RoomDAEFileName_Description = 'a room';
+    otherwise 
+end
 
-% Data-type        
-        Obj.Data.IR = zeros(3,2,1);
-        Obj.DataType = 'FIR';
-        Obj.Data.SamplingRate = 48000;
-        Obj.Data.SamplingRateUnits = 'hertz';
-        Obj.NLongName='time';
-        Obj.NUnits='samples';
 
-%  Listener
-        Obj.ListenerPosition = NaN(1,3);
-        Obj.ListenerPositionType = 'cartesian';
-        Obj.ListenerPositionUnits = 'meter';
-        Obj.ListenerUp = NaN(1,3);
-        Obj.ListenerUpType = 'cartesian';
-        Obj.ListenerUpUnits = 'meter';
-        Obj.ListenerView = NaN(1,3);
-        Obj.ListenerViewType = 'cartesian';
-        Obj.ListenerViewUnits = 'meter';
+%     switch varargin{jj}
+%         case 'm'
+%% create metadata structure
+for ii=1:size(metadataarray,1)
+    skip=0;
+    for jj=1:size(flags,2)
+%         strfind(varNames{ii},'_'),2) > 1
+        if size( strfind( metadataarray{ii,3},flags(jj)),2 )==0;
+            skip=1;
+        end
+    end
+    if skip==0
+        Obj.(metadataarray{ii,1})=metadataarray{ii,2};
+        if size(strfind(metadataarray{ii,1},'_'),2)==0;
+            Var.(metadataarray{ii,1})=metadataarray{ii,4};
+        end
+    end
+end
 
-% Receivers        
-%         Obj.ReceiverPosition = [0 -0.09 0; 0 0.09 0];
-        Obj.ReceiverPosition = NaN(2,3);
-        Obj.ReceiverPositionType = 'spherical';
-        Obj.ReceiverPositionUnits = 'degrees';        
-        
-% Source        
-        Obj.SourcePosition = NaN(1,3);
-        Obj.SourcePositionType = 'cartesian';
-        Obj.SourcePositionUnits = 'meter';          
-        Obj.SourceUp = NaN(1,3);
-        Obj.SourceUpType = 'cartesian';
-        Obj.SourceUpUnits = 'meter'; 
-        Obj.SourceView = NaN(1,3);
-        Obj.SourceViewType = 'cartesian';
-        Obj.SourceViewUnits = 'meter'; 
-        
-% Emitters
-        Obj.EmitterPosition = NaN(1,3);
-        Obj.EmitterPositionType = 'cartesian';
-        Obj.EmitterPositionUnits = 'meter';    
-
-% Transmitters
-        Obj.TransmitterPosition = NaN(1,3);
-        Obj.TransmitterPositionType = 'cartesian';
-        Obj.TransmitterPositionUnits = 'meter';     
-    
-        Obj.RoomDAEFileName = 'room';
-        Obj.RoomDAEFileNameDescription = 'a room';
-    otherwise
-        
+%% create data structure
+for ii=1:size(dataarray,1)
+    skip=0;
+    for jj=1:size(flags,2)
+%         strfind(varNames{ii},'_'),2) > 1
+        if size( strfind( dataarray{ii,3},flags(jj)),2 )==0;
+            skip=1;
+        end
+    end
+    if skip==0
+        Obj.(dataarray{ii,1})=dataarray{ii,2};
+%         DataVar.(dataarray{ii,1})=dataarray{ii,4};
+        if size(strfind(dataarray{ii,1},'_'),2)==0;
+            DataVar.(dataarray{ii,1})=dataarray{ii,4};
+        end
+    end
 end
 
 end %of function
