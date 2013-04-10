@@ -17,7 +17,7 @@ if ~exist('flags','var')
     flags='m'; % flags: m: mandatory, r: readonly
 end
 
-dims={'R';'E';'N';'M';'C';'Q'}; % dimensions
+dims={'U';'R';'E';'N';'M';'C';'Q'}; % dimensions
 flagc=cellstr((flags)');
 
 switch sofaconventions
