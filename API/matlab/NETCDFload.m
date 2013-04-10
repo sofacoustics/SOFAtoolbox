@@ -1,4 +1,4 @@
-function [varName,varContent] = NETCDFload(filename,varargin)
+function [Obj] = NETCDFload(filename,varargin)
 %NETCDFLOAD
 %   [varName,varContent] = NETCDFload(filename,ReturnType) reads all data (no metadata) from
 %   a SOFA file.
@@ -13,49 +13,53 @@ function [varName,varContent] = NETCDFload(filename,varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-if isempty(varargin)
-    varargin={'all'};
-end
+%% Global definitions
+glob='GLOBAL_';
+globid=netcdf.getConstant('GLOBAL');
 
-%% --------------------------- N E T C D F load ---------------------------
 try
-    ncid = netcdf.open(filename,'NC_NOWRITE');% open file
-    [~,numVars,~,~] = netcdf.inq(ncid); % get number of variables stored in file
-    
-    count=1;
-    for ii=1:numVars % LOOP through all variables in file
-        currentVarName = netcdf.inqVar(ncid,ii-1); % get current variable name
-        for jj=1:length(varargin)
-            switch varargin{jj}
-                case 'all'
-                    varName{count}=currentVarName;
-                    varContent{count}=netcdf.getVar(ncid,ii-1); % get values from current variable
-                    count=count+1;
-                case 'meta'
-                    if ~strncmp(currentVarName,'Data.',5) % if current variable is Metadata
-                        varName{count}=currentVarName;
-                        varContent{count}=netcdf.getVar(ncid,ii-1); % get values from current variable
-                        count=count+1;
-                    end
-                case 'data'
-                    if strncmp(currentVarName,'Data.',5) % if current variable is Metadata
-                        varName{count}=currentVarName;
-                        varContent{count}=netcdf.getVar(ncid,ii-1); % get values from current variable
-                        count=count+1;
-                    end
-                case currentVarName
-                    varName{count}=currentVarName;
-                    varContent{count}=netcdf.getVar(ncid,ii-1); % get values from current variable
-                    count=count+1;
-                otherwise
-                    error('Wrong SOFA variable name!')
-            end
-        end
-    end
-    netcdf.close(ncid)
-catch netcdfError
-    netcdf.abort(ncid);
-    throw(netcdfError)
+	var='opening file';
+	ncid = netcdf.open(filename,'NC_NOWRITE');% open file
+	var='inquirying data';
+	[numdims,numvars,numglob]  = netcdf.inq(ncid); % get number of anything
+		
+%% Load global attributes
+	for ii=0:numglob-1
+    var = netcdf.inqAttName(ncid,globid,ii);
+		Obj.(['GLOBAL_' var]) = netcdf.getAtt(ncid,globid,var);
+	end
+	
+%% Load dimensions
+	dimids=netcdf.inqDimIDs(ncid);
+	dims=cell(numdims,1);
+	for ii=0:numdims-1
+    [var,len] = netcdf.inqDim(ncid,dimids(ii+1));
+		Obj.(var) = len;
+		dims{ii+1}=var;
+	end
+	
+%% Load variables and their attributes
+
+	varids=netcdf.inqVarIDs(ncid);
+	for ii=0:numvars-1
+    [var,~,~,natts] = netcdf.inqVar(ncid,varids(ii+1));	
+		if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables
+			data=netcdf.getVar(ncid,varids(ii+1));
+			if strfind(var,'Data.'), Obj.Data.(var(6:end))=data; else	Obj.(var)=data; end
+		end
+		if natts
+			for jj=0:natts-1
+				att = netcdf.inqAttName(ncid,varids(ii+1),jj);
+				attval = netcdf.getAtt(ncid,varids(ii+1),att);
+				if strfind(var,'Data.'), Obj.Data.([var(6:end) '_' att])=attval; else Obj.([var '_' att])=attval; end
+			end
+		end	
+	end
+	
+catch ME
+	netcdf.abort(ncid);
+	error(['Error processing ' var ' (line ' num2str(ME.stack.line) ')' 10 ...
+					'Error message: ' ME.message]);
 end
 
-end %of function
+netcdf.close(ncid);

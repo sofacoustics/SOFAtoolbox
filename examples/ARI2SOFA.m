@@ -36,7 +36,7 @@ Obj.GLOBAL_DatabaseName = 'ARI';
 Obj.GLOBAL_ApplicationName = 'ExpSuite';
 Obj.GLOBAL_ApplicationVersion = stimPar.Version;
 Obj.GLOBAL_Organization = 'Acoustics Research Institute';
-Obj.GLOBAL_AuthorContact = 'michael.mihocic@oeaw.ac.at';
+Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
 
 	 % Define the Source
 % Obj.TransmitterPositionType = 'cartesian';
@@ -69,7 +69,8 @@ Obj.ListenerRotation = [meta.pos(1:size(hM,2),4) meta.pos(1:size(hM,2),5) zeros(
 	% Room type
 % Obj.GLOBAL_RoomType = 'free field';
 
-%% Update dimensions MRNECQ
+%% Update dimensions UMRNECQ
+Obj.U=1;
 Obj.M=size(Obj.Data.IR,1);
 Obj.R=size(Obj.Data.IR,2);
 Obj.N=size(Obj.Data.IR,3);
@@ -77,4 +78,4 @@ Obj.E=size(Obj.EmitterPosition,1);
 Obj.C=3;
 
 %% write data to sofa file
-SOFAsave(fn,Obj,compression); 
+% SOFAsave(fn,Obj,compression); 

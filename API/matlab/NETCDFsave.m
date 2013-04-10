@@ -1,4 +1,4 @@
-function NETCDFsave(filename,Obj,Var,DataVar,Compression)
+function NETCDFsave(filename,Obj,Var,DataVar,dims,Compression)
 %NETCDFSAVE
 %   NETCDFsave(filename,Dataset,Compression) saves all data and metadata to
 %   a SOFA file.
@@ -15,7 +15,7 @@ function NETCDFsave(filename,Obj,Var,DataVar,Compression)
 
 %% Global definitions
 glob='GLOBAL_';
-dims='MRNECQ';
+globid=netcdf.getConstant('GLOBAL');
 f=fieldnames(Obj);
 fv=fieldnames(Var);
 fd=fieldnames(DataVar);
@@ -30,8 +30,7 @@ try
 	for ii=1:length(f)
 		if ~isempty(strfind(f{ii},glob))
 			var=f{ii};
-			id = netcdf.getConstant('GLOBAL');
-      netcdf.putAtt(ncid,id,var(strfind(var,glob)+length(glob):end),Obj.(var));
+      netcdf.putAtt(ncid,globid,var(strfind(var,glob)+length(glob):end),Obj.(var));
 		end
 	end
 	
@@ -53,15 +52,13 @@ try
 	for ii=1:length(dimsize)
 		var=dims(ii);
 		if ~isnan(dimid(ii))
-			VarId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_FLOAT'),dimid(ii));
+			VarId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_INT'),dimid(ii));
 			netcdf.putVar(ncid,VarId,1:Obj.(var));
 			for jj=1:length(f)
 				if ~isempty(strfind(f{jj},[var '_']))
 					netcdf.putAtt(ncid,VarId,f{jj}(strfind(f{jj},[var '_'])+length([var '_']):end),Obj.(f{jj}));
 				end
 			end
-		else
-% 			disp(['DIM skipped: ' dims(ii)]);
 		end
 	end
 
@@ -71,7 +68,7 @@ try
 		var=fv{ii};
 		if isempty(strfind(var,'_'))	% skip all attributes	
 			ids=cell2mat(regexp(dims,cellstr((Var.(var))')));
-			varId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_FLOAT'),dimid(ids));	
+			varId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),dimid(ids));	
 			netcdf.putVar(ncid,varId,Obj.(var));
 			for jj=1:length(f)
 				if ~isempty(strfind(f{jj},[var '_']))
@@ -87,7 +84,7 @@ try
 		var=fd{ii};
 		if isempty(strfind(var,'_'))	% skip all attributes				
 			ids=cell2mat(regexp(dims,cellstr((DataVar.(var))')));
-			varId = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_FLOAT'),dimid(ids));	
+			varId = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_DOUBLE'),dimid(ids));	
 			netcdf.putVar(ncid,varId,Obj.Data.(var));
 			for jj=1:length(fod)
 				if ~isempty(strfind(fod{jj},[var '_']))
@@ -103,7 +100,6 @@ catch ME
 	end
 	error(['Error processing ' var ' (line ' num2str(ME.stack.line) ')' 10 ...
 					'Error message: ' ME.message]);
-% 	throw(ME);
 end
 
 netcdf.close(ncid);
