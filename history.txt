@@ -1,10 +1,26 @@
 *************************************************************
-*** History of Sofa API
-*** Acoustics Research Institute Vienna
-*** by Piotr Majdak and Wolfgang Hrauda
+*** History of SOFA API
+*** Acoustics Research Institute, Austrian Academy of Sciences, Vienna
+*** Contributors:
+***		Piotr Majdak
+***		Wolfgang Hrauda
+***		Michael Mihocic
+***		Harald Ziegelwanger
+***		Hagen Wierstorf
 *************************************************************
 
 *** DEVELOPMENT STATUS ***
+
+*** v0.1.0 (11.4.2013) by Piotr Majdak
+- Saving/Loading works in Matlab, it is quite rudimentary now:
+  - Data and Variables saved as Double
+  - No string in variables supported yet
+  - One Conventions implemented and tested (SingleFreeFieldHRIR)
+  - Loading: no checks (todo)
+  - Saving: removes optional variables (bug)
+  - No partial loading/saving yet 
+- Convertion: ARI2SOFA with demo_ARI2SOFA added
+- Spatialization: very rudimentary demo added (SOFAspat and demo_SOFAspat), just for fun
 
 *** v0.0.12 (12.3.2013) by Piotr Majdak
 - Conventions: transmitter renamed to emitter

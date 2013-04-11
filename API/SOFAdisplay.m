@@ -1,3 +1,4 @@
+deprecated!!!
 function [] = SOFAdisplay(filename)
 %SOFADISPLAY 
 %   [] = SOFAdisplay(filename) displays information about specified SOFA file

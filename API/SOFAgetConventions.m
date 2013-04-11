@@ -114,3 +114,6 @@ for ii=1:size(dataarray,1)
         end
     end
 end
+%% Overwrite some special fields
+Obj.GLOBAL_DatabaseTimeCreated=datestr(now,31);
+Obj.GLOBAL_APIVersion=SOFAgetVersion;

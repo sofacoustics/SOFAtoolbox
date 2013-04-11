@@ -26,7 +26,7 @@ try
 %% Load global attributes
 	for ii=0:numglob-1
     var = netcdf.inqAttName(ncid,globid,ii);
-		Obj.(['GLOBAL_' var]) = netcdf.getAtt(ncid,globid,var);
+		Obj.([glob var]) = netcdf.getAtt(ncid,globid,var);
 	end
 	
 %% Load dimensions
@@ -37,6 +37,7 @@ try
 		Obj.(var) = len;
 		dims{ii+1}=var;
 	end
+	Dims=cell2mat(dims)';
 	
 %% Load variables and their attributes
 
@@ -63,9 +64,12 @@ try
 	end
 	
 catch ME
-	netcdf.abort(ncid);
-	error(['Error processing ' var ' (line ' num2str(ME.stack.line) ')' 10 ...
-					'Error message: ' ME.message]);
+	if exist('ncid','var'); netcdf.abort(ncid); end;
+	for ii=1:length(ME.stack)
+		disp(ME.stack(ii));
+	end
+	error(['Error processing ' var 10 ...
+					'Error message: ' ME.message 10 'See also the error stack before']);
 end
-Dims=cell2mat(dims)';
+
 netcdf.close(ncid);

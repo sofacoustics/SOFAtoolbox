@@ -1,3 +1,4 @@
+deprecated!!!
 function [] = SOFAlistMetadata(filename)
 %SOFALISTVARIABLES 
 %   [] = SOFAlistMetadata(filename) lists all Metadata contained in a SOFA file.
