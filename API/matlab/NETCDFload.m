@@ -1,4 +1,4 @@
-function [Obj,Var,DataVar,Dims] = NETCDFload(filename,varargin)
+function [Obj,Dims] = NETCDFload(filename,varargin)
 %NETCDFLOAD
 %   [varName,varContent] = NETCDFload(filename,ReturnType) reads all data (no metadata) from
 %   a SOFA file.
@@ -47,10 +47,10 @@ try
 			data=netcdf.getVar(ncid,varids(ii+1));
 			if strfind(var,'Data.'), 
 				Obj.Data.(var(6:end))=data; 
-				DataVar.(var(6:end))=cell2mat(dims(vardimids+1))';
+				Obj.Dimensions.Data.(var(6:end))=cell2mat(dims(vardimids+1))';
 			else
 				Obj.(var)=data; 
-				Var.(var)=cell2mat(dims(vardimids+1))';
+				Obj.Dimensions.(var)=cell2mat(dims(vardimids+1))';
 			end
 		end
 		if natts

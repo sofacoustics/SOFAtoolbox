@@ -1,4 +1,4 @@
-function NETCDFsave(filename,Obj,Var,DataVar,Dims,Compression)
+function NETCDFsave(filename,Obj,Compression)
 %NETCDFSAVE
 %   NETCDFsave(filename,Dataset,Compression) saves all data and metadata to
 %   a SOFA file.
@@ -15,17 +15,16 @@ function NETCDFsave(filename,Obj,Var,DataVar,Dims,Compression)
 
 %% Global definitions
 glob='GLOBAL_';
+Dims='IRENMCQ'; % dimensions
+
 globid=netcdf.getConstant('GLOBAL');
-f=fieldnames(Obj);
-fv=fieldnames(Var);
-fd=fieldnames(DataVar);
-fod=fieldnames(Obj.Data);
 
 try 
 	var='file creation';
 	ncid = netcdf.create(filename,'netcdf4');
 
 %% Save global attributes
+f=fieldnames(Obj);
 
 	for ii=1:length(f)
 		if ~isempty(strfind(f{ii},glob))
@@ -63,12 +62,15 @@ try
 	end
 
 %% Save other metadata variables and their attributes
+Dimensions=rmfield(Obj.Dimensions,'Data');
+fv=fieldnames(Dimensions);
 
 	for ii=1:length(fv)
 		var=fv{ii};
-		if isempty(strfind(var,'_'))	% skip all attributes	
-			ids=cell2mat(regexp(Dims,cellstr((Var.(var))')));
+		if isempty(strfind(var,'_')) && ~strcmp(var,'Dimensions')	% skip all attributes	& dimensions
+			ids=cell2mat(regexp(Dims,cellstr((Dimensions.(var))')));
 			varId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),dimid(ids));	
+			netcdf.defVarDeflate(ncid,varId,true,true,Compression);
 			netcdf.putVar(ncid,varId,Obj.(var));
 			for jj=1:length(f)
 				if ~isempty(strfind(f{jj},[var '_']))
@@ -79,12 +81,15 @@ try
 	end
 
 %% Save data variables and their attributes
+fd=fieldnames(Obj.Dimensions.Data);
+fod=fieldnames(Obj.Data);
 	
 	for ii=1:length(fd)
 		var=fd{ii};
 		if isempty(strfind(var,'_'))	% skip all attributes				
-			ids=cell2mat(regexp(Dims,cellstr((DataVar.(var))')));
+			ids=cell2mat(regexp(Dims,cellstr((Obj.Dimensions.Data.(var))')));
 			varId = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_DOUBLE'),dimid(ids));	
+			netcdf.defVarDeflate(ncid,varId,true,true,Compression);
 			netcdf.putVar(ncid,varId,Obj.Data.(var));
 			for jj=1:length(fod)
 				if ~isempty(strfind(fod{jj},[var '_']))
@@ -98,8 +103,12 @@ catch ME
 	if ~strcmp(ME.identifier,'MATLAB:imagesci:netcdf:libraryFailure')
 		netcdf.close(ncid);
 	end
-	error(['Error processing ' var ' (line ' num2str(ME.stack.line) ')' 10 ...
+	for ii=1:length(ME.stack)
+		disp(ME.stack(ii));
+	end
+	error(['Error processing ' var 10 ...
 					'Error message: ' ME.message]);
+
 end
 netcdf.close(ncid);
 	

@@ -37,79 +37,63 @@ function [] = SOFAsave(filename,Obj,varargin)
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
 %% --------------------- check and prepare variables ----------------------
+dims={'i';'r';'e';'n';'m';'c';'q'}; % dimensions
 
 %% check file name
 filename=SOFAcheckFilename(filename);
-% if ~ischar(filename)
-% 	error('Filename must be a string.');
-% end
-% idx=strfind(filename,'.');
-% if isempty(idx)
-%     filename=[filename '.sofa'];
-% elseif ~strcmp(filename(idx+1:end),'sofa')
-%     error(['SOFA-API does not support *' filename(idx:end) '-files!'])
-% end
 
 %% Check convention: mandatory variables
-[ObjCheck,Var,DataVar] = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
-
-%%%%%%%%%%%%% LÖSCHEN %%%%%%%%%%%%%%%
-Obj.DIMENSIONS=Var;
-Obj.DIMENSIONS.Data.IR=DataVar.IR;
-Obj.DIMENSIONS.Data.SamplingRate=DataVar.SamplingRate;
-clear Var DataVar;
-%%%%%%%%%%% ENDE LÖSCHEN %%%%%%%%%%%%
+ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
+Obj.Dimensions=ObjCheck.Dimensions;
 
 varNames = fieldnames(ObjCheck);
 for ii=1:size(varNames,1);
-    % check if variable/attribute is existing
     if ~isfield(Obj,varNames{ii})
         error(['Mandatory variable/attribute not existing: ' varNames{ii}]);
     end
 end
 
 %% Get & set dimensions
-dims={'u';'r';'e';'n';'m';'c';'q'}; % dimensions
-varNames = fieldnames(Obj.DIMENSIONS);
+varNames = fieldnames(Obj.Dimensions);
 dataCount=0; % dimensions in Data
 for ii=1:size(varNames,1)
-    for jj=1:size(Obj.DIMENSIONS.(varNames{ii}),2)
+    for jj=1:size(Obj.Dimensions.(varNames{ii}),2)
         if strcmp(varNames{ii},'Data')
         % Data
             dataCount=dataCount+1;
-            varNamesData = fieldnames(Obj.DIMENSIONS.Data);
-            for ll=1:size(Obj.DIMENSIONS.Data.(varNamesData{dataCount}),2)
+            varNamesData = fieldnames(Obj.Dimensions.Data);
+            for ll=1:size(Obj.Dimensions.Data.(varNamesData{dataCount}),2)
                 for kk=1:size(dims,1)
-                    if strfind(Obj.DIMENSIONS.Data.(varNamesData{dataCount})(ll),dims{kk}) % find lowercase dimension letter
+                    if strfind(Obj.Dimensions.Data.(varNamesData{dataCount})(ll),dims{kk}) % find lowercase dimension letter
                         Obj.(upper(dims{kk}))=size(Obj.Data.(varNamesData{dataCount}),ll); % save global dimension variable
-                        Obj.DIMENSIONS.Data.(varNamesData{dataCount})(ll)=upper(Obj.DIMENSIONS.Data.(varNamesData{dataCount})(ll)); % LC -> UC
+                        Obj.Dimensions.Data.(varNamesData{dataCount})(ll)=upper(Obj.Dimensions.Data.(varNamesData{dataCount})(ll)); % LC -> UC
                     end
                 end
             end
         else
         % DataVar
-            for ll=1:size(Obj.DIMENSIONS.(varNames{ii}){jj},2)
+            for ll=1:size(Obj.Dimensions.(varNames{ii}){jj},2)
                 for kk=1:size(dims,1)
-                    if strfind(Obj.DIMENSIONS.(varNames{ii}){jj}(ll),dims{kk}) % find lowercase dimension letter
+                    if strfind(Obj.Dimensions.(varNames{ii}){jj}(ll),dims{kk}) % find lowercase dimension letter
                         Obj.(upper(dims{kk}))=size(Obj.(varNames{ii}),ll); % save global dimension variable
-                        Obj.DIMENSIONS.(varNames{ii}){jj}(ll)=upper(Obj.DIMENSIONS.(varNames{ii}){jj}(ll)); % LC -> UC
+                        Obj.Dimensions.(varNames{ii}){jj}(ll)=upper(Obj.Dimensions.(varNames{ii}){jj}(ll)); % LC -> UC
                     end
                 end
             end
         end
     end
     % set dimensions
-    for jj=1:size(Obj.DIMENSIONS.(varNames{ii}),2) % set dimension string (instead of array)
-        if iscellstr(Obj.DIMENSIONS.(varNames{ii})) 
+    for jj=1:size(Obj.Dimensions.(varNames{ii}),2) % set dimension string (instead of array)
+        if iscellstr(Obj.Dimensions.(varNames{ii})) 
             if length(size(Obj.(varNames{ii})))==2 % 2-dimensions
-                if size(Obj.(varNames{ii}))==[Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(1)),Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(2))]
-                    disp(varNames{ii});
-                    Obj.DIMENSIONS.(varNames{ii})=[Obj.DIMENSIONS.(varNames{ii}){jj}(1) Obj.DIMENSIONS.(varNames{ii}){jj}(2)];
+                if size(Obj.(varNames{ii}))==[Obj.(Obj.Dimensions.(varNames{ii}){jj}(1)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(2))]
+%                     disp(varNames{ii});
+                    Obj.Dimensions.(varNames{ii})=[Obj.Dimensions.(varNames{ii}){jj}(1) Obj.Dimensions.(varNames{ii}){jj}(2)];
                 end
             elseif length(size(Obj.(varNames{ii})))==3  % 3-dimensions
-                if size(Obj.(varNames{ii}))==[Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(1)),Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(2)),Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(3))]
-                    disp(varNames{ii});
-                    Obj.DIMENSIONS.(varNames{ii})=[Obj.DIMENSIONS.(varNames{ii}){jj}(1) Obj.DIMENSIONS.(varNames{ii}){jj}(2) Obj.DIMENSIONS.(varNames{ii}){jj}(3)];
+                if size(Obj.(varNames{ii}))==[Obj.(Obj.Dimensions.(varNames{ii}){jj}(1)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(2)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(3))]
+%                     disp(varNames{ii});
+                    Obj.Dimensions.(varNames{ii})=[Obj.Dimensions.(varNames{ii}){jj}(1) Obj.Dimensions.(varNames{ii}){jj}(2) Obj.Dimensions.(varNames{ii}){jj}(3)];
                 end
             end
         end
@@ -160,5 +144,3 @@ end
 
 %% Save file
 NETCDFsave(filename,Obj,Compression);
-
-end %of function
