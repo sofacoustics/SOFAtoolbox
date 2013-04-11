@@ -20,43 +20,29 @@ filename=SOFAcheckFilename(filename);
 %% Load the object
 [Obj,Dims]=NETCDFload(filename);
 
-% ReturnType = 'struct'; % set default value for ReturnType
-% if size(varargin,2)==1
-% 	varargin = cellstr(varargin);
-% 	ReturnType = varargin{1};
-% end
-% if ~ischar(ReturnType)
-% 	error('ReturnType must be a string.');
-% end
-% switch ReturnType
-%     case 'struct'
-%         results = struct; % initialize struct variable
-%     case 'cell'
-%         
-%     otherwise
-%         error('ReturnType must be either ''struct'' or ''cell''.');
-% end
-% 
-% %% --------------------------- N E T C D F load ---------------------------
-% [varName,varContent]=NETCDFload(filename,'meta');
-% for ii=1:length(varName)
-%     if strcmp(ReturnType,'struct')
-%         results.(varName{ii})=varContent{ii};
-%     elseif strcmp(ReturnType,'cell')
-%         result{1}=varName{ii};
-%         result{2}=varContent{ii};
-%         results{ii}=result;
-%     end
-% end
-% 
-% [varName,varContent]=NETCDFload(filename,'data');
-% for ii=1:length(varName)
-%     if strcmp(ReturnType,'struct')
-%         results.Data.(varName{ii}(6:end))=varContent{ii};
-%     elseif strcmp(ReturnType,'cell')
-%         result{1}=['Data' varName{ii}(6:end)];
-%         result{2}=varContent{ii};
-%         results{length(results)+1}=result;
-%     end
-% end
-% 
+%% Check if SOFA conventions
+if ~isfield(Obj,'GLOBAL_Conventions'), error('File is not a valid SOFA file'); end
+if ~strcmp(Obj.GLOBAL_Conventions,'SOFA'), error('File is not a valid SOFA file'); end
+if ~isfield(Obj,'GLOBAL_SOFAConventions'), error('Information about SOFA conventions is missing'); end
+try
+	X=SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
+catch ME
+	error('Unsupported SOFA conventions');
+end
+
+%% Check if Data present and if correct DataType
+if ~isfield(Obj,'Data'), error('Data is missing'); end
+if ~isfield(Obj,'GLOBAL_DataType'), error('DataType is missing'); end
+if ~strcmp(Obj.GLOBAL_DataType,X.GLOBAL_DataType), error('Wrong DataType'); end
+f=fieldnames(X.Data);
+for ii=1:length(f)
+	if ~isfield(Obj.Data,f{ii}), error(['Data.' f{ii} ' is missing']); end
+end
+
+%% Check if mandatory variables are present
+f=fieldnames(X);
+for ii=1:length(f)
+	if ~isfield(Obj,f{ii}), error(['' f{ii} ' is missing']); end
+end
+
+Obj=SOFAupdateDimensions(Obj);

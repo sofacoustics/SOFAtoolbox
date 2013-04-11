@@ -4,7 +4,7 @@ netcdf sofa {
 
 		// global attributes
 :SOFAConvention="SimpleFreeFieldHRIR";
-:SOFAConventionVersion="0.0.1";
+:SOFAConventionVersion="0.1.0";
 :APIName="ARI Matlab";
 :APIVersion="0.0.1";
 :ApplicationName="";
@@ -14,14 +14,19 @@ netcdf sofa {
 :Organization="";
 :DatabaseName="";
 :SubjectID="";
+:History="";
+:Comment="This is an example created from a CDL file";
+:DatabaseTimeCreated="2013-04-12 12:23:34";
+:DatabaseTimeModified="2013-04-12 18:19:20";
 
 dimensions: 
-N = unlimited, M=unlimited; C=3;	// SOFA defined
+N = unlimited, M=unlimited; C=3; I=1;	// SOFA defined
 R=2, E=1; // Measurement specific
 
 variables:
 		// general dimensions
-int		R(R),E(E),M(M),C(C),N(N);
+int		I(I),R(R),E(E),M(M),C(C),N(N);
+I:LongName="singleton dimension";
 R:LongName="number of receivers";
 E:LongName="number of emitters";
 M:LongName="number of measurements";
