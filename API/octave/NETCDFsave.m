@@ -1,6 +1,6 @@
-function NETCDFsave(filename,Dataset,Compression)
+function NETCDFsave(filename,Obj,Compression)
 %NETCDFSAVE
-%   NETCDFsave(filename,Dataset,Compression) saves all data and metadata to
+%   NETCDFsave(filename,Obj,Compression) saves all data and metadata to
 %   a SOFA file.
 
 % SOFA API - function octave/NETCDFsave
@@ -11,29 +11,53 @@ function NETCDFsave(filename,Dataset,Compression)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-%% --------------------- check and prepare variables ----------------------
-varNames = fieldnames(Dataset);
-numVars = size(varNames,1);
-dimNames = SOFAgetDimensions();
-SourceListenerVars=SOFAgetVariables('sourcelistener');
-TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
-[numMeasurements,numReceivers,numSamples]=SOFAcheckDimensions(Dataset);
+
+error('%s: This function is not ready yet!',upper(mfilename));
+%% ===== Check and prepare variables =====================================
+%varNames = fieldnames(Dataset);
+%numVars = size(varNames,1);
+%dimNames = SOFAgetDimensions();
+%SourceListenerVars=SOFAgetVariables('sourcelistener');
+%TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
+%[numMeasurements,numReceivers,numSamples]=SOFAcheckDimensions(Dataset);
 
 %% --------------------------- N E T C D F save ---------------------------
 % create file
 ncid = netcdf(filename,'c','NETCDF4 with classical model');%'NETCDF4 with classical model'
 
-% define some fixed dimension sizes
-ncid(dimNames.Scalar) = 1;
+% Define dimensions
+% M - number of measurements
+ncid(dimNames.Measurements) = Obj.M;
+% R - number of receivers
+ncid(dimNames.Receivers) = Obj.R;
+% N - number of data samples per measurement
+ncid(dimNames.Samples) = Obj.N;
+% E - number of emitters
+ncid(dimNames.Emitters) = Obj.E;
+% C - coordinate dimension
 ncid(dimNames.Coordinates) = 3;
-% FIXME: this is not working at themoment
-%ncid(dimNames.String) = 0; % unlimited length
-ncid(dimNames.Measurements)=numMeasurements;
-ncid(dimNames.Receivers)=numReceivers;
-ncid(dimNames.Samples)=numSamples;
+% Q - quaternions (optional)
+% TODO: ?
+% Scalar (is this the same as "I"?)
+ncid(dimNames.Scalar) = 1;
 
 
+%% ===== Save global attributes ==========================================
+global_str = 'GLOBAL';
+attributes = fieldnames(Obj);
+for ii=1:length(attributes)
+    if ~isempty(strfind(attributes{ii},global_str))
+        attr = attributes{ii};
+        % TODO: check how to save the Attributes. Check if all global variables
+        % are of the same type, or if we have to check after strings, numbers,
+        % etc.
+        % In Matlab they are saved as constants?
+        % globid=netcdf.getConstant('GLOBAL'); 
+    end
+end
 
+
+%% ===== Code below this line is deprecated ==============================
 for ii=1:numVars % loop through all input variables
     currentVarName = varNames{ii};
     currentVarValue = getfield(Dataset,varNames{ii});
@@ -54,10 +78,9 @@ for ii=1:numVars % loop through all input variables
         ncid{currentVarName}(:) = currentVarValue;                     % store variable
 
     % ----- DATA MATRIX ---------------------------------------------------
-    elseif strcmp(currentVarName,'Data')  % data [measurements receiver samples]
-        if strcmp(Dataset.DataType,'FIR')
+    elseif strcmp(currentVarName,'Data')  % data [measurements receiver samples]        if strcmp(Dataset.DataType,'FIR')
             ncid{'Data.FIR'} = ncdouble(dimNames.Samples, ...
-                                        dimNames.Receivers, ...
+                                        dimNames.Receivers, 
                                         dimNames.Measurements);
             ncid{'Data.FIR'}(:) = permute(currentVarValue.FIR,[3 2 1]);
         elseif strcmp(Dataset.dataType,'SpectraMagnitudePhase')
