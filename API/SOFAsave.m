@@ -36,8 +36,6 @@ function [] = SOFAsave(filename,Obj,varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-% Last Update: Michael Mihocic, 10.04.2013
-
 %% --------------------- check and prepare variables ----------------------
 
 %% check file name
@@ -54,8 +52,15 @@ filename=SOFAcheckFilename(filename);
 
 %% Check convention: mandatory variables
 [ObjCheck,Var,DataVar] = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
-varNames = fieldnames(ObjCheck);
 
+%%%%%%%%%%%%% LÖSCHEN %%%%%%%%%%%%%%%
+Obj.DIMENSIONS=Var;
+Obj.DIMENSIONS.Data.IR=DataVar.IR;
+Obj.DIMENSIONS.Data.SamplingRate=DataVar.SamplingRate;
+clear Var DataVar;
+%%%%%%%%%%% ENDE LÖSCHEN %%%%%%%%%%%%
+
+varNames = fieldnames(ObjCheck);
 for ii=1:size(varNames,1);
     % check if variable/attribute is existing
     if ~isfield(Obj,varNames{ii})
@@ -63,21 +68,59 @@ for ii=1:size(varNames,1);
     end
 end
 
-% %% Get/set dimensions
-% varNames = fieldnames(Var);
-% for ii=1:size(varNames,1)
-%     for jj=1:size(Var.(varNames{ii}),2)
-%         disp(Var.(varNames{jj}));
-%     end
-% end
+%% Get & set dimensions
+dims={'u';'r';'e';'n';'m';'c';'q'}; % dimensions
+varNames = fieldnames(Obj.DIMENSIONS);
+dataCount=0; % dimensions in Data
+for ii=1:size(varNames,1)
+    for jj=1:size(Obj.DIMENSIONS.(varNames{ii}),2)
+        if strcmp(varNames{ii},'Data')
+        % Data
+            dataCount=dataCount+1;
+            varNamesData = fieldnames(Obj.DIMENSIONS.Data);
+            for ll=1:size(Obj.DIMENSIONS.Data.(varNamesData{dataCount}),2)
+                for kk=1:size(dims,1)
+                    if strfind(Obj.DIMENSIONS.Data.(varNamesData{dataCount})(ll),dims{kk}) % find lowercase dimension letter
+                        Obj.(upper(dims{kk}))=size(Obj.Data.(varNamesData{dataCount}),ll); % save global dimension variable
+                        Obj.DIMENSIONS.Data.(varNamesData{dataCount})(ll)=upper(Obj.DIMENSIONS.Data.(varNamesData{dataCount})(ll)); % LC -> UC
+                    end
+                end
+            end
+        else
+        % DataVar
+            for ll=1:size(Obj.DIMENSIONS.(varNames{ii}){jj},2)
+                for kk=1:size(dims,1)
+                    if strfind(Obj.DIMENSIONS.(varNames{ii}){jj}(ll),dims{kk}) % find lowercase dimension letter
+                        Obj.(upper(dims{kk}))=size(Obj.(varNames{ii}),ll); % save global dimension variable
+                        Obj.DIMENSIONS.(varNames{ii}){jj}(ll)=upper(Obj.DIMENSIONS.(varNames{ii}){jj}(ll)); % LC -> UC
+                    end
+                end
+            end
+        end
+    end
+    % set dimensions
+    for jj=1:size(Obj.DIMENSIONS.(varNames{ii}),2) % set dimension string (instead of array)
+        if iscellstr(Obj.DIMENSIONS.(varNames{ii})) 
+            if length(size(Obj.(varNames{ii})))==2 % 2-dimensions
+                if size(Obj.(varNames{ii}))==[Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(1)),Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(2))]
+                    disp(varNames{ii});
+                    Obj.DIMENSIONS.(varNames{ii})=[Obj.DIMENSIONS.(varNames{ii}){jj}(1) Obj.DIMENSIONS.(varNames{ii}){jj}(2)];
+                end
+            elseif length(size(Obj.(varNames{ii})))==3  % 3-dimensions
+                if size(Obj.(varNames{ii}))==[Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(1)),Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(2)),Obj.(Obj.DIMENSIONS.(varNames{ii}){jj}(3))]
+                    disp(varNames{ii});
+                    Obj.DIMENSIONS.(varNames{ii})=[Obj.DIMENSIONS.(varNames{ii}){jj}(1) Obj.DIMENSIONS.(varNames{ii}){jj}(2) Obj.DIMENSIONS.(varNames{ii}){jj}(3)];
+                end
+            end
+        end
+    end
+end
 
 %% Check convention: read-only variables
-ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'rm');
+ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'r');
 varNames = fieldnames(ObjCheck);
 
 for ii=1:size(varNames,1);
-    % check if variable/attribute is existing
-%     if Obj.(varNames{ii}) ~= ObjCheck.(varNames{ii})
     if ischar(Obj.(varNames{ii}))
         if ~strcmp(Obj.(varNames{ii}), ObjCheck.(varNames{ii}))
             error(['Read-only variable/attribute was modified: ' varNames{ii}]);
@@ -116,6 +159,6 @@ else
 end
 
 %% Save file
-NETCDFsave(filename,Obj,Var,DataVar,Compression);
+NETCDFsave(filename,Obj,Compression);
 
 end %of function
