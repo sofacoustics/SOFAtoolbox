@@ -138,9 +138,13 @@ if ~isempty(varargin) && isnumeric(varargin{1})
         error('Error: Compression must be a numeric scalar value between 0 and 9.');
 	end
 else
-    % default
     Compression = 1;
 end
+
+%% Set/modify time information
+
+Obj.GLOBAL_DatabaseTimeModified=datestr(now,31);
+if isempty(Obj.GLOBAL_DatabaseTimeCreated), Obj.GLOBAL_DatabaseTimeCreated=Obj.GLOBAL_DatabaseTimeModified; end
 
 %% Save file
 NETCDFsave(filename,Obj,Compression);

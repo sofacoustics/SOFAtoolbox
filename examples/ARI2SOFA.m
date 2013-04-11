@@ -76,5 +76,8 @@ Obj.N=size(Obj.Data.IR,3);
 Obj.E=size(Obj.EmitterPosition,1);
 Obj.C=3;
 
+%% Set some data
+% Obj.GLOBAL_History='hallo!';
+
 %% write data to sofa file
 SOFAsave(fn,Obj,compression); 
