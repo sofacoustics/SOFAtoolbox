@@ -12,7 +12,6 @@ function NETCDFsave(filename,Obj,Compression)
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
 
-error('%s: This function is not ready yet!',upper(mfilename));
 %% ===== Check and prepare variables =====================================
 %varNames = fieldnames(Dataset);
 %numVars = size(varNames,1);
@@ -27,114 +26,107 @@ ncid = netcdf(filename,'c','NETCDF4 with classical model');%'NETCDF4 with classi
 
 % Define dimensions
 % M - number of measurements
-ncid(dimNames.Measurements) = Obj.M;
+ncid('M') = Obj.M;
 % R - number of receivers
-ncid(dimNames.Receivers) = Obj.R;
+ncid('R') = Obj.R;
 % N - number of data samples per measurement
-ncid(dimNames.Samples) = Obj.N;
+ncid('N') = Obj.N;
 % E - number of emitters
-ncid(dimNames.Emitters) = Obj.E;
+ncid('E') = Obj.E;
 % C - coordinate dimension
-ncid(dimNames.Coordinates) = 3;
-% Q - quaternions (optional)
+ncid('C') = 3;
+% Q - quaternions (optional) dimension
 % TODO: ?
-% Scalar (is this the same as "I"?)
-ncid(dimNames.Scalar) = 1;
+% I - singleton dimension
+ncid('I') = 1;
 
 
-%% ===== Save global attributes ==========================================
-global_str = 'GLOBAL';
+%% ===== Loop through all fields in Obj ==================================
 attributes = fieldnames(Obj);
 for ii=1:length(attributes)
-    if ~isempty(strfind(attributes{ii},global_str))
-        attr = attributes{ii};
-        % TODO: check how to save the Attributes. Check if all global variables
-        % are of the same type, or if we have to check after strings, numbers,
-        % etc.
-        % In Matlab they are saved as constants?
-        % globid=netcdf.getConstant('GLOBAL'); 
-    end
-end
+    % store the current field name and its value
+    attributeName = attributes{ii};
+    attributeVal = Obj.(attributeName);
 
 
-%% ===== Code below this line is deprecated ==============================
-for ii=1:numVars % loop through all input variables
-    currentVarName = varNames{ii};
-    currentVarValue = getfield(Dataset,varNames{ii});
+    % ----- DATA ----------------------------------------------------------
+    if strcmp(attributeName,'Data')
+
+        if strcmp(Obj.DataType,'FIR')
+            % define dimensions
+            ncid{'Data.FIR'} = ncdouble(Obj.N, ... % Samples
+                                        Obj.R, ... % Receivers
+                                        Obj.M);    % Measurements
+            % store data
+            ncid{'Data.FIR'}(:) = permute(attributeVal.FIR,[3 2 1]);
+
+        elseif strcmp(Obj.DataType,'SpectraMagnitudePhase')
+            % define dimensions
+            ncid{'Data.Mag'} =   ncdouble(Obj.N, ... % Samples
+                                          Obj.R, ... % Receivers
+                                          Obj.M);    % Measurements
+            ncid{'Data.Phase'} = ncdouble(Obj.N, ... % Samples
+                                          Obj.R, ... % Receivers
+                                          Obj.M);    % Measurements
+            % store data
+            ncid{'Data.Mag'}(:) = permute(attributeVal.Mag,[3 2 1]);
+            ncid{'Data.Phase'}(:) = permute(attributeVal.Phase,[3 2 1]);
+        end
+
+
+    % ----- GLOBAL ATTRIBUTES --------------------------------------------
+    elseif ~isempty(strfind(attributeName,'GLOBAL'))
+        % store as global attribute
+        ncid.(attributeName) = attributeVal;
+
 
     % ----- STRING VARIABLES ----------------------------------------------
-    if ischar(currentVarValue) % -- if currentVarValue is a string
-%         currentVarValue=transpose(currentVarValue);
-%         if size(currentVarValue,1)==1
-            ncid([currentVarName 'DIM']) = size(currentVarValue,2); %old:2     % define dimension
-            ncid{currentVarName} = ncchar([currentVarName 'DIM'],dimNames.Scalar);  % allocate dim
-%             ncid{currentVarName} = ncchar(dimNames.Scalar);
-%         else
-%             ncid(['x' currentVarName]) = size(currentVarValue,1);
-%             ncid(['y' currentVarName]) = size(currentVarValue,2);
-%             ncid{currentVarName} = ncchar(['x' currentVarName], ...
-%                 ['y' currentVarName]);
-%         end
-        ncid{currentVarName}(:) = currentVarValue;                     % store variable
+    elseif ischar(attributeName)
+        % define dimension
+        [attributeName 'DIM']
+        ncid([attributeName 'DIM']) = size(attributeVal,2);
+        ncid{attributeName} = ncchar([attributeName 'DIM'],Obj.I);
+        % store string
+        ncid{attributeName}(:) = attributeVal;
 
-    % ----- DATA MATRIX ---------------------------------------------------
-    elseif strcmp(currentVarName,'Data')  % data [measurements receiver samples]        if strcmp(Dataset.DataType,'FIR')
-            ncid{'Data.FIR'} = ncdouble(dimNames.Samples, ...
-                                        dimNames.Receivers, 
-                                        dimNames.Measurements);
-            ncid{'Data.FIR'}(:) = permute(currentVarValue.FIR,[3 2 1]);
-        elseif strcmp(Dataset.dataType,'SpectraMagnitudePhase')
-            ncid{'Data.Mag'} = ncdouble(dimNames.Samples, ...
-                                        dimNames.Receivers, ...
-                                        dimNames.Measurements);
-            ncid{'Data.Phase'} = ncdouble(dimNames.Samples, ...
-                                        dimNames.Receivers, ...
-                                        dimNames.Measurements);
-
-            ncid{'Data.Mag'}(:) = permute(currentVarValue.Mag,[3 2 1]);
-            ncid{'Data.Phase'}(:) = permute(currentVarValue.Phase,[3 2 1]);
-        end
 
     % ----- NUMERIC VARIABLES ---------------------------------------------
-    elseif ndims(currentVarValue)==2
-        currentVarValue=transpose(currentVarValue);
-        % positions and vectors
-        if size(currentVarValue)==[3 1]                                     % [1 3]
-            ncid{currentVarName} = ncfloat(dimNames.Coordinates,dimNames.Scalar);
-        elseif size(currentVarValue)==[3 numMeasurements]                                 % [numMeasurements 3]
-            ncid{currentVarName} = ncfloat(dimNames.Coordinates,dimNames.Measurements);
+    elseif ndims(attributeVal)==2
+        attributeVal = transpose(attributeVal);
+        % define dimensions
+        if size(attributeVal)==[3 1]                                     % [3 1]
+            ncid{attributeName} = ncfloat(Obj.C,Obj.I);
+        elseif size(attributeVal)==[3 Obj.M]                             % [3 M]
+            ncid{attributeName} = ncfloat(Obj.C,Obj.M);
         % "normal" numeric variables
-        elseif size(currentVarValue)==[1 1]                                 % [1 1]
-            ncid{currentVarName} = ncfloat(dimNames.Scalar,dimNames.Scalar);
-        elseif size(currentVarValue)==[1 numMeasurements]                                 % [numMeasurements 1]
-            ncid{currentVarName} = ncfloat(dimNames.Scalar,dimNames.Measurements);
-        elseif size(currentVarValue,1)==1                                   % [1 x]
-            ncid(currentVarName) = size(currentVarValue,1);
-            ncid{currentVarName} = ncfloat(currentVarName,dimNames.Scalar);
-        elseif size(currentVarValue,1)==numMeasurements                                   % [numMeasurements x]
-            ncid(currentVarName) = size(currentVarValue,1);
-            ncid{currentVarName} = ncfloat(currentVarName,dimNames.Measurements);
+        elseif size(attributeVal)==[1 1]                                 % [1 1]
+            ncid{attributeName} = ncfloat(Obj.I,Obj.I);
+        elseif size(attributeVal)==[1 M]                                 % [M 1]
+            ncid{attributeName} = ncfloat(Obj.I,Obj.M);
+        elseif size(attributeVal,1)==1                                   % [1 x]
+            ncid(attributeName) = size(attributeVal,1);
+            ncid{attributeName} = ncfloat(attributeName,Obj.I);
+        elseif size(attributeVal,1)==M                                   % [M x]
+            ncid(attributeName) = size(attributeVal,1);
+            ncid{attributeName} = ncfloat(attributeName,Obj.M);
         end
         % store variable
-        ncid{currentVarName}(:) = currentVarValue;
-    elseif ndims(currentVarValue)==3
-        currentVarValue=permute(currentVarValue,[3 2 1]);
+        ncid{atributeName}(:) = attributeVal;
+    elseif ndims(attributeVal)==3
+        attributeVal = permute(attributeVal,[3 2 1]);
+        % define dimensions
         % receiver/transmitter positions
-        if size(currentVarValue)==[1 3]                                   % [1 3 1]
-            ncid{currentVarName} = ...
-                ncfloat(dimNames.Scalar,dimNames.Coordinates,dimNames.Scalar);
-        elseif size(currentVarValue)==[numReceivers 3]                               % [1 3 numReceivers]
-            ncid{currentVarName} = ...
-                ncfloat(dimNames.Receivers,dimNames.Coordinates,dimNames.Scalar);
-        elseif size(currentVarValue)==[1 3 numMeasurements]                               % [numMeasurements 3 1]
-            ncid{currentVarName} = ...
-                ncfloat(dimNames.Scalar,dimNames.Coordinates,dimNames.Measurements);
-        elseif size(currentVarValue)==[numReceivers 3 numMeasurements]                               % [numMeasurements 3 numReceivers]
-            ncid{currentVarName} = ...
-                ncfloat(dimNames.Receivers,dimNames.Coordinateso,dimNames.Measurements);
+        if size(attributeVal)==[1 3]                                   % [1 3 1]
+            ncid{attributeName} = ncfloat(Obj.I,Obj.C,Obj.I); 
+        elseif size(attributeVal)==[R 3]                               % [1 3 R]
+            ncid{attributeName} = ncfloat(Obj.R,Obj.C,Obj.I);
+        elseif size(attributeVal)==[1 3 M]                             % [M 3 1]
+            ncid{attributeName} = ncfloat(Obj.I,Obj.C,Obj.M);
+        elseif size(attributeVal)==[R 3 M]                             % [M 3 R]
+            ncid{attributeName} = ncfloat(Obj.R,Obj.C,Obj.M);
         end
         % store variable
-        ncid{currentVarName}(:) = currentVarValue; 
+        ncid{attributeName}(:) = attributeVal; 
     else
         error('%s: your variable type is not supported by SOFA',upper(mfilename));
     end
