@@ -29,7 +29,7 @@ filename=SOFAcheckFilename(filename);
 
 %% Check convention: mandatory variables
 ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
-Obj.Dimensions=ObjCheck.Dimensions;
+% Obj.Dimensions=ObjCheck.Dimensions;
 
 varNames = fieldnames(ObjCheck);
 for ii=1:size(varNames,1);
@@ -57,6 +57,9 @@ for ii=1:size(varNames,1)
             end
         else
         % DataVar
+        disp(ii);
+        
+        
             for ll=1:size(Obj.Dimensions.(varNames{ii}){jj},2)
                 for kk=1:size(dims,1)
                     if strfind(Obj.Dimensions.(varNames{ii}){jj}(ll),dims{kk}) % find lowercase dimension letter
@@ -65,6 +68,9 @@ for ii=1:size(varNames,1)
                     end
                 end
             end
+            
+            
+            
         end
     end
     % set dimensions

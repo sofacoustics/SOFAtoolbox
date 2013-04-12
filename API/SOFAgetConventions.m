@@ -115,5 +115,5 @@ for ii=1:size(dataarray,1)
     end
 end
 %% Overwrite some special fields
-Obj.GLOBAL_DatabaseTimeCreated=datestr(now,31);
-Obj.GLOBAL_APIVersion=SOFAgetVersion;
+if isfield(Obj,'GLOBAL_DatabaseTimeCreated'), Obj.GLOBAL_DatabaseTimeCreated=datestr(now,31); end
+if isfield(Obj,'GLOBAL_APIVersion'), Obj.GLOBAL_APIVersion=SOFAgetVersion; end
