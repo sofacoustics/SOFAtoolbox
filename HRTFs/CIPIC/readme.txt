@@ -1,0 +1,1 @@
+Save here the data from the CIPIC database, http://interface.cipic.ucdavis.edu/data/CIPIC_hrtf_database.zip
