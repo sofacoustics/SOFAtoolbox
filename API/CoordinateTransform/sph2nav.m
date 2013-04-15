@@ -21,11 +21,8 @@ function [azi,ele] = sph2nav(azi,ele)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-if(azi>=0 && azi<=180) % azi_in between 0 and 180 deg
-azi = azi;
-else % azi_in between 180 and 360
-azi = -(360-azi);
-end
-ele = ele; % elevation remains the same
+azi=mod(azi,360);	% wrap to 0 to 360
+idx=find(azi>180 & azi<=360); % azi between 180 and 360
+azi(idx) = -(360-azi(idx));
 
 end % end of function

@@ -38,3 +38,4 @@ else
     path(path,[basepath filesep 'matlab']);
   end
 end
+clear basepath

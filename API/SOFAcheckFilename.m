@@ -14,11 +14,11 @@ if ~ischar(filename)
 	error('Filename must be a string.');
 end
 
-idx=strfind(filename,'.');
+idx=strfind(filename,'.sofa');
 if isempty(idx)
     filename=[filename '.sofa'];
-elseif ~strcmp(filename(idx+1:end),'sofa')
-    error(['SOFA-API does not support *' filename(idx:end) '-files!'])
+% elseif ~strcmp(filename(idx+1:end),'sofa')
+%     error(['SOFA-API does not support *' filename(idx:end) '-files!'])
 end
 
 end %of function

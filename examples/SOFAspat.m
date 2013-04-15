@@ -1,4 +1,4 @@
-function [out, yi, yj] = SOFAspat(in,Obj,azi,ele)
+function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
 % SOFAspat
 % [OUT, A, E] = SOFAspat(IN, OBJ, AZI, ELE) spatializes the sound IN using
 % the HRTFs from OBJ according to the trajectory given in AZI and ELE.
@@ -10,101 +10,76 @@ function [out, yi, yj] = SOFAspat(in,Obj,azi,ele)
 % 
 % Output: 
 %		OUT: binaural signal
-%		A, E: azimuth and elevation of the actual trajectory (degrees)
+%		AZI, ELE: azimuth and elevation of the actual trajectory (degrees)
+%		IDX: index of the filters (corresponds to AZI and ELE)
 %
 % This is an example of how to use SOFA.
 %
 % Piotr Majdak, 2013
 
+%% Define required parameters
+hop=0.5;		% the hop size for the time-variant filtering (in fraction of the filter length)
+
+%% Initial checks 
 if ~strcmp(Obj.GLOBAL_SOFAConventions,'SimpleFreeFieldHRIR')
 	error('HRTFs must be saved in the SOFA conventions SimpleFreeFieldHRIR');
 end
+if min(azi)<0,	% Check for the required coordinate system
+	Obj.ListenerRotation(:,1)=sph2nav(Obj.ListenerRotation(:,1)); % if negative azimuths are required, swith to -90/+90 system
+end
 
-winS=1024;
-N=length(in);
+%% resize the input signal to be integer multiple of HRIR
+L=length(in);
+in=[in; zeros(Obj.N-mod(L,Obj.N),1)];
+L=length(in);		% correct length of the input signal
+S=L/Obj.N/hop;	% number of segments to filter
 
 %% Resample the trajectory
-  % create the azimuth vector
-f=length(azi)-length(find(azi(find(azi==360)+1)==0)); % number of steps between azi values
-iiadd=0;
-if f==1 % one azi value?
-    yi(1:floor(N/winS))=azi(length(azi));
-else % more than one azi values
-    yi=[];     f=f-1;
-    for ii=1:f 
-        ii=ii+iiadd;
-        if azi(ii)==360
-            if azi(ii+1)==0, ii=ii+1; iiadd=iiadd+1; end
-            yiadd=azi(ii):(azi(ii+1)-azi(ii))/N*winS*f:azi(ii+1)-(azi(ii+1)-azi(ii))/N*winS*f ;
-            yi=[yi yiadd]; % "optimal" azi values
-        else
-            yiadd=azi(ii):(azi(ii+1)-azi(ii))/N*winS*f:azi(ii+1)-(azi(ii+1)-azi(ii))/N*winS*f;
-            yi=[yi yiadd]; % "optimal" azi values
-        end
-    end
-end
-yi=[yi azi(length(azi))]; % all "optimal" azi values
-
-  % create the elevation vector
-if length(ele)==1 % one ele value?
-     yj(1:floor(N/winS))=ele(length(ele));
-else % more than one ele values
-    yj=[]; g=length(ele)-1;
-    for ii=1:g
-        yjadd=ele(ii):(ele(ii+1)-ele(ii))/N*winS*g:ele(ii+1)-(ele(ii+1)-ele(ii))/N*winS*g ;
-        yj=[yj yjadd]; % "optimal" ele values
-    end
-end
-yj=[yj ele(length(ele))]; % all "optimal" ele values
+if length(azi)>1, 
+	azi= interp1(0:1/(length(azi)-1):1,azi,0:1/(S-1):1); 
+else
+	azi=repmat(azi,1,S);
+end;
+if length(ele)>1, 
+	ele= interp1(0:1/(length(ele)-1):1,ele,0:1/(S-1):1); 
+else
+	ele=repmat(ele,1,S);
+end;
 
 %% create a 2D-grid with nearest positions of the moving source
-if length(ele)==1 && length(azi)==1
-    % stationary source
-  dist=(Obj.ListenerRotation(:,1)-yi(1)).^2+(Obj.ListenerRotation(:,2)-yj(1)).^2;
-  [y,idx]=min(dist);
-else
-    % moving source
-  win=min(length(yi),length(yj));    % get the number of windows
-  idx=zeros(win,1);
-  for ii=1:win % find nearest point on grid (LSP)
-    dist=(Obj.ListenerRotation(:,1)-yi(ii)).^2+(Obj.ListenerRotation(:,2)-yj(ii)).^2;
-    [y,idx(ii)]=min(dist);
-  end
+idx=zeros(S,1);
+for ii=1:S % find nearest point on grid (LSP)
+    dist=(Obj.ListenerRotation(:,1)-azi(ii)).^2+(Obj.ListenerRotation(:,2)-ele(ii)).^2;
+    [~,idx(ii)]=min(dist);
 end
 
-%% normalize HRTFs
-hM=Obj.Data.IR;
+%% normalize HRTFs to the frontal, eye-level position
 ii=find(Obj.ListenerRotation(:,1)==0 & Obj.ListenerRotation(:,2)==0);   % search for position 0°/0°
 if isempty(ii)
-	peak=max([sqrt(sum(hM(:,1,:).*hM(:,1,:))) sqrt(sum(hM(:,2,:).*hM(:,2,:)))]);   % not found - normalize to IR with most energy
+	peak=max([sqrt(sum(Obj.Data.IR(:,1,:).*Obj.Data.IR(:,1,:))) sqrt(sum(Obj.Data.IR(:,2,:).*Obj.Data.IR(:,2,:)))]);   % not found - normalize to IR with most energy
 else
-	peak=([sqrt(sum(hM(ii,1,:).*hM(ii,2,:))) sqrt(sum(hM(ii,2,:).*hM(ii,2,:)))]);  % found - normalize to this position
-end
-	% get the necessary HRIRs and normalize them
-hM1=double(squeeze(hM(idx,1,:))/peak(1));
-hM2=double(squeeze(hM(idx,2,:))/peak(2));
-
-%% Spatialize
-M=size(hM,3)-1;  % length of impulse response
-    
-if length(azi)==1 && length(ele)==1
-		% stationary sound
-	out=zeros(N,2);
-	out(:,1)=fftfilt(hM1(1,:),in);
-	out(:,2)=fftfilt(hM2(1,:),in);
-else
-		% moving source
-	win=size(idx,1);
-	ovlap=round(winS/2);  % add an overlap between windows
-	in=[zeros(M,1); in(:,1); zeros(winS*win-N+ovlap,1)]; % zero padding of input
-	out=zeros(win*winS+M+ovlap,2);     
-	window = hann(winS+ovlap+M);
-	for ii=1:win
-		y = conv ( hM1(ii,:)' , in((ii-1)*winS+1 : ii*winS+ovlap) );
-		out( (ii-1)*winS+1 : ii*winS+M+ovlap,1) = out( (ii-1)*winS+1 : ii*winS+M+ovlap,1) + y.*window; % update
-		y = conv ( hM2(ii,:)' , in((ii-1)*winS+1 : ii*winS+ovlap) );        
-		out( (ii-1)*winS+1 : ii*winS+M+ovlap,2) = out( (ii-1)*winS+1 : ii*winS+M+ovlap,2) + y.*window; % update
-	end
+	peak=([sqrt(sum(Obj.Data.IR(ii,1,:).*Obj.Data.IR(ii,2,:))) sqrt(sum(Obj.Data.IR(ii,2,:).*Obj.Data.IR(ii,2,:)))]);  % found - normalize to this position
 end
 
-out=out./max(max(abs(out)));
+%% Spatialize   
+out=zeros(L+Obj.N/hop,2);
+window=hanning(Obj.N);
+ii=0;
+jj=1;
+iiend=L-Obj.N;
+while ii<iiend    
+		segT=in(ii+1:ii+Obj.N).*window;	% segment in time domain
+		segF=fft(segT,2*Obj.N);	% segment in frequency domain with zero padding
+		%-----------
+		segFO(:,1)=squeeze(fft(Obj.Data.IR(idx(jj),1,:),2*Obj.N)).*segF;
+		segFO(:,2)=squeeze(fft(Obj.Data.IR(idx(jj),2,:),2*Obj.N)).*segF;
+		%-----------
+		segTO=real(ifft(segFO));   % back to the time domain
+		out(ii+1:ii+2*Obj.N,:)=out(ii+1:ii+2*Obj.N,:)+segTO;  % overlap and add
+		ii=ii+Obj.N*hop;
+		jj=jj+1;
+end	
+
+%% Normalize
+out(:,1)=out(:,1)/peak(1);
+out(:,2)=out(:,2)/peak(2);
