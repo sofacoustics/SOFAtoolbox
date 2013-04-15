@@ -22,7 +22,7 @@ Obj.Data.SamplingRate = stimPar.SamplingRate;
 if isfield(stimPar, 'SubjectID'), Obj.GLOBAL_SubjectID = stimPar.SubjectID; end
 Obj.GLOBAL_DatabaseName = 'ARI';
 Obj.GLOBAL_ApplicationName = 'ARI2SOFA';
-Obj.GLOBAL_ApplicationVersion = stimPar.Version;
+Obj.GLOBAL_ApplicationVersion = '0.0.1';
 Obj.GLOBAL_Organization = 'Acoustics Research Institute';
 Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
 
