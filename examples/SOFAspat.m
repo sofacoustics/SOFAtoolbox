@@ -58,7 +58,7 @@ ii=find(Obj.ListenerRotation(:,1)==0 & Obj.ListenerRotation(:,2)==0);   % search
 if isempty(ii)
 	peak=max([sqrt(sum(Obj.Data.IR(:,1,:).*Obj.Data.IR(:,1,:))) sqrt(sum(Obj.Data.IR(:,2,:).*Obj.Data.IR(:,2,:)))]);   % not found - normalize to IR with most energy
 else
-	peak=([sqrt(sum(Obj.Data.IR(ii,1,:).*Obj.Data.IR(ii,2,:))) sqrt(sum(Obj.Data.IR(ii,2,:).*Obj.Data.IR(ii,2,:)))]);  % found - normalize to this position
+	peak=([sqrt(sum(Obj.Data.IR(ii,1,:).*Obj.Data.IR(ii,1,:))) sqrt(sum(Obj.Data.IR(ii,2,:).*Obj.Data.IR(ii,2,:)))]);  % found - normalize to this position
 end
 
 %% Spatialize   

@@ -21,4 +21,4 @@ Obj=SOFAconvertARI2SOFA(ARI.hM,ARI.meta,ARI.stimPar);
 %% save SOFA file
 SOFAfn=[databasepath filesep 'SOFA' filesep 'ARI ' subjectID ' ' ARIfile '.sofa'];
 disp(['Saving:  ' SOFAfn]);
-SOFAsave(SOFAfn, Obj, compression); 
+Obj=SOFAsave(SOFAfn, Obj, compression); 

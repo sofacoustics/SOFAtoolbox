@@ -29,7 +29,7 @@ filename=SOFAcheckFilename(filename);
 
 %% Check convention: mandatory variables
 ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
-Obj.Dimensions=ObjCheck.Dimensions;
+% Obj.Dimensions=ObjCheck.Dimensions;
 
 varNames = fieldnames(ObjCheck);
 for ii=1:size(varNames,1);
@@ -39,57 +39,58 @@ for ii=1:size(varNames,1);
 end
 
 %% Get & set dimensions
-varNames = fieldnames(Obj.Dimensions);
-dataCount=0; % dimensions in Data
-for ii=1:size(varNames,1)
-    for jj=1:size(Obj.Dimensions.(varNames{ii}),2)
-        if strcmp(varNames{ii},'Data')
-        % Data
-            dataCount=dataCount+1;
-            varNamesData = fieldnames(Obj.Dimensions.Data);
-            for ll=1:size(Obj.Dimensions.Data.(varNamesData{dataCount}),2)
-                for kk=1:size(dims,1)
-                    if strfind(Obj.Dimensions.Data.(varNamesData{dataCount})(ll),dims{kk}) % find lowercase dimension letter
-                        Obj.(upper(dims{kk}))=size(Obj.Data.(varNamesData{dataCount}),ll); % save global dimension variable
-                        Obj.Dimensions.Data.(varNamesData{dataCount})(ll)=upper(Obj.Dimensions.Data.(varNamesData{dataCount})(ll)); % LC -> UC
-                    end
-                end
-            end
-        else
-        % DataVar
-%         disp(ii);
-        
-        
-            for ll=1:size(Obj.Dimensions.(varNames{ii}){jj},2)
-                for kk=1:size(dims,1)
-                    if strfind(Obj.Dimensions.(varNames{ii}){jj}(ll),dims{kk}) % find lowercase dimension letter
-                        Obj.(upper(dims{kk}))=size(Obj.(varNames{ii}),ll); % save global dimension variable
-                        Obj.Dimensions.(varNames{ii}){jj}(ll)=upper(Obj.Dimensions.(varNames{ii}){jj}(ll)); % LC -> UC
-                    end
-                end
-            end
-            
-            
-            
-        end
-    end
-    % set dimensions
-    for jj=1:size(Obj.Dimensions.(varNames{ii}),2) % set dimension string (instead of array)
-        if iscellstr(Obj.Dimensions.(varNames{ii})) 
-            if length(size(Obj.(varNames{ii})))==2 % 2-dimensions
-                if size(Obj.(varNames{ii}))==[Obj.(Obj.Dimensions.(varNames{ii}){jj}(1)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(2))]
-%                     disp(varNames{ii});
-                    Obj.Dimensions.(varNames{ii})=[Obj.Dimensions.(varNames{ii}){jj}(1) Obj.Dimensions.(varNames{ii}){jj}(2)];
-                end
-            elseif length(size(Obj.(varNames{ii})))==3  % 3-dimensions
-                if size(Obj.(varNames{ii}))==[Obj.(Obj.Dimensions.(varNames{ii}){jj}(1)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(2)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(3))]
-%                     disp(varNames{ii});
-                    Obj.Dimensions.(varNames{ii})=[Obj.Dimensions.(varNames{ii}){jj}(1) Obj.Dimensions.(varNames{ii}){jj}(2) Obj.Dimensions.(varNames{ii}){jj}(3)];
-                end
-            end
-        end
-    end
-end
+Obj=SOFAupdateDimensions(Obj);
+% varNames = fieldnames(Obj.Dimensions);
+% dataCount=0; % dimensions in Data
+% for ii=1:size(varNames,1)
+%     for jj=1:size(Obj.Dimensions.(varNames{ii}),2)
+%         if strcmp(varNames{ii},'Data')
+%         % Data
+%             dataCount=dataCount+1;
+%             varNamesData = fieldnames(Obj.Dimensions.Data);
+%             for ll=1:size(Obj.Dimensions.Data.(varNamesData{dataCount}),2)
+%                 for kk=1:size(dims,1)
+%                     if strfind(Obj.Dimensions.Data.(varNamesData{dataCount})(ll),dims{kk}) % find lowercase dimension letter
+%                         Obj.(upper(dims{kk}))=size(Obj.Data.(varNamesData{dataCount}),ll); % save global dimension variable
+%                         Obj.Dimensions.Data.(varNamesData{dataCount})(ll)=upper(Obj.Dimensions.Data.(varNamesData{dataCount})(ll)); % LC -> UC
+%                     end
+%                 end
+%             end
+%         else
+%         % DataVar
+% %         disp(ii);
+%         
+%         
+%             for ll=1:size(Obj.Dimensions.(varNames{ii}){jj},2)
+%                 for kk=1:size(dims,1)
+%                     if strfind(Obj.Dimensions.(varNames{ii}){jj}(ll),dims{kk}) % find lowercase dimension letter
+%                         Obj.(upper(dims{kk}))=size(Obj.(varNames{ii}),ll); % save global dimension variable
+%                         Obj.Dimensions.(varNames{ii}){jj}(ll)=upper(Obj.Dimensions.(varNames{ii}){jj}(ll)); % LC -> UC
+%                     end
+%                 end
+%             end
+%             
+%             
+%             
+%         end
+%     end
+%     % set dimensions
+%     for jj=1:size(Obj.Dimensions.(varNames{ii}),2) % set dimension string (instead of array)
+%         if iscellstr(Obj.Dimensions.(varNames{ii})) 
+%             if length(size(Obj.(varNames{ii})))==2 % 2-dimensions
+%                 if size(Obj.(varNames{ii}))==[Obj.(Obj.Dimensions.(varNames{ii}){jj}(1)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(2))]
+% %                     disp(varNames{ii});
+%                     Obj.Dimensions.(varNames{ii})=[Obj.Dimensions.(varNames{ii}){jj}(1) Obj.Dimensions.(varNames{ii}){jj}(2)];
+%                 end
+%             elseif length(size(Obj.(varNames{ii})))==3  % 3-dimensions
+%                 if size(Obj.(varNames{ii}))==[Obj.(Obj.Dimensions.(varNames{ii}){jj}(1)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(2)),Obj.(Obj.Dimensions.(varNames{ii}){jj}(3))]
+% %                     disp(varNames{ii});
+%                     Obj.Dimensions.(varNames{ii})=[Obj.Dimensions.(varNames{ii}){jj}(1) Obj.Dimensions.(varNames{ii}){jj}(2) Obj.Dimensions.(varNames{ii}){jj}(3)];
+%                 end
+%             end
+%         end
+%     end
+% end
 
 %% Check convention: read-only variables
 ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'r');

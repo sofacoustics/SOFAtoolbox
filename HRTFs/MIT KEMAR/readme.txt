@@ -1,1 +1,2 @@
 Save here the data from the MIT database, http://sound.media.mit.edu/resources/KEMAR/compact.zip
+The data must be the "full" data as donwloaded from MIT, that is full\elevE\PEeAa.wav where A and E is the azimuth and the elevation angles, respectively, and P is the pinna used, that is, L (normal pinna) or (large pinna). 

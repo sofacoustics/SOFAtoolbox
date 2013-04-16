@@ -1,4 +1,4 @@
-function Obj=LISTEN2SOFA(LISTEN, subjectID)
+function Obj=SOFAconvertLISTEN2SOFA(LISTEN, subjectID)
 % OBJ=LISTEN2SOFA(L) converts the HRTFs described in LISTEN 
 % (see LISTEN HRTF format) to a SOFA object.
 %

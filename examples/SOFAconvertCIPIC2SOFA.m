@@ -1,4 +1,4 @@
-function Obj=CIPIC2SOFA(CIPIC)
+function Obj=SOFAconvertCIPIC2SOFA(CIPIC)
 % Obj=CIPIC2SOFA(CIPIC) converts the HRTFs described in the structure CIPIC
 % (see CIPIC HRTF format) to a SOFA object.
 %

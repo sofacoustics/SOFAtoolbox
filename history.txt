@@ -11,6 +11,14 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.1.1 (16.4.2013) by Piotr Majdak
+- SOFAload improved: checks added. Still further checks would be nice, but it can be used now.
+- SOFAsave improved: saves user-defined variables
+- SOFAexpand added: expands the singleton dimensions in the SOFA object
+- Convertors for MIT KEMAR, LISTEN, and CIPIC databases added (with corresponding demos)
+- HRTF directory created where all HRTFs should be stored. The convertors rely on that.
+- SOFAspat improved, now the engine works better
+
 *** v0.1.0 (11.4.2013) by Piotr Majdak
 - Saving/Loading works in Matlab, it is quite rudimentary now:
   - Data and Variables saved as Double
