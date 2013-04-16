@@ -1,9 +1,17 @@
-function [Obj,Dims] = NETCDFload(filename,varargin)
+function [Obj,Dims] = NETCDFload(filename,flags)
 %NETCDFLOAD
-%   [varName,varContent] = NETCDFload(filename,ReturnType) reads all data (no metadata) from
+%   Obj = NETCDFload(filename,'all') reads the SOFA object OBJ with all data from
 %   a SOFA file.
 %
-%   filename specifies the SOFA file from which the data is read.
+%   Obj = NETCDFload(filename,'nodata') ignores the Data. variables while
+%   reading.
+%
+%   Obj = NETCDFload(filename,[START COUNT]) reads only COUNT number of 
+%		measurements beginning with the index START.
+%
+%   [Obj,Dims] = NETCDFload(...) returns the dimension variables found in
+%   the file as a string.
+
 
 % SOFA API - function matlab/NETCDFload
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
@@ -17,6 +25,7 @@ function [Obj,Dims] = NETCDFload(filename,varargin)
 glob='GLOBAL_';
 globid=netcdf.getConstant('GLOBAL');
 
+%% Open the NETCDF file
 try
 	var='opening file';
 	ncid = netcdf.open(filename,'NC_NOWRITE');% open file
@@ -31,13 +40,24 @@ try
 	
 %% Load dimensions
 	dimids=netcdf.inqDimIDs(ncid);
-	dims=cell(numdims,1);
+	dims=cell(numdims,1); % cell array with dimension names
+	startp=zeros(numdims,1); % vector with start of a dimension
+	countp=zeros(numdims,1); % vector with the element count in a dimension
 	for ii=0:numdims-1
     [var,len] = netcdf.inqDim(ncid,dimids(ii+1));
 		Obj.(var) = len;
 		dims{ii+1}=var;
+		startp(ii+1)=0;
+		countp(ii+1)=len;
 	end
 	Dims=cell2mat(dims)';
+	
+%% Check the requested measurements
+if isnumeric(flags)
+	if Obj.M<flags(2), error('Requested end index exceeds the measurement count'); end;
+	startp(strfind(Dims,'M'))=flags(1)-1;
+	countp(strfind(Dims,'M'))=flags(2);
+end
 	
 %% Load variables and their attributes
 
@@ -45,11 +65,14 @@ try
 	for ii=0:numvars-1
     [var,~,vardimids,natts] = netcdf.inqVar(ncid,varids(ii+1));	
 		if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables			
-			data=netcdf.getVar(ncid,varids(ii+1));
-			if strfind(var,'Data.'), 
-				Obj.Data.(var(6:end))=data; 
-				Obj.Dimensions.Data.(var(6:end))=cell2mat(dims(vardimids+1))';
+			if strfind(var,'Data.'),
+				if ~strcmp(flags,'nodata')
+					data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
+					Obj.Data.(var(6:end))=data; 
+					Obj.Dimensions.Data.(var(6:end))=cell2mat(dims(vardimids+1))';
+				end
 			else
+				data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
 				Obj.(var)=data; 
 				Obj.Dimensions.(var)=cell2mat(dims(vardimids+1))';
 			end
