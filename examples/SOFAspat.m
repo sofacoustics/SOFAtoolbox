@@ -26,6 +26,7 @@ if ~strcmp(Obj.GLOBAL_SOFAConventions,'SimpleFreeFieldHRIR')
 end
 if min(azi)<0,	% Check for the required coordinate system
 	Obj.ListenerRotation(:,1)=sph2nav(Obj.ListenerRotation(:,1)); % if negative azimuths are required, swith to -90/+90 system
+	converted=1;	% note for later
 end
 
 %% resize the input signal to be integer multiple of HRIR
@@ -83,3 +84,5 @@ end
 %% Normalize
 out(:,1)=out(:,1)/peak(1);
 out(:,2)=out(:,2)/peak(2);
+
+if exist('converted','var'), azi=nav2sph(azi,ele); end;

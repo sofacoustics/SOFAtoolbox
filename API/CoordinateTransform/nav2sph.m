@@ -21,9 +21,5 @@ function [azi,ele]=nav2sph(azi,ele)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-  if(azi>-180 && azi<0) % azi between -180 and 0 deg
-    azi = azi + 360;
-  else % azi between 0 and 180
-    azi = azi;
-  end
-end % end of function
+idx=find(azi<0); % azi between -180 and 0 deg
+azi(idx) = azi(idx)+360;

@@ -60,7 +60,7 @@ for ii=1:size(Bf,1)
 				end
 			end
 		else	% a variable
-			disp(Bf{ii});
+% 			disp(Bf{ii});
 			if isfield(OC.Dimensions, Bf{ii})	% is a known variable?
 				AExp=SOFAexpand(A,Bf{ii});
 				BExp=SOFAexpand(B,Bf{ii});
@@ -100,7 +100,7 @@ for ii=1:size(Bf,1)
 				log{end+1}=['Data.' Bf{ii} ' merged'];
 			end
 		else	% a variable in Data
-			disp(Bf{ii});
+% 			disp(Bf{ii});
 			if isfield(OC.Dimensions.Data,Bf{ii})	% is a known variable?
 				if strcmp(A.Dimensions.Data.(Bf{ii}),'I'),	% must be scalar?
 					if A.Data.(Bf{ii})~=B.Data.(Bf{ii}),
