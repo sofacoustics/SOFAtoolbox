@@ -1,3 +1,4 @@
+function [dbPath,f]=SOFAstart
 %SOFASTART 
 %
 %   SOFAstart adds all needed pathes and checks if we need the Matlab or Octave
@@ -18,24 +19,29 @@
 basepath=which('SOFAstart');
 % Kill the function name from the path.
 basepath=basepath(1:end-12);
+f=filesep;
 % Add the base path and the needed sub-directories
 if exist('addpath','builtin')
   addpath(basepath);
-  addpath([basepath filesep 'helper']);
-  addpath([basepath filesep 'CoordinateTransform']);
+  addpath([basepath f 'helper']);
+  addpath([basepath f 'coordinates']);
+  addpath([basepath f 'converters']);
+  addpath([basepath f 'demos']);
   if isoctave
-    addpath([basepath filesep 'octave']);
+    addpath([basepath f 'octave']);
   else
-    addpath([basepath filesep 'matlab']);
+    addpath([basepath f 'matlab']);
   end
 else
   path(path,basepath);
-  path(path,[basepath filesep 'helper']);
-  path(path,[basepath filesep 'CoordinateTransform']);
+  path(path,[basepath f 'helper']);
+  path(path,[basepath f 'coordinates']);
+  path(path,[basepath f 'converters']);
+  path(path,[basepath f 'demos']);
   if isoctave
-    path(path,[basepath filesep 'octave']);
+    path(path,[basepath f 'octave']);
   else
-    path(path,[basepath filesep 'matlab']);
+    path(path,[basepath f 'matlab']);
   end
 end
-clear basepath
+dbPath=[basepath f '..' f 'HRTFs'];
