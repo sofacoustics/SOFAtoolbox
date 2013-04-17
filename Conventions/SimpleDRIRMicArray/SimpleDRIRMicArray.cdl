@@ -5,22 +5,29 @@ netcdf sofa {
 		// global attributes
 :SOFAConvention="SimpleDRIRMicArray";
 :SOFAConventionVersion="0.0.1";
-:ApplicationName="ncgen";
-:ApplicationVersion="0.0.0";
-:AuthorContact="piotr@majdak.com";
+:APIName="ARI Matlab";
+:APIVersion="0.0.1";
+:ApplicationName="";
+:ApplicationVersion="";
+:AuthorContact="";
 :Licence="CC BY-SA 3.0";
-:Organization="ARI, OeAW";
-:DatabaseName="ARI";
-:SubjectID="NH04";
+:Organization="";
+:DatabaseName="";
+:SubjectID="";
+:History="";
+:Comment="This is an example created from a CDL file";
+:DatabaseTimeCreated="2013-04-12 12:23:34";
+:DatabaseTimeModified="2013-04-12 18:19:20";
 
 dimensions: 
-N = unlimited, M=unlimited; C=3;	// SOFA defined
-R=16, E=1; // Measurement specific
-strlen=64;	// max. string len
+C=3; I=1;	// SOFA defined
+strlen=64;	// SOFA defined max. string len
+N = unlimited, M=unlimited; R=unlimited, E=1; // Conventions specific
 
 variables:
 		// general dimensions
-int		R(R),E(E),M(M),C(C),N(N);
+int		I(I),R(R),E(E),M(M),C(C),N(N);
+I:LongName="singleton dimension";
 R:LongName="number of receivers";
 E:LongName="number of emitters";
 M:LongName="number of measurements";
