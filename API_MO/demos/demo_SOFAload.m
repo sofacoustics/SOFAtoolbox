@@ -6,11 +6,17 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
+%% Path definitions
+f=filesep;
+dbpath=[pwd f '..' f 'HRTFs' f 'SOFA'];
+SOFAfile=[dbpath f 'TU-Berlin QU_KEMAR_anechoic_radius 0.5 1 2 3 m'];
+
 %% Loading the full object
 disp('------------------');
 disp('Load a full object');
 tic;
-ObjFull=SOFAload('..\HRTFs\SOFA\TU-Berlin QU_KEMAR_anechoic_radius 0.5 1 2 3 m');
+f=filesep; 
+ObjFull=SOFAload(SOFAfile);
 toc;
 x=whos('ObjFull');
 disp(['Memory requirements: ' num2str(round(x.bytes/1024)) ' kb' 10]);
@@ -20,14 +26,15 @@ disp('---------------');
 disp('Partial loading');
 disp('- Loading metadata');
 tic;
-Meta=SOFAload('..\HRTFs\SOFA\TU-Berlin QU_KEMAR_anechoic_radius 0.5 1 2 3 m','nodata');
+Meta=SOFAload(SOFAfile,'nodata');
 %% Get index of the requested direction
 azi=0; ele=0;
 idx=find(Meta.ListenerRotation(:,1)==azi & Meta.ListenerRotation(:,2)==ele);
 %% Load the objects
 disp('- Loading partial data');
+clear Obj
 for ii=1:length(idx);
-	Obj(ii)=SOFAload('..\HRTFs\SOFA\TU-Berlin QU_KEMAR_anechoic_radius 0.5 1 2 3 m',[idx(ii) 1]);
+	Obj(ii)=SOFAload(SOFAfile,[idx(ii) 1]);
 end
 %% Merging the objects
 disp('- Merging to a single SOFA object');

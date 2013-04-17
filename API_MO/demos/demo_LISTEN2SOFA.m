@@ -3,13 +3,11 @@
 subjectID='1002';
 % File name of the LISTEN file
 LISTENfile=['IRC_' subjectID '_C_HRIR'];
-% path of the database relative to that script
-databasepath=[pwd filesep '..' filesep 'HRTFs'];
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% start SOFA
-SOFAstart;
+[databasepath,f]=SOFAstart;
 %% Load LISTEN file
 LISTENfn=[databasepath filesep 'LISTEN' filesep 'IRC_' subjectID filesep 'COMPENSATED' filesep 'MAT' filesep 'HRIR' filesep LISTENfile '.mat'];
 disp(['Loading: ' LISTENfn]);

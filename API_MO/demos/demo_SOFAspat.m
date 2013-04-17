@@ -13,8 +13,8 @@ HRTFfilename='ARI NH4 hrtf_M_dtf 256';
 % HRTFfilename='LISTEN 1002 IRC_1002_C_HRIR';
 % HRTFfilename='MIT KEMAR normal pinna';
 % HRTFfilename='KEMAR horizontal only normal pinna resolution 0.5 deg';
-HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 0.5 m';
-HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 3 m';
+% HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 0.5 m';
+% HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 3 m';
 % HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 0.5 1 2 3 m';
 
 %% Define the trajectory
@@ -23,9 +23,10 @@ ele=[0 0 -30 90]; %elevation angles in degrees
 
 %% Load the HRTFs
 % Define the path to the HRTF repository
-databasepath=[pwd filesep '..' filesep 'HRTFs' filesep 'SOFA'];
+f=filesep;
+databasepath=[pwd f '..' f 'HRTFs' f 'SOFA'];
 % Load the SOFA object
-Obj=SOFAload([databasepath filesep HRTFfilename]);
+Obj=SOFAload([databasepath f HRTFfilename]);
 
 %% Create an input signal
 in=randn(5*Obj.Data.SamplingRate,1);	% Five seconds of noise

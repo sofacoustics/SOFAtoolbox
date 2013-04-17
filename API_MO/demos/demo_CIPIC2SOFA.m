@@ -10,13 +10,11 @@
 subject=3;
 % File name of the CIPIC file
 CIPICfile='hrir_final';
-% path of the database relative to that script
-databasepath=[pwd filesep '..' filesep 'HRTFs'];
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% start SOFA
-SOFAstart;
+[databasepath,f]=SOFAstart;
 
 %% load CIPIC file
 CIPICfn=[databasepath filesep 'CIPIC' filesep 'subject_' sprintf('%03d',subject) filesep CIPICfile '.mat'];

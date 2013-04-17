@@ -6,14 +6,13 @@ radius=[0.5 1 2 3];
 % radius=0.5;
 % radius=3;
 
-% path of the database relative to that script
-databasepath=[pwd filesep '..' filesep 'HRTFs'];
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% start SOFA
-SOFAstart;
+[databasepath,f]=SOFAstart;
 %% Load and convert the requested TU-Berlin files
+clear Obj
 for ii=1:length(radius)
 	TUBfn=[databasepath filesep 'TU-Berlin KEMAR' filesep TUBfile num2str(radius(ii)) 'm.mat'];
 	disp(['Loading: ' TUBfn]);

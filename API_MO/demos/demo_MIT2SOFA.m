@@ -6,11 +6,8 @@ pinna='large';
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
-% path of the database relative to that script
-databasepath=[pwd filesep '..' filesep 'HRTFs'];
-
 %% start SOFA
-SOFAstart;
+[databasepath,f]=SOFAstart;
 %% Define directory
 MITfn=[databasepath filesep 'MIT KEMAR'];
 disp(['Loading: ' MITfn ', pinna:' pinna]);
