@@ -11,7 +11,7 @@ function [Obj, log] = SOFAexpand(Obj,VarName)
 
 % SOFA API - function SOFAexpand
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
-% Licensed under the EUPL, Version 1.1 or ñ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,21 +52,19 @@ else	% Expand a single variable only
 	if isempty(strfind(VarName,'_')),	% is an attribute --> not expandable
 		if isfield(OC.Dimensions, VarName), % is a used-defined variable --> not expandable
 			dim=OC.Dimensions.(VarName); % all possible dimensions
-				if iscell(dim), % is a variable with a single dimension definition --> not expandable
-					[varNew,dimNew]=expand(Obj,VarName,dim);
-					if ~isempty(varNew),
-						Obj.(VarName)=varNew;
-						Obj.Dimensions.(VarName)=dimNew;
-						log{end+1}=[VarName ' expanded to ' dimNew];
-					end
-				end
+            if iscell(dim), % is a variable with a single dimension definition --> not expandable
+                [varNew,dimNew]=expand(Obj,VarName,dim);
+                if ~isempty(varNew),
+                    Obj.(VarName)=varNew;
+                    Obj.Dimensions.(VarName)=dimNew;
+                    log{end+1}=[VarName ' expanded to ' dimNew];
+                end
+            end
 		end
 	end
 end	
 
-%% Final dimension update
-% Obj=SOFAupdateDimensions(Obj);
-
+%% log variable
 if length(log)>1, log=log(2:end); else log={}; end;
 
 %% expand a single variable
@@ -81,7 +79,6 @@ function [var,dN]=expand(Obj,f,dims)
 		len=size(Obj.(f),d(jj)); % size of the considered dimension
 		if len>1, continue; end;	% the expandable dimension is already expanded
 		dN=dims{cellfun('isempty',strfind(dims,'I'))==1};
-% 		disp([Xf{ii} ': dim ' num2str(size(Obj.(Xf{ii}))) ' can be expanded to ' num2str(getdim(Obj,dN))]);
 		var=bsxfun(@times,Obj.(f),ones(getdim(Obj,dN)));
 	end
 	if ~exist('var','var'), var=[]; dN=[]; end;

@@ -1,21 +1,31 @@
 function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
 % SOFAspat
-% [OUT, A, E] = SOFAspat(IN, OBJ, AZI, ELE) spatializes the sound IN using
+% [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele) spatializes the sound IN using
 % the HRTFs from OBJ according to the trajectory given in AZI and ELE.
 % Input: 
-%		IN: vector with the sound
-%		OBJ: SOFA object containing the HRTFs
-%		AZI, ELE: vectors with the trajectory (in degrees) independent for
+%		in: vector with the sound
+%		Obj: SOFA object containing the HRTFs
+%		azi, ele: vectors with the trajectory (in degrees) independent for
 %							azimuth and elevation
 % 
 % Output: 
-%		OUT: binaural signal
-%		AZI, ELE: azimuth and elevation of the actual trajectory (degrees)
-%		IDX: index of the filters (corresponds to AZI and ELE)
+%		out: binaural signal
+%		azi, ele: azimuth and elevation of the actual trajectory (degrees)
+%		idx: index of the filters (corresponds to AZI and ELE)
 %
 % This is an example of how to use SOFA.
 %
 % Piotr Majdak, 2013
+%
+
+% SOFA API - demo script
+% Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
+% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% You may not use this work except in compliance with the Licence.
+% You may obtain a copy of the Licence at: http://joinup.ec.europa.eu/software/page/eupl
+% Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the Licence for the specific language governing  permissions and limitations under the Licence. 
+
 
 %% Define required parameters
 hop=0.5;		% the hop size for the time-variant filtering (in fraction of the filter length)
@@ -26,7 +36,7 @@ if ~strcmp(Obj.GLOBAL_SOFAConventions,'SimpleFreeFieldHRIR')
 end
 if min(azi)<0,	% Check for the required coordinate system
 	Obj.ListenerRotation(:,1)=sph2nav(Obj.ListenerRotation(:,1)); % if negative azimuths are required, swith to -90/+90 system
-	converted=1;	% note for later
+% 	converted=1;	% note for later
 end
 
 %% resize the input signal to be integer multiple of HRIR

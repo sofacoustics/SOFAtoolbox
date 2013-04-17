@@ -7,7 +7,7 @@ function [C, log] = SOFAmerge(A,B)
 
 % SOFA API - function SOFAupdateDimensions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
-% Licensed under the EUPL, Version 1.1 or ñ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,7 +60,6 @@ for ii=1:size(Bf,1)
 				end
 			end
 		else	% a variable
-% 			disp(Bf{ii});
 			if isfield(OC.Dimensions, Bf{ii})	% is a known variable?
 				AExp=SOFAexpand(A,Bf{ii});
 				BExp=SOFAexpand(B,Bf{ii});
@@ -100,7 +99,6 @@ for ii=1:size(Bf,1)
 				log{end+1}=['Data.' Bf{ii} ' merged'];
 			end
 		else	% a variable in Data
-% 			disp(Bf{ii});
 			if isfield(OC.Dimensions.Data,Bf{ii})	% is a known variable?
 				if strcmp(A.Dimensions.Data.(Bf{ii}),'I'),	% must be scalar?
 					if A.Data.(Bf{ii})~=B.Data.(Bf{ii}),
@@ -131,7 +129,6 @@ end
 %% Update the new dimensions and finish
 C=SOFAupdateDimensions(C);
 if length(log)>1, log=log(2:end); else log={}; end;
-
 
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)

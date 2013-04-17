@@ -10,15 +10,15 @@ function filename=SOFAcheckFilename(filename)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence.
 
+% filename = string?
 if ~ischar(filename)
 	error('Filename must be a string.');
 end
 
 idx=strfind(filename,'.sofa');
 if isempty(idx)
+    % append file extension
     filename=[filename '.sofa'];
-% elseif ~strcmp(filename(idx+1:end),'sofa')
-%     error(['SOFA-API does not support *' filename(idx:end) '-files!'])
 end
 
 end %of function

@@ -1,16 +1,16 @@
 function [Obj,dims] = SOFAupdateDimensions(Obj)
 %SOFAupdateDimensions
-%   Obj = SOFAupdateDimensions(Obj) updates the dimensions in the SOFA
+%   [Obj,dims] = SOFAupdateDimensions(Obj) updates the dimensions in the SOFA
 %   structure
 %
 %   Obj is a struct containing the data and meta.
 %		The dimension variables are created and updated corresponding to the
 %		conventions
-
+%   dims is a struct containing all dimension variables
 
 % SOFA API - function SOFAupdateDimensions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
-% Licensed under the EUPL, Version 1.1 or ñ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% Licensed under the EUPL, Version 1.1 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,6 @@ for ii=2:length(dims)
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
 			Obj.(upper(dims{ii}))=size(Obj.(f{jj}),dim(1));
-% 			disp([dims{ii} ': ' f{jj} '(' num2str(dim(1)) ')']);
 			break;
 		end
 	end
@@ -42,7 +41,6 @@ for ii=2:length(dims)
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
 			Obj.(upper(dims{ii}))=size(Obj.Data.(fd{jj}),dim(1));
-% 			disp([dims{ii} ': Data.' fd{jj} '(' num2str(dim(1)) ')']);
 			break;
 		end
 	end
@@ -61,7 +59,6 @@ for ii=1:length(Xf)
 		if isfield(OC.Dimensions, Xf{ii}), % is a known variable		
 			dim=OC.Dimensions.(Xf{ii});
 			if ~iscell(dim), dim={dim}; end;
-% 			disp(Xf{ii});
 			dim=checkdim(Obj,dim,size(Obj.(Xf{ii})));
 			if isempty(dim),
 				error([Xf{ii} ': dimension could not be matched.']);
@@ -71,8 +68,6 @@ for ii=1:length(Xf)
 		else % is a user-defined variable						
 			if ~isfield(Obj,Xf{ii}),
 				error([Xf{ii} ' seems to be a user-defined variable without a dimension.']);
-			else
-% 				warning([Xf{ii} ': update of user-defined variables not supported yet']);
 			end
 		end		
 	end
@@ -83,7 +78,6 @@ Xf=fieldnames(Obj.Data);
 for ii=1:length(Xf)
 	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
 		if isfield(OC.Dimensions.Data, Xf{ii}), 			% is a known variable
-% 			disp(Xf{ii});
 			dim=OC.Dimensions.Data.(Xf{ii}); 
 			if ~iscell(dim), dim={dim}; end;
 			dim=checkdim(Obj,dim,size(Obj.Data.(Xf{ii})));
@@ -101,10 +95,6 @@ end
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
 	vec=arrayfun(@(f)(Obj.(f)),upper(str));
-% vec=NaN(1,length(str));
-% for ii=1:length(str)
-% 	vec(ii)=Obj.(upper(str(ii)));
-% end
 
 %% dims is a cell array with allowed dimensions. dimA is a vector with the actual dimensions.
 % dim is a string with the matching dimension

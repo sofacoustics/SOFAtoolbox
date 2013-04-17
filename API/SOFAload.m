@@ -14,19 +14,19 @@ function Obj = SOFAload(filename,flags)
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
-% You may obtain a copy of the Licence at: http://www.osor.eu/eupl
+% You may obtain a copy of the Licence at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
 %% Global definitions
-dims={'i';'r';'e';'n';'m';'c';'q'}; % dimensions
+% dims={'i';'r';'e';'n';'m';'c';'q'}; % dimensions
 if ~exist('flags','var'), flags='all'; end;
 
 %% check file name
 filename=SOFAcheckFilename(filename);
 
 %% Load the object
-[Obj,Dims]=NETCDFload(filename,flags);
+[Obj]=NETCDFload(filename,flags);
 
 %% Check if SOFA conventions
 if ~isfield(Obj,'GLOBAL_Conventions'), error('File is not a valid SOFA file'); end
@@ -55,5 +55,5 @@ end
 %% Check if mandatory variables are present
 f=fieldnames(X);
 for ii=1:length(f)
-	if ~isfield(Obj,f{ii}), error(['' f{ii} ' is missing']); end
+	if ~isfield(Obj,f{ii}), error(['Mandatory variable ' f{ii} ' is missing']); end
 end

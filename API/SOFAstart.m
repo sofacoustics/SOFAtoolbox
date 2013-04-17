@@ -3,7 +3,7 @@
 %   SOFAstart adds all needed pathes and checks if we need the Matlab or Octave
 %   version of the API
 
-% SOFA API - function SOFAload
+% SOFA API - function SOFAstart
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
