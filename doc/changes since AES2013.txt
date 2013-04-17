@@ -1,7 +1,11 @@
 * SOFAConventions: SimpleFreeFieldHRTF --> SimpleFreeFieldHRIR
+* :APIVersion and :APIName added
+* :RoomDescription added
+* No strings in variables supported
+* Dimension 'I' added, it represents a singleton dimension (=scalar)
 * RoomCorner: dim of 2 is not a good idea, change
 * TOAModel: dim of 5 also not a good idea, change. General rule: no user-defined dimensions!
-* Dimensions number must not change. If a further dimension can be optionally used, a placeholder 'I' must be used.
+* Dimensions number must not change. For addition of optional dimensions, a placeholder 'I' must be used.
 * ListenerDescription --> :ListenerDescription
 * ReceiverDescription --> :ReceiverDescription
 * SourceDescription --> :SourceDescription
