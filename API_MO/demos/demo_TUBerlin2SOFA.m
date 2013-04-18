@@ -1,3 +1,13 @@
+% SOFA API - demo script
+% Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
+% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
+% You may not use this work except in compliance with the Licence.
+% You may obtain a copy of the Licence at: http://joinup.ec.europa.eu/software/page/eupl
+% Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the Licence for the specific language governing  permissions and limitations under the Licence. 
+
+% load HRTF in TU Berlin format and save as SOFA format
+
 %% Define parameters
 % Prefix to the files 
 TUBfile = 'QU_KEMAR_anechoic_';
@@ -10,11 +20,13 @@ radius=[0.5 1 2 3];
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% start SOFA
-[databasepath,f]=SOFAstart;
+SOFAstart;
+f=filesep;
+
 %% Load and convert the requested TU-Berlin files
 clear Obj
 for ii=1:length(radius)
-	TUBfn=[databasepath filesep 'TU-Berlin KEMAR' filesep TUBfile num2str(radius(ii)) 'm.mat'];
+	TUBfn=[SOFAdbPath filesep 'TU-Berlin KEMAR' filesep TUBfile num2str(radius(ii)) 'm.mat'];
 	disp(['Loading: ' TUBfn]);
 	TUB=load(TUBfn);
 	Obj(ii)=SOFAconvertTUBerlin2SOFA(TUB.irs);
@@ -29,6 +41,6 @@ if length(radius)>1,
 end
 
 %% save the object as a single SOFA file
-SOFAfn=[databasepath filesep 'SOFA' filesep 'TU-Berlin ' TUBfile 'radius ' sprintf('%g ',radius) 'm.sofa'];
+SOFAfn=[SOFAdbPath filesep 'SOFA' filesep 'TU-Berlin ' TUBfile 'radius ' sprintf('%g ',radius) 'm.sofa'];
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, ObjFull, compression);

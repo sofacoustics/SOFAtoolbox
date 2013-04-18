@@ -10,7 +10,7 @@
 
 %% Define parameters
 % Subject index of the file to convert
-subjectID='NH4';
+subjectID='NH2';
 % File name of the ARI file
 ARIfile='hrtf_M_dtf 256';
 % Data compression (0..uncompressed, 9..most compressed)

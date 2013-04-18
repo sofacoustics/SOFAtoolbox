@@ -5,6 +5,8 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
+% load HRTF in CIPIC format and save as SOFA format
+
 %% Define parameters
 % Subject index of the file to convert
 subject=3;
@@ -14,10 +16,11 @@ CIPICfile='hrir_final';
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% start SOFA
-[databasepath,f]=SOFAstart;
+SOFAstart;
+f=filesep;
 
 %% load CIPIC file
-CIPICfn=[databasepath filesep 'CIPIC' filesep 'subject_' sprintf('%03d',subject) filesep CIPICfile '.mat'];
+CIPICfn=[SOFAdbPath filesep 'CIPIC' filesep 'subject_' sprintf('%03d',subject) filesep CIPICfile '.mat'];
 disp(['Loading: ' CIPICfn]);
 CIPIC=load(CIPICfn);
 
@@ -25,6 +28,6 @@ CIPIC=load(CIPICfn);
 Obj=SOFAconvertCIPIC2SOFA(CIPIC);
 
 %% save SOFA file
-SOFAfn=[databasepath filesep 'SOFA' filesep 'CIPIC ' 'subject_' sprintf('%03d',subject) ' ' CIPICfile '.sofa'];
+SOFAfn=[SOFAdbPath filesep 'SOFA' filesep 'CIPIC ' 'subject_' sprintf('%03d',subject) ' ' CIPICfile '.sofa'];
 disp(['Saving:  ' SOFAfn])
 SOFAsave(SOFAfn, Obj, compression); 
