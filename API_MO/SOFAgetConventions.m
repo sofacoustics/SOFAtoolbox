@@ -1,6 +1,9 @@
 function Obj = SOFAgetConventions(sofaconventions,flags)
 %SOFAGETVARIABLES
 %   Obj = SOFAgetConventions(sofaconventions,flags) returns a list of variables and attributes.
+% 
+%   sofaconventions: set SOFA conventions
+%   flags: which variables/attributes -> m: mandatory, r: readonly, a: all (default)
 
 % SOFA API - function SOFAgetConventions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences

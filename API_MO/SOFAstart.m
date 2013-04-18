@@ -1,5 +1,5 @@
 function [dbPath,f]=SOFAstart
-%SOFASTART 
+% [dbPath,f]=SOFAstart 
 %
 %   SOFAstart adds all needed pathes and checks if we need the Matlab or Octave
 %   version of the API
