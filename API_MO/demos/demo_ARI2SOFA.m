@@ -17,10 +17,11 @@ ARIfile='hrtf_M_dtf 256';
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% start SOFA
-[databasepath,f]=SOFAstart;
+SOFAstart;
+f=filesep;
 
 %% Load ARI file
-ARIfn=[databasepath f 'ARI' f subjectID f ARIfile '.mat'];
+ARIfn=[SOFAdbPath f 'ARI' f subjectID f ARIfile '.mat'];
 disp(['Loading: ' ARIfn]);
 ARI=load(ARIfn);
 
@@ -28,6 +29,6 @@ ARI=load(ARIfn);
 Obj=SOFAconvertARI2SOFA(ARI.hM,ARI.meta,ARI.stimPar);
 
 %% save SOFA file
-SOFAfn=[databasepath f 'SOFA' f 'ARI ' subjectID ' ' ARIfile '.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'ARI ' subjectID ' ' ARIfile '.sofa'];
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj, compression); 
