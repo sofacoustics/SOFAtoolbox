@@ -8,7 +8,7 @@
 
 SOFAstart;
 %% Define the filename of the SOFA HRTFs
-HRTFfilename='ARI NH2 hrtf_M_dtf 256';
+HRTFfilename='ARI NH4 hrtf_M_dtf 256';
 % HRTFfilename='CIPIC subject_003 hrir_final';
 % HRTFfilename='LISTEN 1002 IRC_1002_C_HRIR';
 % HRTFfilename='MIT KEMAR normal pinna';
@@ -24,7 +24,6 @@ ele=[0 0 -30 90]; %elevation angles in degrees
 %% Load the HRTFs
 % Define the path to the HRTF repository
 f=filesep;
-% databasepath=[pwd f '..' f 'HRTFs' f 'SOFA'];
 % Load the SOFA object
 Obj=SOFAload([SOFAdbPath f 'SOFA' f HRTFfilename]);
 

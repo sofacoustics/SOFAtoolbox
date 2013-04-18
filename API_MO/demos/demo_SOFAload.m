@@ -8,7 +8,7 @@
 
 %% Path definitions
 f=filesep;
-dbpath=[pwd f '..' f 'HRTFs' f 'SOFA'];
+dbpath=[SOFAdbPath f 'SOFA'];
 SOFAfile=[dbpath f 'TU-Berlin QU_KEMAR_anechoic_radius 0.5 1 2 3 m'];
 
 %% Loading the full object

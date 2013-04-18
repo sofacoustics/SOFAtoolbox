@@ -20,7 +20,7 @@ SOFAstart;
 f=filesep;
 
 %% load CIPIC file
-CIPICfn=[SOFAdbPath filesep 'CIPIC' filesep 'subject_' sprintf('%03d',subject) filesep CIPICfile '.mat'];
+CIPICfn=[SOFAdbPath f 'CIPIC' f 'subject_' sprintf('%03d',subject) f CIPICfile '.mat'];
 disp(['Loading: ' CIPICfn]);
 CIPIC=load(CIPICfn);
 
@@ -28,6 +28,6 @@ CIPIC=load(CIPICfn);
 Obj=SOFAconvertCIPIC2SOFA(CIPIC);
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath filesep 'SOFA' filesep 'CIPIC ' 'subject_' sprintf('%03d',subject) ' ' CIPICfile '.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'CIPIC ' 'subject_' sprintf('%03d',subject) ' ' CIPICfile '.sofa'];
 disp(['Saving:  ' SOFAfn])
 SOFAsave(SOFAfn, Obj, compression); 

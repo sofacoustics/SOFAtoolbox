@@ -1,15 +1,25 @@
 *************************************************************
-*** History of SOFA API
+*** History of SOFA API for Matlab and Octave
 *** Acoustics Research Institute, Austrian Academy of Sciences, Vienna
+*** Project leader: Piotr Majdak, piotr@majdak.com
 *** Contributors:
-***		Piotr Majdak
-***		Wolfgang Hrauda
 ***		Michael Mihocic
 ***		Harald Ziegelwanger
 ***		Hagen Wierstorf
+***		Wolfgang Hrauda
 *************************************************************
 
 *** DEVELOPMENT STATUS ***
+
+*** v0.1.3 (18.4.2013) by Piotr Majdak
+- This version implements SOFA specs version 0.2 with the following limitations:
+  - no Octave support
+  - only SimpleFreeFieldHRIR supported and tested
+  
+- Detailed changes:  
+  - directory structure changed
+  - new converter added: SOFA2ARI
+  - SOFAdbPath added
 
 *** v0.1.2 (17.4.2013) by Piotr Majdak
 - SOFAload: partial loading added. Load of metadata only or by measurement section

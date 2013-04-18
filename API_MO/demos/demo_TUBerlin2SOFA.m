@@ -26,7 +26,7 @@ f=filesep;
 %% Load and convert the requested TU-Berlin files
 clear Obj
 for ii=1:length(radius)
-	TUBfn=[SOFAdbPath filesep 'TU-Berlin KEMAR' filesep TUBfile num2str(radius(ii)) 'm.mat'];
+	TUBfn=[SOFAdbPath f 'TU-Berlin KEMAR' f TUBfile num2str(radius(ii)) 'm.mat'];
 	disp(['Loading: ' TUBfn]);
 	TUB=load(TUBfn);
 	Obj(ii)=SOFAconvertTUBerlin2SOFA(TUB.irs);
@@ -41,6 +41,6 @@ if length(radius)>1,
 end
 
 %% save the object as a single SOFA file
-SOFAfn=[SOFAdbPath filesep 'SOFA' filesep 'TU-Berlin ' TUBfile 'radius ' sprintf('%g ',radius) 'm.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'TU-Berlin ' TUBfile 'radius ' sprintf('%g ',radius) 'm.sofa'];
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, ObjFull, compression);

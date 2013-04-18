@@ -21,13 +21,13 @@ SOFAstart;
 f=filesep;
 
 %% Define directory
-MITfn=[SOFAdbPath filesep 'MIT KEMAR'];
+MITfn=[SOFAdbPath f 'MIT KEMAR'];
 disp(['Loading: ' MITfn ', pinna:' pinna]);
 
 %% load and convert
 Obj=SOFAconvertMIT2SOFA(MITfn,pinna);
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath filesep 'SOFA' filesep 'MIT KEMAR ' pinna ' pinna.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'MIT KEMAR ' pinna ' pinna.sofa'];
 disp(['Saving:  ' SOFAfn]);
 SOFAsave(SOFAfn, Obj, compression); 

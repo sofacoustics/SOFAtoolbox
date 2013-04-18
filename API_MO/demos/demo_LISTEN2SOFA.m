@@ -21,7 +21,7 @@ SOFAstart;
 f=filesep;
 
 %% Load LISTEN file
-LISTENfn=[SOFAdbPath filesep 'LISTEN' filesep 'IRC_' subjectID filesep 'COMPENSATED' filesep 'MAT' filesep 'HRIR' filesep LISTENfile '.mat'];
+LISTENfn=[SOFAdbPath f 'LISTEN' f 'IRC_' subjectID f 'COMPENSATED' f 'MAT' f 'HRIR' f LISTENfile '.mat'];
 disp(['Loading: ' LISTENfn]);
 LISTEN=load(LISTENfn);
 
@@ -29,6 +29,6 @@ LISTEN=load(LISTENfn);
 Obj=SOFAconvertLISTEN2SOFA(LISTEN,subjectID);
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath filesep 'SOFA' filesep 'LISTEN ' subjectID ' ' LISTENfile '.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'LISTEN ' subjectID ' ' LISTENfile '.sofa'];
 disp(['Saving:  ' SOFAfn]);
 SOFAsave(SOFAfn, Obj, compression);
