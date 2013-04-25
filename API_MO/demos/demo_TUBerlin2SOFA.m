@@ -41,6 +41,6 @@ if length(radius)>1,
 end
 
 %% save the object as a single SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'TU-Berlin ' TUBfile 'radius ' sprintf('%g ',radius) 'm.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'TU-Berlin_' TUBfile 'radius_' sprintf('%g ',radius) 'm.sofa'];
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, ObjFull, compression);
