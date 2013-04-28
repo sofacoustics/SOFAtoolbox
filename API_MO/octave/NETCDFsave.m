@@ -22,23 +22,29 @@ function NETCDFsave(filename,Obj,Compression)
 
 %% --------------------------- N E T C D F save ---------------------------
 % create file
-ncid = netcdf(filename,'c','NETCDF4 with classical model');%'NETCDF4 with classical model'
+ncid = netcdf(filename,'c','NETCDF4 with classical model');
 
 % Define dimensions
 % M - number of measurements
 ncid('M') = Obj.M;
+ncid{'M'}.LongName = Obj.M_LongName;
 % R - number of receivers
 ncid('R') = Obj.R;
+ncid{'R'}.LongName = Obj.R_LongName;
 % N - number of data samples per measurement
 ncid('N') = Obj.N;
+ncid{'N'}.LongName = Obj.N_LongName;
 % E - number of emitters
 ncid('E') = Obj.E;
+ncid{'E'}.LongName = Obj.E_LongName;
 % C - coordinate dimension
 ncid('C') = 3;
+ncid{'C'}.LongName = Obj.C_LongName;
 % Q - quaternions (optional) dimension
 % TODO: ?
 % I - singleton dimension
 ncid('I') = 1;
+ncid{'I'}.LongName = Obj.I_LongName;
 
 
 %% ===== Loop through all fields in Obj ==================================
@@ -52,6 +58,7 @@ for ii=1:length(attributes)
     % ----- DATA ----------------------------------------------------------
     if strcmp(attributeName,'Data')
 
+        % FIXME: Obj.DataType is deprecated!
         if strcmp(Obj.DataType,'FIR')
             % define dimensions
             ncid{'Data.FIR'} = ncdouble(Obj.N, ... % Samples
@@ -72,6 +79,11 @@ for ii=1:length(attributes)
             ncid{'Data.Mag'}(:) = permute(attributeVal.Mag,[3 2 1]);
             ncid{'Data.Phase'}(:) = permute(attributeVal.Phase,[3 2 1]);
         end
+            
+        % Sampling rate of data
+        ncid{'Data.SamplingRate'} = ncdouble(Obj.I);
+        ncid{'Data.SamplingRate'}(:) = Obj.SamplingRate;
+        ncid{'Data.SamplingRate'}.Units = Obj.SamplingRate_Units;
 
 
     % ----- GLOBAL ATTRIBUTES --------------------------------------------
@@ -81,6 +93,7 @@ for ii=1:length(attributes)
 
 
     % ----- STRING VARIABLES ----------------------------------------------
+    % FIXME: this should never be the case
     elseif ischar(attributeName)
         % define dimension
         [attributeName 'DIM']
