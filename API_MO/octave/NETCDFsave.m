@@ -20,126 +20,187 @@ function NETCDFsave(filename,Obj,Compression)
 %TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
 %[numMeasurements,numReceivers,numSamples]=SOFAcheckDimensions(Dataset);
 
+Def = SOFAdefinitions;
+dims = Def.dimensions;
+
 %% --------------------------- N E T C D F save ---------------------------
 % create file
 ncid = netcdf(filename,'c','NETCDF4 with classical model');
 
-% Define dimensions
-% M - number of measurements
-ncid('M') = Obj.M;
-ncid{'M'}.LongName = Obj.M_LongName;
-% R - number of receivers
-ncid('R') = Obj.R;
-ncid{'R'}.LongName = Obj.R_LongName;
-% N - number of data samples per measurement
-ncid('N') = Obj.N;
-ncid{'N'}.LongName = Obj.N_LongName;
-% E - number of emitters
-ncid('E') = Obj.E;
-ncid{'E'}.LongName = Obj.E_LongName;
-% C - coordinate dimension
-ncid('C') = 3;
-ncid{'C'}.LongName = Obj.C_LongName;
-% Q - quaternions (optional) dimension
-% TODO: ?
-% I - singleton dimension
-ncid('I') = 1;
-ncid{'I'}.LongName = Obj.I_LongName;
+%% ===== Loop through all fields in Obj -1- ==============================
+% remove Dimension definition fields before the loop
+Obj1 = rmfield(Obj,'Dimensions');
+fields = fieldnames(Obj1);
+for ii=1:length(fields)
+    % store current field name and its value
+    fieldName = fields{ii};
+    fieldVal = Obj.(fieldName);
+
+    % ----- Dimensions ---------------------------------------------------
+    if any(strcmp(struct2cell(dims),fieldName))
+        % create dimension
+        ncid(fieldName) = fieldVal;
+        ncid{fieldName} = ncdouble(fieldName);
+        % FIXME: see if the next line is really neccessary
+        ncid{fieldName}(:) = 1:fieldVal;
+    elseif strcmp('RoomCorner',fieldName)
+        ncid('NumberOfRoomCorners') = 2;
+        ncid{'NumberOfRoomCorners'} = ncdouble('NumberOfRoomCorners');
+        ncid{'NumberOfRoomCorners'}(:) = 1:2;
+    end
+end
 
 
-%% ===== Loop through all fields in Obj ==================================
-attributes = fieldnames(Obj);
-for ii=1:length(attributes)
+%% ===== Loop through all fields in Obj -2- ==============================
+% remove dimension fields before the loop
+Obj2 = rmfield(Obj1,struct2cell(dims));
+fields = fieldnames(Obj2);
+for ii=1:length(fields);
     % store the current field name and its value
-    attributeName = attributes{ii};
-    attributeVal = Obj.(attributeName);
+    fieldName = fields{ii}
+    fieldVal = Obj.(fieldName);
 
 
     % ----- DATA ----------------------------------------------------------
-    if strcmp(attributeName,'Data')
+    if strcmp(fieldName,'Data')
 
-        % FIXME: Obj.DataType is deprecated!
-        if strcmp(Obj.DataType,'FIR')
-            % define dimensions
-            ncid{'Data.FIR'} = ncdouble(Obj.N, ... % Samples
-                                        Obj.R, ... % Receivers
-                                        Obj.M);    % Measurements
-            % store data
-            ncid{'Data.FIR'}(:) = permute(attributeVal.FIR,[3 2 1]);
-
-        elseif strcmp(Obj.DataType,'SpectraMagnitudePhase')
-            % define dimensions
-            ncid{'Data.Mag'} =   ncdouble(Obj.N, ... % Samples
-                                          Obj.R, ... % Receivers
-                                          Obj.M);    % Measurements
-            ncid{'Data.Phase'} = ncdouble(Obj.N, ... % Samples
-                                          Obj.R, ... % Receivers
-                                          Obj.M);    % Measurements
-            % store data
-            ncid{'Data.Mag'}(:) = permute(attributeVal.Mag,[3 2 1]);
-            ncid{'Data.Phase'}(:) = permute(attributeVal.Phase,[3 2 1]);
-        end
+        dataFields = fieldnames(fieldVal);
+        for jj=1:length(dataFields)
+            % store current Data field name and its value
+            dataFieldName = dataFields{jj};
+            dataFieldVal = fieldVal.(dataFieldName);
             
-        % Sampling rate of data
-        ncid{'Data.SamplingRate'} = ncdouble(Obj.I);
-        ncid{'Data.SamplingRate'}(:) = Obj.SamplingRate;
-        ncid{'Data.SamplingRate'}.Units = Obj.SamplingRate_Units;
+            if isempty(strfind(dataFieldName,'_')) % skip attributes
+
+                % FIXME: find a better way than the checking of the length!
+                % Should the data matrix be allowed to have every number of
+                % dimension they want?
+                if length(Obj.Dimensions.Data.(dataFieldName))==1
+                    dim1 = upper(Obj.Dimensions.Data.(dataFieldName));
+                    % store data
+                    ncid{['Data.' dataFieldName]} = ncdouble(dim1);
+                elseif length(Obj.Dimensions.Data.(dataFieldName))==3
+                    dim1 = upper(Obj.Dimensions.Data.(dataFieldName)(1));
+                    dim2 = upper(Obj.Dimensions.Data.(dataFieldName)(2));
+                    dim3 = upper(Obj.Dimensions.Data.(dataFieldName)(3));
+                    % store data
+                    ncid{['Data.' dataFieldName]} = ncdouble(dim1, ...
+                                                                 dim2, ...
+                                                                 dim3);
+                end
+            end
+        end
+        % store attributes of the variables
+        for jj=1:length(dataFields)
+            if ~isempty(strfind(dataFields{jj},'_')) % only attributes
+                % store current Field field name and its value
+                dataFieldName = dataFields{jj};
+                dataFieldVal = fieldVal.(dataFieldName);
+                dataFieldNameBase = ...
+                    dataFieldName(1:strfind(dataFieldName,'_')-1);
+                dataFieldNameAttr = ...
+                    dataFieldName(strfind(dataFieldName,'_')+1:end);
+                % store attribute
+                ncid{['Data.' dataFieldNameBase]}.(dataFieldNameAttr) = dataFieldVal;
+            end
+        end
 
 
     % ----- GLOBAL ATTRIBUTES --------------------------------------------
-    elseif ~isempty(strfind(attributeName,'GLOBAL'))
+    elseif ~isempty(strfind(fieldName,'GLOBAL'))
+        % strip "GLOBAL_" from the name
+        fieldName = fieldName(strfind(fieldName,'_')+1:end);
         % store as global attribute
-        ncid.(attributeName) = attributeVal;
+        ncid.(fieldName) = fieldVal;
 
 
-    % ----- STRING VARIABLES ----------------------------------------------
-    % FIXME: this should never be the case
-    elseif ischar(attributeName)
-        % define dimension
-        [attributeName 'DIM']
-        ncid([attributeName 'DIM']) = size(attributeVal,2);
-        ncid{attributeName} = ncchar([attributeName 'DIM'],Obj.I);
-        % store string
-        ncid{attributeName}(:) = attributeVal;
+    % ----- LISTENER and SOURCE -------------------------------------------
+    elseif (~isempty(strfind(fieldName,'Listener')) || ...
+           ~isempty(strfind(fieldName,'Source')) ) && ...
+            isempty(strfind(fieldName,'_'))
+        fieldName
+
+        if size(fieldVal)==[Obj.I Obj.C]                            % [C]
+            ncid{fieldName} = ncfloat(dims.I,dims.C);
+        elseif size(fieldVal)==[Obj.M Obj.C]                        % [M C]
+            ncid{fieldName} = ncfloat(dims.M,dims.C);
+        end
+
+        % store variable
+        ncid{fieldName}(:) = fieldVal;
+
+
+    % ----- RECEIVER -----------------------------------------------------
+    elseif ~isempty(strfind(fieldName,'Receiver')) && ...
+            isempty(strfind(fieldName,'_'))
+
+        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.R Obj.C]      % [R C]
+            ncid{fieldName} = ncfloat(dims.R,dims.C);
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.R Obj.C Obj.M] % [R C M]
+            ncid{fieldName} = ncfloat(dims.R,dims.C,dims.M);
+        end
+
+        % store variable
+        ncid{fieldName}(:) = fieldVal;
+
+
+    % ----- EMITTER ------------------------------------------------------
+    elseif ~isempty(strfind(fieldName,'Emitter')) && ...
+            isempty(strfind(fieldName,'_'))
+
+        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.E Obj.C]      % [E C]
+            ncid{fieldName} = ncfloat(dims.E,dims.C);
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.E Obj.C Obj.M] % [E C M]
+            ncid{fieldName} = ncfloat(dims.E,dims.C,dims.M);
+        end
+
+        % store variable
+        ncid{fieldName}(:) = fieldVal;
+
+
+    % ----- ROOM CORNERS --------------------------------------------------
+    elseif ~isempty(strfind(fieldName,'RoomCorner')) && ...
+            isempty(strfind(fieldName,'_'))
+
+        if ndims(fieldVal)==2 && size(fieldVal)==[2 Obj.C]          % [2 C]
+            ncid{fieldName} = ncfloat('NumberOfRoomCorners',dims.C);
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[2 Obj.C Obj.M] % [2 C M]
+            ncid{fieldName} = ncfloat('NumberOfRoomCorners',dims.C,dims.M);
+        end
+
+        % store variable
+        ncid{fieldName}(:) = fieldVal;
 
 
     % ----- NUMERIC VARIABLES ---------------------------------------------
-    elseif ndims(attributeVal)==2
-        attributeVal = transpose(attributeVal);
-        % define dimensions
-        if size(attributeVal)==[3 1]                                     % [3 1]
-            ncid{attributeName} = ncfloat(Obj.C,Obj.I);
-        elseif size(attributeVal)==[3 Obj.M]                             % [3 M]
-            ncid{attributeName} = ncfloat(Obj.C,Obj.M);
-        % "normal" numeric variables
-        elseif size(attributeVal)==[1 1]                                 % [1 1]
-            ncid{attributeName} = ncfloat(Obj.I,Obj.I);
-        elseif size(attributeVal)==[1 M]                                 % [M 1]
-            ncid{attributeName} = ncfloat(Obj.I,Obj.M);
-        elseif size(attributeVal,1)==1                                   % [1 x]
-            ncid(attributeName) = size(attributeVal,1);
-            ncid{attributeName} = ncfloat(attributeName,Obj.I);
-        elseif size(attributeVal,1)==M                                   % [M x]
-            ncid(attributeName) = size(attributeVal,1);
-            ncid{attributeName} = ncfloat(attributeName,Obj.M);
+    % store other numeric vectors
+    elseif isnumeric(fieldVal)
+
+        if ndims(fieldVal)==2
+            ncid{fieldName} = ncfloat([fieldName 'Dimension1'], ...
+                [fieldName 'Dimension2']);
+        elseif ndims(fieldVal)==3
+            ncid{fieldName} = ncfloat([fieldName 'Dimension1'], ...
+                [fieldName 'Dimension2'], ...
+                [fieldName 'Dimension3']);
         end
+
         % store variable
-        ncid{atributeName}(:) = attributeVal;
-    elseif ndims(attributeVal)==3
-        attributeVal = permute(attributeVal,[3 2 1]);
-        % define dimensions
-        % receiver/transmitter positions
-        if size(attributeVal)==[1 3]                                   % [1 3 1]
-            ncid{attributeName} = ncfloat(Obj.I,Obj.C,Obj.I); 
-        elseif size(attributeVal)==[R 3]                               % [1 3 R]
-            ncid{attributeName} = ncfloat(Obj.R,Obj.C,Obj.I);
-        elseif size(attributeVal)==[1 3 M]                             % [M 3 1]
-            ncid{attributeName} = ncfloat(Obj.I,Obj.C,Obj.M);
-        elseif size(attributeVal)==[R 3 M]                             % [M 3 R]
-            ncid{attributeName} = ncfloat(Obj.R,Obj.C,Obj.M);
-        end
-        % store variable
-        ncid{attributeName}(:) = attributeVal; 
+        ncid{fieldName}(:) = fieldVal;
+
+        
+    % ----- ATTRIBUTES ---------------------------------------------------
+    % here we store descriptive attributes of variables, for example units or
+    % long names
+    elseif ~isempty(strfind(fieldName,'_'))
+        % split "VariableName_Attribute" into "VariableName" and "Attribute"
+        fieldNameBase = ...
+            fieldName(1:strfind(fieldName,'_')-1);
+        fieldNameAttr = ...
+            fieldName(strfind(fieldName,'_')+1:end);
+        % store field
+        ncid{fieldNameBase}.(fieldNameAttr) = fieldVal;
+    
     else
         error('%s: your variable type is not supported by SOFA',upper(mfilename));
     end

@@ -13,3 +13,11 @@ function Def = SOFAdefinitions
 
 % date string to use (see help datestr)
 Def.dateFormat = 'yyyy-mm-dd HH:MM:SS';
+
+% dimensions to use
+Def.dimensions.M = 'M'; % Number of Measurements
+Def.dimensions.R = 'R'; % Number of Receivers
+Def.dimensions.N = 'N'; % Number of Samples or the way you represent your data
+Def.dimensions.E = 'E'; % Number of Emitters
+Def.dimensions.C = 'C'; % Coordinates
+Def.dimensions.I = 'I'; % Singleton
