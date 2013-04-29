@@ -21,6 +21,8 @@ function [Obj] = SOFAsave(filename,Obj,varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
+Def = SOFAdefinitions;
+
 %% check file name
 filename=SOFAcheckFilename(filename);
 
@@ -79,7 +81,7 @@ else
 end
 
 %% Set/modify time information
-Obj.GLOBAL_DatabaseTimeModified=datestr(now,31);
+Obj.GLOBAL_DatabaseTimeModified=datestr(now,Def.dateFormat);
 if isempty(Obj.GLOBAL_DatabaseTimeCreated), Obj.GLOBAL_DatabaseTimeCreated=Obj.GLOBAL_DatabaseTimeModified; end
 
 %% Save file

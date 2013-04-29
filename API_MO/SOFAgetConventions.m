@@ -17,6 +17,8 @@ if ~exist('flags','var')
     flags='a'; % flags: m: mandatory, r: readonly, a: all
 end
 
+% FIXME: the dims should also go to the definitions file
+Def = SOFAdefinitions;
 dims={'I';'R';'E';'N';'M';'C';'Q'}; % dimensions
 flagc=cellstr((flags)');
 
@@ -176,5 +178,5 @@ for ii=1:size(dataarray,1)
     end
 end
 %% Overwrite some special fields
-if isfield(Obj,'GLOBAL_DatabaseTimeCreated'), Obj.GLOBAL_DatabaseTimeCreated=datestr(now,31); end
+if isfield(Obj,'GLOBAL_DatabaseTimeCreated'), Obj.GLOBAL_DatabaseTimeCreated=datestr(now,Def.dateFormat); end
 if isfield(Obj,'GLOBAL_APIVersion'), Obj.GLOBAL_APIVersion=SOFAgetVersion; end

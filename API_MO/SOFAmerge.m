@@ -23,6 +23,7 @@ end
 if A.N~=B.N
 	error('Data size of both SOFA objects must be the same');
 end
+Def = SOFAdefinitions;
 log={''};
 OC = SOFAgetConventions(A.GLOBAL_SOFAConventions,'a');
 
@@ -50,12 +51,12 @@ for ii=1:size(Bf,1)
 			else
 				switch Bf{ii}
 					case 'GLOBAL_DatabaseTimeCreated'	% use the oldest date
-						dateNew=datenum(A.GLOBAL_DatabaseTimeCreated);
-						if datenum(B.GLOBAL_DatabaseTimeCreated)<dateNew, dateNew=datenum(B.GLOBAL_DatabaseTimeCreated); end;
-						C.(Bf{ii}) = datestr(dateNew,31);
+						dateNew=datenum(A.GLOBAL_DatabaseTimeCreated,Def.dateFormat);
+						if datenum(B.GLOBAL_DatabaseTimeCreated,Def.dateFormat)<dateNew, dateNew=datenum(B.GLOBAL_DatabaseTimeCreated,Def.dateFormat); end;
+						C.(Bf{ii}) = datestr(dateNew,Def.dateFormat);
 						log{end+1}=[Bf{ii} ' set to ' C.(Bf{ii})];
 					case 'GLOBAL_DatabaseTimeModified' % now
-						C.(Bf{ii}) = datestr(now,31);
+						C.(Bf{ii}) = datestr(now,Def.dateFormat);
 						log{end+1}=[Bf{ii} ' updated'];
 					otherwise
 						C.(Bf{ii}) = [A.(Bf{ii}) '; ' B.(Bf{ii})]; % concatate [A; B]
