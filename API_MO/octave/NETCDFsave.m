@@ -38,11 +38,17 @@ for ii=1:length(fields)
 
     % ----- Dimensions ---------------------------------------------------
     if any(strcmp(struct2cell(dims),fieldName))
-        % create dimension
-        ncid(fieldName) = fieldVal;
-        ncid{fieldName} = ncdouble(fieldName);
-        % FIXME: see if the next line is really neccessary
-        ncid{fieldName}(:) = 1:fieldVal;
+        if strcmp('M',fieldName)
+            % store the M dimension as the one that can grow
+            ncid(fieldName) = 0;
+            ncid{fieldName} = ncdouble(fieldName);
+            ncid{fieldName}(1:fieldVal) = 1:fieldVal;
+        else
+            % create dimension
+            ncid(fieldName) = fieldVal;
+            ncid{fieldName} = ncdouble(fieldName);
+            ncid{fieldName}(:) = 1:fieldVal;
+        end
     elseif strcmp('RoomCorner',fieldName)
         ncid('NumberOfRoomCorners') = 2;
         ncid{'NumberOfRoomCorners'} = ncdouble('NumberOfRoomCorners');
@@ -57,7 +63,7 @@ Obj2 = rmfield(Obj1,struct2cell(dims));
 fields = fieldnames(Obj2);
 for ii=1:length(fields);
     % store the current field name and its value
-    fieldName = fields{ii}
+    fieldName = fields{ii};
     fieldVal = Obj.(fieldName);
 
 
@@ -75,19 +81,25 @@ for ii=1:length(fields);
                 % FIXME: find a better way than the checking of the length!
                 % Should the data matrix be allowed to have every number of
                 % dimension they want?
-                if length(Obj.Dimensions.Data.(dataFieldName))==1
-                    dim1 = upper(Obj.Dimensions.Data.(dataFieldName));
-                    % store data
-                    ncid{['Data.' dataFieldName]} = ncdouble(dim1);
-                elseif length(Obj.Dimensions.Data.(dataFieldName))==3
-                    dim1 = upper(Obj.Dimensions.Data.(dataFieldName)(1));
-                    dim2 = upper(Obj.Dimensions.Data.(dataFieldName)(2));
-                    dim3 = upper(Obj.Dimensions.Data.(dataFieldName)(3));
-                    % store data
-                    ncid{['Data.' dataFieldName]} = ncdouble(dim1, ...
-                                                                 dim2, ...
-                                                                 dim3);
+                if ndims(dataFieldVal)==2 && ...
+                    size(dataFieldVal)==[1 1]                       % [I]
+                    ncid{['Data.' dataFieldName]} = ncdouble(dims.I);
+                elseif ndims(dataFieldVal)==2 && ...
+                    strcmp('TOAModel',dataFieldName)                % [M 5]
+                    ncid('TOAModelParameter') = 5;
+                    ncid{['Data.' dataFieldName]} = ncdouble(dims.M, ...
+                        'TOAModelParameter');
+                elseif ndims(dataFieldVal)==2 && ...
+                    size(dataFieldVal)==[Obj.M Obj.R]               % [M R]
+                    ncid{['Data.' dataFieldName]} = ncdouble(dims.M,dims.R);
+                elseif ndims(dataFieldVal)==3 && ...
+                    size(dataFieldVal)==[Obj.M Obj.R Obj.N]         % [M R N]
+                    ncid{['Data.' dataFieldName]} = ncdouble(dims.M, ...
+                                                             dims.R, ...
+                                                             dims.N);
                 end
+                % store data
+                ncid{['Data.' dataFieldName]}(:) = dataFieldVal;
             end
         end
         % store attributes of the variables
@@ -118,10 +130,9 @@ for ii=1:length(fields);
     elseif (~isempty(strfind(fieldName,'Listener')) || ...
            ~isempty(strfind(fieldName,'Source')) ) && ...
             isempty(strfind(fieldName,'_'))
-        fieldName
 
         if size(fieldVal)==[Obj.I Obj.C]                            % [C]
-            ncid{fieldName} = ncfloat(dims.I,dims.C);
+            ncid{fieldName} = ncfloat(dims.C);
         elseif size(fieldVal)==[Obj.M Obj.C]                        % [M C]
             ncid{fieldName} = ncfloat(dims.M,dims.C);
         end
@@ -208,14 +219,15 @@ end
 
 close(ncid);
 
-if isunix
-    unix(['nccopy -k 4 -d ' num2str(Compression) ' ' filename ' temp_netCDF3_to_netCDF4.nc']);
-    unix(['cp temp_netCDF3_to_netCDF4.nc ' filename]);
-    unix('rm temp_netCDF3_to_netCDF4.nc');
-else
-    dos(['nccopy -k 4 -d ' num2str(Compression) ' ' filename ' temp_netCDF3_to_netCDF4.nc']);
-    dos(['cp temp_netCDF3_to_netCDF4.nc ' filename]);
-    dos('rm temp_netCDF3_to_netCDF4.nc');
-end
+% FIXME: this doesn't work with old versions of nccopy
+%if isunix
+%    unix(['nccopy -k 4 -d ' num2str(Compression) ' ' filename ' temp_netCDF3_to_netCDF4.nc']);
+%    unix(['cp temp_netCDF3_to_netCDF4.nc ' filename]);
+%    unix('rm temp_netCDF3_to_netCDF4.nc');
+%else
+%    dos(['nccopy -k 4 -d ' num2str(Compression) ' ' filename ' temp_netCDF3_to_netCDF4.nc']);
+%    dos(['cp temp_netCDF3_to_netCDF4.nc ' filename]);
+%    dos('rm temp_netCDF3_to_netCDF4.nc');
+%end
 
 end %of function
