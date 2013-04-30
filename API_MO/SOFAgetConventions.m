@@ -1,9 +1,14 @@
 function Obj = SOFAgetConventions(sofaconventions,flags)
-%SOFAGETVARIABLES
-%   Obj = SOFAgetConventions(sofaconventions,flags) returns a list of variables and attributes.
+%SOFAgetConventions
+%
+%	  List = SOFAgetConventions() returns a list with supported conventions.
 % 
-%   sofaconventions: set SOFA conventions
-%   flags: which variables/attributes -> m: mandatory, r: readonly, a: all (default)
+%   Obj = SOFAgetConventions(sofaconventions,flags) returns a SOFA object
+%   with all metadata and data for the corresponding sofaconventions.
+% 
+%   Obj = SOFAgetConventions(sofaconventions,flags) returns only selected
+%   metadata for the conventions with the following encoding:
+%				m: mandatory, r: readonly, a: all (default)
 
 % SOFA API - function SOFAgetConventions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -13,17 +18,19 @@ function Obj = SOFAgetConventions(sofaconventions,flags)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
+%% If not conventions provided, return the list with supported conventions
+if ~exist('sofaconventions','var')
+	Obj={'SimpleFreeFieldHRIR', 'SingleRoomDRIR'};
+	return;
+end
+
+%% If no flags provided, return the conventions with all metadata
 if ~exist('flags','var')
     flags='a'; % flags: m: mandatory, r: readonly, a: all
 end
 
-% FIXME: the dims should also go to the definitions file
-Def = SOFAdefinitions;
-dims={'I';'R';'E';'N';'M';'C';'Q'}; % dimensions
-flagc=cellstr((flags)');
-
+%% Define the SOFA conventions according to the Specs
 switch sofaconventions
-%% SimpleFreeFieldHRIR
     case 'SimpleFreeFieldHRIR'
         % name, value, flags, dimensions
         metadataarray={ ...
@@ -92,11 +99,6 @@ switch sofaconventions
          'SamplingRate_Units' 'hertz' 'ma'  ''; ...
      };
                  
-%% SimpleDRIRMicArray   
-  case 'SimpleDRIRMicArray'
-		error(['Conventions not implemented yet: "' sofaconventions '".']);  
-        
-%% SingleRoomDRIR   
   case 'SingleRoomDRIR'      
         % name, value, flags, dimensions
         metadataarray={ ...
@@ -154,9 +156,18 @@ switch sofaconventions
          'SamplingRate_Units' 'hertz' 'ma'  ''; ...
      };
                  	
+  case 'SimpleDRIRMicArray'
+		error(['Conventions ' SimpleDRIRMicArray ' is not implemented yet.']);  
+           
 	otherwise 
 		error(['This API does not support the conventions "' sofaconventions '".']);
 end
+
+%% Get the supported dimension tokens
+% FIXME: the dims should also go to the definitions file
+Def = SOFAdefinitions;
+dims={'I';'R';'E';'N';'M';'C';'Q'}; % dimensions
+flagc=cellstr((flags)');
 
 %% create metadata structure
 for ii=1:size(metadataarray,1)

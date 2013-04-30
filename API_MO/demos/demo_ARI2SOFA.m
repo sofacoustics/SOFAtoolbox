@@ -1,5 +1,5 @@
 % SOFA API - demo script
-% Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
+% Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: http://joinup.ec.europa.eu/software/page/eupl
@@ -10,7 +10,7 @@
 
 %% Define parameters
 % Subject index of the file to convert
-subjectID='NH2';
+subjectID='NH4';
 % File name of the ARI file
 ARIfile='hrtf_M_dtf 256';
 % Data compression (0..uncompressed, 9..most compressed)
