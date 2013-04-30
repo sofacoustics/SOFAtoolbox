@@ -11,15 +11,50 @@ function [] = NETCDFdisplay(filename)
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
 ncid=netcdf(filename,'r');
-temp=ncvar(ncid);
-for ii=1:length(temp)
-    fprintf(['--- ' ncname(temp{ii}) ' ---\n'])
-    fprintf(['DataType: ' ncdatatype(temp{ii}) '\n'])
-    fprintf('Dimensions:\n')
-    for jj=1:length(ncdim(temp{ii})(:))
-        disp(ncdim(temp{ii}){jj})
+
+% ----- GLOBAL ATTRIBUTES ------------------------------------------------
+globalAttr = ncatt(ncid);
+fprintf('\n--- GLOBAL ATTRIBUTES ---\n');
+for ii=1:length(globalAttr)
+    attrName = ncname(globalAttr{ii});
+    attrVal = globalAttr{ii}(:);
+    fprintf('%s = %s\n',attrName,attrVal);
+end
+
+
+% ----- DIMENSIONS -------------------------------------------------------
+dimensions = ncdim(ncid);
+fprintf('\n--- DIMENSIONS ---\n');
+for ii=1:length(dimensions)
+    dimName = ncname(dimensions{ii});
+    dimVal = dimensions{ii}(:);
+    fprintf('%s = %s\n',dimName,num2str(dimVal));
+end
+
+
+% ----- VARIABLES --------------------------------------------------------
+variables = ncvar(ncid);
+fprintf('\n--- VARIABLES ---\n');
+for ii=1:length(variables)
+    varName = ncname(variables{ii});
+    varVal = variables{ii}(:);
+    fprintf('%s\n',varName);
+    fprintf('\tSize: \t %s\n',num2str(size(varVal)));
+    % get dimensions
+    varDims = ncdim(variables{ii});
+    varDimNames = [];
+    for jj=1:length(varDims)
+        varDimNames = [varDimNames ncname(varDims{jj})];
     end
-    fprintf('\n')
+    fprintf('\tDimensions: \t %s\n',varDimNames);
+    % get attributes
+    varAttr = ncatt(variables{ii});
+    fprintf('\tAttributes:\n');
+    for jj=1:length(varAttr)
+        varAttrName = ncname(varAttr{jj});
+        varAttrVal = varAttr{jj}(:);
+        fprintf('\t\t%s = %s\n',varAttrName,varAttrVal);
+    end
 end
 
 end %of function
