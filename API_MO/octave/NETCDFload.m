@@ -41,14 +41,14 @@ try
     end
     Dims=cell2mat(dims)';
 
-    % Check the requested measurements
-    if isnumeric(flags)
-        if Obj.M<flags(2)
-            error('Requested end index exceeds the measurement count');
-        end
-        startp(strfind(Dims,'M'))=flags(1)-1;
-        countp(strfind(Dims,'M'))=flags(2);
-    end
+    %% Check the requested measurements
+    %if isnumeric(flags)
+    %    if Obj.M<flags(2)
+    %        error('Requested end index exceeds the measurement count');
+    %    end
+    %    startp(strfind(Dims,'M'))=flags(1)-1;
+    %    countp(strfind(Dims,'M'))=flags(2);
+    %end
 
     % ----- VARIABLES + ATTRIBUTES ---------------------------------------
     variables = ncvar(ncid);
