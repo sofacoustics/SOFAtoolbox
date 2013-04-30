@@ -135,7 +135,7 @@ for ii=1:length(fields);
             isempty(strfind(fieldName,'_'))
 
         if size(fieldVal)==[Obj.I Obj.C]                            % [C]
-            ncid{fieldName} = ncfloat(dims.C);
+            ncid{fieldName} = ncfloat(dims.I,dims.C);
         elseif size(fieldVal)==[Obj.M Obj.C]                        % [M C]
             ncid{fieldName} = ncfloat(dims.M,dims.C);
         end

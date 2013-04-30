@@ -1,4 +1,4 @@
-function [varName,varContent] = NETCDFload(filename,varargin)
+function Obj = NETCDFload(filename,flags)
 %NETCDFLOAD
 %   [varName,varContent] = NETCDFload(filename,ReturnType) reads all data (no metadata) from
 %   a SOFA file.
@@ -13,55 +13,98 @@ function [varName,varContent] = NETCDFload(filename,varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-if isempty(varargin)
-    varargin={'all'};
-end
 
-%% --------------------------- N E T C D F load ---------------------------
+glob='GLOBAL_';
+
+%% --------------------------- N E T C D F load --------------------------
 try
     ncid = netcdf(filename,'r','netcdf4'); % open file
-    sofa = ncvar(ncid); % get the variables stored in the file
-    numVars = length(sofa); % get number of variables in file    
+    Obj = [];
+    
+    % ----- GLOBAL ATTRIBUTES --------------------------------------------
+    globalAttr = ncatt(ncid);
+    for ii=1:length(globalAttr)
+        fieldName = ncname(globalAttr{ii});
+        fieldVal = globalAttr{ii}(:);
+        Obj.([glob fieldName]) = fieldVal;
+    end
 
-    count=1;
-    loadVar=0;
-    for ii=1:numVars % LOOP through all variables in file
-        currentVarName = ncname(sofa{ii}); % get current variable name
-        for jj=1:length(varargin)
-            switch varargin{jj}
-                case 'all'
-                    loadVar=1;
-                case 'meta'
-                    if ~strncmp(currentVarName,'Data.',5) % if current variable is Metadata
-                        loadVar=1;
-                    end
-                case 'data'
-                    if strncmp(currentVarName,'Data.',5) % if current variable is Data
-                        loadVar=1;
-                    end
-                case currentVarName
-                    loadVar=1;
-                otherwise
-                    error('Wrong SOFA variable name!')
-            end
-            if loadVar
-                varName{count}=currentVarName;
-                currentVarValue=ncid{currentVarName}(:);
-                if length(ncdim(sofa{ii})(:))<3
-                    varContent{count}=transpose(currentVarValue);
-                elseif length(ncdim(sofa{ii})(:))==3
-                    varContent{count}=permute(currentVarValue,[3 2 1]);
-                end
-                count=count+1;
-                loadVar=0;
+    % ----- DIMENSIONS ---------------------------------------------------
+    dimensions = ncdim(ncid);
+    for ii=1:length(dimensions)
+        fieldName = ncname(dimensions{ii});
+        fieldVal = dimensions{ii}(:);
+        Obj.(fieldName) = fieldVal;
+        dims{ii} = fieldName;
+        startp(ii) = 0;
+        countp(ii) = fieldVal;
+    end
+    Dims=cell2mat(dims)';
+
+    % Check the requested measurements
+    if isnumeric(flags)
+        if Obj.M<flags(2)
+            error('Requested end index exceeds the measurement count');
+        end
+        startp(strfind(Dims,'M'))=flags(1)-1;
+        countp(strfind(Dims,'M'))=flags(2);
+    end
+
+    % ----- VARIABLES + ATTRIBUTES ---------------------------------------
+    variables = ncvar(ncid);
+    for ii=1:length(variables)
+        fieldName = ncname(variables{ii});
+        fieldVal = variables{ii}(:);
+        % check if we have something like Data.IR as fieldName and split it at
+        % "."
+        if strfind(fieldName,'.')
+            fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
+            fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
+            Obj.(fieldName1).(fieldName2) = fieldVal;
+        else
+            Obj.(fieldName) = fieldVal;
+        end
+        
+        % --- get attributes
+        attr = ncatt(variables{ii});
+        for jj=1:length(attr)
+            attrName = ncname(attr{jj});
+            attrVal = attr{jj}(:);
+            % check if we have something like Data.IR as fieldName and split it at
+            % "."
+            if strfind(fieldName,'.')
+                fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
+                fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
+                Obj.(fieldName1).([fieldName2 '_' attrName]) = attrVal;
+            else
+                Obj.([fieldName '_' attrName]) = attrVal;
             end
         end
+        
+        % --- get dimensions
+        dims = ncdim(variables{ii});
+        dimNames = [];
+        for jj=1:length(dims)
+            dimName = ncname(dims{jj});
+            dimNames = [dimNames dimName];
+        end
+        % check if we have something like Data.IR as fieldName and split it at
+        % "."
+        if strfind(fieldName,'.')
+            fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
+            fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
+            Obj.Dimensions.(fieldName1).(fieldName2) = dimNames;
+        else
+            Obj.Dimensions.(fieldName) = dimNames;
+        end
+           
     end
+
 catch
     if exist('ncid','var') && ~isempty(ncid)
-        netcdf.close(ncid);
+        close(ncid);
     end
-    error(['An error occured during reading the SOFA file:\n' lasterror.message]);
+    error(['An error occured during reading the SOFA file: ' lasterror.message]);
 end_try_catch
 
 close(ncid)
