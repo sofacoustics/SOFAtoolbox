@@ -38,17 +38,20 @@ for ii=1:length(fields)
 
     % ----- Dimensions ---------------------------------------------------
     if any(strcmp(struct2cell(dims),fieldName))
-        if strcmp('M',fieldName)
-            % store the M dimension as the one that can grow
-            ncid(fieldName) = 0;
-            ncid{fieldName} = ncdouble(fieldName);
-            ncid{fieldName}(1:fieldVal) = 1:fieldVal;
-        else
+        % FIXME: this is not working at the moment, because we can also have
+        % [R C M] for receiver positions, but M is only allowed as the first
+        % dimension, when it should be able to grow dynamically.
+        %if strcmp('M',fieldName)
+        %    % store the M dimension as the one that can grow
+        %    ncid(fieldName) = 0;
+        %    ncid{fieldName} = ncdouble(fieldName);
+        %    ncid{fieldName}(1:fieldVal) = 1:fieldVal;
+        %else
             % create dimension
             ncid(fieldName) = fieldVal;
             ncid{fieldName} = ncdouble(fieldName);
             ncid{fieldName}(:) = 1:fieldVal;
-        end
+        %end
     elseif strcmp('RoomCorner',fieldName)
         ncid('NumberOfRoomCorners') = 2;
         ncid{'NumberOfRoomCorners'} = ncdouble('NumberOfRoomCorners');
