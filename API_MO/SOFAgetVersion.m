@@ -1,6 +1,10 @@
-function results = SOFAgetVersion()
+function results = SOFAgetVersion(flag)
 %SOFAGETVERSION
-%   results = SOFAgetVersion() returns current version of the SOFA Matlab API
+%   version = SOFAgetVersion() returns the version of the SOFA API
+%		version = SOFAgetVersion('API') does the same.
+%
+%   version = SOFAgetVersion('SOFA') returns the version of the SOFA
+%   supported by this API.
 
 % SOFA API - function SOFAgetVersion
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
@@ -10,5 +14,13 @@ function results = SOFAgetVersion()
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-  results = '0.1.3';
+if ~exist('flag','var')
+	flag='API';
+end
+
+switch flag
+	case 'API'
+		results = '0.1.3';
+	case 'SOFA'
+		results = '0.2';
 end

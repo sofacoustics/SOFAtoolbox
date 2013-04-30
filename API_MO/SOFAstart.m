@@ -14,6 +14,13 @@ function SOFAstart
 
 %% Display general informations
 disp(['SOFA Matlab/Octave API version ' SOFAgetVersion '. Copyright 2013 Acoustics Research Institute (piotr@majdak.com).']);
+disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
+convs=SOFAgetConventions;
+text=['Available conventions: ' convs{1}];
+for ii=2:length(convs)
+	text=[text ', ' convs{ii}];
+end
+disp(text);
 disp(['Location of the HRTF database: ' SOFAdbPath ]);
 
 %% ---------------------------- Adding Path's -----------------------------
