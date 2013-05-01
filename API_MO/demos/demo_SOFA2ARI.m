@@ -10,17 +10,15 @@
 
 %% Define parameters
 % Subject index of the file to convert
-subjectID='NH4';
+if ~exist('subjectID','var'); subjectID='NH4'; end;
 % File name of the ARI file
-ARIfile='hrtf_M_dtf 256';
+if ~exist('ARIfile','var'); ARIfile='hrtf_M_dtf 256'; end;
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
-%% start SOFA
-SOFAstart;
-f=filesep;
 
 %% Load ARI file
+f=filesep;
 ARIfn=[SOFAdbPath f 'ARI' f subjectID f ARIfile '.mat'];
 disp(['Loading: ' ARIfn]);
 ARI=load(ARIfn);

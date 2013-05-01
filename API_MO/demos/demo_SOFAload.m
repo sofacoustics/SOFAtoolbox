@@ -9,42 +9,40 @@
 %% Path definitions
 f=filesep;
 dbpath=[SOFAdbPath f 'SOFA'];
-SOFAfile=[dbpath f 'TU-Berlin QU_KEMAR_anechoic_radius 0.5 1 2 3 m'];
+SOFAfile=[dbpath f 'TU-Berlin_QU_KEMAR_anechoic_radius_0.5_1_2_3_m'];
 
 %% Loading the full object
-disp('------------------');
-disp('Load a full object');
+disp('Loading a full object');
 tic;
 f=filesep; 
 ObjFull=SOFAload(SOFAfile);
-toc;
+disp(['  Elapsed time: ' num2str(toc) ' s.']);
 x=whos('ObjFull');
-disp(['Memory requirements: ' num2str(round(x.bytes/1024)) ' kb' 10]);
+disp(['  Memory requirements: ' num2str(round(x.bytes/1024)) ' kb']);
 
 %% Loading metadata
-disp('---------------');
 disp('Partial loading');
-disp('- Loading metadata');
+disp('  Loading metadata only');
 tic;
 Meta=SOFAload(SOFAfile,'nodata');
 %% Get index of the requested direction
 azi=0; ele=0;
 idx=find(Meta.ListenerRotation(:,1)==azi & Meta.ListenerRotation(:,2)==ele);
 %% Load the objects
-disp('- Loading partial data');
+disp('  Loading partial data only');
 clear Obj
 for ii=1:length(idx);
 	Obj(ii)=SOFAload(SOFAfile,[idx(ii) 1]);
 end
 %% Merging the objects
-disp('- Merging to a single SOFA object');
+disp('  Merging to a single SOFA object');
 ObjIdx=Obj(1);
 for ii=2:length(idx)
 	ObjIdx=SOFAmerge(ObjIdx,Obj(ii));
 end
-toc;
+disp(['  Elapsed time: ' num2str(toc) ' s.']);
 x=whos('ObjIdx');
-disp(['Memory requirements: ' num2str(round(x.bytes/1024)) ' kb']);
+disp(['  Memory requirements: ' num2str(round(x.bytes/1024)) ' kb']);
 
 %% Plot something
 plot(squeeze(ObjIdx.Data.IR(:,1,:))');

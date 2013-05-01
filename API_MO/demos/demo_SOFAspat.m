@@ -6,12 +6,12 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
-SOFAstart;
+
 %% Define the filename of the SOFA HRTFs
 HRTFfilename='ARI NH4 hrtf_M_dtf 256';
 % HRTFfilename='CIPIC subject_003 hrir_final';
 % HRTFfilename='LISTEN 1002 IRC_1002_C_HRIR';
-% HRTFfilename='MIT KEMAR normal pinna';
+HRTFfilename='MIT KEMAR normal pinna';
 % HRTFfilename='KEMAR horizontal only normal pinna resolution 0.5 deg';
 % HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 0.5 m';
 % HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 3 m';
@@ -48,4 +48,4 @@ xlabel('Time index');
 legend({'Requested', 'Actual'},'Location','Best');
 
 %% Play the sound - use headphones!
-wavplay(out,Obj.Data.SamplingRate);
+if ~exist('dontplay','var'); wavplay(out,Obj.Data.SamplingRate); end

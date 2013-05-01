@@ -12,19 +12,17 @@
 % Prefix to the files 
 TUBfile = 'QU_KEMAR_anechoic_';
 % Define radii to be loaded (per default 0.5, 1, 2, and 3 m are available)
-radius=[0.5 1 2 3];
+if ~exist('radius','var'); radius=[0.5 1 2 3]; end;
 % radius=0.5;
 % radius=3;
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
-%% start SOFA
-SOFAstart;
-f=filesep;
 
 %% Load and convert the requested TU-Berlin files
 clear Obj
+f=filesep;
 for ii=1:length(radius)
 	TUBfn=[SOFAdbPath f 'TU-Berlin KEMAR' f TUBfile num2str(radius(ii)) 'm.mat'];
 	disp(['Loading: ' TUBfn]);

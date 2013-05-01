@@ -15,11 +15,9 @@ CIPICfile='hrir_final';
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
-%% start SOFA
-SOFAstart;
-f=filesep;
 
 %% load CIPIC file
+f=filesep;
 CIPICfn=[SOFAdbPath f 'CIPIC' f 'subject_' sprintf('%03d',subject) f CIPICfile '.mat'];
 disp(['Loading: ' CIPICfn]);
 CIPIC=load(CIPICfn);

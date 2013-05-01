@@ -10,17 +10,15 @@
 
 %% Define parameters
 % Two ears are available, normal and large. Select one.
-pinna='normal';
-pinna='large';
+if ~exist('pinna','var'); pinna='normal'; end;
+% pinna='large';
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
-%% start SOFA
-SOFAstart;
-f=filesep;
 
 %% Define directory
+f=filesep;
 MITfn=[SOFAdbPath f 'MIT KEMAR'];
 disp(['Loading: ' MITfn ', pinna:' pinna]);
 

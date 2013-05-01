@@ -10,17 +10,15 @@
 
 %% Define parameters
 % Subject index of the file to convert
-subjectID='1002';
+if ~exist('subjectID','var'); subjectID='1002'; end;
 % File name of the LISTEN file
 LISTENfile=['IRC_' subjectID '_C_HRIR'];
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
-%% start SOFA
-SOFAstart;
-f=filesep;
 
 %% Load LISTEN file
+f=filesep;
 LISTENfn=[SOFAdbPath f 'LISTEN' f 'IRC_' subjectID f 'COMPENSATED' f 'MAT' f 'HRIR' f LISTENfile '.mat'];
 disp(['Loading: ' LISTENfn]);
 LISTEN=load(LISTENfn);
