@@ -55,16 +55,36 @@ try
     for ii=1:length(variables)
         fieldName = ncname(variables{ii});
         fieldVal = variables{ii}(:);
-        % check if we have something like Data.IR as fieldName and split it at
-        % "."
-        if strfind(fieldName,'.')
-            fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
-            fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
-            Obj.(fieldName1).(fieldName2) = fieldVal;
-        else
-            Obj.(fieldName) = fieldVal;
-        end
+        if isempty(strfind(Dims,fieldName)) % don't store data and dimensions for dimensions
+            % --- get data
+            % check if we have something like Data.IR as fieldName and split it at
+            % "."
+            if strfind(fieldName,'.')
+                fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
+                fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
+                Obj.(fieldName1).(fieldName2) = fieldVal;
+            else
+                Obj.(fieldName) = fieldVal;
+            end
         
+            % --- get dimensions
+            dims = ncdim(variables{ii});
+            dimNames = [];
+            for jj=1:length(dims)
+                dimName = ncname(dims{jj});
+                dimNames = [dimNames dimName];
+            end
+            % check if we have something like Data.IR as fieldName and split it at
+            % "."
+            if strfind(fieldName,'.')
+                fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
+                fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
+                Obj.Dimensions.(fieldName1).(fieldName2) = dimNames;
+            else
+                Obj.Dimensions.(fieldName) = dimNames;
+            end
+        end
+            
         % --- get attributes
         attr = ncatt(variables{ii});
         for jj=1:length(attr)
@@ -80,24 +100,7 @@ try
                 Obj.([fieldName '_' attrName]) = attrVal;
             end
         end
-        
-        % --- get dimensions
-        dims = ncdim(variables{ii});
-        dimNames = [];
-        for jj=1:length(dims)
-            dimName = ncname(dims{jj});
-            dimNames = [dimNames dimName];
-        end
-        % check if we have something like Data.IR as fieldName and split it at
-        % "."
-        if strfind(fieldName,'.')
-            fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
-            fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
-            Obj.Dimensions.(fieldName1).(fieldName2) = dimNames;
-        else
-            Obj.Dimensions.(fieldName) = dimNames;
-        end
-           
+          
     end
 
 catch
