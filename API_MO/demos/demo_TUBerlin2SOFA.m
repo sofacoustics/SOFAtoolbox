@@ -13,8 +13,7 @@
 TUBfile = 'QU_KEMAR_anechoic_';
 % Define radii to be loaded (per default 0.5, 1, 2, and 3 m are available)
 if ~exist('radius','var'); radius=[0.5 1 2 3]; end;
-% radius=0.5;
-% radius=3;
+% if ~exist('radius','var'); radius=3; end;
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time

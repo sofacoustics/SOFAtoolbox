@@ -11,6 +11,11 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.1.4 (2.5.2013) by Piotr Majdak
+- Major bug fix: dimension order reversed while loading/saving in Matlab
+- Some other minor issues closed
+- Ready for intercompatibility test between Matlab and Octave
+
 *** v0.1.3 (18.4.2013) by Piotr Majdak
 - This version implements SOFA specs version 0.2 with the following limitations:
   - no Octave support

@@ -44,15 +44,17 @@ ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'r');
 varNames = fieldnames(ObjCheck);
 
 for ii=1:size(varNames,1);
-    if ischar(Obj.(varNames{ii}))
-        if ~strcmp(Obj.(varNames{ii}), ObjCheck.(varNames{ii}))
-            error(['Read-only variable/attribute was modified: ' varNames{ii}]);
-        end
-    else
-        if Obj.(varNames{ii}) ~= ObjCheck.(varNames{ii})
-            error(['Read-only variable/attribute was modified: ' varNames{ii}]);
-        end
-    end
+	if ischar(Obj.(varNames{ii}))
+		if ~strcmp(Obj.(varNames{ii}), ObjCheck.(varNames{ii}))
+			warning([varNames{ii} ' is read-only and was reset to '  ObjCheck.(varNames{ii})]);
+			Obj.(varNames{ii})=ObjCheck.(varNames{ii});
+		end
+	else
+		if Obj.(varNames{ii}) ~= ObjCheck.(varNames{ii})
+			warning([varNames{ii} ' is read-only and was reset to '  ObjCheck.(varNames{ii})]);
+			Obj.(varNames{ii})=ObjCheck.(varNames{ii});
+		end
+	end
 end
 
 %% check attributes (syntax, 1-dimensional string)

@@ -68,13 +68,23 @@ end
 			if strfind(var,'Data.'),
 				if ~strcmp(flags,'nodata')
 					data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
-					Obj.Data.(var(6:end))=data; 
-					Obj.Dimensions.Data.(var(6:end))=cell2mat(dims(vardimids+1))';
+					dim=fliplr(cell2mat(dims(vardimids+1))');
+					Obj.Dimensions.Data.(var(6:end))=dim;
+					if length(dim)>1
+						Obj.Data.(var(6:end))=permute(data, length(dim):-1:1); 
+					else
+						Obj.Data.(var(6:end))=data;
+					end
 				end
 			else
 				data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
-				Obj.(var)=data; 
-				Obj.Dimensions.(var)=cell2mat(dims(vardimids+1))';
+				dim=fliplr(cell2mat(dims(vardimids+1))');
+				Obj.Dimensions.(var)=dim;
+				if length(dim)>1
+					Obj.(var)=permute(data, length(dim):-1:1); 
+				else
+					Obj.(var)=data;
+				end
 			end
 		end
 		if natts
