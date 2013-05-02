@@ -23,11 +23,7 @@ Obj.Data.SamplingRate = LISTEN.l_eq_hrir_S.sampling_hz;
 
 %% Fill with attributes
 Obj.GLOBAL_SubjectID = subjectID;
-Obj.GLOBAL_DatabaseName = 'LISTEN';
-Obj.GLOBAL_ApplicationName = 'LISTEN2SOFA';
-% Obj.GLOBAL_ApplicationVersion = '';
-Obj.GLOBAL_Organization = 'Acoustics Research Institute';
-Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
+Obj.GLOBAL_History='Converted from the LSITEN format';
 
 %% Fill the mandatory variables
 Obj.ListenerPosition = [1.95 0 0];
@@ -37,29 +33,3 @@ Obj.ListenerRotation = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v zero
 
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);
-
-%% Fill with some additional data
-Obj.GLOBAL_History='Converted from the LSITEN format';
-
-
-% LISTEN2AMTatARI
-% script for converting LISTEN database to AMTatARI file system
-% 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Harald Ziegelwanger, OEAW Acoustical Research Institute
-% latest update: 2012-02-20
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%     meta.pos=zeros(size(l_eq_hrir_S.elev_v,1));
-%     meta.pos(:,1)=l_eq_hrir_S.azim_v;
-%     meta.pos(:,2)=l_eq_hrir_S.elev_v;
-%     meta.pos(:,3)=NaN(size(l_eq_hrir_S.elev_v,1),1);
-%     [meta.pos(:,6),meta.pos(:,7)]=geo2hor(meta.pos(:,1),meta.pos(:,2));
-%     
-%     hM=zeros(size(l_eq_hrir_S.content_m,2),size(l_eq_hrir_S.content_m,1),2);
-%     hM(:,:,1)=transpose(l_eq_hrir_S.content_m);
-%     hM(:,:,2)=transpose(r_eq_hrir_S.content_m);
-%     
-% end
-
-

@@ -1,0 +1,3 @@
+SOFA files go here - saved by the API, you, or...
+
+... downloaded from http://tinyurl.com/sofaHRTFs

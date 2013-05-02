@@ -9,7 +9,7 @@
 
 %% Define parameters
 % Subject index of the file to convert
-subject=3;
+if ~exist('subject','var'), subject=3; end;
 % File name of the CIPIC file
 CIPICfile='hrir_final';
 % Data compression (0..uncompressed, 9..most compressed)
@@ -24,8 +24,11 @@ CIPIC=load(CIPICfn);
 
 %% convert
 Obj=SOFAconvertCIPIC2SOFA(CIPIC);
+Obj.GLOBAL_DatabaseName = 'CIPIC';
+Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
+Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'CIPIC ' 'subject_' sprintf('%03d',subject) ' ' CIPICfile '.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'CIPIC_' 'subject_' sprintf('%03d',subject) '_' CIPICfile '.sofa'];
 disp(['Saving:  ' SOFAfn])
 SOFAsave(SOFAfn, Obj, compression); 

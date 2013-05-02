@@ -25,8 +25,13 @@ ARI=load(ARIfn);
 
 %% convert
 Obj=SOFAconvertARI2SOFA(ARI.hM,ARI.meta,ARI.stimPar);
+Obj.GLOBAL_DatabaseName = 'ARI';
+Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
+Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
+Obj.GLOBAL_Organization = 'Acoustics Research Institute';
+Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'ARI ' subjectID ' ' ARIfile '.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'ARI_' subjectID '_' ARIfile '.sofa'];
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj, compression); 

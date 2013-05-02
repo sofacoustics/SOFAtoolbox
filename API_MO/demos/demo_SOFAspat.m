@@ -8,30 +8,31 @@
 
 
 %% Define the filename of the SOFA HRTFs
-HRTFfilename='ARI NH4 hrtf_M_dtf 256';
-% HRTFfilename='CIPIC subject_003 hrir_final';
-% HRTFfilename='LISTEN 1002 IRC_1002_C_HRIR';
-HRTFfilename='MIT KEMAR normal pinna';
-% HRTFfilename='KEMAR horizontal only normal pinna resolution 0.5 deg';
-% HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 0.5 m';
-% HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 3 m';
-% HRTFfilename='TU-Berlin QU_KEMAR_anechoic_radius 0.5 1 2 3 m';
+if ~exist('HRTFfilename','var'); HRTFfilename='ARI_NH4_hrtf_M_dtf 256'; end;
+% HRTFfilename='CIPIC_subject_003 hrir_final';
+% HRTFfilename='LISTEN_1002_IRC_1002_C_HRIR';
+% HRTFfilename='MIT_KEMAR_normal_pinna';
+% HRTFfilename='KEMAR_horizontal_only_normal_pinna_resolution_0.5_deg';
+% HRTFfilename='TU-Berlin_QU_KEMAR_anechoic_radius_0.5m';
+% HRTFfilename='TU-Berlin_QU_KEMAR_anechoic_radius_3m';
+% HRTFfilename='TU-Berlin_QU_KEMAR_anechoic_radius_0.5_1_2_3_m';
 
 %% Define the trajectory
 azi=[-45 90 0];	% azimuth angles in degrees. If negative values are found, navigational system (-180;+180) will be used. 
 ele=[0 0 -30 90]; %elevation angles in degrees
 
 %% Load the HRTFs
-% Define the path to the HRTF repository
 f=filesep;
-% Load the SOFA object
-Obj=SOFAload([SOFAdbPath f 'SOFA' f HRTFfilename]);
+fullfn=[SOFAdbPath f 'SOFA' f HRTFfilename '.sofa'];
+disp(['Loading ' fullfn]);
+Obj=SOFAload(fullfn);
 
 %% Create an input signal
 in=randn(5*Obj.Data.SamplingRate,1);	% Five seconds of noise
 
 %% Spatialize
 [out,azi,ele,idx]=SOFAspat(in,Obj,azi,ele);
+disp('Binaural signal rendered');
 
 %% Plot the trajectories
 subplot(2,1,1); hold on; box on;

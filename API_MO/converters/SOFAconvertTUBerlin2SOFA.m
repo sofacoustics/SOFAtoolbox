@@ -22,11 +22,7 @@ Obj.Data.SamplingRate = irs.fs;
 
 %% Fill with attributes
 Obj.GLOBAL_SubjectID = irs.head;
-Obj.GLOBAL_DatabaseName = 'TU-Berlin'; % maybe setting the name by function parameter
-Obj.GLOBAL_ApplicationName = 'TUBerlin2SOFA';
-Obj.GLOBAL_ApplicationVersion = '1.0';
-Obj.GLOBAL_Organization = 'Technische Universität Berlin';
-Obj.GLOBAL_AuthorContact = 'hagen.wierstorf@tu-berlin.de';
+Obj.GLOBAL_History='Converted from the TU-Berlin format';
 Obj.GLOBAL_Comment = irs.description;
 Obj.GLOBAL_ListenerDescription = irs.head;
 Obj.GLOBAL_ReceiverDescription = irs.ears;
@@ -45,6 +41,3 @@ Obj.ListenerRotation = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
 
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);
-
-%% Fill with some additional data
-Obj.GLOBAL_History='Converted from the TU-Berlin format';

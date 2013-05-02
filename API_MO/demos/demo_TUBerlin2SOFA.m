@@ -11,33 +11,30 @@
 %% Define parameters
 % Prefix to the files 
 TUBfile = 'QU_KEMAR_anechoic_';
-% Define radii to be loaded (per default 0.5, 1, 2, and 3 m are available)
+% Define vector with radii to be loaded. Available files: 0.5, 1, 2, and 3 m
 if ~exist('radius','var'); radius=[0.5 1 2 3]; end;
-% if ~exist('radius','var'); radius=3; end;
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 
-%% Load and convert the requested TU-Berlin files
-clear Obj
+%% Load, convert, and save the requested TU-Berlin files
 f=filesep;
 for ii=1:length(radius)
+		% load 
 	TUBfn=[SOFAdbPath f 'TU-Berlin KEMAR' f TUBfile num2str(radius(ii)) 'm.mat'];
 	disp(['Loading: ' TUBfn]);
 	TUB=load(TUBfn);
-	Obj(ii)=SOFAconvertTUBerlin2SOFA(TUB.irs);
+		% convert and add application specific metadata
+	Obj=SOFAconvertTUBerlin2SOFA(TUB.irs);
+	Obj.GLOBAL_DatabaseName = 'TU-Berlin'; % maybe setting the name by function parameter
+	Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
+	Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
+	Obj.GLOBAL_Organization = 'Technische Universität Berlin';
+	Obj.GLOBAL_AuthorContact = 'hagen.wierstorf@tu-berlin.de';
+		% save
+	SOFAfn=[SOFAdbPath f 'SOFA' f 'TU-Berlin_' TUBfile 'radius_' sprintf('%g',radius(ii)) 'm.sofa'];
+	disp(['Saving:  ' SOFAfn]);
+	Obj=SOFAsave(SOFAfn, Obj, compression);
 end
 
-%% merge the different radii to a single SOFA object
-ObjFull=Obj(1);
-if length(radius)>1,
-	for ii=2:length(radius)
-		ObjFull=SOFAmerge(ObjFull,Obj(ii));
-	end
-end
-
-%% save the object as a single SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'TU-Berlin_' TUBfile 'radius_' sprintf('%g_',radius) 'm.sofa'];
-disp(['Saving:  ' SOFAfn]);
-Obj=SOFAsave(SOFAfn, ObjFull, compression);

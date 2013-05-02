@@ -9,9 +9,8 @@
 % load HRTF in MIT format and save as SOFA format
 
 %% Define parameters
-% Two ears are available, normal and large. Select one.
+% Two ears are available: normal and large. Select one.
 if ~exist('pinna','var'); pinna='normal'; end;
-% pinna='large';
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
@@ -24,8 +23,11 @@ disp(['Loading: ' MITfn ', pinna:' pinna]);
 
 %% load and convert
 Obj=SOFAconvertMIT2SOFA(MITfn,pinna);
+Obj.GLOBAL_DatabaseName = 'MIT';
+Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
+Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'MIT KEMAR ' pinna ' pinna.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'MIT_KEMAR_' pinna '_pinna.sofa'];
 disp(['Saving:  ' SOFAfn]);
 SOFAsave(SOFAfn, Obj, compression); 

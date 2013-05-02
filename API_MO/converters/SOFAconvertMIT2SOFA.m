@@ -56,11 +56,7 @@ end
 
 %% Fill with attributes
 Obj.GLOBAL_SubjectID = ['KEMAR, ' pinna ' pinna'];
-Obj.GLOBAL_DatabaseName = 'MIT';
-Obj.GLOBAL_ApplicationName = 'MIT2SOFA';
-Obj.GLOBAL_ApplicationVersion = '0.0.1';
-Obj.GLOBAL_Organization = 'Acoustics Research Institute';
-Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
+Obj.GLOBAL_History='Converted from the MIT format';
 
 %% Fill the mandatory variables
 Obj.ListenerPosition = [1.4 0 0];
@@ -69,6 +65,3 @@ Obj.ListenerUp = [1.4 0 1];
 
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);
-
-%% Fill with some additional data
-Obj.GLOBAL_History='Converted from the MIT format';

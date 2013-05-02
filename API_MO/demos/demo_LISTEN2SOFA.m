@@ -25,8 +25,11 @@ LISTEN=load(LISTENfn);
 
 %% convert
 Obj=SOFAconvertLISTEN2SOFA(LISTEN,subjectID);
+Obj.GLOBAL_DatabaseName = 'LISTEN';
+Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
+Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'LISTEN ' subjectID ' ' LISTENfile '.sofa'];
+SOFAfn=[SOFAdbPath f 'SOFA' f 'LISTEN_' subjectID '_' LISTENfile '.sofa'];
 disp(['Saving:  ' SOFAfn]);
 SOFAsave(SOFAfn, Obj, compression);

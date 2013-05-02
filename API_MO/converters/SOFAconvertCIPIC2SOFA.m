@@ -42,11 +42,6 @@ Obj=SOFAupdateDimensions(Obj);
 
 %% Fill with attributes
 Obj.GLOBAL_SubjectID = CIPIC.name;
-Obj.GLOBAL_DatabaseName = 'CIPIC';
-Obj.GLOBAL_ApplicationName = 'CIPIC2SOFA';
-Obj.GLOBAL_ApplicationVersion = '';
-Obj.GLOBAL_Organization = 'Acoustics Research Institute';
-Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
 Obj.GLOBAL_History = 'converted from the CIPIC database';
 
 %% Fill the mandatory variables

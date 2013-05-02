@@ -22,10 +22,6 @@ pinna='large';
 demo_MIT2SOFA;
 
 clear all; 
-radius=0.5;
-demo_TUBerlin2SOFA;
-radius=3;
-demo_TUBerlin2SOFA;
 radius=[0.5 1 2 3];
 demo_TUBerlin2SOFA;
 
@@ -33,10 +29,19 @@ demo_TUBerlin2SOFA;
 clear all;
 demo_SOFA2ARI;
 
-%% Test other things
+%% Test SOFAmerge and create TU-Berlin KEMAR file with multiple radii
+clear all;
+demo_SOFAmerge;
+
+%% Test SOFAload
 clear all;
 demo_SOFAload;
 
+%% Test SOFAmerge, but do not play
 clear all;
 dontplay=1;
 demo_SOFAspat;
+
+%% Test SOFAsave
+clear all;
+demo_SOFAsave;

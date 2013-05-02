@@ -11,6 +11,17 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.2.0 (2.5.2013) by Piotr Majdak
+- Updated to SOFA 0.3
+- Octave support added
+- demo_* create file names compliant with MS DOS FAT character set
+- test script (test/test_SOFAall.m) added
+- converters do not add database specific attriubutes, this is done in demo_*
+- new demos: SOFAmerge, SOFAload, SOFAsave
+- readme improved
+- Pulse.sofa removed as binary, it can be created with demo_SOFAsave now
+- Link to HRTF files saved as SOFA added (nice for playing around)
+
 *** v0.1.4 (2.5.2013) by Piotr Majdak
 - Major bug fix: dimension order reversed while loading/saving in Matlab
 - Some other minor issues closed
