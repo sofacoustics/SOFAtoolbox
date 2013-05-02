@@ -11,17 +11,14 @@ function NETCDFsave(filename,Obj,Compression)
 % Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the Licence for the specific language governing  permissions and limitations under the Licence. 
 
+% Hagen Wierstorf
 
-%% ===== Check and prepare variables =====================================
-%varNames = fieldnames(Dataset);
-%numVars = size(varNames,1);
-%dimNames = SOFAgetDimensions();
-%SourceListenerVars=SOFAgetVariables('sourcelistener');
-%TransmitterReceiverVars=SOFAgetVariables('transmitterreceiver');
-%[numMeasurements,numReceivers,numSamples]=SOFAcheckDimensions(Dataset);
-
+% Get the desired dimensions
+% FIXME: this should be done in a better way which should be the same for the
+% Matlab API
 Def = SOFAdefinitions;
 dims = Def.dimensions;
+
 
 %% --------------------------- N E T C D F save ---------------------------
 % create file
@@ -220,8 +217,10 @@ for ii=1:length(fields);
     end
 end
 
+% close the file
 close(ncid);
 
+% Move files to get the desired compression and a newer NetCDF version
 % FIXME: this doesn't work with old versions of nccopy
 %if isunix
 %    unix(['nccopy -k 4 -d ' num2str(Compression) ' ' filename ' temp_netCDF3_to_netCDF4.nc']);
