@@ -7,6 +7,8 @@ This is a readme file for the SOFA API for Matlab and Octave.
 * Report a bug: send a ticket at https://sf.net/p/sofacoustics/.
 * Last changes? check the file "history.txt".
 
+Tested with Matlab R2011b (and higher) and Octave 3.6. 
+
 Contact the main developer: Piotr Majdak <piotr@majdak.com>.
 Many thanks go to Hagen Wierstorf <hagen.wierstorf@tu-berlin.de> for the Octave support. 
 
