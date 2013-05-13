@@ -10,7 +10,7 @@ netcdf sofa {
 :ApplicationName="";
 :ApplicationVersion="";
 :AuthorContact="";
-:Licence="CC BY-SA 3.0";
+:License="CC BY-SA 3.0";
 :Organization="";
 :DatabaseName="";
 :SubjectID="";
