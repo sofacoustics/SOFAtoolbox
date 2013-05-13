@@ -18,7 +18,7 @@ end
 idx=strfind(filename,'.sofa');
 if isempty(idx)
     % append file extension
-    filename=[filename '.sofa'];
+%     filename=[filename '.sofa'];
 end
 
 end %of function

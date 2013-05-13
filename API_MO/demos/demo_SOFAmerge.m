@@ -23,7 +23,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 f=filesep;
 clear Obj;
 for ii=1:length(radius)
-	sourcefn=[SOFAdbPath f 'SOFA' f TUBfile 'radius_' num2str(radius(ii)) 'm'];
+	sourcefn=[SOFAdbPath f 'SOFA' f TUBfile 'radius_' num2str(radius(ii)) 'm.sofa'];
 	disp(['Loading: ' sourcefn]);
 	Obj(ii)=SOFAload(sourcefn);
 end
