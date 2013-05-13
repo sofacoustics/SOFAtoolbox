@@ -11,6 +11,11 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.2.1 (13.5.2013) by Piotr Majdak
+- Bug fix with the wrong spelling of "License"
+- "License" it very restrictive per default now
+- demo_SOFAsave included
+
 *** v0.2.0 (2.5.2013) by Piotr Majdak
 - Updated to SOFA 0.3
 - Octave support added
