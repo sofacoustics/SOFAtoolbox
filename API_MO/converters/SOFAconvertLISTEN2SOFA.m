@@ -23,7 +23,7 @@ Obj.Data.SamplingRate = LISTEN.l_eq_hrir_S.sampling_hz;
 
 %% Fill with attributes
 Obj.GLOBAL_SubjectID = subjectID;
-Obj.GLOBAL_History='Converted from the LSITEN format';
+Obj.GLOBAL_History='Converted from the LISTEN format';
 
 %% Fill the mandatory variables
 Obj.ListenerPosition = [1.95 0 0];
