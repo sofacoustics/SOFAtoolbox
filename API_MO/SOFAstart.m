@@ -50,8 +50,17 @@ else
   path(path,[basepath f 'converters']);
   path(path,[basepath f 'demos']);
   if isoctave
+    % check if the octave version is high enough
+    if compare_versions(OCTAVE_VERSION,'3.6.0','<=')
+      error('You need Octave >=3.6.0 to work with SOFA.');
+    end
+    % check if octcdf is installed
+    if !which('netcdf')
+      error('You have to instal the octcdf package in Octave to work with SOFA.');
+    end
     path(path,[basepath f 'octave']);
   else
     path(path,[basepath f 'matlab']);
   end
 end
+

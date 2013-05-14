@@ -37,4 +37,3 @@ for ii=1:length(radius)
 	disp(['Saving:  ' SOFAfn]);
 	Obj=SOFAsave(SOFAfn, Obj, compression);
 end
-
