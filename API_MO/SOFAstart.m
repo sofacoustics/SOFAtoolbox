@@ -55,7 +55,7 @@ else
       error('You need Octave >=3.6.0 to work with SOFA.');
     end
     % check if octcdf is installed
-    if !which('netcdf')
+    if ~which('netcdf')
       error('You have to instal the octcdf package in Octave to work with SOFA.');
     end
     path(path,[basepath f 'octave']);
