@@ -1,5 +1,5 @@
 function [Obj,Dims] = NETCDFload(filename,flags)
-%NETCDFLOAD
+%% NETCDFLOAD
 %   Obj = NETCDFload(filename,'all') reads the SOFA object OBJ with all data from
 %   a SOFA file.
 %

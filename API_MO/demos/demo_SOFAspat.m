@@ -9,7 +9,7 @@
 
 %% Define the filename of the SOFA HRTFs
 if ~exist('HRTFfilename','var'); HRTFfilename='ARI_NH4_hrtf_M_dtf 256'; end;
-% HRTFfilename='CIPIC_subject_003 hrir_final';
+% HRTFfilename='CIPIC_subject_003_hrir_final';
 % HRTFfilename='LISTEN_1002_IRC_1002_C_HRIR';
 % HRTFfilename='MIT_KEMAR_normal_pinna';
 % HRTFfilename='KEMAR_horizontal_only_normal_pinna_resolution_0.5_deg';

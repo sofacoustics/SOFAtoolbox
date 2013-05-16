@@ -6,6 +6,9 @@ function Obj = SOFAload(filename,flags)
 %   Obj = SOFAload(filename,'nodata') ignores the Data. variables and
 %   results in the metadata only (variables and attributes).
 %
+%   Obj = SOFAload(filename,'nochecks') loads the file but does not perform
+%   any checks. 
+% 
 %   Obj = SOFAload(filename,[START COUNT]) reads only COUNT number of 
 %		measurements beginning with the index START.
 %   
@@ -27,6 +30,11 @@ filename=SOFAcheckFilename(filename);
 
 %% Load the object
 [Obj]=NETCDFload(filename,flags);
+
+%% Return if no checks should be performed
+if strcmp(flags, 'nochecks')
+  return;
+end
 
 %% Check if SOFA conventions
 if ~isfield(Obj,'GLOBAL_Conventions'), error('File is not a valid SOFA file'); end
