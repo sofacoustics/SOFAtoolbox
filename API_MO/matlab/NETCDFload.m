@@ -45,7 +45,7 @@ try
 	countp=zeros(numdims,1); % vector with the element count in a dimension
 	for ii=0:numdims-1
     [var,len] = netcdf.inqDim(ncid,dimids(ii+1));
-		Obj.(var) = len;
+		Obj.DimSize.(var) = len;
 		dims{ii+1}=var;
 		startp(ii+1)=0;
 		countp(ii+1)=len;
@@ -54,7 +54,7 @@ try
 	
 %% Check the requested measurements
 if isnumeric(flags)
-	if Obj.M<flags(2), error('Requested end index exceeds the measurement count'); end;
+	if Obj.DimSize.M<flags(2), error('Requested end index exceeds the measurement count'); end;
 	startp(strfind(Dims,'M'))=flags(1)-1;
 	countp(strfind(Dims,'M'))=flags(2);
 end
@@ -64,7 +64,7 @@ end
 	varids=netcdf.inqVarIDs(ncid);
 	for ii=0:numvars-1
     [var,~,vardimids,natts] = netcdf.inqVar(ncid,varids(ii+1));	
-		if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables			
+		%if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables			
 			if strfind(var,'Data.'),
 				if ~strcmp(flags,'nodata')
 					data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
@@ -86,7 +86,7 @@ end
 					Obj.(var)=data;
 				end
 			end
-		end
+		%end
 		if natts
 			for jj=0:natts-1
 				att = netcdf.inqAttName(ncid,varids(ii+1),jj);

@@ -84,4 +84,4 @@ function [var,dN]=expand(Obj,f,dims)
 	if ~exist('var','var'), var=[]; dN=[]; end;
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
-	vec=arrayfun(@(f)(Obj.(f)),upper(str));
+	vec=arrayfun(@(f)(Obj.DimSize.(f)),upper(str));

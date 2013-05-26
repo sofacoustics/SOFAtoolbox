@@ -30,8 +30,8 @@ Obj.GLOBAL_SourceDescription = irs.source;
 
 %% Fill the mandatory variables
 Obj.SourcePosition = irs.source_position';
-Obj.SourceView = irs.source_reference';
-Obj.SourceUp = [0 0 1];
+% Obj.SourceView = irs.source_reference'; % source has not directivity now
+% Obj.SourceUp = [0 0 1];
 Obj.ListenerPosition = irs.head_position';
 Obj.ListenerView = irs.head_reference';
 Obj.ListenerUp = [0 0 1];

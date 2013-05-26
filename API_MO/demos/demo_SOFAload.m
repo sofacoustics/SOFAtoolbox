@@ -45,11 +45,11 @@ plot(IRsFull');
 legend(legFull);
 title(['Demo of SOFAload:' 10 ...
 			'Fully loaded data']);
-xlabel([Obj(1).N_LongName ' (' Obj(1).N_Units '), fully loaded']);
+xlabel(['Index (Sample Taps), fully loaded']);
 ylabel('Amplitude');
 
 %% Extract and plot the partially loaded data
-IRs=zeros(length(idx), Obj(1).N);
+IRs=zeros(length(idx), Obj(1).DimSize.N);
 for ii=1:length(idx)
 	IRs(ii,:)=squeeze(Obj(ii).Data.IR(:,1,:));
 	leg{ii}=num2str(Obj(ii).SourcePosition(:,2));
@@ -59,5 +59,5 @@ plot(IRs');
 legend(leg);
 title(['IRs for the left ear with radius as parameter' 10 ...
 			'Partially loaded data']);
-xlabel([Obj(1).N_LongName ' (' Obj(1).N_Units '), partially loaded']);
+xlabel(['Index (Sample Taps), partially loaded']);
 ylabel('Amplitude');

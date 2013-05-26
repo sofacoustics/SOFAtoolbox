@@ -16,47 +16,79 @@ function [Obj,dims] = SOFAupdateDimensions(Obj)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-%% General definitions
-dims={'i';'r';'e';'n';'m';'c';'q'}; % dimensions
-Obj.I=1;
+%% Get conventions with allowed dimensions
 OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
 
-%% Update dimension variables
+%% Update dimension sizes
+
+  % fix dimension sizes
+Obj.DimSize.I=1;
+Obj.DimSize.C=3;
+  % variable-dependent dimension sizes
+dims='renm'; 
+  % check all metadata variables
 f=fieldnames(rmfield(OC.Dimensions,'Data'));
-for ii=2:length(dims)
-	for jj=1:length(f)
-		dim=strfind(OC.Dimensions.(f{jj}),dims{ii});
-		if iscell(dim), dim=cell2mat(dim); end;
-		if ~isempty(dim)
-			Obj.(upper(dims{ii}))=size(Obj.(f{jj}),dim(1));
-			break;
-		end
-	end
-end
-
-fd=fieldnames(OC.Dimensions.Data);
-for ii=2:length(dims)
-	for jj=1:length(fd)
-		dim=strfind(OC.Dimensions.Data.(fd{jj}),dims{ii});
-		if iscell(dim), dim=cell2mat(dim); end;
-		if ~isempty(dim)
-			Obj.(upper(dims{ii}))=size(Obj.Data.(fd{jj}),dim(1));
-			break;
-		end
-	end
-end
-
-%% create field names which should have dimensions
-X=rmfield(rmfield(Obj,'Data'),'Dimensions');
 for ii=1:length(dims)
-	if isfield(X,upper(dims{ii})), X=rmfield(X,upper(dims{ii})); end
+	for jj=1:length(f)
+		dim=strfind(OC.Dimensions.(f{jj}),dims(ii));
+		if iscell(dim), dim=cell2mat(dim); end;
+		if ~isempty(dim)
+			Obj.DimSize.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
+			break;
+		end
+	end
 end
-Xf=fieldnames(X);
+  % check all data variables
+fd=fieldnames(OC.Dimensions.Data);
+for ii=1:length(dims)
+	for jj=1:length(fd)
+		dim=strfind(OC.Dimensions.Data.(fd{jj}),dims(ii));
+		if iscell(dim), dim=cell2mat(dim); end;
+		if ~isempty(dim)
+			Obj.DimSize.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
+			break;
+		end
+	end
+end
 
-%% Update the dimensions structure w/o data
+
+% %% Update dimension variables
+% f=fieldnames(rmfield(OC.Dimensions,'Data'));
+% for ii=2:length(dims)
+% 	for jj=1:length(f)
+% 		dim=strfind(OC.Dimensions.(f{jj}),dims{ii});
+% 		if iscell(dim), dim=cell2mat(dim); end;
+% 		if ~isempty(dim)
+% 			Obj.(upper(dims{ii}))=size(Obj.(f{jj}),dim(1));
+% 			break;
+% 		end
+% 	end
+% end
+% 
+% fd=fieldnames(OC.Dimensions.Data);
+% for ii=2:length(dims)
+% 	for jj=1:length(fd)
+% 		dim=strfind(OC.Dimensions.Data.(fd{jj}),dims{ii});
+% 		if iscell(dim), dim=cell2mat(dim); end;
+% 		if ~isempty(dim)
+% 			Obj.(upper(dims{ii}))=size(Obj.Data.(fd{jj}),dim(1));
+% 			break;
+% 		end
+% 	end
+% end
+
+% for ii=1:length(dims)
+% 	if isfield(X,upper(dims{ii})), X=rmfield(X,upper(dims{ii})); end
+% end
+
+
+%% Update the dimensions of metadata variables
+X=rmfield(rmfield(rmfield(Obj,'Data'),'Dimensions'),'DimSize');
+Xf=fieldnames(X);
 for ii=1:length(Xf)
 	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
 		if isfield(OC.Dimensions, Xf{ii}), % is a known variable		
+%       disp(Xf{ii});
 			dim=OC.Dimensions.(Xf{ii});
 			if ~iscell(dim), dim={dim}; end;
 			dim=checkdim(Obj,dim,size(Obj.(Xf{ii})));
@@ -73,7 +105,7 @@ for ii=1:length(Xf)
 	end
 end
 
-%% Update/check dimensions of data
+%% Update the dimensions of data variables
 Xf=fieldnames(Obj.Data);
 for ii=1:length(Xf)
 	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
@@ -100,9 +132,10 @@ function vec=getdim(Obj,str)
 % dim is a string with the matching dimension
 function dim=checkdim(Obj,dims,dimA)
 dim=[];
-if prod(dimA)==1, dimA=1; end; % squeeze scalars
 for jj=1:length(dims)
-	dimR=getdim(Obj,dims{jj});
+  dimS=dims{jj};
+  if length(dimS)==1, dimS=[dimS 'I']; end; % 1D required, but Matlab is always 2D at least.
+	dimR=getdim(Obj.DimSize,dimS);
 	if length(dimA)==length(dimR), % the same size?
 		if dimA==dimR, dim=upper(dims{jj}); break; end;	% found!
 	elseif length(dimA)<length(dimR)	% extend the size?

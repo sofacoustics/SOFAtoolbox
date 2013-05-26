@@ -20,7 +20,7 @@ function [C, log] = SOFAmerge(A,B)
 if ~strcmp(A.GLOBAL_SOFAConventions,B.GLOBAL_SOFAConventions)
 	error('Both SOFA objects must use the same SOFA conventions');
 end
-if A.N~=B.N
+if A.DimSize.N~=B.DimSize.N
 	error('Data size of both SOFA objects must be the same');
 end
 Def = SOFAdefinitions;
@@ -32,7 +32,7 @@ A=SOFAupdateDimensions(A);
 B=SOFAupdateDimensions(B);
 
 %% create field names which have to be checked
-If={'Dimensions','Data','I','R','E','N','M','C','Q'};
+If={'Dimensions','Data','DimSize'};
 C=B;
 for ii=1:length(If)
 	if isfield(C,If{ii}), C=rmfield(C,If{ii}); end
@@ -136,4 +136,4 @@ if length(log)>1, log=log(2:end); else log={}; end;
 
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
-	vec=arrayfun(@(f)(Obj.(f)),upper(str));
+	vec=arrayfun(@(f)(Obj.DimSize.(f)),upper(str));

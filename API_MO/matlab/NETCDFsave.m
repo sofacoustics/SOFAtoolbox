@@ -15,7 +15,7 @@ function NETCDFsave(filename,Obj,Compression)
 
 %% Global definitions
 glob='GLOBAL_';
-Dims='IRENMCQ'; % dimensions
+% Dims='IRENMCQ'; % dimensions
 
 globid=netcdf.getConstant('GLOBAL');
 
@@ -24,7 +24,7 @@ try
 	ncid = netcdf.create(filename,'netcdf4');
 
 %% Save global attributes
-f=fieldnames(Obj);
+  f=fieldnames(Obj);
 
 	for ii=1:length(f)
 		if ~isempty(strfind(f{ii},glob))
@@ -35,33 +35,32 @@ f=fieldnames(Obj);
 	
 %% Define dimensions
 
+  Dims=cell2mat(fieldnames(Obj.DimSize)');
 	dimid=nan(size(Dims));
 	dimsize=nan(size(Dims));
 	for ii=1:length(Dims)
 		var=Dims(ii);
-		if isfield(Obj, var)			
-			dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.(var)); 
-			dimsize(ii)=Obj.(var);
-		end
+		dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.DimSize.(var)); 
+		dimsize(ii)=Obj.DimSize.(var);
 	end
 	netcdf.endDef(ncid);
 
 %% Save dimension variables
 
-	for ii=1:length(dimsize)
-		var=Dims(ii);
-		if ~isnan(dimid(ii))
-			VarId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_INT'),dimid(ii));
-			netcdf.putVar(ncid,VarId,1:Obj.(var));
-			for jj=1:length(f)
-				if ~isempty(strfind(f{jj},[var '_']))
-					netcdf.putAtt(ncid,VarId,f{jj}(strfind(f{jj},[var '_'])+length([var '_']):end),Obj.(f{jj}));
-				end
-			end
-		end
-	end
+% 	for ii=1:length(dimsize)
+% 		var=Dims(ii);
+% 		if ~isnan(dimid(ii))
+% 			VarId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_INT'),dimid(ii));
+% 			netcdf.putVar(ncid,VarId,1:Obj.(var));
+% 			for jj=1:length(f)
+% 				if ~isempty(strfind(f{jj},[var '_']))
+% 					netcdf.putAtt(ncid,VarId,f{jj}(strfind(f{jj},[var '_'])+length([var '_']):end),Obj.(f{jj}));
+% 				end
+% 			end
+% 		end
+% 	end
 
-%% Save other metadata variables and their attributes
+%% Save metadata variables and their attributes
 Dimensions=rmfield(Obj.Dimensions,'Data');
 fv=fieldnames(Dimensions);
 

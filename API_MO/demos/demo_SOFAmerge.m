@@ -54,5 +54,5 @@ plot(squeeze(ObjFull.Data.IR(idx,1,:))');
 legend(num2str(ObjFull.SourcePosition(idx,2)))
 title(['Demo of SOFAmerge:' 10 ...
 			'IRs for the left ear with radius as parameter retrieved from a merged object']);
-xlabel([ObjFull.N_LongName ' (' ObjFull.N_Units ')']);
+xlabel([' index (sample taps)']);
 ylabel('Amplitude');

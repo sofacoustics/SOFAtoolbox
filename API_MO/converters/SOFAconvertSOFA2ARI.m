@@ -26,15 +26,15 @@ stimPar.SubjectID = Obj.GLOBAL_SubjectID;
 
 %% Fill meta
 	% Fill in geodesic coordinate system where azi=(0;360) and ele=(-90;90);
-meta.pos(:,1)=bsxfun(@times,Obj.ListenerRotation(:,1),ones(Obj.M,1));
-meta.pos(:,2)=bsxfun(@times,Obj.ListenerRotation(:,2),ones(Obj.M,1));
+meta.pos(:,1)=bsxfun(@times,Obj.ListenerRotation(:,1),ones(Obj.DimSize.M,1));
+meta.pos(:,2)=bsxfun(@times,Obj.ListenerRotation(:,2),ones(Obj.DimSize.M,1));
 if isfield(Obj,'MeasurementSourceAudioChannel'),
-	meta.pos(:,3) = bsxfun(@times,Obj.MeasurementSourceAudioChannel,ones(Obj.M,1));
+	meta.pos(:,3) = bsxfun(@times,Obj.MeasurementSourceAudioChannel,ones(Obj.DimSize.M,1));
 else
-	meta.pos(:,3) = NaN(Obj.M,1);
+	meta.pos(:,3) = NaN(Obj.DimSize.M,1);
 end
 if isfield(Obj,'MeasurementAudioLatency'),
-	meta.lat=bsxfun(@times,Obj.MeasurementAudioLatency,ones(Obj.M,1));
+	meta.lat=bsxfun(@times,Obj.MeasurementAudioLatency,ones(Obj.DimSize.M,1));
 end
 	% create horizontal-polar coordinates 
 [meta.pos(:,6), meta.pos(:,7)]=sph2hor(meta.pos(:,1),meta.pos(:,2));

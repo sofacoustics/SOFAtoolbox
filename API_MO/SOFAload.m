@@ -65,3 +65,21 @@ f=fieldnames(X);
 for ii=1:length(f)
 	if ~isfield(Obj,f{ii}), error(['Mandatory variable ' f{ii} ' is missing']); end
 end
+
+%% If SOFA 0.3, remove dimensional variables
+if strcmp(Obj.GLOBAL_Version,'0.3')
+  dims='IRENMCQ'; % dimensions
+  f=fieldnames(Obj);
+  for ii=1:length(dims)
+    for jj=1:length(f)
+      if length(f{jj}) > 1
+        if strcmp(f{jj}(1:2), [dims(ii) '_']), Obj=rmfield(Obj,f{jj}); end
+      else
+        if strcmp(f{jj},dims(ii)), 
+          Obj=rmfield(Obj,f{jj}); 
+          Obj.Dimensions=rmfield(Obj.Dimensions,f{jj});
+        end
+      end
+    end
+  end
+end

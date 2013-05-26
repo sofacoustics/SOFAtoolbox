@@ -15,6 +15,7 @@ function SOFAstart
 %% Display general informations
 disp(['SOFA Matlab/Octave API version ' SOFAgetVersion '. Copyright 2013 Acoustics Research Institute (piotr@majdak.com).']);
 disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
+SOFAcompileConventions;
 convs=SOFAgetConventions;
 text=['Available conventions: ' convs{1}];
 for ii=2:length(convs)
@@ -56,7 +57,7 @@ else
     end
     % check if octcdf is installed
     if ~which('netcdf')
-      error('You have to instal the octcdf package in Octave to work with SOFA.');
+      error('You have to install the octcdf package in Octave to work with SOFA.');
     end
     path(path,[basepath f 'octave']);
   else
