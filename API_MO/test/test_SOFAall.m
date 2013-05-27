@@ -45,3 +45,7 @@ demo_SOFAspat;
 %% Test SOFAsave
 clear all;
 demo_SOFAsave;
+
+%% Test SOFAsave
+clear all;
+demo_SOFATF2HRIR;

@@ -1,12 +1,11 @@
-function [Obj,dims] = SOFAupdateDimensions(Obj)
+function Obj = SOFAupdateDimensions(Obj)
 %SOFAupdateDimensions
-%   [Obj,dims] = SOFAupdateDimensions(Obj) updates the dimensions in the SOFA
+%   Obj = SOFAupdateDimensions(Obj) updates the dimensions in the SOFA
 %   structure
 %
 %   Obj is a struct containing the data and meta.
-%		The dimension variables are created and updated corresponding to the
+%		The dimension sizes are created as .DimSize and updated corresponding to the
 %		conventions
-%   dims is a struct containing all dimension variables
 
 % SOFA API - function SOFAupdateDimensions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -51,39 +50,8 @@ for ii=1:length(dims)
 	end
 end
 
-
-% %% Update dimension variables
-% f=fieldnames(rmfield(OC.Dimensions,'Data'));
-% for ii=2:length(dims)
-% 	for jj=1:length(f)
-% 		dim=strfind(OC.Dimensions.(f{jj}),dims{ii});
-% 		if iscell(dim), dim=cell2mat(dim); end;
-% 		if ~isempty(dim)
-% 			Obj.(upper(dims{ii}))=size(Obj.(f{jj}),dim(1));
-% 			break;
-% 		end
-% 	end
-% end
-% 
-% fd=fieldnames(OC.Dimensions.Data);
-% for ii=2:length(dims)
-% 	for jj=1:length(fd)
-% 		dim=strfind(OC.Dimensions.Data.(fd{jj}),dims{ii});
-% 		if iscell(dim), dim=cell2mat(dim); end;
-% 		if ~isempty(dim)
-% 			Obj.(upper(dims{ii}))=size(Obj.Data.(fd{jj}),dim(1));
-% 			break;
-% 		end
-% 	end
-% end
-
-% for ii=1:length(dims)
-% 	if isfield(X,upper(dims{ii})), X=rmfield(X,upper(dims{ii})); end
-% end
-
-
 %% Update the dimensions of metadata variables
-X=rmfield(rmfield(rmfield(Obj,'Data'),'Dimensions'),'DimSize');
+X=rmfield(Obj,{'Data','Dimensions','DimSize'});
 Xf=fieldnames(X);
 for ii=1:length(Xf)
 	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...

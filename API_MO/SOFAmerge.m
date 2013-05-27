@@ -32,14 +32,10 @@ A=SOFAupdateDimensions(A);
 B=SOFAupdateDimensions(B);
 
 %% create field names which have to be checked
-If={'Dimensions','Data','DimSize'};
-C=B;
-for ii=1:length(If)
-	if isfield(C,If{ii}), C=rmfield(C,If{ii}); end
-end
+C=rmfield(B,{'Dimensions','Data','DimSize'});
 Bf=fieldnames(C);
 
-%% Copy and merge w/o data
+%% Copy and merge metadata variables
 C=A;
 for ii=1:size(Bf,1)
 	if ~isfield(A,Bf{ii})
@@ -79,17 +75,23 @@ for ii=1:size(Bf,1)
 				if ~isfield(B.Dimensions, Bf{ii})
 					error(['Dimension missing for ' Bf{ii} ' in B.']); end
 				dim=strfind(A.Dimensions.(Bf{ii}),'M');	
-				if isempty(dim),
-					error([Bf{ii} ' can not be merged because it does not depend on M']);
-				end
-				C.(Bf{ii})=cat(dim,A.(Bf{ii}),B.(Bf{ii}));
-				log{end+1}=[Bf{ii} ' expanded and merged'];
+				if ~isempty(dim),
+          C.(Bf{ii})=cat(dim,A.(Bf{ii}),B.(Bf{ii})); % depends on M, merge
+          log{end+1}=[Bf{ii} ' merged'];
+        else  % not M-dependend, must be identical in A and B
+          if prod(A.(Bf{ii})==B.(Bf{ii}))==1,
+            C.(Bf{ii})=A.(Bf{ii});
+            log{end+1}=[Bf{ii} ' identical'];
+          else
+            error([Bf{ii} ' must depend on M or be equal in both objects.']);
+          end
+        end
 			end
 		end
 	end
 end
 
-%% Copy and merge data
+%% Copy and merge Data variables
 Bf=fieldnames(B.Data);
 for ii=1:size(Bf,1)
 	if ~isfield(A.Data,Bf{ii})
@@ -104,27 +106,35 @@ for ii=1:size(Bf,1)
 			end
 		else	% a variable in Data
 			if isfield(OC.Dimensions.Data,Bf{ii})	% is a known variable?
-				if strcmp(A.Dimensions.Data.(Bf{ii}),'I'),	% must be scalar?
-					if A.Data.(Bf{ii})~=B.Data.(Bf{ii}),
-						error(['Data.' Bf{ii} ' must be scalar and is not the same in A and B']); end
-					C.Data.(Bf{ii})=A.Data.(Bf{ii});
-					continue;
-				end
 				dim=strfind(A.Dimensions.Data.(Bf{ii}),'M'); % is a matrix
-				if isempty(dim),
-					error(['Data.' Bf{ii} ' can not be merged because it does not depend on M']); end
-				C.Data.(Bf{ii})=cat(dim,A.Data.(Bf{ii}),B.Data.(Bf{ii}));
-				log{end+1}=['Data.' Bf{ii} ' merged'];
+				if ~isempty(dim),
+          C.Data.(Bf{ii})=cat(dim,A.Data.(Bf{ii}),B.Data.(Bf{ii})); % depends on M, cat
+          log{end+1}=['Data.' Bf{ii} ' merged'];
+        else  % not M-dependend, must be identical in A and B
+          if prod(A.Data.(Bf{ii})==B.Data.(Bf{ii}))==1,
+            C.Data.(Bf{ii})=A.Data.(Bf{ii});
+            log{end+1}=['Data.' Bf{ii} ' identical'];
+          else
+            error(['Data.' Bf{ii} ' must depend on M or be equal in both objects.']);
+          end
+        end
 			else	% user-defined variable, dimensions must be stated
 				if ~isfield(A.Dimensions.Data, Bf{ii})
 					error(['Dimension missing for Data.' Bf{ii} ' in A.']); end
 				if ~isfield(B.Dimensions.Data, Bf{ii})
 					error(['Dimension missing for Data.' Bf{ii} ' in B.']); end
 				dim=strfind(A.Dimensions.Data.(Bf{ii}),'M');	
-				if isempty(dim),
-					error(['Data.' Bf{ii} ' can not be merged because it does not depend on M']); end
-				C.Data.(Bf{ii})=cat(dim,A.Data.(Bf{ii}),B.Data.(Bf{ii}));
-				log{end+1}=['Data.' Bf{ii} ' merged'];
+				if ~isempty(dim),
+          C.Data.(Bf{ii})=cat(dim,A.Data.(Bf{ii}),B.Data.(Bf{ii})); % depends on M, cat
+          log{end+1}=['Data.' Bf{ii} ' merged'];
+        else  % not M-dependend, must be identical in A and B
+          if prod(A.Data.(Bf{ii})==B.Data.(Bf{ii}))==1,
+            C.Data.(Bf{ii})=A.Data.(Bf{ii});
+            log{end+1}=['Data.' Bf{ii} ' identical'];
+          else
+            error(['Data.' Bf{ii} ' must depend on M or be equal in both objects.']);
+          end
+        end
 			end
 		end
 	end

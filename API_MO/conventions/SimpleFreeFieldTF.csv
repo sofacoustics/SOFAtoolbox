@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL_Conventions	SOFA	rm	  		
 GLOBAL_Version	0.4	rm	 		
 GLOBAL_SOFAConventions	SimpleFreeFieldTF	rm	  		
-GLOBAL_SOFAConventionsVersion	0.1	m	  		
+GLOBAL_SOFAConventionsVersion	0.1	rm	  		
 GLOBAL_APIName		rm	  		Insert the API Name here
 GLOBAL_APIVersion		rm	  		Insert the API Version here
 GLOBAL_ApplicationName		m	  		
@@ -13,7 +13,7 @@ GLOBAL_Organization		m
 GLOBAL_DatabaseName		m	  		
 GLOBAL_SubjectID		m	  		
 GLOBAL_RoomType	free field	m	  		
-GLOBAL_DataType	ComplexSpectrum	m	  		
+GLOBAL_DataType	ComplexSpectrum	rm	  		
 GLOBAL_History			 		
 GLOBAL_Comment			 		
 GLOBAL_DatabaseTimeCreated		m	 		will be updated when saving and not existing or empty

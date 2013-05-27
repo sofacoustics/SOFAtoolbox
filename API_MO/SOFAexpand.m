@@ -22,16 +22,17 @@ OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
 log={''};
 
 %% Update dimensions
-[Obj,dims]=SOFAupdateDimensions(Obj);
+Obj=SOFAupdateDimensions(Obj);
 
 %% If VarName given, expand a single variable only
 if ~exist('VarName','var'),
 %% Expand all variables
 	% create field names which should have dimensions
-	X=rmfield(rmfield(Obj,'Data'),'Dimensions');
-	for ii=1:length(dims)
-		if isfield(X,upper(dims{ii})), X=rmfield(X,upper(dims{ii})); end
-	end
+	X=rmfield(Obj,{'Data','Dimensions','DimSize'});
+  dims=fieldnames(Obj.DimSize);
+% 	for ii=1:length(dims)
+% 		if isfield(X,upper(dims{ii})), X=rmfield(X,upper(dims{ii})); end
+% 	end
 	Xf=fieldnames(X);
 
 	% Update the dimensions structure w/o data
