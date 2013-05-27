@@ -1,0 +1,88 @@
+netcdf sofa {
+		// This is a SOFA file
+:Conventions="SOFA";
+
+		// global attributes
+:SOFAConvention="SingleRoomDRIR";
+:SOFAConventionVersion="0.1";
+:APIName="ARI Matlab";
+:APIVersion="0.1";
+:ApplicationName="";
+:ApplicationVersion="";
+:AuthorContact="";
+:License="CC BY-SA 3.0";
+:Organization="";
+:DatabaseName="";
+:SubjectID="";
+:History="";
+:Comment="This is an example created from a CDL file";
+:DatabaseTimeCreated="2013-04-12 12:23:34";
+:DatabaseTimeModified="2013-04-12 18:19:20";
+
+dimensions: 
+C=3; I=1;	// SOFA defined
+strlen=64;	// SOFA defined max. string len
+N = unlimited, M=unlimited; R=unlimited, E=1; // Conventions specific
+
+variables:
+		// general dimensions
+int		I(I),R(R),E(E),M(M),C(C),N(N);
+I:LongName="singleton dimension";
+R:LongName="number of receivers";
+E:LongName="number of emitters";
+M:LongName="number of measurements";
+C:LongName="coordinate triplet";
+
+
+		// Data-type
+:DataType="FIR";
+float	Data.IR(M,R,N);
+float	Data.SamplingRate;
+N:LongName="time";
+N:Units="samples";
+Data.SamplingRate:Units="hertz";
+
+		// Listener
+float	ListenerPosition(M,C);
+ListenerPosition:Type="cartesian";
+ListenerPosition:Units="meter";
+float	ListenerUp(M,C);
+ListenerUp:Type="cartesian";
+ListenerUp:Units="meter";
+float	ListenerView(M,C);
+ListenerView:Type="cartesian";
+ListenerView:Units="meter";
+
+		// Receivers
+float	ReceiverPosition(R,C,M);
+ReceiverPosition:Type="spherical";
+ReceiverPosition:Units="degrees,degrees,meter";
+
+		// Source
+float	SourcePosition(M,C);
+SourcePosition:Type="cartesian";
+SourcePosition:Units="meter";
+float	SourceUp(M,C);
+SourceUp:Type="cartesian";
+SourceUp:Units="meter";
+float	SourceView(M,C);
+SourceView:Type="cartesian";
+SourceView:Units="meter";
+
+		// Emitters
+float 	EmitterPosition(C);
+EmitterPosition:Type="cartesian";
+EmitterPosition:Units="meter";
+
+		// Room
+:RoomType="dae";
+char RoomDAEFileName(strlen);
+RoomDAEFileName:Description="a room";
+
+		// Measurements
+int 	MeasurementTimeCreated(M);
+int 	MeasurementID(M);
+		
+data:
+	EmitterPosition=0, 0, 0;
+}
