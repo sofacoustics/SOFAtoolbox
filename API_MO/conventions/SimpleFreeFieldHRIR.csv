@@ -1,23 +1,26 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL_Conventions	SOFA	rm	  		
-GLOBAL_Version	0.3	rm	 		
+GLOBAL_Version	0.4	rm	 		
 GLOBAL_SOFAConventions	SimpleFreeFieldHRIR	rm	  		
-GLOBAL_SOFAConventionsVersion	0.1	rm	  		
+GLOBAL_SOFAConventionsVersion	0.2	rm	  		
 GLOBAL_APIName		rm	  		Insert the API Name here
 GLOBAL_APIVersion		rm	  		Insert the API Version here
-GLOBAL_ApplicationName		m	  		
-GLOBAL_ApplicationVersion		m	  		
 GLOBAL_AuthorContact		m	  		
 GLOBAL_License	No license provided, ask the author for permission	m	  		
 GLOBAL_Organization		m	  		
-GLOBAL_DatabaseName		m	  		
-GLOBAL_SubjectID		m	  		
 GLOBAL_RoomType	free field	m	  		
 GLOBAL_DataType	FIR	rm	  		
-GLOBAL_History			 		
-GLOBAL_Comment			 		
-GLOBAL_DatabaseTimeCreated		m	 		will be updated when saving and not existing or empty
-GLOBAL_DatabaseTimeModified		m	 		will be updated each time when saving
+GLOBAL_History		m	 		
+GLOBAL_Source		m			
+GLOBAL_Title		m			
+GLOBAL_References		m			
+GLOBAL_Comment		m	 		
+GLOBAL_TimeCreated		m	 		will be updated when saving and not existing or empty
+GLOBAL_TimeModified		m	 		will be updated each time when saving
+GLOBAL_ApplicationName		m	  		
+GLOBAL_ApplicationVersion		m	  		
+GLOBAL_DatabaseName		m	  		
+GLOBAL_SubjectID		m	  		
 ListenerPosition	 [1 0 0] 	m	IC, MC	double	
 ListenerPosition_Type	cartesian	m	  		
 ListenerPosition_Units	meter	m	  		

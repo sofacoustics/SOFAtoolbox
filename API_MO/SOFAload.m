@@ -50,12 +50,19 @@ end
 if ~isfield(Obj,'GLOBAL_DataType'), error('DataType is missing'); end
 if ~strcmp(Obj.GLOBAL_DataType,X.GLOBAL_DataType), error('Wrong DataType'); end
 
+%% Ensure backwards compatibility
+Obj=SOFAupgradeConventions(Obj);
+
 %% If data loaded, check if correct data format
 if ~strcmp(flags,'nodata'),
 	if ~isfield(Obj,'Data'), error('Data is missing'); end
 	f=fieldnames(X.Data);
 	for ii=1:length(f)
-		if ~isfield(Obj.Data,f{ii}), error(['Data.' f{ii} ' is missing']); end
+		if ~isfield(Obj.Data,f{ii})
+      Obj.Data.(f{ii})=X.Data.(f{ii});
+      Obj.Dimensions.Data.(f{ii})=X.Dimensions.Data.(f{ii});
+      warning(['Data.' f{ii} ' was missing, set to default']);
+    end
 	end
 	Obj=SOFAupdateDimensions(Obj);
 end
@@ -63,23 +70,12 @@ end
 %% Check if mandatory variables are present
 f=fieldnames(X);
 for ii=1:length(f)
-	if ~isfield(Obj,f{ii}), error(['Mandatory variable ' f{ii} ' is missing']); end
-end
-
-%% If SOFA 0.3, remove dimensional variables
-if strcmp(Obj.GLOBAL_Version,'0.3')
-  dims='IRENMCQ'; % dimensions
-  f=fieldnames(Obj);
-  for ii=1:length(dims)
-    for jj=1:length(f)
-      if length(f{jj}) > 1
-        if strcmp(f{jj}(1:2), [dims(ii) '_']), Obj=rmfield(Obj,f{jj}); end
-      else
-        if strcmp(f{jj},dims(ii)), 
-          Obj=rmfield(Obj,f{jj}); 
-          Obj.Dimensions=rmfield(Obj.Dimensions,f{jj});
-        end
-      end
+	if ~isfield(Obj,f{ii})
+    Obj.(f{ii})=X.(f{ii});
+    if ~strfind(f{ii},'_'),
+      Obj.Dimensions.(f{ii})=X.Dimensions.(f{ii});
     end
+    warning([f{ii} ' was missing, set to default']);
   end
 end
+

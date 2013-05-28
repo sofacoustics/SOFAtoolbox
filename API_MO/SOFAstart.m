@@ -12,25 +12,29 @@ function SOFAstart
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
-%% Display general informations
-disp(['SOFA Matlab/Octave API version ' SOFAgetVersion '. Copyright 2013 Acoustics Research Institute (piotr@majdak.com).']);
-disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
-SOFAcompileConventions;
-convs=SOFAgetConventions;
-text=['Available conventions: ' convs{1}];
-for ii=2:length(convs)
-	text=[text ', ' convs{ii}];
+%% Check required support
+if exist('OCTAVE_VERSION','builtin')
+    % We're in Octave
+  if compare_versions(OCTAVE_VERSION,'3.6.0','<=')   % check if the octave version is high enough
+    error('You need Octave >=3.6.0 to work with SOFA.');
+  end  
+  if ~which('netcdf') % check if octcdf is installed
+    error('You have to install the octcdf package in Octave to work with SOFA.');
+  end
+else
+    % We're in Matlab
+  if verLessThan('matlab','8')
+    warning('SOFA for Matlab version >= 8 (2012b) not tested. Use on your risk.');
+  end
 end
-disp(text);
-disp(['Location of the HRTF database: ' SOFAdbPath ]);
 
-%% ---------------------------- Adding Path's -----------------------------
+
+%% Add Paths 
 % Get the basepath as the directory this function resides in.
 % The 'which' solution below is more portable than 'mfilename'
 % becase old versions of Matlab does not have "mfilename('fullpath')"
 basepath=which('SOFAstart');
-% Kill the function name from the path.
-basepath=basepath(1:end-12);
+basepath=basepath(1:end-12); % Kill the function name from the path.
 f=filesep;
 % Add the base path and the needed sub-directories
 if exist('addpath','builtin')
@@ -51,17 +55,23 @@ else
   path(path,[basepath f 'converters']);
   path(path,[basepath f 'demos']);
   if exist('OCTAVE_VERSION','builtin')
-    % check if the octave version is high enough
-    if compare_versions(OCTAVE_VERSION,'3.6.0','<=')
-      error('You need Octave >=3.6.0 to work with SOFA.');
-    end
-    % check if octcdf is installed
-    if ~which('netcdf')
-      error('You have to install the octcdf package in Octave to work with SOFA.');
-    end
     path(path,[basepath f 'octave']);
   else
     path(path,[basepath f 'matlab']);
   end
 end
+
+
+%% Display general informations
+disp(['SOFA Matlab/Octave API version ' SOFAgetVersion '. Copyright 2013 Acoustics Research Institute (piotr@majdak.com).']);
+disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
+SOFAcompileConventions;
+convs=SOFAgetConventions;
+text=['Available SOFA Conventions: ' convs{1}];
+for ii=2:length(convs)
+	text=[text ', ' convs{ii}];
+end
+disp(text);
+disp(['Location of the HRTF database: ' SOFAdbPath ]);
+
 

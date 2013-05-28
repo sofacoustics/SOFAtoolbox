@@ -46,12 +46,12 @@ for ii=1:size(Bf,1)
 				C.(Bf{ii}) = B.(Bf{ii});	% content the same, no conflict
 			else
 				switch Bf{ii}
-					case 'GLOBAL_DatabaseTimeCreated'	% use the oldest date
-						dateNew=datenum(A.GLOBAL_DatabaseTimeCreated,Def.dateFormat);
-						if datenum(B.GLOBAL_DatabaseTimeCreated,Def.dateFormat)<dateNew, dateNew=datenum(B.GLOBAL_DatabaseTimeCreated,Def.dateFormat); end;
+					case 'GLOBAL_TimeCreated'	% use the oldest date
+						dateNew=datenum(A.GLOBAL_TimeCreated,Def.dateFormat);
+						if datenum(B.GLOBAL_TimeCreated,Def.dateFormat)<dateNew, dateNew=datenum(B.GLOBAL_TimeCreated,Def.dateFormat); end;
 						C.(Bf{ii}) = datestr(dateNew,Def.dateFormat);
 						log{end+1}=[Bf{ii} ' set to ' C.(Bf{ii})];
-					case 'GLOBAL_DatabaseTimeModified' % now
+					case 'GLOBAL_TimeModified' % now
 						C.(Bf{ii}) = datestr(now,Def.dateFormat);
 						log{end+1}=[Bf{ii} ' updated'];
 					otherwise

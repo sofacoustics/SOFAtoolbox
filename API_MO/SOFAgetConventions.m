@@ -56,5 +56,6 @@ Obj=AllObj.(flags).Obj;
 Def = SOFAdefinitions;
 
 %% Overwrite some special fields
-if isfield(Obj,'GLOBAL_DatabaseTimeCreated'), Obj.GLOBAL_DatabaseTimeCreated=datestr(now,Def.dateFormat); end
+if isfield(Obj,'GLOBAL_TimeCreated'), Obj.GLOBAL_TimeCreated=datestr(now,Def.dateFormat); end
 if isfield(Obj,'GLOBAL_APIVersion'), Obj.GLOBAL_APIVersion=SOFAgetVersion; end
+if isfield(Obj,'GLOBAL_APIName'), Obj.GLOBAL_APIName=Def.APIName; end

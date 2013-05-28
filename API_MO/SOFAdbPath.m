@@ -1,9 +1,12 @@
-function [dbPath,f]=SOFAdbPath
+function [dbPath,f]=SOFAdbPath(newPath)
 % [dbPath,f]=SOFAdbPath 
 %
 %   [dbPath,f]=SOFAdbPath returns the path to the directory containing
 %   HRTFs for demos and applications. It also returns the system-specific 
 %		file separator for creating file names. 
+% 
+%   [...]=SOFAdbPath(Path) sets the path to the directory for further calls
+%   of SOFAdbPath.
 
 % SOFA API - function SOFAstart
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -13,12 +16,17 @@ function [dbPath,f]=SOFAdbPath
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
-%% ---------------------------- Adding Path's -----------------------------
-% Get the basepath as the directory this function resides in.
-% The 'which' solution below is more portable than 'mfilename'
-% becase old versions of Matlab does not have "mfilename('fullpath')"
-basepath=which('SOFAstart');
-% Kill the function name from the path.
-basepath=basepath(1:end-12);
 f=filesep;
-dbPath=[basepath f '..' f 'HRTFs'];
+
+persistent CachedPath;
+
+if exist('newPath','var')
+  CachedPath=newPath;
+elseif isempty(CachedPath)
+  basepath=which('SOFAstart');
+  basepath=basepath(1:end-length('SOFAstart')-3); % Kill the function name from the path.
+  CachedPath=[basepath f '..' f 'HRTFs'];
+end
+dbPath=CachedPath;
+
+  

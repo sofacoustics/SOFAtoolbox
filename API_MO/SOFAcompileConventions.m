@@ -37,7 +37,7 @@ for jj=1:length(conventions)
   fclose(fid);
   Obj=compileConvention(C,'r');
   if strcmp(Obj.GLOBAL_SOFAConventions,conventions{jj})
-    disp(['Compiling ' conventions{jj}]);
+%     disp(['Compiling ' conventions{jj}]);
     save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-r.mat'],'Obj');    
     flags='am';
     for ii=1:2

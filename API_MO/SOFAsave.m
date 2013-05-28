@@ -83,8 +83,8 @@ else
 end
 
 %% Set/modify time information
-Obj.GLOBAL_DatabaseTimeModified=datestr(now,Def.dateFormat);
-if isempty(Obj.GLOBAL_DatabaseTimeCreated), Obj.GLOBAL_DatabaseTimeCreated=Obj.GLOBAL_DatabaseTimeModified; end
+Obj.GLOBAL_TimeModified=datestr(now,Def.dateFormat);
+if isempty(Obj.GLOBAL_TimeCreated), Obj.GLOBAL_TimeCreated=Obj.GLOBAL_TimeModified; end
 
 %% Save file
 NETCDFsave(filename,Obj,Compression);
