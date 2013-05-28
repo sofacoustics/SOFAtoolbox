@@ -46,6 +46,10 @@ demo_SOFAspat;
 clear all;
 demo_SOFAsave;
 
-%% Test SOFAsave
+%% Test convertions from SimpleFreeFieldHRIR to SimpleFreeFieldTF
 clear all;
-demo_SOFATF2HRIR;
+demo_SimpleFreeFieldHRIR2TF;
+
+%% Test SingleRoomDRIR
+clear all
+demo_SingleRoomDRIROldenburg;

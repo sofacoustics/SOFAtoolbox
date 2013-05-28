@@ -66,8 +66,14 @@ for ii=1:length(Xf)
 				Obj.Dimensions.(Xf{ii})=dim;
 			end
 		else % is a user-defined variable						
-			if ~isfield(Obj,Xf{ii}),
+			if ~isfield(Obj.Dimensions,Xf{ii}),
 				error([Xf{ii} ' seems to be a user-defined variable without a dimension.']);
+      else
+        dim=Obj.Dimensions.(Xf{ii});
+        dim=checkdim(Obj,{dim},size(Obj.(Xf{ii})));
+        if isempty(dim),
+          error([Xf{ii} ': dimension does not match.']);
+        end
 			end
 		end		
 	end

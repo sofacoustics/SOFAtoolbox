@@ -1,0 +1,54 @@
+Name	Default	Flags	Dimensions	Type	Comment
+GLOBAL_Conventions	SOFA	rm	  		
+GLOBAL_Version	0.4	rm	 		
+GLOBAL_SOFAConventions	SingleRoomDRIR	rm	  		
+GLOBAL_SOFAConventionsVersion	0.0	rm	  		
+GLOBAL_APIName		rm	  		Insert the API Name here
+GLOBAL_APIVersion		rm	  		Insert the API Version here
+GLOBAL_AuthorContact		m	  		
+GLOBAL_License	No license provided, ask the author for permission	m	  		
+GLOBAL_Organization		m	  		
+GLOBAL_RoomType	reverberant	m	  		
+GLOBAL_DataType	FIR	rm	  		
+GLOBAL_History		m	 		
+GLOBAL_Source		m			
+GLOBAL_Title		m			
+GLOBAL_References		m			
+GLOBAL_Comment		m	 		
+GLOBAL_TimeCreated		m	 		will be updated when saving and not existing or empty
+GLOBAL_TimeModified		m	 		will be updated each time when saving
+GLOBAL_ApplicationName		m	  		
+GLOBAL_ApplicationVersion		m	  		
+GLOBAL_DatabaseName		m	  		
+GLOBAL_RoomDescription		m	  		
+ListenerPosition	[1 0 0] 	m	IC, MC	double	
+ListenerPosition_Type	cartesian	m	  		
+ListenerPosition_Units	meter	m	  		
+ListenerUp	[1 0 1]	m	IC, MC	double	
+ListenerUp_Type	cartesian	m	  		
+ListenerUp_Units	meter	m	  		
+ListenerView	[0 0 0]	m	IC, MC	double	
+ListenerView_Type	cartesian	m	  		
+ListenerView_Units	meter	m	  		
+ListenerRotation	[0 0 0]		IC, MC	double	
+ListenerRotation_Type	din9300		  		
+ListenerRotation_Units	degrees		  		
+ReceiverPosition	[0 0 0]	m	rCI, rCM	double	
+ReceiverPosition_Type	cartesian	m	  		
+ReceiverPosition_Units	meter	m	  		
+SourcePosition	[0 0 0]	m	IC, MC	double	
+SourcePosition_Type	cartesian	m	  		
+SourcePosition_Units	meter	m	  		
+SourceUp	[0 0 1]	m	IC, MC	double	
+SourceUp_Type	cartesian	m	  		
+SourceUp_Units	meter	m	  		
+SourceView	[1 0 0]	m	IC, MC	double	
+SourceView_Type	cartesian	m	  		
+SourceView_Units	meter	m	  		
+EmitterPosition	[0 0 0]	m	eCI, eCM	double	
+EmitterPosition_Type	cartesian	m	  		
+EmitterPosition_Units	meter	m	  		
+Data.IR	[1]	m	mRn	double	
+Data.SamplingRate	48000	m	I	double	
+Data.SamplingRate_Units	hertz	m			
+Data.Delay	[0]	m	IR, MR	double	
