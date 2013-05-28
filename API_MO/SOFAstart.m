@@ -39,7 +39,7 @@ if exist('addpath','builtin')
   addpath([basepath f 'coordinates']);
   addpath([basepath f 'converters']);
   addpath([basepath f 'demos']);
-  if isoctave
+  if exist('OCTAVE_VERSION','builtin')
     addpath([basepath f 'octave']);
   else
     addpath([basepath f 'matlab']);
@@ -50,7 +50,7 @@ else
   path(path,[basepath f 'coordinates']);
   path(path,[basepath f 'converters']);
   path(path,[basepath f 'demos']);
-  if isoctave
+  if exist('OCTAVE_VERSION','builtin')
     % check if the octave version is high enough
     if compare_versions(OCTAVE_VERSION,'3.6.0','<=')
       error('You need Octave >=3.6.0 to work with SOFA.');
