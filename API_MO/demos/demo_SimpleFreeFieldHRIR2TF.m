@@ -21,7 +21,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 
 %% Load file in SimpleFreeFieldHRIR Conventions
 f=filesep;
-SOFAfn=[SOFAdbPath f 'SOFA' f 'ARI_' subjectID '_' ARIfile '.sofa'];
+SOFAfn=fullfile(SOFAdbPath,'SOFA', ['ARI_' subjectID '_' ARIfile '.sofa']);
 disp(['Loading:  ' SOFAfn]);
 IR=SOFAload(SOFAfn);
 
@@ -51,6 +51,6 @@ end
 Obj=SOFAupdateDimensions(TF);
 
 %% Save
-SOFAfn=[SOFAdbPath f 'SOFA' f 'ARI_' subjectID '_' num2str(length(bins)) '_freqs.sofa'];
+SOFAfn=fullfile(SOFAdbPath,'SOFA',['ARI_' subjectID '_' num2str(length(bins)) '_freqs.sofa']);
 disp(['Saving:   ' SOFAfn]);
 SOFAsave(SOFAfn,Obj,compression);

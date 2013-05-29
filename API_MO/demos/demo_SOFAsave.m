@@ -1,3 +1,10 @@
+%%
+% This demo creates an artificial HRTF set.
+% It shows how to use SOFAgetConventions and SOFAsave
+% The HRTF set contains single pulses placed at sample index of 100
+% which results in a broadband delay of 100 samples. 
+% Each IR is 256 samples long (i.e., N=256)
+
 % SOFA API - demo script
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -6,12 +13,6 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-%%
-% This demo creates an artificial HRTF set.
-% It shows how to use SOFAgetConventions and SOFAsave
-% The HRTF set contains single pulses placed at sample index of 100
-% which results in a broadband delay of 100 samples. 
-% Each IR is 256 samples long (i.e., N=256)
 
 %% Set parameters
 % Latency of the created IRs
@@ -63,6 +64,6 @@ Obj.GLOBAL_Comment = 'Contains simple pulses for all directions';
 
 %% save the SOFA file
 f=filesep;
-SOFAfn=[SOFAdbPath f 'SOFA' f 'Pulse.sofa'];
+SOFAfn=fullfile(SOFAdbPath,'SOFA','Pulse.sofa');
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj, compression);

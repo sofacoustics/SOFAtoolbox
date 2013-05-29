@@ -1,6 +1,6 @@
-function filename=SOFAcheckFilename(filename)
+function newfn=SOFAcheckFilename(fn)
 %SOFACHECKFILENAME
-%   filename = SOFAcheckFilename(filename) checks the specified filename.
+%   newFN = SOFAcheckFilename(FN) checks the filename FN and:
 
 % SOFA API - function SOFAcheckFilename
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -11,14 +11,9 @@ function filename=SOFAcheckFilename(filename)
 % See the License for the specific language governing  permissions and limitations under the License.
 
 % filename = string?
-if ~ischar(filename)
+if ~ischar(fn)
 	error('Filename must be a string.');
 end
 
-idx=strfind(filename,'.sofa');
-if isempty(idx)
-    % append file extension
-%     filename=[filename '.sofa'];
-end
+newfn=fn;
 
-end %of function

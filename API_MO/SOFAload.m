@@ -1,16 +1,24 @@
-function Obj = SOFAload(filename,flags)
+function Obj = SOFAload(fn,flags)
 %SOFALOAD 
-%   Obj = SOFAload(filename) reads the SOFA object OBJ with all data from
-%   a SOFA file.
+%   Obj = SOFAload(FN) reads the SOFA object OBJ with all data from
+%   a SOFA file FN. 
+
+%   FN can point to a remote file (containing '://') or to a local file: 
+%     Remote file: FN will be downloaded to a temporary directory and
+%       loaded.
+%     Local file: If existing, will be loaded. If not existing, it will be
+%       downloaded from the internet repository given by SOFAdbURL. For
+%       this, FN must begin with the local HRTF directory given by SOFAdbPath.
 %
-%   Obj = SOFAload(filename,'nodata') ignores the Data. variables and
-%   results in the metadata only (variables and attributes).
+%   Obj = SOFAload(FN,'nodata') ignores the "Data." variables and
+%   loads metadata only (variables and attributes).
 %
-%   Obj = SOFAload(filename,'nochecks') loads the file but does not perform
-%   any checks. 
+%   Obj = SOFAload(FN,'nochecks') loads the file but does not perform
+%   any checks for correct conventions.
 % 
-%   Obj = SOFAload(filename,[START COUNT]) reads only COUNT number of 
-%		measurements beginning with the index START.
+%   Obj = SOFAload(FN,[START COUNT]) loads only COUNT number of 
+%		measurements beginning with the index START. For remote files, or local
+%   but not existing files, the full file will be downloaded.
 %   
 
 % SOFA API - function SOFAload
@@ -26,10 +34,35 @@ function Obj = SOFAload(filename,flags)
 if ~exist('flags','var'), flags='all'; end;
 
 %% check file name
-filename=SOFAcheckFilename(filename);
+fn=SOFAcheckFilename(fn);
+
+%% check if local or remote and download if necessary
+if strfind(fn,'://')
+  % remote path: download as temporary
+  newfn=[tempname '.sofa'];
+  urlwrite(fn, newfn);
+else
+  newfn=fn;
+  if ~exist(fn,'file') % file does not exist? 
+      % local path: replace SOFAdbPath by SOFAdbURL, download to SOFAdbPath 
+    if length(fn)>length(SOFAdbPath) % fn is longer than SOFAdbPath?
+      if strcmp(SOFAdbPath,fn(1:length(SOFAdbPath))) % fn begins with SOFAdbPath
+        webfn=fn(length(SOFAdbPath)+1:end);
+        webfn(strfind(webfn,'\'))='/';
+        webfn=[SOFAdbURL regexprep(webfn,' ','%20')];        
+        disp(['Downloading ' fn(length(SOFAdbPath)+1:end) ' from ' SOFAdbURL]);
+        urlwrite(webfn,fn);
+      else % fn not existing and not beginning with SOFAdbPath --> error
+        error(['Unable to read file ''' fn ''': no such file']);
+      end
+    else % fn not existing and shorter than SOFAdbPath --> error
+        error(['Unable to read file ''' fn ''': no such file']);
+    end
+  end
+end 
 
 %% Load the object
-[Obj]=NETCDFload(filename,flags);
+[Obj]=NETCDFload(newfn,flags);
 
 %% Return if no checks should be performed
 if strcmp(flags, 'nochecks')

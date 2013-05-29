@@ -1,7 +1,7 @@
 This is a readme file for the SOFA API for Matlab and Octave.
 
 * Start the API: execute "SOFAstart" in Matlab or Octave.
-* No HRTF files to play around? Follow the advices in the readme.txt files in the HRTFs directories
+* No HRTF files to play around? Follow the advices in the readme.txt files in the HRTFs directories.
 * Explore the API: execute some of the "demo_" files in the directory "demos".
 * Learn more about SOFA: read the specs PDF in the directory "doc".
 * Report a bug: send a ticket at https://sf.net/p/sofacoustics/.

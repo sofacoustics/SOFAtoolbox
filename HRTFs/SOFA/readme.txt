@@ -1,3 +1,8 @@
-SOFA files go here - saved by the API, you, or...
+SOFA files go here. They can be
 
-... downloaded from http://tinyurl.com/sofaHRTFs
+* manually downloaded by you from http://tinyurl.com/sofaHRTFs
+* automatically created by the API by demo_ functions when the source HRTFs are available
+* automatically downloaded by the API from http://www.sofacoustics.org/data/sofa_api_mo/SOFA when requested and available
+
+SOFA API for Matlab and Octave
+Piotr Majdak, ARI, OeAW

@@ -73,5 +73,6 @@ for ii=2:length(convs)
 end
 disp(text);
 disp(['Location of the HRTF database: ' SOFAdbPath ]);
+disp(['Location of the internet repository: ' SOFAdbURL]);
 
 

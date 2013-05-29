@@ -23,7 +23,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 f=filesep;
 clear Obj;
 for ii=1:length(radius)
-	sourcefn=[SOFAdbPath f 'SOFA' f TUBfile 'radius_' num2str(radius(ii)) 'm.sofa'];
+	sourcefn=fullfile(SOFAdbPath,'SOFA',[TUBfile 'radius_' num2str(radius(ii)) 'm.sofa']);
 	disp(['Loading: ' sourcefn]);
 	Obj(ii)=SOFAload(sourcefn);
 end
@@ -40,7 +40,7 @@ x=whos('ObjFull');
 disp(['  Memory requirements: ' num2str(round(x.bytes/1024)) ' kb']);
 
 %% save the object as a single SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f TUBfile 'radius_' sprintf('%g_',radius) 'm.sofa'];
+SOFAfn=fullfile(SOFAdbPath,'SOFA',[TUBfile 'radius_' sprintf('%g_',radius) 'm.sofa']);
 disp(['Saving:  ' SOFAfn]);
 tic;
 Obj=SOFAsave(SOFAfn, ObjFull, compression);
