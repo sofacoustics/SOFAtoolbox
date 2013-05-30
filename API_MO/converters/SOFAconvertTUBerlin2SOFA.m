@@ -33,7 +33,7 @@ Obj.SourcePosition = irs.source_position';
 % Obj.SourceView = irs.source_reference'; % source has not directivity now
 % Obj.SourceUp = [0 0 1];
 Obj.ListenerPosition = irs.head_position';
-Obj.ListenerView = irs.head_reference';
+Obj.ListenerView = irs.head_reference';   % FIXME: is this correct?
 Obj.ListenerUp = [0 0 1];
 Obj.ListenerRotation = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
     rad2deg(-irs.apparent_elevation)' ...

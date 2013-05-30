@@ -23,8 +23,8 @@ if isfield(stimPar, 'SubjectID'), Obj.GLOBAL_SubjectID = stimPar.SubjectID; end
 
 %% Fill the mandatory variables
 Obj.ListenerPosition = [1.2 0 0];
-Obj.ListenerView = [0 0 0];
-Obj.ListenerUp = [1.2 0 1];
+Obj.ListenerView = [-1 0 0];
+Obj.ListenerUp = [0 0 1];
 Obj.ListenerRotation = [meta.pos(1:size(hM,2),1) meta.pos(1:size(hM,2),2) zeros(size(hM,2),1)];
 
 %% Update dimensions

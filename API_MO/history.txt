@@ -11,6 +11,15 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.2.9 (30.5.2013) by Piotr Majdak
+- development snapshot for the draft of SOFA 0.4 
+- tested for Matlab (Octave support not finished yet)
+- conventions implemented as CSV files which are compiled to MAT at start and are cached by SOFAgetConventions
+- user-defined HRTF database path
+- seemless download of remote SOFA files on SOFAload
+- user-defined HRTF internet repository
+- seemless upgrade from SOFA 0.3 files on SOFAload
+
 *** v0.2.1 (13.5.2013) by Piotr Majdak
 - Bug fix with the wrong spelling of "License"
 - "License" it very restrictive per default now

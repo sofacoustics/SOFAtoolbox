@@ -27,8 +27,8 @@ Obj.GLOBAL_History='Converted from the LISTEN format';
 
 %% Fill the mandatory variables
 Obj.ListenerPosition = [1.95 0 0];
-Obj.ListenerView = [0 0 0];
-Obj.ListenerUp = [1.95 0 1];
+Obj.ListenerView = [-1 0 0];
+Obj.ListenerUp = [0 0 1];
 Obj.ListenerRotation = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v zeros(size(LISTEN.l_eq_hrir_S.elev_v,1),1)];
 
 %% Update dimensions

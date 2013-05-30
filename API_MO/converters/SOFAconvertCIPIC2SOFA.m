@@ -46,5 +46,5 @@ Obj.GLOBAL_History = 'converted from the CIPIC database';
 
 %% Fill the mandatory variables
 Obj.ListenerPosition = [1 0 0];
-Obj.ListenerView = [0 0 0];
-Obj.ListenerUp = [1 0 1];
+Obj.ListenerView = [-1 0 0];
+Obj.ListenerUp = [0 0 1];

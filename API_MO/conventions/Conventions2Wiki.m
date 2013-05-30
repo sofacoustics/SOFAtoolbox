@@ -1,4 +1,4 @@
-%% Converts all CSV files with Conventions to WIKI table
+%% Converts all CSV files with Conventions to WIKI tables
 % Piotr Majdak (2013), EUPL
 clear all;
 p=mfilename('fullpath');

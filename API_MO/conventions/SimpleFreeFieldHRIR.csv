@@ -24,12 +24,8 @@ GLOBAL_SubjectID		m
 ListenerPosition	 [1 0 0] 	m	IC, MC	double	
 ListenerPosition_Type	cartesian	m	  		
 ListenerPosition_Units	meter	m	  		
-ListenerUp	[1.2 0 1]	m	IC, MC	double	
-ListenerUp_Type	cartesian	m	  		
-ListenerUp_Units	meter	m	  		
-ListenerView	[0 0 0]	m	IC, MC	double	
-ListenerView_Type	cartesian	m	  		
-ListenerView_Units	meter	m	  		
+ListenerUp	[0 0 1]	m	IC, MC	double	
+ListenerView	[-1 0 0]	m	IC, MC	double	
 ListenerRotation	[0 0 0]	m	IC, MC	double	
 ListenerRotation_Type	din9300	m	  		
 ListenerRotation_Units	degrees	m	  		

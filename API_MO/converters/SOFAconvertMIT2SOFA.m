@@ -60,8 +60,8 @@ Obj.GLOBAL_History='Converted from the MIT format';
 
 %% Fill the mandatory variables
 Obj.ListenerPosition = [1.4 0 0];
-Obj.ListenerView = [0 0 0];
-Obj.ListenerUp = [1.4 0 1];
+Obj.ListenerView = [-1 0 0];
+Obj.ListenerUp = [0 0 1];
 
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);

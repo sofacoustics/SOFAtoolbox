@@ -24,12 +24,8 @@ GLOBAL_RoomDescription		m
 ListenerPosition	[1 0 0] 	m	IC, MC	double	
 ListenerPosition_Type	cartesian	m	  		
 ListenerPosition_Units	meter	m	  		
-ListenerUp	[1 0 1]	m	IC, MC	double	
-ListenerUp_Type	cartesian	m	  		
-ListenerUp_Units	meter	m	  		
-ListenerView	[0 0 0]	m	IC, MC	double	
-ListenerView_Type	cartesian	m	  		
-ListenerView_Units	meter	m	  		
+ListenerUp	[0 0 1]	m	IC, MC	double	
+ListenerView	[-1 0 0]	m	IC, MC	double	
 ListenerRotation	[0 0 0]		IC, MC	double	
 ListenerRotation_Type	din9300		  		
 ListenerRotation_Units	degrees		  		
@@ -40,11 +36,7 @@ SourcePosition	[0 0 0]	m	IC, MC	double
 SourcePosition_Type	cartesian	m	  		
 SourcePosition_Units	meter	m	  		
 SourceUp	[0 0 1]	m	IC, MC	double	
-SourceUp_Type	cartesian	m	  		
-SourceUp_Units	meter	m	  		
 SourceView	[1 0 0]	m	IC, MC	double	
-SourceView_Type	cartesian	m	  		
-SourceView_Units	meter	m	  		
 EmitterPosition	[0 0 0]	m	eCI, eCM	double	
 EmitterPosition_Type	cartesian	m	  		
 EmitterPosition_Units	meter	m	  		
