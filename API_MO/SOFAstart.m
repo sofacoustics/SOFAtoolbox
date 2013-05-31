@@ -72,7 +72,8 @@ for ii=2:length(convs)
 	text=[text ', ' convs{ii}];
 end
 disp(text);
-disp(['Location of the HRTF database: ' SOFAdbPath ]);
-disp(['Location of the internet repository: ' SOFAdbURL]);
-
+disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
+disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
+[~,stat]=urlread(SOFAdbURL,'Timeout',1);
+if ~stat, disp('  --> could not connect'); end
 

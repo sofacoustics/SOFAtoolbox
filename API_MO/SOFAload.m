@@ -44,6 +44,7 @@ if strfind(fn,'://')
 else
   newfn=fn;
   if ~exist(fn,'file') % file does not exist? 
+    warning(['File not found: ' fn]);
       % local path: replace SOFAdbPath by SOFAdbURL, download to SOFAdbPath 
     if length(fn)>length(SOFAdbPath) % fn is longer than SOFAdbPath?
       if strcmp(SOFAdbPath,fn(1:length(SOFAdbPath))) % fn begins with SOFAdbPath
@@ -51,7 +52,10 @@ else
         webfn(strfind(webfn,'\'))='/';
         webfn=[SOFAdbURL regexprep(webfn,' ','%20')];        
         disp(['Downloading ' fn(length(SOFAdbPath)+1:end) ' from ' SOFAdbURL]);
-        urlwrite(webfn,fn);
+        [f,stat]=urlwrite(webfn,fn);
+        if ~stat
+          error(['Could not download file: ' webfn]);
+        end
       else % fn not existing and not beginning with SOFAdbPath --> error
         error(['Unable to read file ''' fn ''': no such file']);
       end
