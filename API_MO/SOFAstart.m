@@ -74,6 +74,9 @@ end
 disp(text);
 disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
 disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
-[~,stat]=urlread(SOFAdbURL,'Timeout',1);
-if ~stat, disp('  --> could not connect'); end
+% FIXME: I would check only if the URL is available in the function where it is
+% needed. At the start it takes to long. Octaves urlread didn't know the TimeOut
+% parameter.
+%[~,stat]=urlread(SOFAdbURL);
+%if ~stat, disp('  --> could not connect'); end
 
