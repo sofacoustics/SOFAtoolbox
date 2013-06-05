@@ -25,13 +25,13 @@ dims = Def.dimensions;
 ncid = netcdf(filename,'c','NETCDF4 with classical model');
 
 %% ===== Loop through all fields in Obj -1- ==============================
-% remove Dimension definition fields before the loop
+% Remove unneeded Dimensions entry
 Obj1 = rmfield(Obj,'Dimensions');
-fields = fieldnames(Obj1);
+fields = fieldnames(Obj1.DimSize);
 for ii=1:length(fields)
     % store current field name and its value
     fieldName = fields{ii};
-    fieldVal = Obj.(fieldName);
+    fieldVal = Obj1.DimSize.(fieldName);
 
     % ----- Dimensions ---------------------------------------------------
     if any(strcmp(struct2cell(dims),fieldName))
@@ -59,7 +59,7 @@ end
 
 %% ===== Loop through all fields in Obj -2- ==============================
 % remove dimension fields before the loop
-Obj2 = rmfield(Obj1,struct2cell(dims));
+Obj2 = rmfield(Obj1,'DimSize');
 fields = fieldnames(Obj2);
 for ii=1:length(fields);
     % store the current field name and its value
@@ -82,18 +82,24 @@ for ii=1:length(fields);
                 % Should the data matrix be allowed to have every number of
                 % dimension they want?
                 if ndims(dataFieldVal)==2 && ...
-                    size(dataFieldVal)==[1 1]                       % [I]
+                    size(dataFieldVal)==[1 1]                          % [I]
                     ncid{['Data.' dataFieldName]} = ncdouble(dims.I);
                 elseif ndims(dataFieldVal)==2 && ...
-                    strcmp('TOAModel',dataFieldName)                % [M 5]
+                    length(dataFieldVal)==Obj.DimSize.N                % [N]
+                    ncid{['Data.' dataFieldName]} = ncdouble(dims.N);
+                elseif ndims(dataFieldVal)==2 && ...
+                    strcmp('TOAModel',dataFieldName)                   % [M 5]
                     ncid('TOAModelParameter') = 5;
                     ncid{['Data.' dataFieldName]} = ncdouble(dims.M, ...
                         'TOAModelParameter');
                 elseif ndims(dataFieldVal)==2 && ...
-                    size(dataFieldVal)==[Obj.M Obj.R]               % [M R]
+                    size(dataFieldVal)==[Obj.DimSize.I Obj.DimSize.R]  % [I R]
+                    ncid{['Data.' dataFieldName]} = ncdouble(dims.I,dims.R);
+                elseif ndims(dataFieldVal)==2 && ...
+                    size(dataFieldVal)==[Obj.DimSize.M Obj.DimSize.R]  % [M R]
                     ncid{['Data.' dataFieldName]} = ncdouble(dims.M,dims.R);
                 elseif ndims(dataFieldVal)==3 && ...
-                    size(dataFieldVal)==[Obj.M Obj.R Obj.N]         % [M R N]
+                    size(dataFieldVal)==[Obj.DimSize.M Obj.DimSize.R Obj.DimSize.N] % [M R N]
                     ncid{['Data.' dataFieldName]} = ncdouble(dims.M, ...
                                                              dims.R, ...
                                                              dims.N);
@@ -131,9 +137,9 @@ for ii=1:length(fields);
            ~isempty(strfind(fieldName,'Source')) ) && ...
             isempty(strfind(fieldName,'_'))
 
-        if size(fieldVal)==[Obj.I Obj.C]                            % [C]
+        if size(fieldVal)==[Obj.DimSize.I Obj.DimSize.C]               % [C]
             ncid{fieldName} = ncfloat(dims.I,dims.C);
-        elseif size(fieldVal)==[Obj.M Obj.C]                        % [M C]
+        elseif size(fieldVal)==[Obj.DimSize.M Obj.DimSize.C]           % [M C]
             ncid{fieldName} = ncfloat(dims.M,dims.C);
         end
 
@@ -145,9 +151,9 @@ for ii=1:length(fields);
     elseif ~isempty(strfind(fieldName,'Receiver')) && ...
             isempty(strfind(fieldName,'_'))
 
-        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.R Obj.C]      % [R C]
+        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.DimSize.R Obj.DimSize.C] % [R C]
             ncid{fieldName} = ncfloat(dims.R,dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.R Obj.C Obj.M] % [R C M]
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.DimSize.R Obj.DimSize.C Obj.DimSize.M] % [R C M]
             ncid{fieldName} = ncfloat(dims.R,dims.C,dims.M);
         end
 
@@ -159,9 +165,9 @@ for ii=1:length(fields);
     elseif ~isempty(strfind(fieldName,'Emitter')) && ...
             isempty(strfind(fieldName,'_'))
 
-        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.E Obj.C]      % [E C]
+        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.DimSize.E Obj.DimSize.C] % [E C]
             ncid{fieldName} = ncfloat(dims.E,dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.E Obj.C Obj.M] % [E C M]
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.DimSize.E Obj.DimSize.C Obj.DimSize.M] % [E C M]
             ncid{fieldName} = ncfloat(dims.E,dims.C,dims.M);
         end
 
@@ -173,9 +179,9 @@ for ii=1:length(fields);
     elseif ~isempty(strfind(fieldName,'RoomCorner')) && ...
             isempty(strfind(fieldName,'_'))
 
-        if ndims(fieldVal)==2 && size(fieldVal)==[2 Obj.C]          % [2 C]
+        if ndims(fieldVal)==2 && size(fieldVal)==[2 Obj.DimSize.C]     % [2 C]
             ncid{fieldName} = ncfloat('NumberOfRoomCorners',dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[2 Obj.C Obj.M] % [2 C M]
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[2 Obj.DimSize.C Obj.DimSize.M] % [2 C M]
             ncid{fieldName} = ncfloat('NumberOfRoomCorners',dims.C,dims.M);
         end
 
@@ -213,6 +219,7 @@ for ii=1:length(fields);
         ncid{fieldNameBase}.(fieldNameAttr) = fieldVal;
     
     else
+        disp(fieldName)
         error('%s: your variable type is not supported by SOFA',upper(mfilename));
     end
 end
