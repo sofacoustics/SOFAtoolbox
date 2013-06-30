@@ -2,12 +2,16 @@ function SOFAcompileConventions(conventions)
 %SOFAcompileConventions
 %
 %   Obj = SOFAcompileConventions(conventions) compiles SOFA conventions
-%   given by a CSV file to Matlab files used later by SOFAgetConventions.
+%   given by a CSV file to .mat files used later by SOFAgetConventions.
 % 
 %   The CSV file must be in the directory conventions and have the same
 %   filename as conventions. SOFAcompileConventions generates 3 files, one
-%   for each flag (r, m, and all)
+%   for each flag (r, m, and all). 
 %
+%   Before compiling, SOFAcompileConventions checks if the modification
+%   date of the .mat files is older than that of the .csv file. Compiling
+%   is not performed if all .mat files are newer than the .csv file. This
+%   behaviour is required for operation in a read-only directory. 
 
 % SOFA API 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -25,7 +29,16 @@ if ~exist('conventions','var')
   conventions={};
   for ii=1:length(d)
     dn=d(ii).name;
-    conventions{ii}=dn(1:end-4);
+    [~,name,ext]=fileparts(dn);
+    flags='ram';
+    okcnt=0;
+    for jj=1:length(flags)
+      x=dir([p(1:length(p)-length(mfilename)) 'conventions' filesep name '-' flags(jj) '.mat']);
+      if ~isempty(x)
+        if x(1).datenum>d(ii).datenum, okcnt=okcnt+1; end
+      end
+    end
+    if okcnt~=3, conventions{end+1}=name; end
   end
 else
   if ~iscell(conventions), conventions={conventions}; end;
@@ -37,7 +50,7 @@ for jj=1:length(conventions)
   fclose(fid);
   Obj=compileConvention(C,'r');
   if strcmp(Obj.GLOBAL_SOFAConventions,conventions{jj})
-%     disp(['Compiling ' conventions{jj}]);
+    disp(['Compiling ' conventions{jj}]);
     save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-r.mat'],'Obj');    
     flags='am';
     for ii=1:2
