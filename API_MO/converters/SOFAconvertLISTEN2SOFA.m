@@ -11,7 +11,7 @@ function Obj=SOFAconvertLISTEN2SOFA(LISTEN, subjectID)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 
-%% Get an empy conventions structure
+%% Get an empty conventions structure
 Obj = SOFAgetConventions('SimpleFreeFieldHRIR');
 
 %% Fill data with data
@@ -26,10 +26,17 @@ Obj.GLOBAL_SubjectID = subjectID;
 Obj.GLOBAL_History='Converted from the LISTEN format';
 
 %% Fill the mandatory variables
-Obj.ListenerPosition = [1.95 0 0];
-Obj.ListenerView = [-1 0 0];
+  % SimpleFreeFieldHRIR 0.2
+    % Obj.ListenerPosition = [1.95 0 0];
+    % Obj.ListenerView = [-1 0 0];
+    % Obj.ListenerUp = [0 0 1];
+    % Obj.ListenerRotation = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v zeros(size(LISTEN.l_eq_hrir_S.elev_v,1),1)];
+  % SimpleFreeFieldHRIR 0.3
+Obj.ListenerPosition = [0 0 0];
+Obj.ListenerView = [1 0 0];
 Obj.ListenerUp = [0 0 1];
-Obj.ListenerRotation = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v zeros(size(LISTEN.l_eq_hrir_S.elev_v,1),1)];
+Obj.SourcePosition = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v 1.95*ones(size(LISTEN.l_eq_hrir_S.elev_v,1),1)];
+Obj.APV = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v 1.95*ones(size(LISTEN.l_eq_hrir_S.elev_v,1),1)];
 
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);

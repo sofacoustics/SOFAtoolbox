@@ -37,13 +37,13 @@ disp('Binaural signal rendered');
 %% Plot the trajectories
 subplot(2,1,1); hold on; box on;
 plot(azi); % plot the requested, resampled azimuthal trajectory
-plot(Obj.ListenerRotation(idx,1),'rx');
+plot(Obj.APV(idx,1),'rx');
 ylabel('Azimuth (deg)');
 title('SOFAspat: Trajectory');
 
 subplot(2,1,2); hold on; box on;
 plot(ele); 
-plot(Obj.ListenerRotation(idx,2),'rx');
+plot(Obj.APV(idx,2),'rx');
 ylabel('Elevation (deg)');
 xlabel('Time index');
 legend({'Requested', 'Actual'},'Location','Best');

@@ -32,7 +32,11 @@ for aa=1:length(lat1)
 		Obj.Data.IR(ii,1,:)=CIPIC.hrir_l(aa,ee,:);
 		Obj.Data.IR(ii,2,:)=CIPIC.hrir_r(aa,ee,:);
 		[azi,ele]=hor2sph(lat(ii),pol(ii));
-		Obj.ListenerRotation(ii,:)=[azi ele 0];
+      % SimpleFreeFieldHRIR 0.2
+        % 		Obj.ListenerRotation(ii,:)=[azi ele 0];
+      % SimpleFreeFieldHRIR 0.3
+    Obj.SourcePosition(ii,:) = [azi ele 1];
+    Obj.APV(ii,:) = [azi ele 1];
 		ii=ii+1;
 	end
 end
@@ -45,6 +49,11 @@ Obj.GLOBAL_SubjectID = CIPIC.name;
 Obj.GLOBAL_History = 'converted from the CIPIC database';
 
 %% Fill the mandatory variables
-Obj.ListenerPosition = [1 0 0];
-Obj.ListenerView = [-1 0 0];
+  % SimpleFreeFieldHRIR 0.2
+    % Obj.ListenerPosition = [1 0 0];
+    % Obj.ListenerView = [-1 0 0];
+    % Obj.ListenerUp = [0 0 1];
+% SimpleFreeFieldHRIR 0.3
+Obj.ListenerPosition = [0 0 0];
+Obj.ListenerView = [1 0 0];
 Obj.ListenerUp = [0 0 1];

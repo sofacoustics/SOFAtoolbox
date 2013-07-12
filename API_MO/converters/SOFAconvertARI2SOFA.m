@@ -11,7 +11,7 @@ function Obj=SOFAconvertARI2SOFA(hM,meta,stimPar)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 
-%% Get an empy conventions structure
+%% Get an empty conventions structure
 Obj = SOFAgetConventions('SimpleFreeFieldHRIR');
 
 %% Fill data with data
@@ -26,10 +26,17 @@ if isfield(stimPar,'Application')
 end
 
 %% Fill the mandatory variables
-Obj.ListenerPosition = [1.2 0 0];
-Obj.ListenerView = [-1 0 0];
+  % SimpleFreeFieldHRIR 0.2
+    % Obj.ListenerPosition = [1.2 0 0];
+    % Obj.ListenerView = [-1 0 0];
+    % Obj.ListenerUp = [0 0 1];
+    % Obj.ListenerRotation = [meta.pos(1:size(hM,2),1) meta.pos(1:size(hM,2),2) zeros(size(hM,2),1)];
+  % SimpleFreeFieldHRIR 0.3
+Obj.ListenerPosition = [0 0 0];
+Obj.ListenerView = [1 0 0];
 Obj.ListenerUp = [0 0 1];
-Obj.ListenerRotation = [meta.pos(1:size(hM,2),1) meta.pos(1:size(hM,2),2) zeros(size(hM,2),1)];
+Obj.SourcePosition = [meta.pos(1:size(hM,2),1) meta.pos(1:size(hM,2),2) 1.2*ones(size(hM,2),1)];
+Obj.APV = [meta.pos(1:size(hM,2),1) meta.pos(1:size(hM,2),2) 1.2*ones(size(hM,2),1)];
 
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);

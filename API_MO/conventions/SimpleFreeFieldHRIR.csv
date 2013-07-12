@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL_Conventions	SOFA	rm	  		Must be always SOFA
 GLOBAL_Version	0.4	rm	 		Describes the SOFA version
 GLOBAL_SOFAConventions	SimpleFreeFieldHRIR	rm	  		Describes the SOFA Conventions
-GLOBAL_SOFAConventionsVersion	0.2	rm	  		Describes the version of the Conventions
+GLOBAL_SOFAConventionsVersion	0.3	rm	  		Describes the version of the Conventions
 GLOBAL_APIName		rm	  		Insert the API Name here
 GLOBAL_APIVersion		rm	  		Insert the API Version here
 GLOBAL_AuthorContact		m	  		
@@ -17,15 +17,15 @@ GLOBAL_References		m			Published or web-based references that describe the data 
 GLOBAL_Comment		m	 		
 GLOBAL_TimeCreated		m	 		will be updated when saving and not existing or empty
 GLOBAL_TimeModified		m	 		will be updated each time when saving
-ListenerPosition	 [1 0 0] 	m	IC, MC	double	
+ListenerPosition	 [0 0 0] 	m	IC, MC	double	Listener is assumed to be in the center of the measurement setup
 ListenerPosition_Type	cartesian	m	  		
 ListenerPosition_Units	meter	m	  		
 ReceiverPosition	[0 -0.09 0; 0 0.09 0]	m	rCI, rCM	double	
 ReceiverPosition_Type	cartesian	m	  		
 ReceiverPosition_Units	meter	m	  		
-SourcePosition	[0 0 0]	m	IC, MC	double	
-SourcePosition_Type	cartesian	m	  		
-SourcePosition_Units	meter	m	  		
+SourcePosition	[0 0 1]	m	IC, MC	double	Source position is assumed to vary for different directions/positions around the listener
+SourcePosition_Type	spherical	m	  		
+SourcePosition_Units	degree, degree, meter	m	  		
 EmitterPosition	[0 0 0]	m	eCI, eCM	double	
 EmitterPosition_Type	cartesian	m	  		
 EmitterPosition_Units	meter	m	  		
@@ -34,10 +34,10 @@ GLOBAL_ApplicationVersion		m
 GLOBAL_DatabaseName		m	  		name of the database to which these data belong
 GLOBAL_SubjectID		m	  		ID of the subject from the database
 ListenerUp	[0 0 1]	m	IC, MC	double	
-ListenerView	[-1 0 0]	m	IC, MC	double	
-ListenerRotation	[0 0 0]	m	IC, MC	double	
-ListenerRotation_Type	din9300	m	  		
-ListenerRotation_Units	degrees	m	  		
+ListenerView	[1 0 0]	m	IC, MC	double	
+APV	[0 0 0]	m	IC, MC	double	
+APV_Type	spherical	m	  		
+APV_Units	degree, degree, meter	m	  		
 Data.IR	[1 1]	m	mRn	double	
 Data.SamplingRate	48000	m	I	double	
 Data.SamplingRate_Units	hertz	m			

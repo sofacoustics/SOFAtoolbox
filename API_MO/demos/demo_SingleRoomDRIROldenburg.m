@@ -57,9 +57,8 @@ Obj.ReceiverPosition = [0 0.09 0; 0 -0.09 9; ... % in-ear
                     0.02 0.09 0.02; 0.02 -0.09 0.02; ... % middle bte
                     0.02 0.09 0.02; 0.02 -0.09 0.02]; % rear bte
 Obj.ListenerPosition = [2.16 4.4 1.1];
-Obj.ListenerView = [0 -1 0];
 Obj.ListenerUp = [0 0 1];
-Obj.ListenerRotation = [repmat([0 0 0],4,1); repmat([-90 0 0],4,1)];
+Obj.ListenerView = [repmat([1 0 0],4,1); repmat([0 -1 0],4,1)];
 
 %% Source and Transmitter
 
@@ -132,14 +131,5 @@ disp(['Reloading:  ' SOFAfn]);
 X=SOFAload(SOFAfn);
 
 %% Plot the 2D-plan of the measurement setup
-figure('Position',[1 1 (X.RoomCornerB(1)-X.RoomCornerA(1))*1.2 X.RoomCornerB(2)-X.RoomCornerA(2)]*100);
-axis([X.RoomCornerA(1)-0.5 X.RoomCornerB(1)+0.5 X.RoomCornerA(2)-0.5 X.RoomCornerB(2)+0.5]);
-box on; hold on;
-rectangle('Position',[X.RoomCornerA(1) ...  % plot the room
-                      X.RoomCornerA(2) ...
-                      X.RoomCornerB(1)-X.RoomCornerA(1) ...
-                      X.RoomCornerB(2)-X.RoomCornerA(2)]);
-plot(X.SourcePosition(:,1), X.SourcePosition(:,2),'rs');
-plot(X.ListenerPosition(:,1), X.ListenerPosition(:,2),'o');
-legend({'Source','Listener'});
+SOFAplotGeometry(X);
 title('Office II from Kayser et al. (2009) saved as SingleRoomDRIR');

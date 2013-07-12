@@ -29,15 +29,26 @@ Obj.GLOBAL_ReceiverDescription = irs.ears;
 Obj.GLOBAL_SourceDescription = irs.source;
 
 %% Fill the mandatory variables
-Obj.SourcePosition = irs.source_position';
-% Obj.SourceView = irs.source_reference'; % source has not directivity now
-% Obj.SourceUp = [0 0 1];
-Obj.ListenerPosition = irs.head_position';
-Obj.ListenerView = irs.head_reference';   % FIXME: is this correct?
-Obj.ListenerUp = [0 0 1];
-Obj.ListenerRotation = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
-    rad2deg(-irs.apparent_elevation)' ...
-    zeros(length(irs.apparent_azimuth),1)];
+  % SimpleFreeFieldHRIR 0.2
+    % Obj.SourcePosition = irs.source_position';
+    % Obj.ListenerPosition = irs.head_position';
+    % Obj.ListenerView = irs.head_reference';   % FIXME: is this correct?
+    % Obj.ListenerUp = [0 0 1];
+    % Obj.ListenerRotation = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
+    %     rad2deg(-irs.apparent_elevation)' ...
+    %     zeros(length(irs.apparent_azimuth),1)];
+  % SimpleFreeFieldHRIR 0.3
+  distance=sqrt(sum((irs.source_position-irs.head_position).^2));
+    Obj.SourcePosition = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
+        rad2deg(-irs.apparent_elevation)' ...
+        distance*ones(length(irs.apparent_elevation),1)];
+    Obj.APV = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
+        rad2deg(-irs.apparent_elevation)' ...
+        distance*ones(length(irs.apparent_elevation),1)];
+    Obj.ListenerPosition = [0 0 0];
+    Obj.ListenerView = [1 0 0];   
+    Obj.ListenerUp = [0 0 1];
 
+  
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);
