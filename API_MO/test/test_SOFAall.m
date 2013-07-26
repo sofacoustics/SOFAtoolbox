@@ -28,7 +28,7 @@ demo_TUBerlin2SOFA;
 %% Test converters from SOFA
 clear all;
 demo_SOFA2ARI;
-SOFAplotGeometry(Obj);
+% SOFAplotGeometry(Obj);
 
 %% Test SOFAmerge and create TU-Berlin KEMAR file with multiple radii
 clear all;

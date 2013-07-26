@@ -35,7 +35,7 @@ if ~strcmp(Obj.GLOBAL_SOFAConventions,'SimpleFreeFieldHRIR')
 	error('HRTFs must be saved in the SOFA conventions SimpleFreeFieldHRIR');
 end
 if min(azi)<0,	% Check for the required coordinate system
-	Obj.APV(:,1)=sph2nav(Obj.APV(:,1)); % if negative azimuths are required, swith to -90/+90 system
+	Obj.SourcePosition(:,1)=sph2nav(Obj.SourcePosition(:,1)); % if negative azimuths are required, swith to -90/+90 system
 end
 
 %% resize the input signal to be integer multiple of HRIR
@@ -59,12 +59,12 @@ end;
 %% create a 2D-grid with nearest positions of the moving source
 idx=zeros(S,1);
 for ii=1:S % find nearest point on grid (LSP)
-    dist=(Obj.APV(:,1)-azi(ii)).^2+(Obj.APV(:,2)-ele(ii)).^2;
+    dist=(Obj.SourcePosition(:,1)-azi(ii)).^2+(Obj.SourcePosition(:,2)-ele(ii)).^2;
     [~,idx(ii)]=min(dist);
 end
 
 %% normalize HRTFs to the frontal, eye-level position
-ii=find(Obj.APV(:,1)==0 & Obj.APV(:,2)==0);   % search for position 0°/0°
+ii=find(Obj.SourcePosition(:,1)==0 & Obj.SourcePosition(:,2)==0);   % search for position 0°/0°
 if isempty(ii)
 	peak=max([sqrt(sum(Obj.Data.IR(:,1,:).*Obj.Data.IR(:,1,:))) sqrt(sum(Obj.Data.IR(:,2,:).*Obj.Data.IR(:,2,:)))]);   % not found - normalize to IR with most energy
 else

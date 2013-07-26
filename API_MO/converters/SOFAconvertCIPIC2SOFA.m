@@ -36,7 +36,7 @@ for aa=1:length(lat1)
         % 		Obj.ListenerRotation(ii,:)=[azi ele 0];
       % SimpleFreeFieldHRIR 0.3
     Obj.SourcePosition(ii,:) = [azi ele 1];
-    Obj.APV(ii,:) = [azi ele 1];
+%     Obj.APV(ii,:) = [azi ele 1];
 		ii=ii+1;
 	end
 end

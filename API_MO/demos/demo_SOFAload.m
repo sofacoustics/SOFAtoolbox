@@ -25,7 +25,7 @@ Meta=SOFAload(SOFAfile,'nodata');
 
 %% Get index of measurements with the same directions
 azi=0; ele=0;
-idx=find(Meta.APV(:,1)==azi & Meta.APV(:,2)==ele);
+idx=find(Meta.SourcePosition(:,1)==azi & Meta.SourcePosition(:,2)==ele);
 
 %% Load the parts of the full objects
 disp('Loading partial data only');

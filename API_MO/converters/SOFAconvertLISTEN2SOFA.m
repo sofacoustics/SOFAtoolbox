@@ -36,7 +36,7 @@ Obj.ListenerPosition = [0 0 0];
 Obj.ListenerView = [1 0 0];
 Obj.ListenerUp = [0 0 1];
 Obj.SourcePosition = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v 1.95*ones(size(LISTEN.l_eq_hrir_S.elev_v,1),1)];
-Obj.APV = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v 1.95*ones(size(LISTEN.l_eq_hrir_S.elev_v,1),1)];
+% Obj.APV = [LISTEN.l_eq_hrir_S.azim_v LISTEN.l_eq_hrir_S.elev_v 1.95*ones(size(LISTEN.l_eq_hrir_S.elev_v,1),1)];
 
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);

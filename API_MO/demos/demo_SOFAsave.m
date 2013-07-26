@@ -45,7 +45,7 @@ for aa=1:length(lat1)
 		Obj.Data.IR(ii,2,:)=IR;
 		[azi,ele]=hor2sph(lat(ii),pol(ii));
     Obj.SourcePosition(ii,:)=[azi ele 1];
-		Obj.APV(ii,:)=[azi ele 1];
+		Obj.SourcePosition(ii,:)=[azi ele 1];
 		ii=ii+1;
 	end
 end

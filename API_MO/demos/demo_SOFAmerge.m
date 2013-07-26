@@ -49,7 +49,7 @@ disp(['Saved ' num2str(round(x.bytes/1024)) ' kb in ' num2str(toc) ' s.']);
 
 %% Plot IRs for a single direction but different radius
 azi=0; ele=0;
-idx=find(Obj.APV(:,1)==azi & Obj.APV(:,2)==ele);
+idx=find(Obj.SourcePosition(:,1)==azi & Obj.SourcePosition(:,2)==ele);
 plot(squeeze(ObjFull.Data.IR(idx,1,:))');
 legend(num2str(ObjFull.SourcePosition(idx,2)))
 title(['Demo of SOFAmerge:' 10 ...
