@@ -1,8 +1,10 @@
-function Obj = SOFAupgradeConventions(Obj)
+function [Obj,modified] = SOFAupgradeConventions(Obj)
 %SOFAcompatibility 
-%   Obj = SOFAcompatibility(Obj) adapts the Obj such that it is represented
-%   in the supported SOFA version.
-%   
+%   [Obj,modified] = SOFAupgradeConventions(Obj) upgrades the Obj to the next higher
+%   version if required. MODIFIED is 1 when an upgrade was required. 
+%   In order to obtain the most recent version, SOFAupgradeConventions
+%   should be processed recursively until MODIFIED is 0. 
+
 
 % SOFA API - function SOFAcompatibility
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
@@ -12,18 +14,15 @@ function Obj = SOFAupgradeConventions(Obj)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
+modified=0;
 
-%% Convert from SOFA 0.3 to SOFA 0.4
 switch Obj.GLOBAL_Version,
   case '0.3'
-    disp('Upgrading from SOFA 0.3 to SOFA 0.4...');
-    % in SOFA 0.3, only SimpleFreeFieldHRIR was supported. Adapt this conventions
-      % update metadata
-    X=SOFAgetConventions('SimpleFreeFieldHRIR');
-    att={'GLOBAL_Version', 'GLOBAL_SOFAConventionsVersion'}; %,...
-    for ii=1:length(att)
-      Obj.(att{ii})=X.(att{ii});
-    end
+    modified=1;
+    % in SOFA 0.3, only SimpleFreeFieldHRIR 0.1 was supported.
+    % Updating SimpleFreeFieldHRIR 0.1 to 0.2
+    Obj.GLOBAL_Version='0.4';
+    Obj.GLOBAL_SOFAConventionsVersion='0.2';
     Obj.GLOBAL_TimeCreated=Obj.GLOBAL_DatabaseTimeCreated;
     Obj.GLOBAL_TimeModified=Obj.GLOBAL_DatabaseTimeModified;
     if isfield(Obj,'GLOBAL_History'), tmp=Obj.GLOBAL_History; else tmp=''; end
@@ -37,34 +36,49 @@ switch Obj.GLOBAL_Version,
         if strcmp(f{jj},dims{ii}), 
           Obj=rmfield(Obj,f{jj});   % remove variable or attribute
           if isempty(strfind(f{jj},'_')),
-            Obj.Dimensions=rmfield(Obj.Dimensions,f{jj}); % remove dimension
+            Obj.API.Dimensions=rmfield(Obj.API.Dimensions,f{jj}); % remove dimension
           end
         elseif strcmp(f{jj}(1:min(length(dims{ii})+1,length(f{jj}))),[dims{ii} '_']) 
           Obj=rmfield(Obj,f{jj});  % remove attributes of that variable
         end
       end
     end
+    warning('SimpleFreeFieldHRIR 0.1 upgraded to 0.2');
   case '0.4'
     % in SOFA 0.4, only SimpleFreeFieldHRIR might need upgrade
     if strcmp(Obj.GLOBAL_SOFAConventions,'SimpleFreeFieldHRIR')
       switch Obj.GLOBAL_SOFAConventionsVersion
         case '0.2'
-          X=SOFAgetConventions('SimpleFreeFieldHRIR');
-          % Upgrade verions
-          Obj.GLOBAL_SOFAConventionsVersion=X.GLOBAL_SOFAConventionsVersion;
+          % Upgrade from SimpleFreeFieldHRIR 0.2 to 0.3
+          modified=1;          
+          Obj.GLOBAL_SOFAConventionsVersion='0.3';
           if isfield(Obj,'GLOBAL_History'), tmp=Obj.GLOBAL_History; else tmp=''; end
           Obj.GLOBAL_History=[tmp '; Upgraded from SimpleFreeFieldHRIR 0.2'];
-          % Rename ListenerRotation to APV
-          Obj.APV=Obj.ListenerRotation;
-          Obj.APV_LongName='apparent position vector';
-          Obj.APV_Units='degree,degree,m';
-          Obj.APV_Type='spherical';
-          Obj.Dimensions.APV=Obj.Dimensions.ListenerRotation;
+          % Create temp SourcePosition
+          azi=bsxfun(@times,Obj.ListenerRotation(:,1),ones(size(Obj.ListenerPosition,1),1));
+          ele=bsxfun(@times,Obj.ListenerRotation(:,2),ones(size(Obj.ListenerPosition,1),1));
+          r=bsxfun(@times,Obj.ListenerPosition(:,1),ones(size(Obj.ListenerRotation,1),1));
+          % Copy ListenerPosition
+          Obj.ListenerPosition=Obj.SourcePosition;
+          % Overwrite SourcePosition
+          Obj.SourcePosition=[azi ele r];
+          Obj.SourcePosition_Type='spherical';
+          Obj.SourcePosition_Units='degree, degree, meter';
+          % Mirror the ListenerView and correct ListenerUp
+          Obj.ListenerView=-Obj.ListenerView;
+          Obj.ListenerUp=[0 0 1];
+          % Remove irrelevant fields
+          if isfield(Obj,'SourceView'); Obj=rmfield(Obj,'SourceView'); end
+          if isfield(Obj,'SourceView_Type'); Obj=rmfield(Obj,'SourceView_Type'); end
+          if isfield(Obj,'SourceView_Units'); Obj=rmfield(Obj,'SourceView_Units'); end
+          if isfield(Obj,'SourceUp'); Obj=rmfield(Obj,'SourceUp'); end
+          if isfield(Obj,'SourceUp_Type'); Obj=rmfield(Obj,'SourceUp_Type'); end
+          if isfield(Obj,'SourceUp_Units'); Obj=rmfield(Obj,'SourceUp_Units'); end
           Obj=rmfield(Obj,'ListenerRotation');
           Obj=rmfield(Obj,'ListenerRotation_Type');
           Obj=rmfield(Obj,'ListenerRotation_Units');
-          Obj.Dimensions=rmfield(Obj.Dimensions,'ListenerRotation');
-          warning('SimpleFreeFieldHRIR upgraded to 0.3. Note: ListenerRotation renamed to APV. Other metadata not converted and should be checked!');
+          Obj.API.Dimensions=rmfield(Obj.API.Dimensions,'ListenerRotation');
+          warning('SimpleFreeFieldHRIR 0.2 upgraded to 0.3');
       end
-    end
+    end    
 end

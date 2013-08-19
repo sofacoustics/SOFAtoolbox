@@ -11,6 +11,12 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v??? (19.8.2013) by Piotr Majdak
+- upgrade to SOFA 0.5
+- upgrade to SimpleFreeFieldHRIR 0.3
+- apparent position vectors calculated on the fly now, SOFAcalculateAPV added
+- SOFAplotGeometry started
+
 *** v0.2.9 (30.5.2013) by Piotr Majdak
 - development snapshot for the draft of SOFA 0.4 
 - tested for Matlab (Octave support not finished yet)

@@ -17,4 +17,4 @@ function Obj = SOFAaddVariable(Obj,Name,Dim,Value)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 Obj.(Name)=Value;
-Obj.Dimensions.(Name)=Dim;
+Obj.API.Dimensions.(Name)=Dim;

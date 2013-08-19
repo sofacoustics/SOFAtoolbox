@@ -16,7 +16,7 @@ function SOFAplotGeometry(Obj, index)
 
 Obj=SOFAexpand(Obj);
 if ~exist('index','var')
-  index=1:Obj.DimSize.M;
+  index=1:Obj.API.DimSize.M;
 end
 
 switch Obj.GLOBAL_SOFAConventions
@@ -70,7 +70,8 @@ switch Obj.GLOBAL_SOFAConventions
     S=Obj.SourcePosition(index,:);    
     X=S(:,1); Y=S(:,2); Z=S(:,3);
     h(end+1)=plot3(X,Y,Z,'b.');
-    legend(h,{'ListenerPosition','ListenerView','Receivers','SourcePosition'});
+%     legend(h,{'ListenerPosition','ListenerView','Receivers','SourcePosition'});
+    legend(h,{'ListenerPosition','ListenerView','SourcePosition'});
     title('SingleRoomDRIR');
   otherwise
     error('SOFAConventions not supported');

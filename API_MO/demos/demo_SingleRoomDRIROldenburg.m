@@ -110,12 +110,12 @@ Obj.GLOBAL_RoomDescription='Office II at the University of Oldenburg, T_60 = 300
 Obj.RoomCornerA = [0; 0; 0];
 Obj.RoomCornerA_Type = 'cartesian';
 Obj.RoomCornerA_Units = 'meter';
-Obj.Dimensions.RoomCornerA='C';
+Obj.API.Dimensions.RoomCornerA='C';
 
 Obj.RoomCornerB = [3.3; 6; 0];
 Obj.RoomCornerB_Type = 'cartesian';
 Obj.RoomCornerB_Units = 'meter';
-Obj.Dimensions.RoomCornerB='C';
+Obj.API.Dimensions.RoomCornerB='C';
  
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);

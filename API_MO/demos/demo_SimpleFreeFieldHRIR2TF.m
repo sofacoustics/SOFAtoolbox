@@ -31,17 +31,17 @@ disp('Converting SimpleFreeFieldHRIR to SimpleFreeFieldTF');
 
 %% Copy variables and metadata
 TFempty=rmfield(TF,fieldnames(SOFAgetConventions('SimpleFreeFieldTF','r')));  % skip all read-only metadata
-Xf=fieldnames(rmfield(TFempty,{'DimSize','Dimensions','Data'}));  % skip other internal
+Xf=fieldnames(rmfield(TFempty,{'API','Data'}));  % skip other internal
 for ii=1:length(Xf)
   if isfield(IR, (Xf{ii})), TF.(Xf{ii})=IR.(Xf{ii}); end % copy if available
 end
 
 %% Transform data
-TF.Data.Real=zeros(IR.DimSize.M,IR.DimSize.R,length(bins));
-TF.Data.Imag=zeros(IR.DimSize.M,IR.DimSize.R,length(bins));
-TF.N=(bins*IR.Data.SamplingRate/IR.DimSize.N)';
+TF.Data.Real=zeros(IR.API.DimSize.M,IR.API.DimSize.R,length(bins));
+TF.Data.Imag=zeros(IR.API.DimSize.M,IR.API.DimSize.R,length(bins));
+TF.N=(bins*IR.Data.SamplingRate/IR.API.DimSize.N)';
 
-for ii=1:IR.DimSize.M
+for ii=1:IR.API.DimSize.M
   cplx=fft((IR.Data.IR(ii,:,:)));
   TF.Data.Real(ii,:,:)=real(cplx(:,:,bins));
   TF.Data.Imag(ii,:,:)=imag(cplx(:,:,bins));

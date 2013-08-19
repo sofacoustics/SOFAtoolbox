@@ -1,6 +1,6 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL_Conventions	SOFA	rm	  		Must be always SOFA
-GLOBAL_Version	0.4	rm	 		Describes the SOFA version
+GLOBAL_Version	0.5	rm	 		Describes the SOFA version
 GLOBAL_APIName		rm	  		Insert the API Name here
 GLOBAL_APIVersion		rm	  		Insert the API Version here
 GLOBAL_AuthorContact		m	  		

@@ -2,7 +2,7 @@ function [Obj, log] = SOFAexpand(Obj,VarName)
 %SOFAexpand
 %   Obj = SOFAexpand(Obj) expands the singleton dimensions of all variables.
 %   Only variables will be expanded. Data and attributes won't. Note that
-%   also Obj.Dimensions will be updated to the new dimensions.
+%   also Obj.API.Dimensions will be updated to the new dimensions.
 % 
 %		Obj = SOFAexpand(Obj,VarName) expands the singleton dimensions of 
 %		the variable VarName.
@@ -28,8 +28,9 @@ Obj=SOFAupdateDimensions(Obj);
 if ~exist('VarName','var'),
 %% Expand all variables
 	% create field names which should have dimensions
-	X=rmfield(Obj,{'Data','Dimensions','DimSize'});
-  dims=fieldnames(Obj.DimSize);
+	X=rmfield(Obj,{'Data','API'});
+  if isfield(X,'PRIVATE'), X=rmfield(X,'PRIVATE'); end
+  dims=fieldnames(Obj.API.DimSize);
 % 	for ii=1:length(dims)
 % 		if isfield(X,upper(dims{ii})), X=rmfield(X,upper(dims{ii})); end
 % 	end
@@ -38,26 +39,26 @@ if ~exist('VarName','var'),
 	% Update the dimensions structure w/o data
 	for ii=1:length(Xf)
 		if ~isempty(strfind(Xf{ii},'_')),	continue; end; % is an attribute --> not expandable
-		if ~isfield(OC.Dimensions, Xf{ii}), continue; end; % is a used-defined variable --> not expandable
-		dim=OC.Dimensions.(Xf{ii}); % all possible dimensions
+		if ~isfield(OC.API.Dimensions, Xf{ii}), continue; end; % is a used-defined variable --> not expandable
+		dim=OC.API.Dimensions.(Xf{ii}); % all possible dimensions
 		if ~iscell(dim), continue; end;	% is a variable with a single dimension definition --> not expandable
 		[varNew,dimNew]=expand(Obj,Xf{ii},dim);
 		if ~isempty(varNew),
 			Obj.(Xf{ii})=varNew;
-			Obj.Dimensions.(Xf{ii})=dimNew;
+			Obj.API.Dimensions.(Xf{ii})=dimNew;
 			log{end+1}=[Xf{ii} ' expanded to ' dimNew];
 		end
 	end
 	
 else	% Expand a single variable only
 	if isempty(strfind(VarName,'_')),	% is an attribute --> not expandable
-		if isfield(OC.Dimensions, VarName), % is a used-defined variable --> not expandable
-			dim=OC.Dimensions.(VarName); % all possible dimensions
+		if isfield(OC.API.Dimensions, VarName), % is a used-defined variable --> not expandable
+			dim=OC.API.Dimensions.(VarName); % all possible dimensions
             if iscell(dim), % is a variable with a single dimension definition --> not expandable
                 [varNew,dimNew]=expand(Obj,VarName,dim);
                 if ~isempty(varNew),
                     Obj.(VarName)=varNew;
-                    Obj.Dimensions.(VarName)=dimNew;
+                    Obj.API.Dimensions.(VarName)=dimNew;
                     log{end+1}=[VarName ' expanded to ' dimNew];
                 end
             end
@@ -85,4 +86,4 @@ function [var,dN]=expand(Obj,f,dims)
 	if ~exist('var','var'), var=[]; dN=[]; end;
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
-	vec=arrayfun(@(f)(Obj.DimSize.(f)),upper(str));
+	vec=arrayfun(@(f)(Obj.API.DimSize.(f)),upper(str));

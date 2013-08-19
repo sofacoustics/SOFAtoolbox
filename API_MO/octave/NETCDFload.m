@@ -79,9 +79,9 @@ try
             if strfind(fieldName,'.')
                 fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
                 fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
-                Obj.Dimensions.(fieldName1).(fieldName2) = dimNames;
+                Obj.API.Dimensions.(fieldName1).(fieldName2) = dimNames;
             else
-                Obj.Dimensions.(fieldName) = dimNames;
+                Obj.API.Dimensions.(fieldName) = dimNames;
             end
         end
             

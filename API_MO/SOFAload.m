@@ -88,7 +88,8 @@ if ~isfield(Obj,'GLOBAL_DataType'), error('DataType is missing'); end
 if ~strcmp(Obj.GLOBAL_DataType,X.GLOBAL_DataType), error('Wrong DataType'); end
 
 %% Ensure backwards compatibility
-Obj=SOFAupgradeConventions(Obj);
+[Obj,modified]=SOFAupgradeConventions(Obj);
+while modified, [Obj,modified]=SOFAupgradeConventions(Obj); end
 
 %% If data loaded, check if correct data format
 if ~strcmp(flags,'nodata'),
@@ -97,7 +98,7 @@ if ~strcmp(flags,'nodata'),
 	for ii=1:length(f)
 		if ~isfield(Obj.Data,f{ii})
       Obj.Data.(f{ii})=X.Data.(f{ii});
-      Obj.Dimensions.Data.(f{ii})=X.Dimensions.Data.(f{ii});
+      Obj.API.Dimensions.Data.(f{ii})=X.API.Dimensions.Data.(f{ii});
       warning(['Data.' f{ii} ' was missing, set to default']);
     end
 	end
@@ -110,7 +111,7 @@ for ii=1:length(f)
 	if ~isfield(Obj,f{ii})
     Obj.(f{ii})=X.(f{ii});
     if ~strfind(f{ii},'_'),
-      Obj.Dimensions.(f{ii})=X.Dimensions.(f{ii});
+      Obj.API.Dimensions.(f{ii})=X.API.Dimensions.(f{ii});
     end
     warning([f{ii} ' was missing, set to default']);
   end

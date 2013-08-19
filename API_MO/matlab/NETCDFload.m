@@ -45,7 +45,7 @@ try
 	countp=zeros(numdims,1); % vector with the element count in a dimension
 	for ii=0:numdims-1
     [var,len] = netcdf.inqDim(ncid,dimids(ii+1));
-		Obj.DimSize.(var) = len;
+		Obj.API.DimSize.(var) = len;
 		dims{ii+1}=var;
 		startp(ii+1)=0;
 		countp(ii+1)=len;
@@ -54,7 +54,7 @@ try
 	
 %% Check the requested measurements
 if isnumeric(flags)
-	if Obj.DimSize.M<flags(2), error('Requested end index exceeds the measurement count'); end;
+	if Obj.API.DimSize.M<flags(2), error('Requested end index exceeds the measurement count'); end;
 	startp(strfind(Dims,'M'))=flags(1)-1;
 	countp(strfind(Dims,'M'))=flags(2);
 end
@@ -69,7 +69,7 @@ end
 				if ~strcmp(flags,'nodata')
 					data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
 					dim=fliplr(cell2mat(dims(vardimids+1))');
-					Obj.Dimensions.Data.(var(6:end))=dim;
+					Obj.API.Dimensions.Data.(var(6:end))=dim;
 					if length(dim)>1
 						Obj.Data.(var(6:end))=permute(data, length(dim):-1:1); 
 					else
@@ -79,7 +79,7 @@ end
 			else
 				data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
 				dim=fliplr(cell2mat(dims(vardimids+1))');
-				Obj.Dimensions.(var)=dim;
+				Obj.API.Dimensions.(var)=dim;
 				if length(dim)>1
 					Obj.(var)=permute(data, length(dim):-1:1); 
 				else

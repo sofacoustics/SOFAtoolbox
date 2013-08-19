@@ -37,12 +37,13 @@ end
 if min(azi)<0,	% Check for the required coordinate system
 	Obj.SourcePosition(:,1)=sph2nav(Obj.SourcePosition(:,1)); % if negative azimuths are required, swith to -90/+90 system
 end
+N=Obj.API.DimSize.N;
 
 %% resize the input signal to be integer multiple of HRIR
 L=length(in);
-in=[in; zeros(Obj.DimSize.N-mod(L,Obj.DimSize.N),1)];
+in=[in; zeros(N-mod(L,N),1)];
 L=length(in);		% correct length of the input signal
-S=L/Obj.DimSize.N/hop;	% number of segments to filter
+S=L/N/hop;	% number of segments to filter
 
 %% Resample the trajectory
 if length(azi)>1, 
@@ -72,21 +73,21 @@ else
 end
 
 %% Spatialize   
-out=zeros(L+Obj.DimSize.N/hop,2);
-window=hanning(Obj.DimSize.N);
+out=zeros(L+N/hop,2);
+window=hanning(N);
 ii=0;
 jj=1;
-iiend=L-Obj.DimSize.N;
+iiend=L-N;
 while ii<iiend    
-		segT=in(ii+1:ii+Obj.DimSize.N).*window;	% segment in time domain
-		segF=fft(segT,2*Obj.DimSize.N);	% segment in frequency domain with zero padding
+		segT=in(ii+1:ii+N).*window;	% segment in time domain
+		segF=fft(segT,2*N);	% segment in frequency domain with zero padding
 		%-----------
-		segFO(:,1)=squeeze(fft(Obj.Data.IR(idx(jj),1,:),2*Obj.DimSize.N)).*segF;
-		segFO(:,2)=squeeze(fft(Obj.Data.IR(idx(jj),2,:),2*Obj.DimSize.N)).*segF;
+		segFO(:,1)=squeeze(fft(Obj.Data.IR(idx(jj),1,:),2*N)).*segF;
+		segFO(:,2)=squeeze(fft(Obj.Data.IR(idx(jj),2,:),2*N)).*segF;
 		%-----------
 		segTO=real(ifft(segFO));   % back to the time domain
-		out(ii+1:ii+2*Obj.DimSize.N,:)=out(ii+1:ii+2*Obj.DimSize.N,:)+segTO;  % overlap and add
-		ii=ii+Obj.DimSize.N*hop;
+		out(ii+1:ii+2*N,:)=out(ii+1:ii+2*N,:)+segTO;  % overlap and add
+		ii=ii+N*hop;
 		jj=jj+1;
 end
 

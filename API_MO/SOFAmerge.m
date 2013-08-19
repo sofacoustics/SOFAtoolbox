@@ -20,7 +20,7 @@ function [C, log] = SOFAmerge(A,B)
 if ~strcmp(A.GLOBAL_SOFAConventions,B.GLOBAL_SOFAConventions)
 	error('Both SOFA objects must use the same SOFA conventions');
 end
-if A.DimSize.N~=B.DimSize.N
+if A.API.DimSize.N~=B.API.DimSize.N
 	error('Data size of both SOFA objects must be the same');
 end
 Def = SOFAdefinitions;
@@ -32,7 +32,8 @@ A=SOFAupdateDimensions(A);
 B=SOFAupdateDimensions(B);
 
 %% create field names which have to be checked
-C=rmfield(B,{'Dimensions','Data','DimSize'});
+C=rmfield(B,{'API','Data'});
+if isfield(C,'PRIVATE'), C=rmfield(C,'PRIVATE'); end
 Bf=fieldnames(C);
 
 %% Copy and merge metadata variables
@@ -60,21 +61,21 @@ for ii=1:size(Bf,1)
 				end
 			end
 		else	% a variable
-			if isfield(OC.Dimensions, Bf{ii})	% is a known variable?
+			if isfield(OC.API.Dimensions, Bf{ii})	% is a known variable?
 				AExp=SOFAexpand(A,Bf{ii});
 				BExp=SOFAexpand(B,Bf{ii});
-				dim=strfind(AExp.Dimensions.(Bf{ii}),'M');	
+				dim=strfind(AExp.API.Dimensions.(Bf{ii}),'M');	
 				if isempty(dim),
 					error([Bf{ii} ' can not be merged because it does not depend on M']);
 				end
 				C.(Bf{ii})=cat(dim,AExp.(Bf{ii}),BExp.(Bf{ii}));
 				log{end+1}=[Bf{ii} ' expanded and merged'];
 			else	% user-defined variable, dimensions must be stated
-				if ~isfield(A.Dimensions, Bf{ii})
+				if ~isfield(A.API.Dimensions, Bf{ii})
 					error(['Dimension missing for ' Bf{ii} ' in A.']); end
-				if ~isfield(B.Dimensions, Bf{ii})
+				if ~isfield(B.API.Dimensions, Bf{ii})
 					error(['Dimension missing for ' Bf{ii} ' in B.']); end
-				dim=strfind(A.Dimensions.(Bf{ii}),'M');	
+				dim=strfind(A.API.Dimensions.(Bf{ii}),'M');	
 				if ~isempty(dim),
           C.(Bf{ii})=cat(dim,A.(Bf{ii}),B.(Bf{ii})); % depends on M, merge
           log{end+1}=[Bf{ii} ' merged'];
@@ -105,8 +106,8 @@ for ii=1:size(Bf,1)
 				log{end+1}=['Data.' Bf{ii} ' merged'];
 			end
 		else	% a variable in Data
-			if isfield(OC.Dimensions.Data,Bf{ii})	% is a known variable?
-				dim=strfind(A.Dimensions.Data.(Bf{ii}),'M'); % is a matrix
+			if isfield(OC.API.Dimensions.Data,Bf{ii})	% is a known variable?
+				dim=strfind(A.API.Dimensions.Data.(Bf{ii}),'M'); % is a matrix
 				if ~isempty(dim),
           C.Data.(Bf{ii})=cat(dim,A.Data.(Bf{ii}),B.Data.(Bf{ii})); % depends on M, cat
           log{end+1}=['Data.' Bf{ii} ' merged'];
@@ -119,11 +120,11 @@ for ii=1:size(Bf,1)
           end
         end
 			else	% user-defined variable, dimensions must be stated
-				if ~isfield(A.Dimensions.Data, Bf{ii})
+				if ~isfield(A.API.Dimensions.Data, Bf{ii})
 					error(['Dimension missing for Data.' Bf{ii} ' in A.']); end
-				if ~isfield(B.Dimensions.Data, Bf{ii})
+				if ~isfield(B.API.Dimensions.Data, Bf{ii})
 					error(['Dimension missing for Data.' Bf{ii} ' in B.']); end
-				dim=strfind(A.Dimensions.Data.(Bf{ii}),'M');	
+				dim=strfind(A.API.Dimensions.Data.(Bf{ii}),'M');	
 				if ~isempty(dim),
           C.Data.(Bf{ii})=cat(dim,A.Data.(Bf{ii}),B.Data.(Bf{ii})); % depends on M, cat
           log{end+1}=['Data.' Bf{ii} ' merged'];
@@ -146,4 +147,4 @@ if length(log)>1, log=log(2:end); else log={}; end;
 
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
-	vec=arrayfun(@(f)(Obj.DimSize.(f)),upper(str));
+	vec=arrayfun(@(f)(Obj.API.DimSize.(f)),upper(str));

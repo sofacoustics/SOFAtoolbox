@@ -80,14 +80,14 @@ for ii=1:size(C{1,1},1)
       if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
         x2=regexprep(C{4}{ii},' ',''); %  remove spaces
         y=regexprep(x2,',',['''' 10 '''']); % enclose in quatations and insert line breaks
-        Obj.Dimensions.(var)=eval(['{''' y '''}']);
+        Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
       end
     else      
       Obj.Data.(var(6:end))=C{2}{ii};
       if isempty(strfind(var(6:end),'_')) 
         x2=regexprep(C{4}{ii},' ',''); %  remove spaces
         y=regexprep(x2,',',['''' 10 '''']); % enclose in quatations and insert line breaks
-        Obj.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
+        Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
       end      
     end
 	end
@@ -96,35 +96,35 @@ end
 
 %% Overwrite some special fields
 if isfield(Obj,'GLOBAL_APIVersion'), Obj.GLOBAL_APIVersion=SOFAgetVersion; end
-if isfield(Obj,'GLOBAL_API'), Obj.GLOBAL_API='ARI Matlab/Octave API'; end
+if isfield(Obj,'GLOBAL_APIName'), Obj.GLOBAL_APIName='ARI Matlab/Octave API'; end
 
 %% Create dimension size variables - if not read-only
 if flags=='r', return; end
   % fix dimension sizes
-Obj.DimSize.I=1;
-Obj.DimSize.C=3;
+Obj.API.DimSize.I=1;
+Obj.API.DimSize.C=3;
   % variable-dependent dimension sizes
 dims='renm'; 
   % check all metadata variables
-f=fieldnames(rmfield(Obj.Dimensions,'Data'));
+f=fieldnames(rmfield(Obj.API.Dimensions,'Data'));
 for ii=1:length(dims)
 	for jj=1:length(f)
-		dim=strfind(Obj.Dimensions.(f{jj}),dims(ii));
+		dim=strfind(Obj.API.Dimensions.(f{jj}),dims(ii));
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
-			Obj.DimSize.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
+			Obj.API.DimSize.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
 			break;
 		end
 	end
 end
   % check all data variables
-fd=fieldnames(Obj.Dimensions.Data);
+fd=fieldnames(Obj.API.Dimensions.Data);
 for ii=1:length(dims)
 	for jj=1:length(fd)
-		dim=strfind(Obj.Dimensions.Data.(fd{jj}),dims(ii));
+		dim=strfind(Obj.API.Dimensions.Data.(fd{jj}),dims(ii));
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
-			Obj.DimSize.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
+			Obj.API.DimSize.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
 			break;
 		end
 	end

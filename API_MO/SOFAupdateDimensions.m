@@ -4,7 +4,7 @@ function Obj = SOFAupdateDimensions(Obj)
 %   structure
 %
 %   Obj is a struct containing the data and meta.
-%		The dimension sizes are created as .DimSize and updated corresponding to the
+%		The dimension sizes are created as .API.DimSize and updated corresponding to the
 %		conventions
 
 % SOFA API - function SOFAupdateDimensions
@@ -21,55 +21,56 @@ OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
 %% Update dimension sizes
 
   % fix dimension sizes
-Obj.DimSize.I=1;
-Obj.DimSize.C=3;
+Obj.API.DimSize.I=1;
+Obj.API.DimSize.C=3;
   % variable-dependent dimension sizes
 dims='renm'; 
   % check all metadata variables
-f=fieldnames(rmfield(OC.Dimensions,'Data'));
+f=fieldnames(rmfield(OC.API.Dimensions,'Data'));
 for ii=1:length(dims)
 	for jj=1:length(f)
-		dim=strfind(OC.Dimensions.(f{jj}),dims(ii));
+		dim=strfind(OC.API.Dimensions.(f{jj}),dims(ii));
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
-			Obj.DimSize.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
+			Obj.API.DimSize.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
 			break;
 		end
 	end
 end
   % check all data variables
-fd=fieldnames(OC.Dimensions.Data);
+fd=fieldnames(OC.API.Dimensions.Data);
 for ii=1:length(dims)
 	for jj=1:length(fd)
-		dim=strfind(OC.Dimensions.Data.(fd{jj}),dims(ii));
+		dim=strfind(OC.API.Dimensions.Data.(fd{jj}),dims(ii));
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
-			Obj.DimSize.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
+			Obj.API.DimSize.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
 			break;
 		end
 	end
 end
 
 %% Update the dimensions of metadata variables
-X=rmfield(Obj,{'Data','Dimensions','DimSize'});
+X=rmfield(Obj,{'Data','API'});
+if isfield(X,'PRIVATE'), X=rmfield(X,'PRIVATE'); end
 Xf=fieldnames(X);
 for ii=1:length(Xf)
 	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
-		if isfield(OC.Dimensions, Xf{ii}), % is a known variable		
+		if isfield(OC.API.Dimensions, Xf{ii}), % is a known variable		
 %       disp(Xf{ii});
-			dim=OC.Dimensions.(Xf{ii});
+			dim=OC.API.Dimensions.(Xf{ii});
 			if ~iscell(dim), dim={dim}; end;
 			dim=checkdim(Obj,dim,size(Obj.(Xf{ii})));
 			if isempty(dim),
 				error([Xf{ii} ': dimension could not be matched.']);
 			else
-				Obj.Dimensions.(Xf{ii})=dim;
+				Obj.API.Dimensions.(Xf{ii})=dim;
 			end
 		else % is a user-defined variable						
-			if ~isfield(Obj.Dimensions,Xf{ii}),
+			if ~isfield(Obj.API.Dimensions,Xf{ii}),
 				error([Xf{ii} ' seems to be a user-defined variable without a dimension.']);
       else
-        dim=Obj.Dimensions.(Xf{ii});
+        dim=Obj.API.Dimensions.(Xf{ii});
         dim=checkdim(Obj,{dim},size(Obj.(Xf{ii})));
         if isempty(dim),
           error([Xf{ii} ': dimension does not match.']);
@@ -83,14 +84,14 @@ end
 Xf=fieldnames(Obj.Data);
 for ii=1:length(Xf)
 	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
-		if isfield(OC.Dimensions.Data, Xf{ii}), 			% is a known variable
-			dim=OC.Dimensions.Data.(Xf{ii}); 
+		if isfield(OC.API.Dimensions.Data, Xf{ii}), 			% is a known variable
+			dim=OC.API.Dimensions.Data.(Xf{ii}); 
 			if ~iscell(dim), dim={dim}; end;
 			dim=checkdim(Obj,dim,size(Obj.Data.(Xf{ii})));
 			if isempty(dim),
 				error(['Data.' Xf{ii} ': dimension could not be matched.']);
 			else
-				Obj.Dimensions.Data.(Xf{ii})=dim;
+				Obj.API.Dimensions.Data.(Xf{ii})=dim;
 			end
 		else
 			error(['Unknown data variable' Xf{ii} '.']);
@@ -109,7 +110,7 @@ dim=[];
 for jj=1:length(dims)
   dimS=dims{jj};
   if length(dimS)==1, dimS=[dimS 'I']; end; % 1D required, but Matlab is always 2D at least.
-	dimR=getdim(Obj.DimSize,dimS);
+	dimR=getdim(Obj.API.DimSize,dimS);
 	if length(dimA)==length(dimR), % the same size?
 		if dimA==dimR, dim=upper(dims{jj}); break; end;	% found!
 	elseif length(dimA)<length(dimR)	% extend the size?

@@ -26,6 +26,9 @@ Def = SOFAdefinitions;
 %% check file name
 filename=SOFAcheckFilename(filename);
 
+%% Remove private data
+if isfield(Obj,'PRIVATE'), Obj=rmfield(Obj,'PRIVATE'); end
+
 %% Check convention: mandatory variables
 ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
 

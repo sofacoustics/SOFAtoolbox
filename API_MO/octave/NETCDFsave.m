@@ -26,12 +26,12 @@ ncid = netcdf(filename,'c','NETCDF4 with classical model');
 
 %% ===== Loop through all fields in Obj -1- ==============================
 % Remove unneeded Dimensions entry
-Obj1 = rmfield(Obj,'Dimensions');
-fields = fieldnames(Obj1.DimSize);
+Obj1 = rmfield(Obj,'API');
+fields = fieldnames(Obj.API.DimSize);
 for ii=1:length(fields)
     % store current field name and its value
     fieldName = fields{ii};
-    fieldVal = Obj1.DimSize.(fieldName);
+    fieldVal = Obj.API.DimSize.(fieldName);
 
     % ----- Dimensions ---------------------------------------------------
     if any(strcmp(struct2cell(dims),fieldName))
@@ -59,7 +59,7 @@ end
 
 %% ===== Loop through all fields in Obj -2- ==============================
 % remove dimension fields before the loop
-Obj2 = rmfield(Obj1,'DimSize');
+Obj2 = rmfield(Obj,'API');
 fields = fieldnames(Obj2);
 for ii=1:length(fields);
     % store the current field name and its value
@@ -93,13 +93,13 @@ for ii=1:length(fields);
                     ncid{['Data.' dataFieldName]} = ncdouble(dims.M, ...
                         'TOAModelParameter');
                 elseif ndims(dataFieldVal)==2 && ...
-                    size(dataFieldVal)==[Obj.DimSize.I Obj.DimSize.R]  % [I R]
+                    size(dataFieldVal)==[Obj.API.DimSize.I Obj.API.DimSize.R]  % [I R]
                     ncid{['Data.' dataFieldName]} = ncdouble(dims.I,dims.R);
                 elseif ndims(dataFieldVal)==2 && ...
-                    size(dataFieldVal)==[Obj.DimSize.M Obj.DimSize.R]  % [M R]
+                    size(dataFieldVal)==[Obj.API.DimSize.M Obj.API.DimSize.R]  % [M R]
                     ncid{['Data.' dataFieldName]} = ncdouble(dims.M,dims.R);
                 elseif ndims(dataFieldVal)==3 && ...
-                    size(dataFieldVal)==[Obj.DimSize.M Obj.DimSize.R Obj.DimSize.N] % [M R N]
+                    size(dataFieldVal)==[Obj.API.DimSize.M Obj.API.DimSize.R Obj.API.DimSize.N] % [M R N]
                     ncid{['Data.' dataFieldName]} = ncdouble(dims.M, ...
                                                              dims.R, ...
                                                              dims.N);
@@ -137,9 +137,9 @@ for ii=1:length(fields);
            ~isempty(strfind(fieldName,'Source')) ) && ...
             isempty(strfind(fieldName,'_'))
 
-        if size(fieldVal)==[Obj.DimSize.I Obj.DimSize.C]               % [C]
+        if size(fieldVal)==[Obj.API.DimSize.I Obj.API.DimSize.C]               % [C]
             ncid{fieldName} = ncfloat(dims.I,dims.C);
-        elseif size(fieldVal)==[Obj.DimSize.M Obj.DimSize.C]           % [M C]
+        elseif size(fieldVal)==[Obj.API.DimSize.M Obj.API.DimSize.C]           % [M C]
             ncid{fieldName} = ncfloat(dims.M,dims.C);
         end
 
@@ -151,9 +151,9 @@ for ii=1:length(fields);
     elseif ~isempty(strfind(fieldName,'Receiver')) && ...
             isempty(strfind(fieldName,'_'))
 
-        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.DimSize.R Obj.DimSize.C] % [R C]
+        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.API.DimSize.R Obj.API.DimSize.C] % [R C]
             ncid{fieldName} = ncfloat(dims.R,dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.DimSize.R Obj.DimSize.C Obj.DimSize.M] % [R C M]
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.API.DimSize.R Obj.API.DimSize.C Obj.API.DimSize.M] % [R C M]
             ncid{fieldName} = ncfloat(dims.R,dims.C,dims.M);
         end
 
@@ -165,9 +165,9 @@ for ii=1:length(fields);
     elseif ~isempty(strfind(fieldName,'Emitter')) && ...
             isempty(strfind(fieldName,'_'))
 
-        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.DimSize.E Obj.DimSize.C] % [E C]
+        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.API.DimSize.E Obj.API.DimSize.C] % [E C]
             ncid{fieldName} = ncfloat(dims.E,dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.DimSize.E Obj.DimSize.C Obj.DimSize.M] % [E C M]
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.API.DimSize.E Obj.API.DimSize.C Obj.API.DimSize.M] % [E C M]
             ncid{fieldName} = ncfloat(dims.E,dims.C,dims.M);
         end
 
@@ -179,9 +179,9 @@ for ii=1:length(fields);
     elseif ~isempty(strfind(fieldName,'RoomCorner')) && ...
             isempty(strfind(fieldName,'_'))
 
-        if ndims(fieldVal)==2 && size(fieldVal)==[2 Obj.DimSize.C]     % [2 C]
+        if ndims(fieldVal)==2 && size(fieldVal)==[2 Obj.API.DimSize.C]     % [2 C]
             ncid{fieldName} = ncfloat('NumberOfRoomCorners',dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[2 Obj.DimSize.C Obj.DimSize.M] % [2 C M]
+        elseif ndims(fieldVal)==3 && size(fieldVal)==[2 Obj.API.DimSize.C Obj.API.DimSize.M] % [2 C M]
             ncid{fieldName} = ncfloat('NumberOfRoomCorners',dims.C,dims.M);
         end
 

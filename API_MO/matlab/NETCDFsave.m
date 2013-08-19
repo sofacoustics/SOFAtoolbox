@@ -35,38 +35,24 @@ try
 	
 %% Define dimensions
 
-  Dims=cell2mat(fieldnames(Obj.DimSize)');
+  Dims=cell2mat(fieldnames(Obj.API.DimSize)');
 	dimid=nan(size(Dims));
 	dimsize=nan(size(Dims));
 	for ii=1:length(Dims)
 		var=Dims(ii);
-		dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.DimSize.(var)); 
-		dimsize(ii)=Obj.DimSize.(var);
+		dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.API.DimSize.(var)); 
+		dimsize(ii)=Obj.API.DimSize.(var);
 	end
 	netcdf.endDef(ncid);
 
-%% Save dimension variables
-
-% 	for ii=1:length(dimsize)
-% 		var=Dims(ii);
-% 		if ~isnan(dimid(ii))
-% 			VarId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_INT'),dimid(ii));
-% 			netcdf.putVar(ncid,VarId,1:Obj.(var));
-% 			for jj=1:length(f)
-% 				if ~isempty(strfind(f{jj},[var '_']))
-% 					netcdf.putAtt(ncid,VarId,f{jj}(strfind(f{jj},[var '_'])+length([var '_']):end),Obj.(f{jj}));
-% 				end
-% 			end
-% 		end
-% 	end
 
 %% Save metadata variables and their attributes
-Dimensions=rmfield(Obj.Dimensions,'Data');
+Dimensions=rmfield(Obj.API.Dimensions,'Data');
 fv=fieldnames(Dimensions);
 
 	for ii=1:length(fv)
 		var=fv{ii};
-		if isempty(strfind(var,'_')) && ~strcmp(var,'Dimensions')	% skip all attributes	& dimensions
+		if isempty(strfind(var,'_')) && ~strcmp(var,'API')	% skip all attributes	& dimensions
 			ids=cell2mat(regexp(Dims,cellstr((Dimensions.(var))')));
 			varId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
 			netcdf.defVarDeflate(ncid,varId,true,true,Compression);
@@ -84,13 +70,13 @@ fv=fieldnames(Dimensions);
 	end
 
 %% Save data variables and their attributes
-fd=fieldnames(Obj.Dimensions.Data);
+fd=fieldnames(Obj.API.Dimensions.Data);
 fod=fieldnames(Obj.Data);
 	
 	for ii=1:length(fd)
 		var=fd{ii};
 		if isempty(strfind(var,'_'))	% skip all attributes				
-			ids=cell2mat(regexp(Dims,cellstr((Obj.Dimensions.Data.(var))')));
+			ids=cell2mat(regexp(Dims,cellstr((Obj.API.Dimensions.Data.(var))')));
 			varId = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
 			netcdf.defVarDeflate(ncid,varId,true,true,Compression);
 			if length(ids)>1
