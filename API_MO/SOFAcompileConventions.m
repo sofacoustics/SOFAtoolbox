@@ -50,7 +50,7 @@ for jj=1:length(conventions)
   fclose(fid);
   Obj=compileConvention(C,'r');
   if strcmp(Obj.GLOBAL_SOFAConventions,conventions{jj})
-    disp(['Compiling ' conventions{jj}]);
+    disp(['Compiling ' conventions{jj} ' ' Obj.GLOBAL_SOFAConventionsVersion ' for SOFA ' Obj.GLOBAL_Version]);
     save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-r.mat'],'Obj');    
     flags='am';
     for ii=1:2
@@ -60,16 +60,17 @@ for jj=1:length(conventions)
   end
 end
 
+%%
 function Obj=compileConvention(C,flags)
      
 flagc=cellstr((flags)');
 
-%% create object structure
+% create object structure
 for ii=1:size(C{1,1},1)
   C{3}{ii}=[C{3}{ii} 'a']; 
 	if  ~isempty(cell2mat(regexp(C{3}{ii},flagc)))
-    var=C{1}{ii};
-    switch C{5}{ii}
+    var=regexprep(C{1}{ii},':','_');
+    switch lower(C{5}{ii})
       case 'double'
       C{2}{ii}=str2num(C{2}{ii}); % convert default to double
       case 'string'
@@ -79,7 +80,7 @@ for ii=1:size(C{1,1},1)
       Obj.(var)=C{2}{ii};
       if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
         x2=regexprep(C{4}{ii},' ',''); %  remove spaces
-        y=regexprep(x2,',',['''' 10 '''']); % enclose in quatations and insert line breaks
+        y=regexprep(x2,',',['''' 10 '''']); % enclose in quotations and insert line breaks
         Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
       end
     else      
@@ -94,15 +95,15 @@ for ii=1:size(C{1,1},1)
 end
 
 
-%% Overwrite some special fields
+% Overwrite some special fields
 if isfield(Obj,'GLOBAL_APIVersion'), Obj.GLOBAL_APIVersion=SOFAgetVersion; end
 if isfield(Obj,'GLOBAL_APIName'), Obj.GLOBAL_APIName='ARI Matlab/Octave API'; end
 
-%% Create dimension size variables - if not read-only
+% Create dimension size variables - if not read-only
 if flags=='r', return; end
   % fix dimension sizes
-Obj.API.DimSize.I=1;
-Obj.API.DimSize.C=3;
+Obj.API.I=1;
+Obj.API.C=3;
   % variable-dependent dimension sizes
 dims='renm'; 
   % check all metadata variables
@@ -112,7 +113,7 @@ for ii=1:length(dims)
 		dim=strfind(Obj.API.Dimensions.(f{jj}),dims(ii));
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
-			Obj.API.DimSize.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
+			Obj.API.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
 			break;
 		end
 	end
@@ -124,7 +125,7 @@ for ii=1:length(dims)
 		dim=strfind(Obj.API.Dimensions.Data.(fd{jj}),dims(ii));
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
-			Obj.API.DimSize.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
+			Obj.API.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
 			break;
 		end
 	end

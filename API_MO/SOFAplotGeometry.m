@@ -16,7 +16,7 @@ function SOFAplotGeometry(Obj, index)
 
 Obj=SOFAexpand(Obj);
 if ~exist('index','var')
-  index=1:Obj.API.DimSize.M;
+  index=1:Obj.API.M;
 end
 
 switch Obj.GLOBAL_SOFAConventions

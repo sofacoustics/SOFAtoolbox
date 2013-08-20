@@ -34,7 +34,7 @@ try
     for ii=1:length(dimensions)
         fieldName = ncname(dimensions{ii});
         fieldVal = dimensions{ii}(:);
-        Obj.DimSize.(fieldName) = fieldVal;
+        Obj.(fieldName) = fieldVal;
         dims{ii} = fieldName;
         startp(ii) = 0;
         countp(ii) = fieldVal;

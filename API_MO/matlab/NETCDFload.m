@@ -45,7 +45,7 @@ try
 	countp=zeros(numdims,1); % vector with the element count in a dimension
 	for ii=0:numdims-1
     [var,len] = netcdf.inqDim(ncid,dimids(ii+1));
-		Obj.API.DimSize.(var) = len;
+		Obj.API.(var) = len;
 		dims{ii+1}=var;
 		startp(ii+1)=0;
 		countp(ii+1)=len;
@@ -54,7 +54,7 @@ try
 	
 %% Check the requested measurements
 if isnumeric(flags)
-	if Obj.API.DimSize.M<flags(2), error('Requested end index exceeds the measurement count'); end;
+	if Obj.API.M<flags(2), error('Requested end index exceeds the measurement count'); end;
 	startp(strfind(Dims,'M'))=flags(1)-1;
 	countp(strfind(Dims,'M'))=flags(2);
 end

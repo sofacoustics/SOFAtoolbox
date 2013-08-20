@@ -4,7 +4,7 @@ function Obj = SOFAupdateDimensions(Obj)
 %   structure
 %
 %   Obj is a struct containing the data and meta.
-%		The dimension sizes are created as .API.DimSize and updated corresponding to the
+%		The dimension sizes are created as .API.X and updated corresponding to the
 %		conventions
 
 % SOFA API - function SOFAupdateDimensions
@@ -21,8 +21,8 @@ OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
 %% Update dimension sizes
 
   % fix dimension sizes
-Obj.API.DimSize.I=1;
-Obj.API.DimSize.C=3;
+Obj.API.I=1;
+Obj.API.C=3;
   % variable-dependent dimension sizes
 dims='renm'; 
   % check all metadata variables
@@ -32,7 +32,7 @@ for ii=1:length(dims)
 		dim=strfind(OC.API.Dimensions.(f{jj}),dims(ii));
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
-			Obj.API.DimSize.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
+			Obj.API.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
 			break;
 		end
 	end
@@ -44,7 +44,7 @@ for ii=1:length(dims)
 		dim=strfind(OC.API.Dimensions.Data.(fd{jj}),dims(ii));
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
-			Obj.API.DimSize.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
+			Obj.API.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
 			break;
 		end
 	end
@@ -110,7 +110,7 @@ dim=[];
 for jj=1:length(dims)
   dimS=dims{jj};
   if length(dimS)==1, dimS=[dimS 'I']; end; % 1D required, but Matlab is always 2D at least.
-	dimR=getdim(Obj.API.DimSize,dimS);
+	dimR=getdim(Obj.API,dimS);
 	if length(dimA)==length(dimR), % the same size?
 		if dimA==dimR, dim=upper(dims{jj}); break; end;	% found!
 	elseif length(dimA)<length(dimR)	% extend the size?

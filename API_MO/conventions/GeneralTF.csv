@@ -1,36 +1,38 @@
 Name	Default	Flags	Dimensions	Type	Comment
-GLOBAL_Conventions	SOFA	rm	  		Must be always SOFA
-GLOBAL_Version	0.4	rm	 		Describes the SOFA version
-GLOBAL_SOFAConventions	GeneralTF	rm	  		Describes the SOFA Conventions
-GLOBAL_SOFAConventionsVersion	0.0	rm	  		Describes the version of the Conventions
-GLOBAL_APIName		rm	  		Insert the API Name here
-GLOBAL_APIVersion		rm	  		Insert the API Version here
-GLOBAL_AuthorContact		m	  		
-GLOBAL_License	No license provided, ask the author for permission	m	  		
-GLOBAL_Organization		m	  		
-GLOBAL_RoomType	unspecified	m	  		
-GLOBAL_DataType	TF	rm	  		
-GLOBAL_History		m	 		
-GLOBAL_Source		m			The method of production of the original data. If it was model-generated, source should name the model and its version, as specifically as could be useful. If it is observational, source should characterize it. 
-GLOBAL_Title		m			A succinct description of what is in the dataset 
-GLOBAL_References		m			Published or web-based references that describe the data or methods used to produce it 
-GLOBAL_Comment		m	 		
-GLOBAL_TimeCreated		m	 		will be updated when saving and not existing or empty
-GLOBAL_TimeModified		m	 		will be updated each time when saving
-ListenerPosition	 [1 0 0] 	m	IC, MC	double	
-ListenerPosition_Type	cartesian	m	  		
-ListenerPosition_Units	meter	m	  		
+GLOBAL:Conventions	SOFA	rm	  	attribute	
+GLOBAL:Version	0.5	rm	 	attribute	
+GLOBAL:SOFAConventions	GeneralTF	rm	  	attribute	This conventions stores TFs for general purposes, i.e., only the mandatory, SOFA general metadata are pre-defined. This convention is based on GeneralFIR.
+GLOBAL:SOFAConventionsVersion	0.1	rm	  	attribute	
+GLOBAL:APIName		rm	  	attribute	
+GLOBAL:APIVersion		rm	  	attribute	
+GLOBAL:ApplicationName		m	  	attribute	
+GLOBAL:ApplicationVersion		m	  	attribute	
+GLOBAL:AuthorContact		m	  	attribute	
+GLOBAL:Comment		m	 	attribute	
+GLOBAL:DataType	FIR	rm	  	attribute	We store frequency-dependent data here
+GLOBAL:History		m	 	attribute	
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:Organization		m	  	attribute	
+GLOBAL:References		m		attribute	
+GLOBAL:RoomType	free field	m	  	attribute	The room information can be arbitrary
+GLOBAL:Source		m		attribute	
+GLOBAL:TimeCreated		m	 	attribute	
+GLOBAL:TimeModified		m	 	attribute	
+GLOBAL:Title		m		attribute	
+ListenerPosition	[0 0 0] 	m	IC, MC	double	
+ListenerPosition:Type	cartesian	m	  	attribute	
+ListenerPosition:Units	meter	m	  	attribute	
 ReceiverPosition	[0 -0.09 0; 0 0.09 0]	m	rCI, rCM	double	
-ReceiverPosition_Type	cartesian	m	  		
-ReceiverPosition_Units	meter	m	  		
-SourcePosition	[0 0 0]	m	IC, MC	double	
-SourcePosition_Type	cartesian	m	  		
-SourcePosition_Units	meter	m	  		
+ReceiverPosition:Type	cartesian	m	  	attribute	
+ReceiverPosition:Units	meter	m	  	attribute	
+SourcePosition	[0 0 1]	m	IC, MC	double	In order to store different directions/positions around the listener, SourcePosition is assumed to vary
+SourcePosition:Type	spherical	m	  	attribute	
+SourcePosition:Units	degree, degree, meter	m	  	attribute	
 EmitterPosition	[0 0 0]	m	eCI, eCM	double	
-EmitterPosition_Type	cartesian	m	  		
-EmitterPosition_Units	meter	m	  		
+EmitterPosition:Type	cartesian	m	  	attribute	
+EmitterPosition:Units	meter	m	  	attribute	
 Data.Real	[1 1]	m	mRn	double	
 Data.Imag	[0 0]	m	MRN	double	
 N	0	m	N	double	
-N_LongName	frequency				
-N_Units	hertz				
+N_LongName	frequency			attribute	
+N_Units	hertz			attribute	

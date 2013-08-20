@@ -1,45 +1,42 @@
 Name	Default	Flags	Dimensions	Type	Comment
-GLOBAL_Conventions	SOFA	rm	  		
-GLOBAL_Version	0.4	rm	 		
-GLOBAL_APIName		rm	  		Insert the API Name here
-GLOBAL_APIVersion		rm	  		Insert the API Version here
-GLOBAL_AuthorContact		m	  		
-GLOBAL_License	No license provided, ask the author for permission	m	  		
-GLOBAL_Organization		m	  		
-GLOBAL_RoomType	free field	m	  		
-GLOBAL_DataType	TF	rm	  		
-GLOBAL_History		m	 		
-GLOBAL_Source		m			
-GLOBAL_Title		m			
-GLOBAL_References		m			
-GLOBAL_Comment		m	 		
-GLOBAL_TimeCreated		m	 		will be updated when saving and not existing or empty
-GLOBAL_TimeModified		m	 		will be updated each time when saving
-ListenerPosition	 [0 0 0] 	m	IC, MC	double	Listener is assumed to be in the center of the measurement setup
-ListenerPosition_Type	cartesian	m	  		
-ListenerPosition_Units	meter	m	  		
+GLOBAL:Conventions	SOFA	rm	  	attribute	
+GLOBAL:Version	0.5	rm	 	attribute	
+GLOBAL:SOFAConventions	SimpleFreeFieldTF	rm	  	attribute	This conventions is for TFs created under conditions where room information is irrelevant
+GLOBAL:SOFAConventionsVersion	0.3	rm	  	attribute	
+GLOBAL:APIName		rm	  	attribute	
+GLOBAL:APIVersion		rm	  	attribute	
+GLOBAL:ApplicationName		m	  	attribute	
+GLOBAL:ApplicationVersion		m	  	attribute	
+GLOBAL:AuthorContact		m	  	attribute	
+GLOBAL:Comment		m	 	attribute	
+GLOBAL:DataType	TF	rm	  	attribute	
+GLOBAL:History		m	 	attribute	
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:Organization		m	  	attribute	
+GLOBAL:References		m		attribute	
+GLOBAL:RoomType	free field	m	  	attribute	
+GLOBAL:Source		m		attribute	
+GLOBAL:TimeCreated		m	 	attribute	
+GLOBAL:TimeModified		m	 	attribute	
+GLOBAL:Title		m		attribute	
+ListenerPosition	[0 0 0] 	m	IC, MC	double	
+ListenerPosition:Type	cartesian	m	  	attribute	
+ListenerPosition:Units	meter	m	  	attribute	
 ReceiverPosition	[0 -0.09 0; 0 0.09 0]	m	rCI, rCM	double	
-ReceiverPosition_Type	cartesian	m	  		
-ReceiverPosition_Units	meter	m	  		
+ReceiverPosition:Type	cartesian	m	  	attribute	
+ReceiverPosition:Units	meter	m	  	attribute	
 SourcePosition	[0 0 1]	m	IC, MC	double	Source position is assumed to vary for different directions/positions around the listener
-SourcePosition_Type	spherical	m	  		
-SourcePosition_Units	degree, degree, meter	m	  		
+SourcePosition:Type	spherical	m	  	attribute	
+SourcePosition:Units	degree, degree, meter	m	  	attribute	
 EmitterPosition	[0 0 0]	m	eCI, eCM	double	
-EmitterPosition_Type	cartesian	m	  		
-EmitterPosition_Units	meter	m	  		
-GLOBAL_SOFAConventions	SimpleFreeFieldTF	rm	  		
-GLOBAL_SOFAConventionsVersion	0.3	rm	  		
-GLOBAL_ApplicationName		m	  		
-GLOBAL_ApplicationVersion		m	  		
-GLOBAL_DatabaseName		m	  		
+EmitterPosition:Type	cartesian	m	  	attribute	
+EmitterPosition:Units	meter	m	  	attribute	
+GLOBAL:DatabaseName		m	  	attribute	name of the database to which these data belong
+GLOBAL:SubjectID		m	  	attribute	ID of the subject from the database
 ListenerUp	[0 0 1]	m	IC, MC	double	
 ListenerView	[1 0 0]	m	IC, MC	double	
-APV	[0 0 0]	m	IC, MC	double	Apparent Position Vector: HRTF position/direction as the interpretation of the geometry for applications
-APV_LongName	apparent position vector	m			
-APV_Type	spherical	m	  		
-APV_Units	degree, degree, meter	m	  		
 Data.Real	[1 1]	m	mRn	double	
 Data.Imag	[0 0]	m	MRN	double	
 N	0	m	N	double	
-N_LongName	frequency				
-N_Units	hertz				
+N_LongName	frequency			attribute	
+N_Units	hertz			attribute	

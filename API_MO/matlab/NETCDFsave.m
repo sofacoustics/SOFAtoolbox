@@ -35,13 +35,13 @@ try
 	
 %% Define dimensions
 
-  Dims=cell2mat(fieldnames(Obj.API.DimSize)');
+  Dims=cell2mat(fieldnames(rmfield(Obj.API,'Dimensions'))');
 	dimid=nan(size(Dims));
 	dimsize=nan(size(Dims));
 	for ii=1:length(Dims)
 		var=Dims(ii);
-		dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.API.DimSize.(var)); 
-		dimsize(ii)=Obj.API.DimSize.(var);
+		dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.API.(var)); 
+		dimsize(ii)=Obj.API.(var);
 	end
 	netcdf.endDef(ncid);
 
@@ -52,7 +52,7 @@ fv=fieldnames(Dimensions);
 
 	for ii=1:length(fv)
 		var=fv{ii};
-		if isempty(strfind(var,'_')) && ~strcmp(var,'API')	% skip all attributes	& dimensions
+		if isempty(strfind(var,'_')) % skip all attributes
 			ids=cell2mat(regexp(Dims,cellstr((Dimensions.(var))')));
 			varId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
 			netcdf.defVarDeflate(ncid,varId,true,true,Compression);

@@ -49,7 +49,7 @@ xlabel(['Index (Sample Taps), fully loaded']);
 ylabel('Amplitude');
 
 %% Extract and plot the partially loaded data
-IRs=zeros(length(idx), Obj(1).API.DimSize.N);
+IRs=zeros(length(idx), Obj(1).API.N);
 for ii=1:length(idx)
 	IRs(ii,:)=squeeze(Obj(ii).Data.IR(:,1,:));
 	leg{ii}=num2str(Obj(ii).SourcePosition(:,2));

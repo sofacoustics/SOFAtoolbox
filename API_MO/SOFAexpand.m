@@ -30,7 +30,7 @@ if ~exist('VarName','var'),
 	% create field names which should have dimensions
 	X=rmfield(Obj,{'Data','API'});
   if isfield(X,'PRIVATE'), X=rmfield(X,'PRIVATE'); end
-  dims=fieldnames(Obj.API.DimSize);
+  dims=fieldnames(Obj.API);
 % 	for ii=1:length(dims)
 % 		if isfield(X,upper(dims{ii})), X=rmfield(X,upper(dims{ii})); end
 % 	end
@@ -86,4 +86,4 @@ function [var,dN]=expand(Obj,f,dims)
 	if ~exist('var','var'), var=[]; dN=[]; end;
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
-	vec=arrayfun(@(f)(Obj.API.DimSize.(f)),upper(str));
+	vec=arrayfun(@(f)(Obj.API.(f)),upper(str));

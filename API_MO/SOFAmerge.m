@@ -20,7 +20,7 @@ function [C, log] = SOFAmerge(A,B)
 if ~strcmp(A.GLOBAL_SOFAConventions,B.GLOBAL_SOFAConventions)
 	error('Both SOFA objects must use the same SOFA conventions');
 end
-if A.API.DimSize.N~=B.API.DimSize.N
+if A.API.N~=B.API.N
 	error('Data size of both SOFA objects must be the same');
 end
 Def = SOFAdefinitions;
@@ -147,4 +147,4 @@ if length(log)>1, log=log(2:end); else log={}; end;
 
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
-	vec=arrayfun(@(f)(Obj.API.DimSize.(f)),upper(str));
+	vec=arrayfun(@(f)(Obj.API.(f)),upper(str));

@@ -12,10 +12,13 @@
 *** DEVELOPMENT STATUS ***
 
 *** v??? (19.8.2013) by Piotr Majdak
-- upgrade to SOFA 0.5
-- upgrade to SimpleFreeFieldHRIR 0.3
-- apparent position vectors calculated on the fly now, SOFAcalculateAPV added
-- SOFAplotGeometry started
+- major change: .API added to the structure, contains .Dimensions and the dimension sizes (formely known as .DimSize)
+- implements SOFA 0.5 without string arrays
+- upgrade of SimpleFreeFieldHRIR 0.3 and other conventions
+- syntax of convention files .csv adapted to that from the specs ("_" replaced by ":")
+- SOFAcalculateAPV added, provides calculation of the apparent position vector (APV)
+- SOFAplotGeometry added, rudimentary plotting available for SimpleFreeFieldHRIR and SingleRoomDRIR
+- SOFAaddVariables supports private variables now
 
 *** v0.2.9 (30.5.2013) by Piotr Majdak
 - development snapshot for the draft of SOFA 0.4 

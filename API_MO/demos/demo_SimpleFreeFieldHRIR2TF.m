@@ -37,11 +37,11 @@ for ii=1:length(Xf)
 end
 
 %% Transform data
-TF.Data.Real=zeros(IR.API.DimSize.M,IR.API.DimSize.R,length(bins));
-TF.Data.Imag=zeros(IR.API.DimSize.M,IR.API.DimSize.R,length(bins));
-TF.N=(bins*IR.Data.SamplingRate/IR.API.DimSize.N)';
+TF.Data.Real=zeros(IR.API.M,IR.API.R,length(bins));
+TF.Data.Imag=zeros(IR.API.M,IR.API.R,length(bins));
+TF.N=(bins*IR.Data.SamplingRate/IR.API.N)';
 
-for ii=1:IR.API.DimSize.M
+for ii=1:IR.API.M
   cplx=fft((IR.Data.IR(ii,:,:)));
   TF.Data.Real(ii,:,:)=real(cplx(:,:,bins));
   TF.Data.Imag(ii,:,:)=imag(cplx(:,:,bins));

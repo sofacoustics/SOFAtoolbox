@@ -37,7 +37,7 @@ end
 if min(azi)<0,	% Check for the required coordinate system
 	Obj.SourcePosition(:,1)=sph2nav(Obj.SourcePosition(:,1)); % if negative azimuths are required, swith to -90/+90 system
 end
-N=Obj.API.DimSize.N;
+N=Obj.API.N;
 
 %% resize the input signal to be integer multiple of HRIR
 L=length(in);

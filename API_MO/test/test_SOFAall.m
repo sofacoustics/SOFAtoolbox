@@ -54,3 +54,6 @@ demo_SimpleFreeFieldHRIR2TF;
 %% Test SingleRoomDRIR
 clear all
 demo_SingleRoomDRIROldenburg;
+
+%% Test variables handling
+demo_SOFAvariables
