@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <office:document xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpt="http://openoffice.org/2005/report" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:officeooo="http://openoffice.org/2009/office" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:drawooo="http://openoffice.org/2010/draw" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:css3t="http://www.w3.org/TR/css3-text/" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.text">
- <office:meta><dc:title>SOFA version 0.5</dc:title><meta:initial-creator>Piotr Majdak</meta:initial-creator><meta:creation-date>2013-04-18T09:55:47.880000000</meta:creation-date><meta:editing-cycles>236</meta:editing-cycles><meta:editing-duration>P2DT11H35M27S</meta:editing-duration><meta:generator>LibreOffice/4.1.0.4$Windows_x86 LibreOffice_project/89ea49ddacd9aa532507cbf852f2bb22b1ace28</meta:generator><dc:date>2013-08-19T18:17:27.111000000</dc:date><dc:creator>Piotr Majdak</dc:creator><meta:document-statistic meta:table-count="12" meta:image-count="2" meta:object-count="0" meta:page-count="17" meta:paragraph-count="590" meta:word-count="6111" meta:character-count="39307" meta:non-whitespace-character-count="33753"/><meta:user-defined meta:name="Mendeley Citation Style_1">http://www.zotero.org/styles/ieee-audio-speech-and-language-processing</meta:user-defined><meta:user-defined meta:name="Mendeley Document_1">True</meta:user-defined><meta:user-defined meta:name="Mendeley User Name_1">piotr@majdak.com@www.mendeley.com</meta:user-defined></office:meta>
+ <office:meta><dc:title>SOFA version 0.5</dc:title><meta:initial-creator>Piotr Majdak</meta:initial-creator><meta:creation-date>2013-04-18T09:55:47.880000000</meta:creation-date><meta:editing-cycles>238</meta:editing-cycles><meta:editing-duration>P2DT11H35M27S</meta:editing-duration><meta:generator>LibreOffice/4.1.0.4$Windows_x86 LibreOffice_project/89ea49ddacd9aa532507cbf852f2bb22b1ace28</meta:generator><dc:date>2013-08-20T15:03:56.127000000</dc:date><dc:creator>Piotr Majdak</dc:creator><meta:document-statistic meta:table-count="12" meta:image-count="2" meta:object-count="0" meta:page-count="17" meta:paragraph-count="588" meta:word-count="6117" meta:character-count="39382" meta:non-whitespace-character-count="33843"/><meta:user-defined meta:name="Mendeley Citation Style_1">http://www.zotero.org/styles/ieee-audio-speech-and-language-processing</meta:user-defined><meta:user-defined meta:name="Mendeley Document_1">True</meta:user-defined><meta:user-defined meta:name="Mendeley User Name_1">piotr@majdak.com@www.mendeley.com</meta:user-defined></office:meta>
  <office:settings>
   <config:config-item-set config:name="ooo:view-settings">
-   <config:config-item config:name="ViewAreaTop" config:type="int">0</config:config-item>
+   <config:config-item config:name="ViewAreaTop" config:type="int">314113</config:config-item>
    <config:config-item config:name="ViewAreaLeft" config:type="int">0</config:config-item>
-   <config:config-item config:name="ViewAreaWidth" config:type="int">32704</config:config-item>
-   <config:config-item config:name="ViewAreaHeight" config:type="int">21248</config:config-item>
+   <config:config-item config:name="ViewAreaWidth" config:type="int">37520</config:config-item>
+   <config:config-item config:name="ViewAreaHeight" config:type="int">17967</config:config-item>
    <config:config-item config:name="ShowRedlineChanges" config:type="boolean">true</config:config-item>
    <config:config-item config:name="InBrowseMode" config:type="boolean">false</config:config-item>
    <config:config-item-map-indexed config:name="Views">
     <config:config-item-map-entry>
      <config:config-item config:name="ViewId" config:type="string">view2</config:config-item>
-     <config:config-item config:name="ViewLeft" config:type="int">16018</config:config-item>
-     <config:config-item config:name="ViewTop" config:type="int">11691</config:config-item>
+     <config:config-item config:name="ViewLeft" config:type="int">22564</config:config-item>
+     <config:config-item config:name="ViewTop" config:type="int">326381</config:config-item>
      <config:config-item config:name="VisibleLeft" config:type="int">0</config:config-item>
-     <config:config-item config:name="VisibleTop" config:type="int">0</config:config-item>
-     <config:config-item config:name="VisibleRight" config:type="int">32703</config:config-item>
-     <config:config-item config:name="VisibleBottom" config:type="int">21246</config:config-item>
+     <config:config-item config:name="VisibleTop" config:type="int">314113</config:config-item>
+     <config:config-item config:name="VisibleRight" config:type="int">37518</config:config-item>
+     <config:config-item config:name="VisibleBottom" config:type="int">332079</config:config-item>
      <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
      <config:config-item config:name="ViewLayoutColumns" config:type="short">0</config:config-item>
      <config:config-item config:name="ViewLayoutBookMode" config:type="boolean">false</config:config-item>
@@ -31,7 +31,7 @@
    <config:config-item config:name="ChartAutoUpdate" config:type="boolean">true</config:config-item>
    <config:config-item config:name="IsLabelDocument" config:type="boolean">false</config:config-item>
    <config:config-item config:name="MathBaselineAlignment" config:type="boolean">true</config:config-item>
-   <config:config-item config:name="Rsid" config:type="int">14127713</config:config-item>
+   <config:config-item config:name="Rsid" config:type="int">14245570</config:config-item>
    <config:config-item config:name="OutlineLevelYieldsNumbering" config:type="boolean">false</config:config-item>
    <config:config-item config:name="PrintLeftPages" config:type="boolean">true</config:config-item>
    <config:config-item config:name="DoNotJustifyLinesWithManualBreak" config:type="boolean">false</config:config-item>
@@ -1593,136 +1593,147 @@
   <style:style style:name="P163" style:family="paragraph" style:parent-style-name="Heading_20_3">
    <style:text-properties officeooo:paragraph-rsid="00cac1af"/>
   </style:style>
-  <style:style style:name="P164" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="Standard">
-   <style:paragraph-properties style:page-number="auto"/>
-   <style:text-properties fo:color="#000000" style:font-name="Garamond1" fo:font-size="8pt" officeooo:paragraph-rsid="00bc9b16" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
-  </style:style>
-  <style:style style:name="P165" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="Standard">
-   <style:paragraph-properties style:page-number="auto"/>
-   <style:text-properties fo:color="#000000" style:font-name="Garamond1" fo:font-size="8pt" officeooo:rsid="00c70c23" officeooo:paragraph-rsid="00c70c23" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
-  </style:style>
-  <style:style style:name="P166" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="Standard">
-   <style:paragraph-properties style:page-number="auto"/>
-   <style:text-properties style:font-name="Garamond1" fo:font-size="8pt" officeooo:paragraph-rsid="00bc9b16" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
-  </style:style>
-  <style:style style:name="P167" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1"/>
-  <style:style style:name="P168" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:paragraph-rsid="001b0889"/>
-  </style:style>
-  <style:style style:name="P169" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
-  </style:style>
-  <style:style style:name="P170" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="">
-   <style:text-properties officeooo:rsid="00c54488" officeooo:paragraph-rsid="00c54488"/>
-  </style:style>
-  <style:style style:name="P171" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:rsid="00b43d14" officeooo:paragraph-rsid="00b43d14"/>
-  </style:style>
-  <style:style style:name="P172" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:rsid="00b6a92c" officeooo:paragraph-rsid="00b6a92c"/>
-  </style:style>
-  <style:style style:name="P173" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:rsid="00c4412a" officeooo:paragraph-rsid="00c4412a"/>
-  </style:style>
-  <style:style style:name="P174" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:rsid="00c4412a" officeooo:paragraph-rsid="00c70c23"/>
-  </style:style>
-  <style:style style:name="P175" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:rsid="00cc92d4" officeooo:paragraph-rsid="00cc92d4"/>
-  </style:style>
-  <style:style style:name="P176" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:rsid="00c70c23" officeooo:paragraph-rsid="00c70c23"/>
-  </style:style>
-  <style:style style:name="P177" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:rsid="00d7177a" officeooo:paragraph-rsid="00d7177a"/>
-  </style:style>
-  <style:style style:name="P178" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:text-properties officeooo:rsid="008bf80d" officeooo:paragraph-rsid="001b0889"/>
-  </style:style>
-  <style:style style:name="P179" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="L37">
-   <style:text-properties officeooo:paragraph-rsid="00adea0a"/>
-  </style:style>
-  <style:style style:name="P180" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="L37">
-   <style:text-properties officeooo:rsid="00789e2a" officeooo:paragraph-rsid="00adea0a"/>
-  </style:style>
-  <style:style style:name="P181" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="L38"/>
-  <style:style style:name="P182" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
-   <style:paragraph-properties fo:margin-top="0.423cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false" fo:text-align="start" style:justify-single-word="false"/>
-   <style:text-properties officeooo:paragraph-rsid="00a15095"/>
-  </style:style>
-  <style:style style:name="P183" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="L38">
-   <style:paragraph-properties fo:margin-top="0.212cm" fo:margin-bottom="0.499cm" style:contextual-spacing="false"/>
-  </style:style>
-  <style:style style:name="P184" style:family="paragraph" style:parent-style-name="Heading_20_1">
-   <style:text-properties officeooo:rsid="007263d9" officeooo:paragraph-rsid="001b0889"/>
-  </style:style>
-  <style:style style:name="P185" style:family="paragraph" style:parent-style-name="Heading_20_1">
-   <style:text-properties fo:language="en" fo:country="US" officeooo:rsid="0131a8b3" officeooo:paragraph-rsid="001b0889"/>
-  </style:style>
-  <style:style style:name="P186" style:family="paragraph" style:parent-style-name="Heading_20_1">
-   <style:paragraph-properties fo:break-before="page"/>
-   <style:text-properties officeooo:rsid="00a7512c"/>
-  </style:style>
-  <style:style style:name="P187" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="00b24c70"/>
-  </style:style>
-  <style:style style:name="P188" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="00b24c70" officeooo:paragraph-rsid="00b24c70"/>
-  </style:style>
-  <style:style style:name="P189" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="00b43d14" officeooo:paragraph-rsid="00b43d14"/>
-  </style:style>
-  <style:style style:name="P190" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="00b6a92c" officeooo:paragraph-rsid="00b6a92c"/>
-  </style:style>
-  <style:style style:name="P191" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="00adea0a"/>
-  </style:style>
-  <style:style style:name="P192" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="007263d9" officeooo:paragraph-rsid="001b0889"/>
-  </style:style>
-  <style:style style:name="P193" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="007e0559" officeooo:paragraph-rsid="001b0889"/>
-  </style:style>
-  <style:style style:name="P194" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="00789e2a" officeooo:paragraph-rsid="001b0889"/>
-  </style:style>
-  <style:style style:name="P195" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:paragraph-rsid="001b0889"/>
-  </style:style>
-  <style:style style:name="P196" style:family="paragraph" style:parent-style-name="Heading_20_2">
-   <style:text-properties officeooo:rsid="00cac1af"/>
-  </style:style>
-  <style:style style:name="P197" style:family="paragraph" style:parent-style-name="Heading_20_3">
+  <style:style style:name="P164" style:family="paragraph" style:parent-style-name="Heading_20_3">
    <style:text-properties officeooo:rsid="00a7e926"/>
   </style:style>
-  <style:style style:name="P198" style:family="paragraph" style:parent-style-name="Heading_20_3">
+  <style:style style:name="P165" style:family="paragraph" style:parent-style-name="Heading_20_3">
    <style:text-properties officeooo:rsid="00a823f1"/>
   </style:style>
-  <style:style style:name="P199" style:family="paragraph" style:parent-style-name="Heading_20_3">
+  <style:style style:name="P166" style:family="paragraph" style:parent-style-name="Heading_20_3">
    <style:text-properties officeooo:rsid="00a823f1" officeooo:paragraph-rsid="00c57439"/>
   </style:style>
-  <style:style style:name="P200" style:family="paragraph" style:parent-style-name="Heading_20_3">
+  <style:style style:name="P167" style:family="paragraph" style:parent-style-name="Heading_20_3">
    <style:text-properties officeooo:rsid="00adea0a"/>
   </style:style>
-  <style:style style:name="P201" style:family="paragraph" style:parent-style-name="Heading_20_3">
+  <style:style style:name="P168" style:family="paragraph" style:parent-style-name="Heading_20_3">
    <style:text-properties officeooo:paragraph-rsid="00cac1af"/>
   </style:style>
-  <style:style style:name="P202" style:family="paragraph" style:parent-style-name="Heading_20_3">
+  <style:style style:name="P169" style:family="paragraph" style:parent-style-name="Heading_20_3">
    <style:paragraph-properties fo:break-before="page"/>
    <style:text-properties officeooo:paragraph-rsid="00c70c23"/>
   </style:style>
-  <style:style style:name="P203" style:family="paragraph" style:parent-style-name="Table_20_Contents" style:master-page-name="Standard">
+  <style:style style:name="P170" style:family="paragraph" style:parent-style-name="Table_20_Contents" style:master-page-name="Standard">
    <style:paragraph-properties style:page-number="auto"/>
   </style:style>
-  <style:style style:name="P204" style:family="paragraph" style:parent-style-name="Table_20_Contents" style:master-page-name="Standard">
+  <style:style style:name="P171" style:family="paragraph" style:parent-style-name="Table_20_Contents" style:master-page-name="Standard">
    <style:paragraph-properties style:page-number="auto"/>
    <style:text-properties officeooo:paragraph-rsid="00cac1af"/>
   </style:style>
-  <style:style style:name="P205" style:family="paragraph" style:parent-style-name="Title" style:master-page-name="Standard">
+  <style:style style:name="P172" style:family="paragraph" style:parent-style-name="Table_20_Contents">
+   <style:text-properties officeooo:rsid="00d95ec2" officeooo:paragraph-rsid="00d95ec2"/>
+  </style:style>
+  <style:style style:name="P173" style:family="paragraph" style:parent-style-name="Heading_20_1">
+   <style:text-properties officeooo:rsid="007263d9" officeooo:paragraph-rsid="001b0889"/>
+  </style:style>
+  <style:style style:name="P174" style:family="paragraph" style:parent-style-name="Heading_20_1">
+   <style:text-properties fo:language="en" fo:country="US" officeooo:rsid="0131a8b3" officeooo:paragraph-rsid="001b0889"/>
+  </style:style>
+  <style:style style:name="P175" style:family="paragraph" style:parent-style-name="Heading_20_1">
+   <style:paragraph-properties fo:break-before="page"/>
+   <style:text-properties officeooo:rsid="00a7512c"/>
+  </style:style>
+  <style:style style:name="P176" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="00b24c70"/>
+  </style:style>
+  <style:style style:name="P177" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="00b24c70" officeooo:paragraph-rsid="00b24c70"/>
+  </style:style>
+  <style:style style:name="P178" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="00b43d14" officeooo:paragraph-rsid="00b43d14"/>
+  </style:style>
+  <style:style style:name="P179" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="00b6a92c" officeooo:paragraph-rsid="00b6a92c"/>
+  </style:style>
+  <style:style style:name="P180" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="00adea0a"/>
+  </style:style>
+  <style:style style:name="P181" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="007263d9" officeooo:paragraph-rsid="001b0889"/>
+  </style:style>
+  <style:style style:name="P182" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="007e0559" officeooo:paragraph-rsid="001b0889"/>
+  </style:style>
+  <style:style style:name="P183" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="00789e2a" officeooo:paragraph-rsid="001b0889"/>
+  </style:style>
+  <style:style style:name="P184" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:paragraph-rsid="001b0889"/>
+  </style:style>
+  <style:style style:name="P185" style:family="paragraph" style:parent-style-name="Heading_20_2">
+   <style:text-properties officeooo:rsid="00cac1af"/>
+  </style:style>
+  <style:style style:name="P186" style:family="paragraph" style:parent-style-name="Title" style:master-page-name="Standard">
    <style:paragraph-properties style:page-number="auto"/>
   </style:style>
-  <style:style style:name="P206" style:family="paragraph">
+  <style:style style:name="P187" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="Standard">
+   <style:paragraph-properties style:page-number="auto"/>
+   <style:text-properties fo:color="#000000" style:font-name="Garamond1" fo:font-size="8pt" officeooo:paragraph-rsid="00bc9b16" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+  </style:style>
+  <style:style style:name="P188" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="Standard">
+   <style:paragraph-properties style:page-number="auto"/>
+   <style:text-properties fo:color="#000000" style:font-name="Garamond1" fo:font-size="8pt" officeooo:rsid="00c70c23" officeooo:paragraph-rsid="00c70c23" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+  </style:style>
+  <style:style style:name="P189" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="Standard">
+   <style:paragraph-properties style:page-number="auto"/>
+   <style:text-properties style:font-name="Garamond1" fo:font-size="8pt" officeooo:paragraph-rsid="00bc9b16" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+  </style:style>
+  <style:style style:name="P190" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="Standard">
+   <style:paragraph-properties style:page-number="auto"/>
+   <style:text-properties fo:color="#000000" style:font-name="Garamond1" fo:font-size="8pt" officeooo:rsid="00d95ec2" officeooo:paragraph-rsid="00d95ec2" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+  </style:style>
+  <style:style style:name="P191" style:family="paragraph" style:parent-style-name="Standard" style:master-page-name="Standard">
+   <style:paragraph-properties style:page-number="auto"/>
+   <style:text-properties fo:color="#000000" style:font-name="Garamond1" fo:font-size="8pt" officeooo:rsid="00d95ec2" officeooo:paragraph-rsid="00d95ec2" style:font-size-asian="8pt" style:font-size-complex="8pt"/>
+  </style:style>
+  <style:style style:name="P192" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1"/>
+  <style:style style:name="P193" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:paragraph-rsid="001b0889"/>
+  </style:style>
+  <style:style style:name="P194" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:paragraph-properties fo:text-align="start" style:justify-single-word="false"/>
+  </style:style>
+  <style:style style:name="P195" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="">
+   <style:text-properties officeooo:rsid="00c54488" officeooo:paragraph-rsid="00c54488"/>
+  </style:style>
+  <style:style style:name="P196" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:rsid="00b43d14" officeooo:paragraph-rsid="00b43d14"/>
+  </style:style>
+  <style:style style:name="P197" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:rsid="00b6a92c" officeooo:paragraph-rsid="00b6a92c"/>
+  </style:style>
+  <style:style style:name="P198" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:rsid="00c4412a" officeooo:paragraph-rsid="00c4412a"/>
+  </style:style>
+  <style:style style:name="P199" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:rsid="00c4412a" officeooo:paragraph-rsid="00c70c23"/>
+  </style:style>
+  <style:style style:name="P200" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:rsid="00cc92d4" officeooo:paragraph-rsid="00cc92d4"/>
+  </style:style>
+  <style:style style:name="P201" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:rsid="00c70c23" officeooo:paragraph-rsid="00c70c23"/>
+  </style:style>
+  <style:style style:name="P202" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:rsid="00d7177a" officeooo:paragraph-rsid="00d7177a"/>
+  </style:style>
+  <style:style style:name="P203" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:text-properties officeooo:rsid="008bf80d" officeooo:paragraph-rsid="001b0889"/>
+  </style:style>
+  <style:style style:name="P204" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="L37">
+   <style:text-properties officeooo:paragraph-rsid="00adea0a"/>
+  </style:style>
+  <style:style style:name="P205" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="L37">
+   <style:text-properties officeooo:rsid="00789e2a" officeooo:paragraph-rsid="00adea0a"/>
+  </style:style>
+  <style:style style:name="P206" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="L38"/>
+  <style:style style:name="P207" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="List_20_1">
+   <style:paragraph-properties fo:margin-top="0.423cm" fo:margin-bottom="0.212cm" style:contextual-spacing="false" fo:text-align="start" style:justify-single-word="false"/>
+   <style:text-properties officeooo:paragraph-rsid="00a15095"/>
+  </style:style>
+  <style:style style:name="P208" style:family="paragraph" style:parent-style-name="Text_20_body" style:list-style-name="L38">
+   <style:paragraph-properties fo:margin-top="0.212cm" fo:margin-bottom="0.499cm" style:contextual-spacing="false"/>
+  </style:style>
+  <style:style style:name="P209" style:family="paragraph">
    <style:paragraph-properties fo:margin-left="0cm" fo:margin-right="0cm" fo:margin-top="0cm" fo:margin-bottom="0cm" fo:line-height="100%" fo:text-align="start" fo:text-indent="0cm" style:text-autospace="ideograph-alpha" style:punctuation-wrap="hanging" style:line-break="strict" style:writing-mode="lr-tb">
     <style:tab-stops/>
    </style:paragraph-properties>
@@ -2447,6 +2458,9 @@
   </style:style>
   <style:style style:name="T240" style:family="text">
    <style:text-properties officeooo:rsid="00d636e5"/>
+  </style:style>
+  <style:style style:name="T241" style:family="text">
+   <style:text-properties officeooo:rsid="00d95ec2"/>
   </style:style>
   <style:style style:name="fr1" style:family="graphic" style:parent-style-name="Frame">
    <style:graphic-properties fo:margin-top="0cm" fo:margin-bottom="0.499cm" style:vertical-pos="top" style:vertical-rel="page-content" style:horizontal-pos="center" style:horizontal-rel="page-content" fo:background-color="transparent" style:background-transparency="100%" fo:padding="0cm" fo:border="none" style:shadow="none">
@@ -4110,7 +4124,7 @@
  <office:master-styles>
   <style:master-page style:name="Standard" style:page-layout-name="pm1">
    <style:header>
-    <text:p text:style-name="P1"><text:title>SOFA version 0.5</text:title><text:tab/><text:span text:style-name="T1">Piotr Majdak<text:tab/>Page: </text:span><text:span text:style-name="T1"><text:page-number text:select-page="current">1</text:page-number></text:span></text:p>
+    <text:p text:style-name="P1"><text:title>SOFA version 0.5</text:title><text:tab/><text:span text:style-name="T1">Piotr Majdak<text:tab/>Page: </text:span><text:span text:style-name="T1"><text:page-number text:select-page="current">17</text:page-number></text:span></text:p>
    </style:header>
   </style:master-page>
   <style:master-page style:name="First_20_Page" style:display-name="First Page" style:page-layout-name="pm2" style:next-style-name="Standard"/>
@@ -4122,7 +4136,7 @@
   <office:text text:use-soft-page-breaks="true">
    <office:forms form:automatic-focus="false" form:apply-design-mode="false"/>
    <text:tracked-changes text:track-changes="false">
-    <text:changed-region xml:id="ct182712520" text:id="ct182712520">
+    <text:changed-region xml:id="ct354411688" text:id="ct354411688">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4130,7 +4144,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182712624" text:id="ct182712624">
+    <text:changed-region xml:id="ct354411792" text:id="ct354411792">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4138,7 +4152,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182712728" text:id="ct182712728">
+    <text:changed-region xml:id="ct354407736" text:id="ct354407736">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4146,167 +4160,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182712832" text:id="ct182712832">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:05:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182712936" text:id="ct182712936">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:05:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713040" text:id="ct182713040">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713144" text:id="ct182713144">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713248" text:id="ct182713248">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713352" text:id="ct182713352">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713456" text:id="ct182713456">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713560" text:id="ct182713560">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713664" text:id="ct182713664">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713768" text:id="ct182713768">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713872" text:id="ct182713872">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182713976" text:id="ct182713976">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714080" text:id="ct182714080">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714184" text:id="ct182714184">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714288" text:id="ct182714288">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714392" text:id="ct182714392">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714496" text:id="ct182714496">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714600" text:id="ct182714600">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:06:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714704" text:id="ct182714704">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:07:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714808" text:id="ct182714808">
-     <text:insertion>
-      <office:change-info>
-       <dc:creator>Piotr Majdak</dc:creator>
-       <dc:date>2013-08-19T15:07:00</dc:date>
-      </office:change-info>
-     </text:insertion>
-    </text:changed-region>
-    <text:changed-region xml:id="ct182714912" text:id="ct182714912">
+    <text:changed-region xml:id="ct354398272" text:id="ct354398272">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4314,7 +4168,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715016" text:id="ct182715016">
+    <text:changed-region xml:id="ct354398376" text:id="ct354398376">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4322,7 +4176,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715120" text:id="ct182715120">
+    <text:changed-region xml:id="ct354401288" text:id="ct354401288">
      <text:deletion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4330,7 +4184,7 @@
       </office:change-info>
      </text:deletion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715224" text:id="ct182715224">
+    <text:changed-region xml:id="ct354410648" text:id="ct354410648">
      <text:deletion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4338,7 +4192,7 @@
       </office:change-info>
      </text:deletion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715328" text:id="ct182715328">
+    <text:changed-region xml:id="ct354410752" text:id="ct354410752">
      <text:deletion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4346,7 +4200,7 @@
       </office:change-info>
      </text:deletion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715432" text:id="ct182715432">
+    <text:changed-region xml:id="ct354398480" text:id="ct354398480">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4354,7 +4208,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715536" text:id="ct182715536">
+    <text:changed-region xml:id="ct354399208" text:id="ct354399208">
      <text:deletion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4362,7 +4216,7 @@
       </office:change-info>
      </text:deletion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715640" text:id="ct182715640">
+    <text:changed-region xml:id="ct354411168" text:id="ct354411168">
      <text:deletion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4370,7 +4224,7 @@
       </office:change-info>
      </text:deletion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715744" text:id="ct182715744">
+    <text:changed-region xml:id="ct354411272" text:id="ct354411272">
      <text:deletion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4378,7 +4232,7 @@
       </office:change-info>
      </text:deletion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182715848" text:id="ct182715848">
+    <text:changed-region xml:id="ct354411376" text:id="ct354411376">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4386,7 +4240,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182274384" text:id="ct182274384">
+    <text:changed-region xml:id="ct354411064" text:id="ct354411064">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4394,7 +4248,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182274488" text:id="ct182274488">
+    <text:changed-region xml:id="ct354399104" text:id="ct354399104">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4402,7 +4256,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182274696" text:id="ct182274696">
+    <text:changed-region xml:id="ct354401392" text:id="ct354401392">
      <text:deletion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4410,7 +4264,7 @@
       </office:change-info>
      </text:deletion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182274592" text:id="ct182274592">
+    <text:changed-region xml:id="ct354399416" text:id="ct354399416">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4418,7 +4272,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182274800" text:id="ct182274800">
+    <text:changed-region xml:id="ct354401496" text:id="ct354401496">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4426,7 +4280,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182274904" text:id="ct182274904">
+    <text:changed-region xml:id="ct354401600" text:id="ct354401600">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4434,7 +4288,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275008" text:id="ct182275008">
+    <text:changed-region xml:id="ct354401704" text:id="ct354401704">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4442,7 +4296,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275112" text:id="ct182275112">
+    <text:changed-region xml:id="ct354397440" text:id="ct354397440">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4450,7 +4304,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275216" text:id="ct182275216">
+    <text:changed-region xml:id="ct354397648" text:id="ct354397648">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4458,7 +4312,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275320" text:id="ct182275320">
+    <text:changed-region xml:id="ct354401808" text:id="ct354401808">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4466,7 +4320,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275424" text:id="ct182275424">
+    <text:changed-region xml:id="ct354397544" text:id="ct354397544">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4474,7 +4328,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275528" text:id="ct182275528">
+    <text:changed-region xml:id="ct354399000" text:id="ct354399000">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4482,7 +4336,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275632" text:id="ct182275632">
+    <text:changed-region xml:id="ct354400456" text:id="ct354400456">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4490,7 +4344,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275736" text:id="ct182275736">
+    <text:changed-region xml:id="ct354400248" text:id="ct354400248">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4498,7 +4352,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275840" text:id="ct182275840">
+    <text:changed-region xml:id="ct354401912" text:id="ct354401912">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4506,7 +4360,7 @@
       </office:change-info>
      </text:insertion>
     </text:changed-region>
-    <text:changed-region xml:id="ct182275944" text:id="ct182275944">
+    <text:changed-region xml:id="ct354402016" text:id="ct354402016">
      <text:insertion>
       <office:change-info>
        <dc:creator>Piotr Majdak</dc:creator>
@@ -4574,7 +4428,7 @@
          </office:annotation><office:annotation>
           <dc:creator>Piotr Majdak</dc:creator>
           <dc:date>2013-07-19T00:07:35</dc:date>
-          <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(18.07.2013, 23:59): &quot;...&quot;</text:span></text:p>
+          <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(18.07.2013, 23:59): &quot;...&quot;</text:span></text:p>
           <text:p><text:span text:style-name="T238">Do you remember our discussion about the unit of N? So, Delay is in the units of N. But as we decided to not using _Units for N, we do not state that in the file. </text:span></text:p>
           <text:p><text:span text:style-name="T238"/></text:p>
           <text:p><text:span text:style-name="T238">We need to state it here. Is this OK as it is now?</text:span></text:p>
@@ -4621,7 +4475,7 @@
         <text:p text:style-name="P68">irrelevant</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table3.A1" office:value-type="string">
-        <text:p text:style-name="P68"><text:change-start text:change-id="ct182712520"/><text:span text:style-name="T237">attribute</text:span><text:change-end text:change-id="ct182712520"/><text:span text:style-name="T237"><office:annotation>
+        <text:p text:style-name="P68"><text:change-start text:change-id="ct354411688"/><text:span text:style-name="T237">attribute</text:span><text:change-end text:change-id="ct354411688"/><text:span text:style-name="T237"><office:annotation>
            <dc:creator>Piotr Majdak</dc:creator>
            <dc:date>2013-07-18T20:57:50</dc:date>
            <text:p><text:span text:style-name="T129">Attributes are not variables of type “string”.</text:span></text:p>
@@ -4718,7 +4572,7 @@
         <text:p text:style-name="P68">irrelevant</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table2.A2" office:value-type="string">
-        <text:p text:style-name="P69"><text:change-start text:change-id="ct182712624"/>attribute<text:change-end text:change-id="ct182712624"/></text:p>
+        <text:p text:style-name="P69"><text:change-start text:change-id="ct354411792"/>attribute<text:change-end text:change-id="ct354411792"/></text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table2.A2" office:value-type="string">
         <text:p text:style-name="Table_20_Contents"/>
@@ -4735,7 +4589,7 @@
         <text:p text:style-name="P68">irrelevant</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table2.A1" office:value-type="string">
-        <text:p text:style-name="P69"><text:change-start text:change-id="ct182712728"/>attribute<text:change-end text:change-id="ct182712728"/></text:p>
+        <text:p text:style-name="P69"><text:change-start text:change-id="ct354407736"/>attribute<text:change-end text:change-id="ct354407736"/></text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table2.A1" office:value-type="string">
         <text:p text:style-name="P70">Unit <text:span text:style-name="T110">used for N</text:span></text:p>
@@ -4876,13 +4730,13 @@
         <text:p text:style-name="P81">SOFA</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182712832"/>attribute<text:change-end text:change-id="ct182712832"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P77">yes</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">All SOFA files must contain the &quot;SOFA&quot; Conventions global at- tribute</text:p>
+        <text:p text:style-name="P190">Defines this file as a SOFA file</text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -4893,13 +4747,13 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182712936"/>attribute<text:change-end text:change-id="ct182712936"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P77">yes</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Version of the SOFA specifications. The version is in the form x.y with x the version major and y the version minor</text:p>
+        <text:p text:style-name="P187">Version of the SOFA specifications. The version is in the form x.y with x the version major and y the version minor</text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -4911,7 +4765,7 @@
          </office:annotation><office:annotation>
           <dc:creator>Piotr Majdak</dc:creator>
           <dc:date>2013-07-19T00:14:10</dc:date>
-          <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:01): &quot;...&quot;</text:span></text:p>
+          <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:01): &quot;...&quot;</text:span></text:p>
           <text:p><text:span text:style-name="T238">We would have “Conventions” but “SOFAConvention”. Is this what we want?</text:span></text:p>
          </office:annotation></text:p>
        </table:table-cell>
@@ -4919,13 +4773,13 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182713040"/>attribute<text:change-end text:change-id="ct182713040"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P77">yes</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Name of the SOFA convention</text:p>
+        <text:p text:style-name="P187">Name of the SOFA convention</text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -4933,11 +4787,11 @@
         <text:p text:style-name="P81">SOFAConventionsVersion<office:annotation>
           <dc:creator>Thibaut </dc:creator>
           <dc:date>2013-07-19T00:01:20</dc:date>
-          <text:p text:style-name="P206"><text:span text:style-name="T103">[ Q11 ] I would suggest to rename “SOFAConventionsVersion” to “SOFAConventionVersion”</text:span></text:p>
+          <text:p text:style-name="P209"><text:span text:style-name="T103">[ Q11 ] I would suggest to rename “SOFAConventionsVersion” to “SOFAConventionVersion”</text:span></text:p>
          </office:annotation><office:annotation>
           <dc:creator>Piotr Majdak</dc:creator>
           <dc:date>2013-07-19T00:14:33</dc:date>
-          <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:01): &quot;...&quot;</text:span></text:p>
+          <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:01): &quot;...&quot;</text:span></text:p>
           <text:p><text:span text:style-name="T238">See above.</text:span></text:p>
          </office:annotation></text:p>
        </table:table-cell>
@@ -4945,13 +4799,13 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182713144"/>attribute<text:change-end text:change-id="ct182713144"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P77">yes</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Version of the SOFA convention. The version is in the form x.y with x the version major and y the version minor.</text:p>
+        <text:p text:style-name="P187">Version of th<text:span text:style-name="T241">is</text:span> SOFA convention. The version is in the form x.y with x the version major and y the version minor.</text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -4959,11 +4813,11 @@
         <text:p text:style-name="P85">APIName<text:span text:style-name="T106"><office:annotation>
            <dc:creator>Thibaut </dc:creator>
            <dc:date>2013-07-19T00:01:30</dc:date>
-           <text:p text:style-name="P206"><text:span text:style-name="T103"><text:s/></text:span><text:span text:style-name="T103">[ Q13 ] I think we should add in the comments, or in a dedicated column, something about “constraints” on the metadata values. E.g. some fields cannot be left empty: <text:s/>SOFAConventions, SOFAConventionsVersion, APIName and APIVersion, etc.</text:span></text:p>
+           <text:p text:style-name="P209"><text:span text:style-name="T103"><text:s/></text:span><text:span text:style-name="T103">[ Q13 ] I think we should add in the comments, or in a dedicated column, something about “constraints” on the metadata values. E.g. some fields cannot be left empty: <text:s/>SOFAConventions, SOFAConventionsVersion, APIName and APIVersion, etc.</text:span></text:p>
           </office:annotation></text:span><text:span text:style-name="T106"><office:annotation>
            <dc:creator>Piotr Majdak</dc:creator>
            <dc:date>2013-07-19T00:14:47</dc:date>
-           <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:01): &quot;...&quot;</text:span></text:p>
+           <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:01): &quot;...&quot;</text:span></text:p>
            <text:p><text:span text:style-name="T238">These attributes are read-only now. I don&apos;t understand the concept of “Constraints”?</text:span></text:p>
           </office:annotation></text:span></text:p>
        </table:table-cell>
@@ -4971,13 +4825,13 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182713248"/>attribute<text:change-end text:change-id="ct182713248"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P77">yes</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P166"><text:span text:style-name="T101">Name of the API that created/edited the file</text:span> </text:p>
+        <text:p text:style-name="P189"><text:span text:style-name="T101">Name of the API that created/edited the file</text:span> </text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -4988,30 +4842,13 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182713352"/>attribute<text:change-end text:change-id="ct182713352"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P77">yes</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Version of the API that created/edited the file. The version is in the form x.y.z with x the version major, y the version minor, and z the version release.</text:p>
-       </table:table-cell>
-      </table:table-row>
-      <table:table-row>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">AuthorContact</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P102"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182713456"/>attribute<text:change-end text:change-id="ct182713456"/></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P78"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Contact information (e.g. email) of the author</text:p>
+        <text:p text:style-name="P187">Version of the API that created/edited the file. The version is in the form x.y.z with x the version major, y the version minor, and z the version release.</text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -5022,13 +4859,13 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P80"><text:change-start text:change-id="ct182713560"/>attribute<text:change-end text:change-id="ct182713560"/></text:p>
+        <text:p text:style-name="P80">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P78"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P165">Name of the application that created/edited the file</text:p>
+        <text:p text:style-name="P188">Name of the application that created/edited the file</text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -5039,158 +4876,30 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P80"><text:change-start text:change-id="ct182713664"/>attribute<text:change-end text:change-id="ct182713664"/></text:p>
+        <text:p text:style-name="P80">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P78"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P165">Version of the application that created/edited the file</text:p>
+        <text:p text:style-name="P188">Version of the application that created/edited the file</text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">License</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">No license provided, ask the author for permission</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182713768"/>attribute<text:change-end text:change-id="ct182713768"/></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P78"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Legal license under which the data are provided</text:p>
-       </table:table-cell>
-      </table:table-row>
-      <table:table-row>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">Organization</text:p>
+        <text:p text:style-name="P81">AuthorContact</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182713872"/>attribute<text:change-end text:change-id="ct182713872"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P78"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Legal name of the organization of the author</text:p>
-       </table:table-cell>
-      </table:table-row>
-      <table:table-row>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">RoomType</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">free field</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182713976"/>attribute<text:change-end text:change-id="ct182713976"/></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P103"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Defines the room type (e.g. &quot;free field&quot;, &quot;shoebox&quot;, &quot;dae&quot;)</text:p>
-       </table:table-cell>
-      </table:table-row>
-      <table:table-row>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">DataType</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">FIR</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182714080"/>attribute<text:change-end text:change-id="ct182714080"/></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P78"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">Insert the name of the actual datatype here </text:p>
-       </table:table-cell>
-      </table:table-row>
-      <table:table-row>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">History</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P102"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182714184"/>attribute<text:change-end text:change-id="ct182714184"/></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P78"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Audit trail for modifications to the original data</text:p>
-       </table:table-cell>
-      </table:table-row>
-      <table:table-row>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">Source</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P102"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182714288"/>attribute<text:change-end text:change-id="ct182714288"/></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P78"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">The method of production of the original data. If it was model-generated, source should name the model and its version, as specifically as could be useful. If it is observational, source should characterize it. </text:p>
-       </table:table-cell>
-      </table:table-row>
-      <table:table-row>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">Title<office:annotation>
-          <dc:creator>Thibaut </dc:creator>
-          <dc:date>2013-07-19T00:01:57</dc:date>
-          <text:p><text:span text:style-name="T102"><text:s/></text:span><text:span text:style-name="T102">[ Q16 ] “SubjectID” might be problematic due to the multiple-listeners option. Any thoughts ?</text:span></text:p>
-         </office:annotation><office:annotation>
-          <dc:creator>Piotr Majdak</dc:creator>
-          <dc:date>2013-07-19T00:17:25</dc:date>
-          <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:01): &quot;...&quot;</text:span></text:p>
-          <text:p><text:span text:style-name="T238">Yes, we should define SubjectID in conventions. Removed from here.</text:span></text:p>
-         </office:annotation></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P102"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182714392"/>attribute<text:change-end text:change-id="ct182714392"/></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P78"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">A succinct description of what is in the dataset </text:p>
-       </table:table-cell>
-      </table:table-row>
-      <table:table-row table:style-name="Table11.18">
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P81">References</text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P102"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182714496"/>attribute<text:change-end text:change-id="ct182714496"/></text:p>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P78"/>
-       </table:table-cell>
-       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P113">Published or web-based references that describe the data or methods used to produce it</text:p>
+        <text:p text:style-name="P187">Contact information (e.g. email) of the author</text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -5201,13 +4910,132 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182714600"/>attribute<text:change-end text:change-id="ct182714600"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P103"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Miscellaneous information about the data or methods used to produce it</text:p>
+        <text:p text:style-name="P187">Miscellaneous information about the data or methods used to produce it</text:p>
+       </table:table-cell>
+      </table:table-row>
+      <table:table-row>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">DataType</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">FIR</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P79">attribute</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P78"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P172">Defines the data type</text:p>
+       </table:table-cell>
+      </table:table-row>
+      <table:table-row>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">History</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P102"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P79">attribute</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P78"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P187">Audit trail for modifications to the original data</text:p>
+       </table:table-cell>
+      </table:table-row>
+      <table:table-row>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">License</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">No license provided, ask the author for permission</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P79">attribute</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P78"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P187">Legal license under which the data are provided</text:p>
+       </table:table-cell>
+      </table:table-row>
+      <table:table-row>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">Organization</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P102"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P79">attribute</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P78"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P187">Legal name of the organization of the author</text:p>
+       </table:table-cell>
+      </table:table-row>
+      <table:table-row>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">References</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P102"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P79">attribute</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P78"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P113">Published or web-based references that describe the data or methods used to produce it</text:p>
+       </table:table-cell>
+      </table:table-row>
+      <table:table-row>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">RoomType</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">free field</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P79">attribute</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P103"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P190">Defines the room type</text:p>
+       </table:table-cell>
+      </table:table-row>
+      <table:table-row table:style-name="Table11.18">
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">Source</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P102"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P79">attribute</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P78"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">The method of production of the original data. If it was model-generated, source should name the model and its version, as specifically as could be useful. If it is observational, source should characterize it. </text:p>
        </table:table-cell>
       </table:table-row>
       <table:table-row>
@@ -5218,17 +5046,16 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182714704"/>attribute<text:change-end text:change-id="ct182714704"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P78"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Date and time of creation of the file, in ISO 8601 format.</text:p>
-        <text:p text:style-name="P81">will be updated when saving and not existing or empty </text:p>
+        <text:p text:style-name="P170">Date and time of creation of the file, in ISO 8601 format. Will be updated when creating new file.</text:p>
        </table:table-cell>
       </table:table-row>
-      <table:table-row table:style-name="Table11.21">
+      <table:table-row>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P81">TimeModified</text:p>
        </table:table-cell>
@@ -5236,14 +5063,39 @@
         <text:p text:style-name="P102"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P79"><text:change-start text:change-id="ct182714808"/>attribute<text:change-end text:change-id="ct182714808"/></text:p>
+        <text:p text:style-name="P79">attribute</text:p>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
         <text:p text:style-name="P78"/>
        </table:table-cell>
        <table:table-cell table:style-name="Table11.A1" office:value-type="string">
-        <text:p text:style-name="P164">Date and time of last modification of the file, in ISO 8601 format.</text:p>
-        <text:p text:style-name="P81">will be updated each time when saving </text:p>
+        <text:p text:style-name="P170">Date and time of last modification of the file, in ISO 8601 format. Will be updated each time when saving the file. </text:p>
+       </table:table-cell>
+      </table:table-row>
+      <table:table-row table:style-name="Table11.21">
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">Title<office:annotation>
+          <dc:creator>Thibaut </dc:creator>
+          <dc:date>2013-07-19T00:01:57</dc:date>
+          <text:p><text:span text:style-name="T102"><text:s/></text:span><text:span text:style-name="T102">[ Q16 ] “SubjectID” might be problematic due to the multiple-listeners option. Any thoughts ?</text:span></text:p>
+         </office:annotation><office:annotation>
+          <dc:creator>Piotr Majdak</dc:creator>
+          <dc:date>2013-07-19T00:17:25</dc:date>
+          <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:01): &quot;...&quot;</text:span></text:p>
+          <text:p><text:span text:style-name="T238">Yes, we should define SubjectID in conventions. Removed from here.</text:span></text:p>
+         </office:annotation></text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P102"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P79">attribute</text:p>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P78"/>
+       </table:table-cell>
+       <table:table-cell table:style-name="Table11.A1" office:value-type="string">
+        <text:p text:style-name="P81">A succinct description of what is in the <text:span text:style-name="T241">file</text:span></text:p>
        </table:table-cell>
       </table:table-row>
      </table:table>
@@ -5254,134 +5106,134 @@
        </office:annotation></text:span><text:span text:style-name="T20"><office:annotation>
         <dc:creator>Piotr Majdak</dc:creator>
         <dc:date>2013-07-19T00:18:42</dc:date>
-        <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:02): &quot;...&quot;</text:span></text:p>
+        <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:02): &quot;...&quot;</text:span></text:p>
         <text:p><text:span text:style-name="T238">It is not clear if we really want to have ApplicationName and ApplicationVersion mandatory in SOFA. </text:span></text:p>
         <text:p><text:span text:style-name="T238">SubjectID and DatabaseName removed because defined in Conventions</text:span></text:p>
        </office:annotation></text:span></text:p>
     </draw:text-box>
    </draw:frame>
-   <text:p text:style-name="P205"><text:span text:style-name="T227">SOFA<text:line-break/></text:span><text:span text:style-name="T226">Spatially Oriented Format for Acoustics</text:span></text:p>
+   <text:p text:style-name="P186"><text:span text:style-name="T227">SOFA<text:line-break/></text:span><text:span text:style-name="T226">Spatially Oriented Format for Acoustics</text:span></text:p>
    <text:p text:style-name="Subtitle"><text:span text:style-name="T159">Piotr Majdak<text:line-break/></text:span><text:span text:style-name="T17">Acoustics Research Institute, Austrian Academy of Sciences, </text:span><text:span text:style-name="T18">Vienna</text:span><text:span text:style-name="T17">, Austria</text:span><text:span text:style-name="T159"><text:line-break/></text:span><text:span text:style-name="T19">&lt;</text:span><text:span text:style-name="T3">piotr@majdak.com</text:span><text:span text:style-name="T19">&gt; </text:span></text:p>
    <text:p text:style-name="Subtitle"><text:span text:style-name="T230">This document defines </text:span><text:span text:style-name="T230"><text:title>SOFA version 0.5</text:title></text:span><text:span text:style-name="T230">.</text:span></text:p>
    <text:p text:style-name="P145"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T232">Further c</text:span></text:span><text:span text:style-name="Strong_20_Emphasis">ontributors</text:span>:</text:p>
-   <text:list xml:id="list7024481588976831870" text:style-name="List_20_1">
+   <text:list xml:id="list8371121120060346724" text:style-name="List_20_1">
     <text:list-item>
-     <text:p text:style-name="P182"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T159">Markus Noisternig</text:span></text:span><text:span text:style-name="T159"> (UMR STMS IRCAM-CNRS-UPMC, Paris, France) <text:line-break/>markus.noisternig@ircam.fr</text:span></text:p>
+     <text:p text:style-name="P207"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T159">Markus Noisternig</text:span></text:span><text:span text:style-name="T159"> (UMR STMS IRCAM-CNRS-UPMC, Paris, France) <text:line-break/>markus.noisternig@ircam.fr</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P169"><text:span text:style-name="Strong_20_Emphasis">Hagen Wierstorf</text:span> (Telekom Innovation Laboratories, Technical University of Berlin, Berlin, Germany) hagen.wierstorf@telekom.de</text:p>
+     <text:p text:style-name="P194"><text:span text:style-name="Strong_20_Emphasis">Hagen Wierstorf</text:span> (Telekom Innovation Laboratories, Technical University of Berlin, Berlin, Germany) hagen.wierstorf@telekom.de</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P182"><text:span text:style-name="Strong_20_Emphasis">Harald Ziegelwanger</text:span> (Acoustics Research Institute<text:span text:style-name="T159">, Austrian Academy of Sciences, Vienna, Austria) h.ziegelwanger@me.com</text:span></text:p>
+     <text:p text:style-name="P207"><text:span text:style-name="Strong_20_Emphasis">Harald Ziegelwanger</text:span> (Acoustics Research Institute<text:span text:style-name="T159">, Austrian Academy of Sciences, Vienna, Austria) h.ziegelwanger@me.com</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P169"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T229">Michael Mihocic</text:span></text:span> (Acoustics Research Institute, Austrian Academy of Sciences, Vienna, Austria) <text:span text:style-name="T229">michael.mihocic@oeaw.ac.at</text:span></text:p>
+     <text:p text:style-name="P194"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T229">Michael Mihocic</text:span></text:span> (Acoustics Research Institute, Austrian Academy of Sciences, Vienna, Austria) <text:span text:style-name="T229">michael.mihocic@oeaw.ac.at</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P182"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T159">Thibaut Carpentier</text:span></text:span><text:span text:style-name="T159"> (UMR STMS IRCAM-CNRS-UPMC, Paris, France)<text:line-break/></text:span>thibaut.carpentier@ircam.fr</text:p>
+     <text:p text:style-name="P207"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T159">Thibaut Carpentier</text:span></text:span><text:span text:style-name="T159"> (UMR STMS IRCAM-CNRS-UPMC, Paris, France)<text:line-break/></text:span>thibaut.carpentier@ircam.fr</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P182"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T159">Rozenn Nicol</text:span></text:span><text:span text:style-name="T228"> (Orange Labs, France Telecom, Lannion, France)<text:line-break/>rozenn.nicol@orange.com</text:span></text:p>
+     <text:p text:style-name="P207"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T159">Rozenn Nicol</text:span></text:span><text:span text:style-name="T228"> (Orange Labs, France Telecom, Lannion, France)<text:line-break/>rozenn.nicol@orange.com</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P182"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T159">Matthieu Parmentier</text:span></text:span><text:span text:style-name="T228"> (France Television, Paris, France)<text:line-break/>matthieu.parmentier@francetv.fr</text:span></text:p>
+     <text:p text:style-name="P207"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T159">Matthieu Parmentier</text:span></text:span><text:span text:style-name="T228"> (France Television, Paris, France)<text:line-break/>matthieu.parmentier@francetv.fr</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P169"><text:span text:style-name="Strong_20_Emphasis">Agnieszka Roginska</text:span> (Music Technology, New York University, NY, USA)<text:line-break/>roginska@nyu.edu</text:p>
+     <text:p text:style-name="P194"><text:span text:style-name="Strong_20_Emphasis">Agnieszka Roginska</text:span> (Music Technology, New York University, NY, USA)<text:line-break/>roginska@nyu.edu</text:p>
     </text:list-item>
    </text:list>
-   <text:h text:style-name="P170" text:outline-level="2"/>
+   <text:h text:style-name="P195" text:outline-level="2"/>
    <text:h text:style-name="P155" text:outline-level="1"><text:bookmark-start text:name="__RefHeading__13828_208260674"/>What is SOFA?<text:bookmark-end text:name="__RefHeading__13828_208260674"/></text:h>
    <text:p text:style-name="P44"><text:span text:style-name="T181">Head-related transfer functions (HRTFs) describe the spatial filtering of the incoming sound. So far available HRTFs are stored in various formats, making an exchange of HRTFs difficult because of incompatibilities between the formats. We propose a format for storing HRTFs with a focus on interchangeability and extendability. The </text:span><text:span text:style-name="Strong_20_Emphasis">spatially oriented format for acoustics (SOFA)</text:span><text:span text:style-name="T181"> aims at representing HRTFs in a general way, thus, allowing to store data such as directional room impulse responses (DRIRs) measured with a microphone-array excited by a loudspeaker array. SOFA specifications consider data compression, network transfer, a link to complex room geometries, and aim at simplifying the development of programming interfaces for Matlab, Octave, and C++. SOFA conventions for a consistent description of measurement setups are provided for future HRTF and DRIR databases.</text:span></text:p>
    <text:h text:style-name="P60" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13830_208260674"/>SOFA version 0.1<text:bookmark-end text:name="__RefHeading__13830_208260674"/></text:h>
    <text:p text:style-name="P45">We consider the specifications described in the proceedings of the AES convention in Rome, 2013, as SOFA, version 0.1</text:p>
    <text:h text:style-name="P59" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13832_208260674"/>SOFA version 0.2<text:bookmark-end text:name="__RefHeading__13832_208260674"/></text:h>
    <text:p text:style-name="Text_20_body">Compared to the version 0.1, the following changes happened:</text:p>
-   <text:list xml:id="list181727231149899" text:continue-numbering="true" text:style-name="List_20_1">
+   <text:list xml:id="list150356256138646" text:continue-numbering="true" text:style-name="List_20_1">
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13834_208260674"/>SimpleFreeFieldHRTF renamed to SimpleFreeFieldHRIR because FIR is the DataType<text:bookmark-end text:name="__RefHeading__13834_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13834_208260674"/>SimpleFreeFieldHRTF renamed to SimpleFreeFieldHRIR because FIR is the DataType<text:bookmark-end text:name="__RefHeading__13834_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13836_208260674"/>No strings in variables supported yet, strike-through. Some of the variables moved to global attributes.<text:bookmark-end text:name="__RefHeading__13836_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13836_208260674"/>No strings in variables supported yet, strike-through. Some of the variables moved to global attributes.<text:bookmark-end text:name="__RefHeading__13836_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13838_208260674"/>Global attributes added: APIVersion, APIName, RoomDescription, ReceiverDescription, SourceDescription, ListenerDescription, TransmitterDescription<text:bookmark-end text:name="__RefHeading__13838_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13838_208260674"/>Global attributes added: APIVersion, APIName, RoomDescription, ReceiverDescription, SourceDescription, ListenerDescription, TransmitterDescription<text:bookmark-end text:name="__RefHeading__13838_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13840_208260674"/>Dimension &apos;I&apos; added, it represents a singleton dimension (=scalar)<text:bookmark-end text:name="__RefHeading__13840_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13840_208260674"/>Dimension &apos;I&apos; added, it represents a singleton dimension (=scalar)<text:bookmark-end text:name="__RefHeading__13840_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13842_208260674"/>RoomCorner: unsupported dimension of 2, changed to two variables<text:bookmark-end text:name="__RefHeading__13842_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13842_208260674"/>RoomCorner: unsupported dimension of 2, changed to two variables<text:bookmark-end text:name="__RefHeading__13842_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13844_208260674"/>TOAModel: unsupported dimension of 5, not supported yet<text:bookmark-end text:name="__RefHeading__13844_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13844_208260674"/>TOAModel: unsupported dimension of 5, not supported yet<text:bookmark-end text:name="__RefHeading__13844_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13846_208260674"/>User-defined dimensions not supported yet.<text:bookmark-end text:name="__RefHeading__13846_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13846_208260674"/>User-defined dimensions not supported yet.<text:bookmark-end text:name="__RefHeading__13846_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13848_208260674"/>Dimension number must not change. For addition of optional dimensions, &apos;I&apos; must be used.<text:bookmark-end text:name="__RefHeading__13848_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13848_208260674"/>Dimension number must not change. For addition of optional dimensions, &apos;I&apos; must be used.<text:bookmark-end text:name="__RefHeading__13848_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13850_208260674"/>SOFA conventions SingleRoomDRIR added<text:bookmark-end text:name="__RefHeading__13850_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13850_208260674"/>SOFA conventions SingleRoomDRIR added<text:bookmark-end text:name="__RefHeading__13850_208260674"/></text:h>
     </text:list-item>
     <text:list-item>
-     <text:h text:style-name="P167" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13852_208260674"/>Coordinate systems defined<text:bookmark-end text:name="__RefHeading__13852_208260674"/></text:h>
+     <text:h text:style-name="P192" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13852_208260674"/>Coordinate systems defined<text:bookmark-end text:name="__RefHeading__13852_208260674"/></text:h>
     </text:list-item>
    </text:list>
    <text:h text:style-name="P61" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13854_208260674"/>SOFA version 0.3<text:bookmark-end text:name="__RefHeading__13854_208260674"/></text:h>
    <text:p text:style-name="P49">Compared to the previous version, the following specifications have changes:</text:p>
-   <text:list xml:id="list181727231159571" text:continue-numbering="true" text:style-name="List_20_1">
+   <text:list xml:id="list150356272133829" text:continue-numbering="true" text:style-name="List_20_1">
     <text:list-item>
-     <text:p text:style-name="P171">Global attribute added: Version</text:p>
+     <text:p text:style-name="P196">Global attribute added: Version</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P171">SOFAConvention renamed to SOFAConventions</text:p>
+     <text:p text:style-name="P196">SOFAConvention renamed to SOFAConventions</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P171">SOFAConventionVersion renamed to SOFAConventionsVersion</text:p>
+     <text:p text:style-name="P196">SOFAConventionVersion renamed to SOFAConventionsVersion</text:p>
     </text:list-item>
    </text:list>
    <text:h text:style-name="P62" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13856_208260674"/>SOFA version 0.4<text:bookmark-end text:name="__RefHeading__13856_208260674"/></text:h>
-   <text:list xml:id="list181727241141009" text:continue-numbering="true" text:style-name="List_20_1">
+   <text:list xml:id="list150356272156338" text:continue-numbering="true" text:style-name="List_20_1">
     <text:list-item>
-     <text:p text:style-name="P172">Old stuff removed from this document</text:p>
+     <text:p text:style-name="P197">Old stuff removed from this document</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P172">Dimensional variables are optional</text:p>
+     <text:p text:style-name="P197">Dimensional variables are optional</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P172">Datatype: new added, previous updated</text:p>
+     <text:p text:style-name="P197">Datatype: new added, previous updated</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P172">Define of the types of variables added</text:p>
+     <text:p text:style-name="P197">Define of the types of variables added</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P172">Minor details fixed</text:p>
+     <text:p text:style-name="P197">Minor details fixed</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P173">AdditionalRotation and AdditionaTranslation added</text:p>
+     <text:p text:style-name="P198">AdditionalRotation and AdditionaTranslation added</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P174">ListenerRotation renamed to APV in order to remove the confusion with geometry issues</text:p>
+     <text:p text:style-name="P199">ListenerRotation renamed to APV in order to remove the confusion with geometry issues</text:p>
     </text:list-item>
    </text:list>
    <text:h text:style-name="Heading_20_2" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__13858_208260674"/><text:soft-page-break/>SOFA version 0.<text:span text:style-name="T106">5</text:span><text:bookmark-end text:name="__RefHeading__13858_208260674"/></text:h>
-   <text:list xml:id="list181727241133700" text:continue-numbering="true" text:style-name="List_20_1">
+   <text:list xml:id="list150356272142708" text:continue-numbering="true" text:style-name="List_20_1">
     <text:list-item>
-     <text:p text:style-name="P175"><text:change-start text:change-id="ct182714912"/>APV removed, the geometry must be interpret<text:span text:style-name="T239">ed</text:span> on loading</text:p>
+     <text:p text:style-name="P200"><text:change-start text:change-id="ct354398272"/>APV removed, the geometry must be interpret<text:span text:style-name="T239">ed</text:span> on loading</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P176"><text:change-end text:change-id="ct182714912"/>Clarification of most of the tables. Added extras columns.<text:change-start text:change-id="ct182715016"/></text:p>
+     <text:p text:style-name="P201"><text:change-end text:change-id="ct354398272"/>Clarification of most of the tables. Added extras columns.<text:change-start text:change-id="ct354398376"/></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P177">Reserved variable names and characters explicitly specified.<text:change-end text:change-id="ct182715016"/><text:change-start text:change-id="ct182715120"/></text:p>
+     <text:p text:style-name="P202">Reserved variable names and characters explicitly specified.<text:change-end text:change-id="ct354398376"/><text:change-start text:change-id="ct354401288"/></text:p>
     </text:list-item>
    </text:list>
    <text:h text:style-name="P58" text:outline-level="2">General remarks on this document</text:h>
-   <text:list xml:id="list181727241160980" text:continue-numbering="true" text:style-name="List_20_1">
+   <text:list xml:id="list150356272131777" text:continue-numbering="true" text:style-name="List_20_1">
     <text:list-item>
-     <text:p text:style-name="P176"><text:bookmark-start text:name="__RefHeading__13862_208260674"/><text:bookmark-end text:name="__RefHeading__13862_208260674"/><text:change-end text:change-id="ct182715120"/></text:p>
+     <text:p text:style-name="P201"><text:bookmark-start text:name="__RefHeading__13862_208260674"/><text:bookmark-end text:name="__RefHeading__13862_208260674"/><text:change-end text:change-id="ct354401288"/></text:p>
     </text:list-item>
    </text:list>
    <text:h text:style-name="P153" text:outline-level="1"><text:bookmark-start text:name="__RefHeading__13864_208260674"/>Introduction<text:bookmark-end text:name="__RefHeading__13864_208260674"/></text:h>
@@ -7218,27 +7070,27 @@
    <text:p text:style-name="P12"><text:span text:style-name="T169">Until now, HRTFs are stored using different formats, all of them having advantages and disadvantages. The </text:span>CIPIC <text:span text:style-name="T195">database </text:span><text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[2]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=faf637f3-c934-4263-9c3e-20bccb9777bd&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;publisher-place&quot;: &quot;New York&quot;, &quot;author&quot;: [{&quot;given&quot;: &quot;V R&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Algazi&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;R O&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Duda&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;D M&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Thompson&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;C&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Avendano&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2001&quot;]]}, &quot;title&quot;: &quot;The CIPIC HRTF database&quot;, &quot;page&quot;: &quot;99-102&quot;, &quot;container-title&quot;: &quot;IEEE Workshop on Applications of Signal Processing to Audio and Acoustics&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDow89jaKLcu"/><text:span text:style-name="T195">[2]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[2]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=faf637f3-c934-4263-9c3e-20bccb9777bd&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;publisher-place&quot;: &quot;New York&quot;, &quot;author&quot;: [{&quot;given&quot;: &quot;V R&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Algazi&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;R O&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Duda&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;D M&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Thompson&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;C&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Avendano&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2001&quot;]]}, &quot;title&quot;: &quot;The CIPIC HRTF database&quot;, &quot;page&quot;: &quot;99-102&quot;, &quot;container-title&quot;: &quot;IEEE Workshop on Applications of Signal Processing to Audio and Acoustics&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDow89jaKLcu"/><text:span text:style-name="T149">⁠</text:span><text:span text:style-name="T195"> provides a file per listener in either a plain text or Matlab (Mathworks, Inc.) file format. The directions are hard coded, i.e., the index of an HRTF corresponds to a predefined direction used in the measurements. While the representation of HRTFs from other directions is not allowed, anthropometric data have been stored within that format. The openDAFF package</text:span><text:span text:style-name="T195"><text:note text:id="ftn1" text:note-class="footnote"><text:note-citation>1</text:note-citation><text:note-body>
        <text:p text:style-name="P122">see http://www.opendaff.org/</text:p></text:note-body></text:note></text:span><text:span text:style-name="T195">, while similarly storing HRTFs only in a regular angular distance, uses a key-value system for the description of the </text:span><text:span text:style-name="T115">metadata</text:span><text:span text:style-name="T170"> which seems to be very promising. Other databases such as </text:span>LISTEN <text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[3]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=b7b04385-788a-44bb-ada1-45e6d850503f&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;LISTEN HRTF Database&quot;, &quot;URL&quot;: &quot;http://recherche.ircam.fr/equipes/salles/listen/&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2003&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;Olivier&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Warusfel&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;type&quot;: &quot;webpage&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDtc9fge0g1X"/><text:span text:style-name="T138">[3]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[3]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=b7b04385-788a-44bb-ada1-45e6d850503f&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;LISTEN HRTF Database&quot;, &quot;URL&quot;: &quot;http://recherche.ircam.fr/equipes/salles/listen/&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2003&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;Olivier&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Warusfel&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;type&quot;: &quot;webpage&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDtc9fge0g1X"/>⁠ <text:span text:style-name="T175">and </text:span>ARI <text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[6]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=ca812376-1ef9-4f08-87d3-a1a891c4a699&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;DOI&quot;: &quot;10.3758/APP.72.2.454&quot;, &quot;type&quot;: &quot;article-journal&quot;, &quot;author&quot;: [{&quot;given&quot;: &quot;Piotr&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Majdak&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Matthew J&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Goupell&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Bernhard&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Laback&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2010&quot;, &quot;2&quot;]]}, &quot;abstract&quot;: &quot;The ability to localize sound sources in three-dimensional space was tested in humans. In Experiment 1, naive subjects listened to noises filtered with subject-specific head-related transfer functions. The tested conditions included the pointing method (head or manual pointing) and the visual environment (VE; darkness or virtual VE). The localization performance was not significantly different between the pointing methods. The virtual VE significantly improved the horizontal precision and reduced the number of front-back confusions. These results show the benefit of using a virtual VE in sound localization tasks. In Experiment 2, subjects were provided with sound localization training. Over the course of training, the performance improved for all subjects, with the largest improvements occurring during the first 400 trials. The improvements beyond the first 400 trials were smaller. After the training, there was still no significant effect of pointing method, showing that the choice of either head- or manual-pointing method plays a minor role in sound localization performance. The results of Experiment 2 reinforce the importance of perceptual training for at least 400 trials in sound localization studies.&quot;, &quot;title&quot;: &quot;3-D localization of virtual sound sources: effects of visual environment, pointing method, and training.&quot;, &quot;page&quot;: &quot;454-69&quot;, &quot;volume&quot;: &quot;72&quot;, &quot;container-title&quot;: &quot;Attent Percept Psychophys&quot;, &quot;issue&quot;: &quot;2&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RND8MrcRMEDZi"/><text:span text:style-name="T138">[6]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[6]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=ca812376-1ef9-4f08-87d3-a1a891c4a699&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;DOI&quot;: &quot;10.3758/APP.72.2.454&quot;, &quot;type&quot;: &quot;article-journal&quot;, &quot;author&quot;: [{&quot;given&quot;: &quot;Piotr&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Majdak&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Matthew J&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Goupell&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Bernhard&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Laback&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2010&quot;, &quot;2&quot;]]}, &quot;abstract&quot;: &quot;The ability to localize sound sources in three-dimensional space was tested in humans. In Experiment 1, naive subjects listened to noises filtered with subject-specific head-related transfer functions. The tested conditions included the pointing method (head or manual pointing) and the visual environment (VE; darkness or virtual VE). The localization performance was not significantly different between the pointing methods. The virtual VE significantly improved the horizontal precision and reduced the number of front-back confusions. These results show the benefit of using a virtual VE in sound localization tasks. In Experiment 2, subjects were provided with sound localization training. Over the course of training, the performance improved for all subjects, with the largest improvements occurring during the first 400 trials. The improvements beyond the first 400 trials were smaller. After the training, there was still no significant effect of pointing method, showing that the choice of either head- or manual-pointing method plays a minor role in sound localization performance. The results of Experiment 2 reinforce the importance of perceptual training for at least 400 trials in sound localization studies.&quot;, &quot;title&quot;: &quot;3-D localization of virtual sound sources: effects of visual environment, pointing method, and training.&quot;, &quot;page&quot;: &quot;454-69&quot;, &quot;volume&quot;: &quot;72&quot;, &quot;container-title&quot;: &quot;Attent Percept Psychophys&quot;, &quot;issue&quot;: &quot;2&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RND8MrcRMEDZi"/>⁠, <text:span text:style-name="T169">consist of an HRTF matrix and additional matrices describing the direction of the corresponding HRTF, thus, allowing to represent HRTFs from any direction. In that formats, HRTFs from each listener are stored in a separate file. In the database storing the HRTFs as a function of distance </text:span><text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[4]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=67c893a8-0a79-423e-8db8-6a7d40aca703&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;A Free Database of Head-Related Impulse Response Measurements in the Horizontal Plane with Multiple Distances&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2011&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;Hagen&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Wierstorf&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Matthias&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Geier&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Alexander&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Raake&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Sascha&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Spors&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;page&quot;: &quot;eBrief 6&quot;, &quot;container-title&quot;: &quot;130th Convention of the Audio Engineering Society (AES)&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDeGFqeFXpjE"/><text:span text:style-name="T150">[4]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[4]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=67c893a8-0a79-423e-8db8-6a7d40aca703&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;A Free Database of Head-Related Impulse Response Measurements in the Horizontal Plane with Multiple Distances&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2011&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;Hagen&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Wierstorf&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Matthias&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Geier&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Alexander&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Raake&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Sascha&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Spors&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;page&quot;: &quot;eBrief 6&quot;, &quot;container-title&quot;: &quot;130th Convention of the Audio Engineering Society (AES)&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDeGFqeFXpjE"/><text:span text:style-name="T169">⁠, the data are stored in a separate file for each distance. Combined with the necessity to store a separate file for each listener, those three latter formats would result in many files. The </text:span>MARL-NYU <text:span text:style-name="T170">database </text:span><text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[23]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=50aa890c-258f-4888-b0bc-71b809a93cd2&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;Towards the Creation of a Standardized HRTF Repository&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2011&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;Areti&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Andreopoulou&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Agnieszka&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Roginska&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;page&quot;: &quot;Convention Paper 8571&quot;, &quot;container-title&quot;: &quot;131th Convention of the Audio Engineering Society (AES)&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDvLsXJlAtvi"/><text:span text:style-name="T151">[23]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[23]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=50aa890c-258f-4888-b0bc-71b809a93cd2&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;Towards the Creation of a Standardized HRTF Repository&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2011&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;Areti&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Andreopoulou&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Agnieszka&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Roginska&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;page&quot;: &quot;Convention Paper 8571&quot;, &quot;container-title&quot;: &quot;131th Convention of the Audio Engineering Society (AES)&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDvLsXJlAtvi"/><text:span text:style-name="T170">⁠ harmonized the format of CIPIC, LISTEN, MIT, and others databases, and stores all those data in a single file. This concept seems to be promising when combined with a network interface and partial file access in the future. Most of those HRTFs are stored in Matlab formats, i.e., they use a Matlab file convention to store predefined matrices. In contrast, SDIF </text:span><text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[24]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=2ae46b7d-6874-4558-902b-ab78089910df&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;Extensions and Applications of the SDIF Sound Description Interchange Format&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2000&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;Diemo&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Schwarz&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Matthew&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Wright&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;container-title&quot;: &quot;Proceedings of the International Computer Music Conference&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDYQ6XDWA5fr"/><text:span text:style-name="T148">[24]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[24]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=2ae46b7d-6874-4558-902b-ab78089910df&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;Extensions and Applications of the SDIF Sound Description Interchange Format&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2000&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;Diemo&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Schwarz&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Matthew&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Wright&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;container-title&quot;: &quot;Proceedings of the International Computer Music Conference&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDYQ6XDWA5fr"/><text:span text:style-name="T168">⁠, a general format for storing audio-related data, has been adapted to HRTFs, allowing to store HRTFs of a single listener in a mixed text-based and binary representation. The concert-hall data </text:span><text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[25]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=a6fcb7dd-b971-497d-8480-75ebf052a9ae&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;Concert Hall Impulse Responses - Pori, Finland&quot;, &quot;URL&quot;: &quot;http://www.acoustics.hut.fi/projects/poririrs/&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2005&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;J.&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Merimaa&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;T.&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Peltonen&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;T.&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Lokki&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;accessed&quot;: {&quot;date-parts&quot;: [[&quot;2013&quot;, &quot;2&quot;, &quot;1&quot;]]}, &quot;type&quot;: &quot;webpage&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDGEzZ8XPpDM"/><text:span text:style-name="T152">[25]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[25]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=a6fcb7dd-b971-497d-8480-75ebf052a9ae&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;title&quot;: &quot;Concert Hall Impulse Responses - Pori, Finland&quot;, &quot;URL&quot;: &quot;http://www.acoustics.hut.fi/projects/poririrs/&quot;, &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2005&quot;]]}, &quot;author&quot;: [{&quot;given&quot;: &quot;J.&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Merimaa&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;T.&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Peltonen&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;T.&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Lokki&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;accessed&quot;: {&quot;date-parts&quot;: [[&quot;2013&quot;, &quot;2&quot;, &quot;1&quot;]]}, &quot;type&quot;: &quot;webpage&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDGEzZ8XPpDM"/><text:span text:style-name="T173">⁠, stored as compressed “.wav” files, are another example for a mixed-binary format, which further requires a description (separate text files) in order to being able to interpret the data. The HRTFs measured in rooms (e.g., <text:s/></text:span><text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[8]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=f04f03c2-1e88-4c48-be9a-367bb0058256&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;publisher&quot;: &quot;IEEE&quot;, &quot;DOI&quot;: &quot;10.1109/ICDSP.2009.5201259&quot;, &quot;ISBN&quot;: &quot;978-1-4244-3297-4&quot;, &quot;author&quot;: [{&quot;given&quot;: &quot;Marco&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Jeub&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Magnus&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Sch\u00e4fer&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Peter&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Vary&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2009&quot;, &quot;7&quot;]]}, &quot;title&quot;: &quot;A binaural room impulse response database for the evaluation of dereverberation algorithms&quot;, &quot;page&quot;: &quot;1-5&quot;, &quot;container-title&quot;: &quot;2009 16th International Conference on Digital Signal Processing&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDY6Y0ep39qM"/><text:span text:style-name="T152">[8]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[8]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=f04f03c2-1e88-4c48-be9a-367bb0058256&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;publisher&quot;: &quot;IEEE&quot;, &quot;DOI&quot;: &quot;10.1109/ICDSP.2009.5201259&quot;, &quot;ISBN&quot;: &quot;978-1-4244-3297-4&quot;, &quot;author&quot;: [{&quot;given&quot;: &quot;Marco&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Jeub&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Magnus&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Sch\u00e4fer&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;Peter&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Vary&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;2009&quot;, &quot;7&quot;]]}, &quot;title&quot;: &quot;A binaural room impulse response database for the evaluation of dereverberation algorithms&quot;, &quot;page&quot;: &quot;1-5&quot;, &quot;container-title&quot;: &quot;2009 16th International Conference on Digital Signal Processing&quot;, &quot;type&quot;: &quot;paper-conference&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDY6Y0ep39qM"/><text:span text:style-name="T173">⁠) are also Matlab files and the relationship between the data and the geometry of the measurement setup is provided in separate publications. </text:span></text:p>
    <text:p text:style-name="P37">From this summary, the requirements on a <text:span text:style-name="T172">file </text:span>format stor<text:span text:style-name="T172">ing</text:span> HRTFs and spatially oriented descriptions of acoustic systems <text:span text:style-name="T175">are</text:span> derived<text:span text:style-name="T172">:</text:span></text:p>
-   <text:list xml:id="list181727271138842" text:continue-numbering="true" text:style-name="List_20_1">
+   <text:list xml:id="list150356303137872" text:continue-numbering="true" text:style-name="List_20_1">
     <text:list-item>
-     <text:p text:style-name="P168"><text:span text:style-name="T171">Description of a measurement setup with arbitrary geometry, </text:span><text:span text:style-name="T114">i.e.</text:span><text:span text:style-name="T175">, not limited to special cases like a regular grid, or a constant distance;</text:span></text:p>
+     <text:p text:style-name="P193"><text:span text:style-name="T171">Description of a measurement setup with arbitrary geometry, </text:span><text:span text:style-name="T114">i.e.</text:span><text:span text:style-name="T175">, not limited to special cases like a regular grid, or a constant distance;</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P168"><text:soft-page-break/><text:span text:style-name="T173">Self-describing data with a consistent definition, i.e., all the required information about the measurement setup must be provided as </text:span><text:span text:style-name="T116">metadata</text:span><text:span text:style-name="T173"> in the file;</text:span></text:p>
+     <text:p text:style-name="P193"><text:soft-page-break/><text:span text:style-name="T173">Self-describing data with a consistent definition, i.e., all the required information about the measurement setup must be provided as </text:span><text:span text:style-name="T116">metadata</text:span><text:span text:style-name="T173"> in the file;</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P178">Flexibility to describe data of multiple conditions (listeners, distances, etc) in a single file;</text:p>
+     <text:p text:style-name="P203">Flexibility to describe data of multiple conditions (listeners, distances, etc) in a single file;</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P178">Partial file and network support;</text:p>
+     <text:p text:style-name="P203">Partial file and network support;</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P178">Available as binary file with data compression for efficient storage and transfer;</text:p>
+     <text:p text:style-name="P203">Available as binary file with data compression for efficient storage and transfer;</text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P178">Predefined description conventions for the most common measurement setups.</text:p>
+     <text:p text:style-name="P203">Predefined description conventions for the most common measurement setups.</text:p>
     </text:list-item>
    </text:list>
-   <text:p text:style-name="P12"><text:span text:style-name="T171">SOFA aims at fulfilling all those requirements. SOFA specifications are described in the following sections. A HRTF/DRIR measurement setup is described by various objects (Sec. </text:span><text:span text:style-name="T171"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7100_349441372">3.1</text:bookmark-ref></text:span><text:span text:style-name="T171">) and their relations (Sec. </text:span><text:span text:style-name="T171"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__42897_821716355">3.2</text:bookmark-ref></text:span><text:span text:style-name="T171">). The information is stored in a numeric container (Sec. </text:span><text:span text:style-name="T171"><text:bookmark-ref text:reference-format="number-no-superior" text:ref-name="__RefHeading__7118_349441372">3.3</text:bookmark-ref></text:span><text:span text:style-name="T171">) and structured by the </text:span><text:span text:style-name="Emphasis"><text:span text:style-name="T24">measurement</text:span></text:span><text:span text:style-name="T24">. Measurement is a discrete sampled observation done at a specific time and under a specific condition. A measurement consists of data, e.g., an IR (Sec. </text:span><text:span text:style-name="T24"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7114_349441372">3.4</text:bookmark-ref></text:span><text:span text:style-name="T24">), and is described by its corresponding dimensions (Sec. </text:span><text:span text:style-name="T24"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7120_349441372">3.5</text:bookmark-ref></text:span><text:span text:style-name="T24">) and </text:span><text:span text:style-name="T117">metadata</text:span><text:span text:style-name="T24"> (Sec. </text:span><text:span text:style-name="T24"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7116_349441372">3.6</text:bookmark-ref></text:span><text:span text:style-name="T24">). All measurements are stored in a single data structure, e.g., a matrix of IRs. </text:span><text:change-start text:change-id="ct182715224"/><text:span text:style-name="T24">Conventions for a consistent description of measurement setups are provided for two setups (Sec. </text:span><text:span text:style-name="T24"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__42895_821716355">4</text:bookmark-ref></text:span><text:span text:style-name="T24">). </text:span><text:change-end text:change-id="ct182715224"/></text:p>
+   <text:p text:style-name="P12"><text:span text:style-name="T171">SOFA aims at fulfilling all those requirements. SOFA specifications are described in the following sections. A HRTF/DRIR measurement setup is described by various objects (Sec. </text:span><text:span text:style-name="T171"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7100_349441372">3.1</text:bookmark-ref></text:span><text:span text:style-name="T171">) and their relations (Sec. </text:span><text:span text:style-name="T171"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__42897_821716355">3.2</text:bookmark-ref></text:span><text:span text:style-name="T171">). The information is stored in a numeric container (Sec. </text:span><text:span text:style-name="T171"><text:bookmark-ref text:reference-format="number-no-superior" text:ref-name="__RefHeading__7118_349441372">3.3</text:bookmark-ref></text:span><text:span text:style-name="T171">) and structured by the </text:span><text:span text:style-name="Emphasis"><text:span text:style-name="T24">measurement</text:span></text:span><text:span text:style-name="T24">. Measurement is a discrete sampled observation done at a specific time and under a specific condition. A measurement consists of data, e.g., an IR (Sec. </text:span><text:span text:style-name="T24"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7114_349441372">3.4</text:bookmark-ref></text:span><text:span text:style-name="T24">), and is described by its corresponding dimensions (Sec. </text:span><text:span text:style-name="T24"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7120_349441372">3.5</text:bookmark-ref></text:span><text:span text:style-name="T24">) and </text:span><text:span text:style-name="T117">metadata</text:span><text:span text:style-name="T24"> (Sec. </text:span><text:span text:style-name="T24"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7116_349441372">3.6</text:bookmark-ref></text:span><text:span text:style-name="T24">). All measurements are stored in a single data structure, e.g., a matrix of IRs. </text:span><text:change-start text:change-id="ct354410648"/><text:span text:style-name="T24">Conventions for a consistent description of measurement setups are provided for two setups (Sec. </text:span><text:span text:style-name="T24"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__42895_821716355">4</text:bookmark-ref></text:span><text:span text:style-name="T24">). </text:span><text:change-end text:change-id="ct354410648"/></text:p>
    <text:h text:style-name="P153" text:outline-level="1"><text:bookmark-start text:name="__RefHeading__13870_208260674"/><text:span text:style-name="T211">General </text:span>Specifications<text:bookmark-end text:name="__RefHeading__13870_208260674"/></text:h>
    <text:h text:style-name="P65" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__7100_349441372"/>Objects<text:bookmark-end text:name="__RefHeading__7100_349441372"/></text:h>
    <text:p text:style-name="P17"><text:span text:style-name="Emphasis">Receiver</text:span> <text:span text:style-name="T174">is</text:span> any acoustic sensor like the ear or a microphone. <text:span text:style-name="T174">The number of receivers in not limited in SOFA and defines the size of the data matrix.</text:span></text:p>
@@ -7874,8 +7726,8 @@
    <text:p text:style-name="P13"><text:span text:style-name="T29"><office:annotation>
       <dc:creator>Piotr Majdak</dc:creator>
       <dc:date>2013-07-19T00:06:38</dc:date>
-      <text:p text:style-name="P206"><text:span text:style-name="T129">This issue needs to be clarified yet. Markus: could you check our idea in the meantime? I wrote it now here for further discussions. See also Sec. 3.5!!!</text:span></text:p>
-     </office:annotation></text:span><text:span text:style-name="T29">Note that </text:span><text:span text:style-name="T27">in </text:span><text:span text:style-name="T28">SOFA, </text:span><text:span text:style-name="T29">the string</text:span><text:span text:style-name="T26">s</text:span><text:span text:style-name="T29"> </text:span><text:span text:style-name="T26">are stored as character arrays with a single “string”-dimension, see Sec. </text:span><text:span text:style-name="T26"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7120_349441372">3.5</text:bookmark-ref></text:span><text:span text:style-name="T26">. Note that this does not correspond to attributes, which are always represented by the netCDF as </text:span><text:change-start text:change-id="ct182715328"/><text:span text:style-name="T26">strings</text:span><text:change-end text:change-id="ct182715328"/><text:change-start text:change-id="ct182715432"/><text:span text:style-name="T98">a special data type</text:span><text:change-end text:change-id="ct182715432"/><text:span text:style-name="T26">.</text:span></text:p>
+      <text:p text:style-name="P209"><text:span text:style-name="T129">This issue needs to be clarified yet. Markus: could you check our idea in the meantime? I wrote it now here for further discussions. See also Sec. 3.5!!!</text:span></text:p>
+     </office:annotation></text:span><text:span text:style-name="T29">Note that </text:span><text:span text:style-name="T27">in </text:span><text:span text:style-name="T28">SOFA, </text:span><text:span text:style-name="T29">the string</text:span><text:span text:style-name="T26">s</text:span><text:span text:style-name="T29"> </text:span><text:span text:style-name="T26">are stored as character arrays with a single “string”-dimension, see Sec. </text:span><text:span text:style-name="T26"><text:bookmark-ref text:reference-format="number-all-superior" text:ref-name="__RefHeading__7120_349441372">3.5</text:bookmark-ref></text:span><text:span text:style-name="T26">. Note that this does not correspond to attributes, which are always represented by the netCDF as </text:span><text:change-start text:change-id="ct354410752"/><text:span text:style-name="T26">strings</text:span><text:change-end text:change-id="ct354410752"/><text:change-start text:change-id="ct354398480"/><text:span text:style-name="T98">a special data type</text:span><text:change-end text:change-id="ct354398480"/><text:span text:style-name="T26">.</text:span></text:p>
    <text:h text:style-name="P63" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__7114_349441372"/>Data<text:bookmark-end text:name="__RefHeading__7114_349441372"/></text:h>
    <text:p text:style-name="P39">Data represent the numeric description of the acoustic systems and consist of a multidimensional matrix <text:span text:style-name="T218">of</text:span> an arbitrary <text:span text:style-name="T218">size</text:span>. <text:span text:style-name="T25">Data stored in this format have the flexibility to be in the domain that best accommodates the measurement and measurement system. </text:span>Data can be time domain <text:span text:style-name="T178">finite IRs</text:span> <text:span text:style-name="T178">(data type FIR) or infinite IR </text:span>filter coefficients <text:span text:style-name="T178">(IIRBiquad)</text:span>, <text:span text:style-name="T178">with or without sep</text:span><text:soft-page-break/><text:span text:style-name="T178">arately stored</text:span> <text:span text:style-name="T178">broadband delays</text:span>. <text:span text:style-name="T178">The broadband delay (i.e., time-of-arrival, TOA) can be stored as discrete delays in a matrix or as parameters of continuous-directional TOA model </text:span><text:reference-mark-start text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[26]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=e0e3e37b-ab91-4dd1-9368-610ee553664f&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;type&quot;: &quot;article-journal&quot;, &quot;author&quot;: [{&quot;given&quot;: &quot;H&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Ziegelwanger&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;P&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Majdak&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;0&quot;]]}, &quot;title&quot;: &quot;Continuous-direction model of the time-of-arrival in the head-related transfer functions&quot;, &quot;page&quot;: &quot;submitted&quot;, &quot;volume&quot;: &quot;submitted&quot;, &quot;container-title&quot;: &quot;J Acoust Soc Am&quot;, &quot;issue&quot;: &quot;submitted&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDm88SbB1QnS"/><text:span text:style-name="T153">[26]</text:span><text:reference-mark-end text:name="ADDIN CSL_CITATION {&quot;mendeley&quot;: {&quot;previouslyFormattedCitation&quot;: &quot;[26]&quot;}, &quot;citationItems&quot;: [{&quot;uris&quot;: [&quot;http://www.mendeley.com/documents/?uuid=e0e3e37b-ab91-4dd1-9368-610ee553664f&quot;], &quot;id&quot;: &quot;ITEM-1&quot;, &quot;itemData&quot;: {&quot;type&quot;: &quot;article-journal&quot;, &quot;author&quot;: [{&quot;given&quot;: &quot;H&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Ziegelwanger&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}, {&quot;given&quot;: &quot;P&quot;, &quot;dropping-particle&quot;: &quot;&quot;, &quot;suffix&quot;: &quot;&quot;, &quot;family&quot;: &quot;Majdak&quot;, &quot;parse-names&quot;: false, &quot;non-dropping-particle&quot;: &quot;&quot;}], &quot;issued&quot;: {&quot;date-parts&quot;: [[&quot;0&quot;]]}, &quot;title&quot;: &quot;Continuous-direction model of the time-of-arrival in the head-related transfer functions&quot;, &quot;page&quot;: &quot;submitted&quot;, &quot;volume&quot;: &quot;submitted&quot;, &quot;container-title&quot;: &quot;J Acoust Soc Am&quot;, &quot;issue&quot;: &quot;submitted&quot;, &quot;id&quot;: &quot;ITEM-1&quot;}}], &quot;properties&quot;: {&quot;noteIndex&quot;: 0}, &quot;schema&quot;: &quot;https://github.com/citation-style-language/schema/raw/master/csl-citation.json&quot;} RNDm88SbB1QnS"/><text:span text:style-name="T210">⁠. Data </text:span><text:span text:style-name="T44">contain fields (</text:span><text:span text:style-name="T75">e.g.,</text:span><text:span text:style-name="T44"> </text:span><text:span text:style-name="T75">Data.IR, </text:span><text:span text:style-name="T83">Data.G</text:span><text:span text:style-name="T44">) </text:span><text:span text:style-name="T84">which </text:span><text:span text:style-name="T213">are functions of the dimension N. The interpretation of N depends on the data type, e.g., </text:span><text:span text:style-name="T74">for </text:span><text:span text:style-name="T84">IRs</text:span><text:span text:style-name="T74">, </text:span><text:span text:style-name="T48">N represents the sampling interval (i.e., inverse of the sampling rate) or the number of FIR</text:span><text:span text:style-name="T34">-</text:span><text:span text:style-name="T48">filter </text:span><text:span text:style-name="T34">taps</text:span><text:span text:style-name="T48">. </text:span><text:span text:style-name="T84">The interpretation is </text:span><text:span text:style-name="T63">denoted in the attributes of the </text:span><text:span text:style-name="T84">dimension variable N</text:span><text:span text:style-name="T63">. </text:span><text:span text:style-name="T76">The different data types </text:span><text:span text:style-name="T34">and correspon</text:span><text:span text:style-name="T32">d</text:span><text:span text:style-name="T34">ing</text:span><text:span text:style-name="T49"> fields </text:span><text:span text:style-name="T76">are shown in Tab. </text:span><text:span text:style-name="T76"><text:sequence-ref text:reference-format="value" text:ref-name="refTable0">1</text:sequence-ref></text:span><text:span text:style-name="T76">. </text:span></text:p>
    <text:p text:style-name="P20"/>
@@ -7892,32 +7744,32 @@
      </office:annotation></text:span><text:span text:style-name="T36"><office:annotation>
       <dc:creator>Piotr Majdak</dc:creator>
       <dc:date>2013-07-19T00:12:14</dc:date>
-      <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:00): &quot;...&quot;</text:span></text:p>
+      <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:00): &quot;...&quot;</text:span></text:p>
       <text:p><text:span text:style-name="T238">Better now?</text:span></text:p>
      </office:annotation></text:span></text:p>
    <text:p text:style-name="P27"><text:span text:style-name="T107">Variables can have different dimensions. For example, it is possible to provide the ListerPosition as a single entry, meaning that the single ListenerPosition is valid for all measurements. But it is also possible to provide a different ListenerPosition for each measuremen</text:span>t. N<text:span text:style-name="T107">ote that there are restrictions on the variant dimensions:</text:span></text:p>
-   <text:list xml:id="list9141099959874379982" text:style-name="L37">
+   <text:list xml:id="list7225883425911538924" text:style-name="L37">
     <text:list-item>
-     <text:p text:style-name="P180"><text:span text:style-name="T107">The dimensions must be the pre-defined dimensions, see Tab. </text:span><text:span text:style-name="T107"><text:sequence-ref text:reference-format="value" text:ref-name="refTable1">2</text:sequence-ref></text:span><text:span text:style-name="T107">.</text:span></text:p>
+     <text:p text:style-name="P205"><text:span text:style-name="T107">The dimensions must be the pre-defined dimensions, see Tab. </text:span><text:span text:style-name="T107"><text:sequence-ref text:reference-format="value" text:ref-name="refTable1">2</text:sequence-ref></text:span><text:span text:style-name="T107">.</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P179"><text:span text:style-name="T107">The size of the dimensions may change, but the </text:span><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T107">number </text:span></text:span><text:span text:style-name="T107">of dimensions, i.e., dimensionality, must not. In the above example, valid dimensions of the ListenerPositions are [I C] and [M C]. Invalid dimensions would be [C]</text:span>. </text:p>
+     <text:p text:style-name="P204"><text:span text:style-name="T107">The size of the dimensions may change, but the </text:span><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T107">number </text:span></text:span><text:span text:style-name="T107">of dimensions, i.e., dimensionality, must not. In the above example, valid dimensions of the ListenerPositions are [I C] and [M C]. Invalid dimensions would be [C]</text:span>. </text:p>
     </text:list-item>
    </text:list>
    <text:p text:style-name="P27"><text:span text:style-name="T110">Strings are represented as character arrays along the dimension S. When more than one string array is considered in a SOFA file, S represents the size of the array with the longest string dimension. </text:span><text:span text:style-name="T110"><office:annotation>
       <dc:creator>Piotr Majdak</dc:creator>
       <dc:date>2013-07-19T00:47:48</dc:date>
-      <text:p text:style-name="P206"><text:span text:style-name="T129">We should discuss that. Another option would be to use a unique S for each string array. But this might end up in messy files. We don&apos;t have any data using that yet, though...</text:span></text:p>
+      <text:p text:style-name="P209"><text:span text:style-name="T129">We should discuss that. Another option would be to use a unique S for each string array. But this might end up in messy files. We don&apos;t have any data using that yet, though...</text:span></text:p>
      </office:annotation></text:span></text:p>
    <text:h text:style-name="P63" text:outline-level="2"><text:bookmark-start text:name="__RefHeading__7116_349441372"/><text:span text:style-name="T126">M</text:span><text:span text:style-name="T125">etadata</text:span><text:bookmark-end text:name="__RefHeading__7116_349441372"/></text:h>
-   <text:p text:style-name="Text_20_body"><text:span text:style-name="T113">M</text:span><text:span text:style-name="T112">etadata</text:span> consist of <text:span text:style-name="T204">variables and their </text:span>attributes. <text:span text:style-name="T110">Numerical variables are multidimensional matrices of the type “double” (</text:span><text:span text:style-name="T128">i.e.</text:span><text:span text:style-name="T99"> 64 bits floating point data). String variables are saved as character arrays. Other types of variables are not allowed and can be derived from “double” or “string”. Each variable can have its attributes, which are netCDF-attributes. Further, the most important properties of the measurement are valid for the global measurement setup are described by global attributes (see Tab. </text:span><text:span text:style-name="T99"><text:sequence-ref text:reference-format="value" text:ref-name="refTable2">3</text:sequence-ref></text:span><text:span text:style-name="T99">). All metadata names must </text:span><text:change-start text:change-id="ct182715536"/><text:span text:style-name="T99">obey the variable naming convention of the programming language C, i.e., they must </text:span><text:change-end text:change-id="ct182715536"/><text:span text:style-name="T99">begin with a letter followed by a</text:span><text:change-start text:change-id="ct182715640"/><text:span text:style-name="T99">n</text:span><text:change-end text:change-id="ct182715640"/><text:span text:style-name="T99"> </text:span><text:change-start text:change-id="ct182715744"/><text:span text:style-name="T99">alphanumeric character</text:span><text:change-end text:change-id="ct182715744"/><text:change-start text:change-id="ct182715848"/><text:span text:style-name="T99">letters or digits</text:span><text:change-end text:change-id="ct182715848"/>. Note that underscores (“_”) <text:change-start text:change-id="ct182274384"/><text:span text:style-name="T239">and</text:span><text:change-end text:change-id="ct182274384"/><text:change-start text:change-id="ct182274488"/><text:span text:style-name="T239"> the metadata names “API”, “GLOBAL”, and “PRIVATE” </text:span><text:change-end text:change-id="ct182274488"/>are not allowed because they are <text:span text:style-name="T110">reserved for internal usage </text:span>in the API<office:annotation>
+   <text:p text:style-name="Text_20_body"><text:span text:style-name="T113">M</text:span><text:span text:style-name="T112">etadata</text:span> consist of <text:span text:style-name="T204">variables and their </text:span>attributes. <text:span text:style-name="T110">Numerical variables are multidimensional matrices of the type “double” (</text:span><text:span text:style-name="T128">i.e.</text:span><text:span text:style-name="T99"> 64 bits floating point data). String variables are saved as character arrays. Other types of variables are not allowed and can be derived from “double” or “string”. Each variable can have its attributes, which are netCDF-attributes. Further, the most important properties of the measurement are valid for the global measurement setup are described by global attributes (see Tab. </text:span><text:span text:style-name="T99"><text:sequence-ref text:reference-format="value" text:ref-name="refTable2">3</text:sequence-ref></text:span><text:span text:style-name="T99">). All metadata names must </text:span><text:change-start text:change-id="ct354399208"/><text:span text:style-name="T99">obey the variable naming convention of the programming language C, i.e., they must </text:span><text:change-end text:change-id="ct354399208"/><text:span text:style-name="T99">begin with a letter followed by a</text:span><text:change-start text:change-id="ct354411168"/><text:span text:style-name="T99">n</text:span><text:change-end text:change-id="ct354411168"/><text:span text:style-name="T99"> </text:span><text:change-start text:change-id="ct354411272"/><text:span text:style-name="T99">alphanumeric character</text:span><text:change-end text:change-id="ct354411272"/><text:change-start text:change-id="ct354411376"/><text:span text:style-name="T99">letters or digits</text:span><text:change-end text:change-id="ct354411376"/>. Note that underscores (“_”) <text:change-start text:change-id="ct354411064"/><text:span text:style-name="T239">and</text:span><text:change-end text:change-id="ct354411064"/><text:change-start text:change-id="ct354399104"/><text:span text:style-name="T239"> the metadata names “API”, “GLOBAL”, and “PRIVATE” </text:span><text:change-end text:change-id="ct354399104"/>are not allowed because they are <text:span text:style-name="T110">reserved for internal usage </text:span>in the API<office:annotation>
      <dc:creator>Thibaut </dc:creator>
      <dc:date>2013-07-19T00:00:40</dc:date>
-     <text:p text:style-name="P206"><text:span text:style-name="T103">[ Q7 ] What do you mean </text:span></text:p>
+     <text:p text:style-name="P209"><text:span text:style-name="T103">[ Q7 ] What do you mean </text:span></text:p>
     </office:annotation><office:annotation>
      <dc:creator>Piotr Majdak</dc:creator>
      <dc:date>2013-07-19T00:13:35</dc:date>
-     <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:00): &quot;...&quot;</text:span></text:p>
+     <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:00): &quot;...&quot;</text:span></text:p>
      <text:p><text:span text:style-name="T238">Better now?</text:span></text:p>
     </office:annotation>. When saved as a variable, date and time use<text:span text:style-name="T207">s the number of seconds from 1970-01-01 00:00:00 (Unix time). When saved as attributes, date and time uses a string in the ISO-8601 format “yyyy-mm-dd HH:MM:SS”. Units are lower case</text:span><text:span text:style-name="T207"><office:annotation>
       <dc:creator>Thibaut </dc:creator>
@@ -7926,17 +7778,17 @@
      </office:annotation></text:span><text:span text:style-name="T207"><office:annotation>
       <dc:creator>Piotr Majdak</dc:creator>
       <dc:date>2013-07-19T00:13:41</dc:date>
-      <text:p text:style-name="P206"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:00): &quot;...&quot;</text:span></text:p>
+      <text:p text:style-name="P209"><text:span text:style-name="T130">Reply to Thibaut <text:s/>(19.07.2013, 00:00): &quot;...&quot;</text:span></text:p>
       <text:p><text:span text:style-name="T238">Agreed. Suggestions?</text:span></text:p>
      </office:annotation></text:span><text:span text:style-name="T207">. </text:span></text:p>
-   <text:p text:style-name="P14"><text:span text:style-name="T99">For the sake of simplicity, nested structures within the </text:span><text:span text:style-name="T122">metadata</text:span><text:span text:style-name="T100"> are not allowed, but grouping by prefixes using the Pascal convention, e.g., ListenerPosition and Listener</text:span><text:change-start text:change-id="ct182274696"/><text:span text:style-name="T100">Orientation</text:span><text:change-end text:change-id="ct182274696"/><text:change-start text:change-id="ct182274592"/><text:span text:style-name="T100">View</text:span><text:change-end text:change-id="ct182274592"/><text:span text:style-name="T100"> is used.</text:span></text:p>
+   <text:p text:style-name="P14"><text:span text:style-name="T99">For the sake of simplicity, nested structures within the </text:span><text:span text:style-name="T122">metadata</text:span><text:span text:style-name="T100"> are not allowed, but grouping by prefixes using the Pascal convention, e.g., ListenerPosition and Listener</text:span><text:change-start text:change-id="ct354401392"/><text:span text:style-name="T100">Orientation</text:span><text:change-end text:change-id="ct354401392"/><text:change-start text:change-id="ct354399416"/><text:span text:style-name="T100">View</text:span><text:change-end text:change-id="ct354399416"/><text:span text:style-name="T100"> is used.</text:span></text:p>
    <text:h text:style-name="P159" text:outline-level="3"><text:bookmark-start text:name="__RefHeading__13872_208260674"/>Global attributes<text:bookmark-end text:name="__RefHeading__13872_208260674"/></text:h>
    <text:p text:style-name="P36"><text:span text:style-name="T205">General </text:span><text:span text:style-name="T121">metadata</text:span><text:span text:style-name="T205"> are represented as global attributes in netCDF. Global attributes are always stored as strings in a netCDF file. SOFA defines mandatory global attributes (see Tab. </text:span><text:span text:style-name="T205"><text:sequence-ref text:reference-format="value" text:ref-name="refTable2">3</text:sequence-ref></text:span><text:span text:style-name="T205">), further optional (user-defined or defined by a convention) global attributes are allowed. Note that some of the global attributes are read-only, i.e., </text:span><text:span text:style-name="T20">the API has to provide the correct value</text:span><text:span text:style-name="T22">s</text:span><text:span text:style-name="T20"> and user is not allowed to change it. </text:span><text:span text:style-name="T104">Mandatory attributes </text:span><text:span text:style-name="T105">must be </text:span><text:span text:style-name="T104">always </text:span><text:span text:style-name="T105">present</text:span><text:span text:style-name="T104">.</text:span></text:p>
    <text:p text:style-name="P117"/>
    <text:h text:style-name="P156" text:outline-level="3"><text:bookmark-start text:name="__RefHeading__13874_208260674"/><text:span text:style-name="T231">Object metadata</text:span><text:span text:style-name="T231"><office:annotation>
       <dc:creator>Piotr Majdak</dc:creator>
       <dc:date>2013-07-19T00:20:59</dc:date>
-      <text:p text:style-name="P206"><text:span text:style-name="T129">Table with N removed because we decided that coordinate variables are not mandatory and thus their definition and presence depends on the conventions/datatype. For example, N is defined in Tab. 1 for datatype “TF”.</text:span></text:p>
+      <text:p text:style-name="P209"><text:span text:style-name="T129">Table with N removed because we decided that coordinate variables are not mandatory and thus their definition and presence depends on the conventions/datatype. For example, N is defined in Tab. 1 for datatype “TF”.</text:span></text:p>
      </office:annotation></text:span><text:bookmark-end text:name="__RefHeading__13874_208260674"/></text:h>
    <text:p text:style-name="P28"/>
    <text:p text:style-name="P11">The <text:span text:style-name="T240">information about listener, receiver, source, and emitters is shown in Tabs. </text:span><text:span text:style-name="T240"><text:sequence-ref text:reference-format="value" text:ref-name="refTable3">4</text:sequence-ref></text:span><text:span text:style-name="T240">-</text:span><text:span text:style-name="T240"><text:sequence-ref text:reference-format="value" text:ref-name="refTable6">7</text:sequence-ref></text:span><text:span text:style-name="T240">.</text:span> Some variables are mandatory and some others are proposed but optional. </text:p>
@@ -7976,7 +7828,7 @@
       <text:p text:style-name="P85">ListenerDescription</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table1.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182274800"/>attribute<text:change-end text:change-id="ct182274800"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354401496"/>attribute<text:change-end text:change-id="ct354401496"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table1.A2" office:value-type="string">
       <text:p text:style-name="P85">irrelevant</text:p>
@@ -7985,7 +7837,7 @@
       <text:p text:style-name="P85">yes</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table1.A2" office:value-type="string">
-      <text:p text:style-name="P204">Description of the listener</text:p>
+      <text:p text:style-name="P171">Description of the listener</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table1.A2" office:value-type="string">
       <text:p text:style-name="P85"/>
@@ -8016,7 +7868,7 @@
       <text:p text:style-name="P85">ListenerPosition:<text:span text:style-name="T212">Type</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table1.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182274904"/>attribute<text:change-end text:change-id="ct182274904"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354401600"/>attribute<text:change-end text:change-id="ct354401600"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table1.A2" office:value-type="string">
       <text:p text:style-name="P85">irrelevant</text:p>
@@ -8036,7 +7888,7 @@
       <text:p text:style-name="P85">ListenerPosition:<text:span text:style-name="T212">Unit</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table1.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275008"/>attribute<text:change-end text:change-id="ct182275008"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354401704"/>attribute<text:change-end text:change-id="ct354401704"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table1.A2" office:value-type="string">
       <text:p text:style-name="P85">irrelevant</text:p>
@@ -8096,7 +7948,7 @@
    <text:p text:style-name="P10"><text:span text:style-name="Strong_20_Emphasis"><text:span text:style-name="T5"><office:annotation>
        <dc:creator>Piotr Majdak</dc:creator>
        <dc:date>2013-07-19T00:24:14</dc:date>
-       <text:p text:style-name="P206"><text:span text:style-name="T129">ListenerView_Type and UP removed because we decided that View and Up are always in the coordinate type of Position (see the corresponding Section).</text:span></text:p>
+       <text:p text:style-name="P209"><text:span text:style-name="T129">ListenerView_Type and UP removed because we decided that View and Up are always in the coordinate type of Position (see the corresponding Section).</text:span></text:p>
       </office:annotation></text:span></text:span></text:p>
    <text:p text:style-name="P36"/>
    <table:table table:name="Table14" table:style-name="Table14">
@@ -8133,7 +7985,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Receiver</text:span>Description</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table14.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275112"/>attribute<text:change-end text:change-id="ct182275112"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354397440"/>attribute<text:change-end text:change-id="ct354397440"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table14.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8142,7 +7994,7 @@
       <text:p text:style-name="Table_20_Contents">yes</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table14.A2" office:value-type="string">
-      <text:p text:style-name="P203">Description of the <text:span text:style-name="T106">receiver</text:span></text:p>
+      <text:p text:style-name="P170">Description of the <text:span text:style-name="T106">receiver</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table14.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents"/>
@@ -8173,7 +8025,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Receiver</text:span>Position:<text:span text:style-name="T212">Type</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table14.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275216"/>attribute<text:change-end text:change-id="ct182275216"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354397648"/>attribute<text:change-end text:change-id="ct354397648"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table14.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8193,7 +8045,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Receiver</text:span>Position:<text:span text:style-name="T212">Unit</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table14.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275320"/>attribute<text:change-end text:change-id="ct182275320"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354401808"/>attribute<text:change-end text:change-id="ct354401808"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table14.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8285,7 +8137,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Source</text:span>Description</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table4.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275424"/>attribute<text:change-end text:change-id="ct182275424"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354397544"/>attribute<text:change-end text:change-id="ct354397544"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table4.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8294,7 +8146,7 @@
       <text:p text:style-name="Table_20_Contents">yes</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table4.A2" office:value-type="string">
-      <text:p text:style-name="P203">Description of the <text:span text:style-name="T106">source</text:span></text:p>
+      <text:p text:style-name="P170">Description of the <text:span text:style-name="T106">source</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table4.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents"/>
@@ -8325,7 +8177,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Source</text:span>Position:<text:span text:style-name="T212">Type</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table4.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275528"/>attribute<text:change-end text:change-id="ct182275528"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354399000"/>attribute<text:change-end text:change-id="ct354399000"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table4.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8340,7 +8192,7 @@
       <text:p text:style-name="Table_20_Contents">cartesian<office:annotation>
         <dc:creator>Piotr Majdak</dc:creator>
         <dc:date>2013-07-19T00:27:51</dc:date>
-        <text:p text:style-name="P206"><text:span text:style-name="T129">For most of the known data until now, spherical coordinate type would be better for the source position (see also SimpleFreeFieldHRIR). Should we make it default here?</text:span></text:p>
+        <text:p text:style-name="P209"><text:span text:style-name="T129">For most of the known data until now, spherical coordinate type would be better for the source position (see also SimpleFreeFieldHRIR). Should we make it default here?</text:span></text:p>
        </office:annotation></text:p>
      </table:table-cell>
     </table:table-row>
@@ -8349,7 +8201,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Source</text:span>Position:<text:span text:style-name="T212">Unit</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table4.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275632"/>attribute<text:change-end text:change-id="ct182275632"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354400456"/>attribute<text:change-end text:change-id="ct354400456"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table4.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8442,7 +8294,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Emitter</text:span>Description</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table15.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275736"/>attribute<text:change-end text:change-id="ct182275736"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354400248"/>attribute<text:change-end text:change-id="ct354400248"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table15.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8451,7 +8303,7 @@
       <text:p text:style-name="Table_20_Contents">yes</text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table15.A2" office:value-type="string">
-      <text:p text:style-name="P203">Description of the <text:span text:style-name="T106">emitter</text:span></text:p>
+      <text:p text:style-name="P170">Description of the <text:span text:style-name="T106">emitter</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table15.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents"/>
@@ -8482,7 +8334,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Emitter</text:span>Position:<text:span text:style-name="T212">Type</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table15.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275840"/>attribute<text:change-end text:change-id="ct182275840"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354401912"/>attribute<text:change-end text:change-id="ct354401912"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table15.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8502,7 +8354,7 @@
       <text:p text:style-name="Table_20_Contents"><text:span text:style-name="T106">Emitter</text:span>Position:<text:span text:style-name="T212">Unit</text:span></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table15.A2" office:value-type="string">
-      <text:p text:style-name="P108"><text:change-start text:change-id="ct182275944"/>attribute<text:change-end text:change-id="ct182275944"/></text:p>
+      <text:p text:style-name="P108"><text:change-start text:change-id="ct354402016"/>attribute<text:change-end text:change-id="ct354402016"/></text:p>
      </table:table-cell>
      <table:table-cell table:style-name="Table15.A2" office:value-type="string">
       <text:p text:style-name="Table_20_Contents">irrelevant</text:p>
@@ -8909,15 +8761,15 @@
    <text:h text:style-name="P154" text:outline-level="1"><text:bookmark-start text:name="__RefHeading__42895_821716355"/>SOFA Conventions<text:bookmark-end text:name="__RefHeading__42895_821716355"/></text:h>
    <text:p text:style-name="P34"><text:span text:style-name="T136">In order to meet the different requirements coming from different application fields, SOFA conventions are specified, i.e., definitions of data and </text:span><text:span text:style-name="T123">metadata</text:span><text:span text:style-name="T208"> consistently describing particular HRTF/DRIR measurement setups. I</text:span><text:span text:style-name="T33">nstead of aiming at foreseeing the future, conventions should be developed only for known measurement setups. The known features should be consistently described while not limiting the development of future conventions. </text:span></text:p>
    <text:p text:style-name="P25">The following SOFA conventions are being discussed. Measured data exist but their description must be fixed in order to create publicly available SOFA files and corresponding software interfaces. </text:p>
-   <text:list xml:id="list1289629437757888522" text:style-name="L38">
+   <text:list xml:id="list6982742649949271135" text:style-name="L38">
     <text:list-item>
-     <text:p text:style-name="P181">SimpleFreeFieldHRIR: <text:span text:style-name="T99">aimed at storing HRTFs recorded in free field with omnidirectional emmiter and source and stored as IRs for a single listener.</text:span></text:p>
+     <text:p text:style-name="P206">SimpleFreeFieldHRIR: <text:span text:style-name="T99">aimed at storing HRTFs recorded in free field with omnidirectional emmiter and source and stored as IRs for a single listener.</text:span></text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P181">SimpleFreeFieldTF: <text:span text:style-name="T99">similar to</text:span> SimpleFreeFieldHRIR, but uses ComplexSpectrum as DataType covering special needs coming from HRTF simulations </text:p>
+     <text:p text:style-name="P206">SimpleFreeFieldTF: <text:span text:style-name="T99">similar to</text:span> SimpleFreeFieldHRIR, but uses ComplexSpectrum as DataType covering special needs coming from HRTF simulations </text:p>
     </text:list-item>
     <text:list-item>
-     <text:p text:style-name="P183">SingleRoomDRIR: Room impulse responses measured with an arbitrary number of receivers (such as a microphone array) and an omnidirectional source in a single room. </text:p>
+     <text:p text:style-name="P208">SingleRoomDRIR: Room impulse responses measured with an arbitrary number of receivers (such as a microphone array) and an omnidirectional source in a single room. </text:p>
     </text:list-item>
    </text:list>
    <text:p text:style-name="P22">The conventions are more <text:span text:style-name="T110">roughly</text:span> explained at http://sofaconventions.org. <text:span text:style-name="T110">Further, separate documents</text:span> <text:span text:style-name="T110">describe specifications of each conventions in more detail.</text:span></text:p>
