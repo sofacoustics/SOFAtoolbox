@@ -15,18 +15,17 @@ function APV = SOFAcalculateAPV(Obj)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-LP=Obj.ListenerPosition;
-LV=Obj.ListenerView;
-switch Obj.SourcePosition_Type
-  case 'spherical'
-    [SPx,SPy,SPz]=sph2cart(deg2rad(Obj.SourcePosition(:,1)),deg2rad(Obj.SourcePosition(:,2)),Obj.SourcePosition(:,3));
-    SP=[SPx SPy SPz];
-  case 'cartesian'
-    SP=Obj.SourcePosition;
+LP=SOFAgetCoordinates(Obj.ListenerPosition,Obj.ListenerPosition_Type,'cartesian');
+if isfield(Obj,'ListenerView_Type')
+    LV=SOFAgetCoordinates(Obj.ListenerView,Obj.ListenerView_Type,'spherical');
+else
+    LV=SOFAgetCoordinates(Obj.ListenerView,'cartesian','spherical');
 end
-dist=bsxfun(@minus, SP, LP);
-[APVazi,APVele,APVr]=cart2sph(dist(:,1),dist(:,2),dist(:,3));
-[LVazi,LVele,~]=cart2sph(LV(:,1),LV(:,2),LV(:,3));
-APVazi=bsxfun(@minus, APVazi,LVazi);
-APVele=bsxfun(@minus, APVele,LVele);
-APV=[rad2deg(APVazi) rad2deg(APVele) APVr];
+SP=SOFAgetCoordinates(Obj.SourcePosition,Obj.SourcePosition_Type,'cartesian');
+APV=bsxfun(@minus, SP, LP);%cartesian
+APV=SOFAgetCoordinates(APV,'cartesian','spherical');
+APV(:,1)=bsxfun(@minus, APV(:,1),LV(:,1));%spherical
+APV=SOFAgetCoordinates(APV,'spherical','horizontal-polar');
+APV(:,2)=bsxfun(@minus, APV(:,2),LV(:,2));
+APV=SOFAgetCoordinates(APV,'horizontal-polar','spherical');
+
