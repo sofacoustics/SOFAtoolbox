@@ -21,30 +21,33 @@ Obj.Data.IR(:,2,:) = shiftdim(shiftdim(irs.right,-1),2);
 Obj.Data.SamplingRate = irs.fs;
 
 %% Fill with attributes
+Obj.GLOBAL_Version = '0.5';
 Obj.GLOBAL_SubjectID = irs.head;
 Obj.GLOBAL_History='Converted from the TU-Berlin format';
 Obj.GLOBAL_Comment = irs.description;
+Obj.GLOBAL_License = 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0';
+Obj.GLOBAL_ApplicationName = 'HRTF from TU Berlin';
+Obj.GLOBAL_ApplicationVersion = '1.0';
+Obj.GLOBAL_AuthorContact = 'hagen.wierstorf@tu-berlin.de';
+Obj.GLOBAL_References = ['H. Wierstorf, M. Geier, A. Raake, S. Spors. ', ...
+    'A Free Database of Head-Related Impulse Response Measurements in ', ...
+    'the Horizontal Plane with Multiple Distances. ', ...
+    'In 130th Convention of the Audio Engineering Society, May 2011.'];
+Obj.GLOBAL_Source = 'Measurement';
+Obj.GLOBAL_DatabaseName = 'TU Berlin KEMAR';
 Obj.GLOBAL_ListenerDescription = irs.head;
 Obj.GLOBAL_ReceiverDescription = irs.ears;
 Obj.GLOBAL_SourceDescription = irs.source;
 
 %% Fill the mandatory variables
-  % SimpleFreeFieldHRIR 0.2
-    % Obj.SourcePosition = irs.source_position';
-    % Obj.ListenerPosition = irs.head_position';
-    % Obj.ListenerView = irs.head_reference';   % FIXME: is this correct?
-    % Obj.ListenerUp = [0 0 1];
-    % Obj.ListenerRotation = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
-    %     rad2deg(-irs.apparent_elevation)' ...
-    %     zeros(length(irs.apparent_azimuth),1)];
-  % SimpleFreeFieldHRIR 0.3
-  distance=sqrt(sum((irs.source_position-irs.head_position).^2));
-    Obj.SourcePosition = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
-        rad2deg(-irs.apparent_elevation)' ...
-        distance*ones(length(irs.apparent_elevation),1)];
-    Obj.ListenerPosition = [0 0 0];
-    Obj.ListenerView = [1 0 0];   
-    Obj.ListenerUp = [0 0 1];
+% SimpleFreeFieldHRIR 0.5
+distance=sqrt(sum((irs.source_position-irs.head_position).^2));
+Obj.SourcePosition = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
+    rad2deg(-irs.apparent_elevation)' ...
+    distance*ones(length(irs.apparent_elevation),1)];
+Obj.ListenerPosition = [0 0 0];
+Obj.ListenerView = [1 0 0];   
+Obj.ListenerUp = [0 0 1];
 
   
 %% Update dimensions
