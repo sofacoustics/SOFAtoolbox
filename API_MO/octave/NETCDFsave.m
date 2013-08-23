@@ -13,218 +13,101 @@ function NETCDFsave(filename,Obj,Compression)
 
 % Hagen Wierstorf
 
-% Get the desired dimensions
-% FIXME: this should be done in a better way which should be the same for the
-% Matlab API
-Def = SOFAdefinitions;
-dims = Def.dimensions;
 
-
-%% --------------------------- N E T C D F save ---------------------------
-% create file
+% --------------------------- N E T C D F save ---------------------------
+% open file
 ncid = netcdf(filename,'c','NETCDF4 with classical model');
 
-%% ===== Loop through all fields in Obj -1- ==============================
-% Remove unneeded Dimensions entry
-Obj1 = rmfield(Obj,'API');
-fields = fieldnames(Obj.API);
+% loop through fileds in Obj
+fields = fieldnames(Obj);
 for ii=1:length(fields)
     % store current field name and its value
     fieldName = fields{ii};
-    fieldVal = Obj.API.(fieldName);
-
-    % ----- Dimensions ---------------------------------------------------
-    if any(strcmp(struct2cell(dims),fieldName))
-        % FIXME: this is not working at the moment, because we can also have
-        % [R C M] for receiver positions, but M is only allowed as the first
-        % dimension, when it should be able to grow dynamically.
-        %if strcmp('M',fieldName)
-        %    % store the M dimension as the one that can grow
-        %    ncid(fieldName) = 0;
-        %    ncid{fieldName} = ncdouble(fieldName);
-        %    ncid{fieldName}(1:fieldVal) = 1:fieldVal;
-        %else
-            % create dimension
-            ncid(fieldName) = fieldVal;
-            ncid{fieldName} = ncdouble(fieldName);
-            ncid{fieldName}(:) = 1:fieldVal;
-        %end
-    elseif strcmp('RoomCorner',fieldName)
-        ncid('NumberOfRoomCorners') = 2;
-        ncid{'NumberOfRoomCorners'} = ncdouble('NumberOfRoomCorners');
-        ncid{'NumberOfRoomCorners'}(:) = 1:2;
-    end
-end
-
-
-%% ===== Loop through all fields in Obj -2- ==============================
-% remove dimension fields before the loop
-Obj2 = rmfield(Obj,'API');
-fields = fieldnames(Obj2);
-for ii=1:length(fields);
-    % store the current field name and its value
-    fieldName = fields{ii};
     fieldVal = Obj.(fieldName);
 
-
-    % ----- DATA ----------------------------------------------------------
-    if strcmp(fieldName,'Data')
-
-        dataFields = fieldnames(fieldVal);
-        for jj=1:length(dataFields)
-            % store current Data field name and its value
-            dataFieldName = dataFields{jj};
-            dataFieldVal = fieldVal.(dataFieldName);
-            
-            if isempty(strfind(dataFieldName,'_')) % skip attributes
-
-                % FIXME: find a better way than the checking of the length!
-                % Should the data matrix be allowed to have every number of
-                % dimension they want?
-                if ndims(dataFieldVal)==2 && ...
-                    size(dataFieldVal)==[1 1]                          % [I]
-                    ncid{['Data.' dataFieldName]} = ncdouble(dims.I);
-                elseif ndims(dataFieldVal)==2 && ...
-                    length(dataFieldVal)==Obj.N                % [N]
-                    ncid{['Data.' dataFieldName]} = ncdouble(dims.N);
-                elseif ndims(dataFieldVal)==2 && ...
-                    strcmp('TOAModel',dataFieldName)                   % [M 5]
-                    ncid('TOAModelParameter') = 5;
-                    ncid{['Data.' dataFieldName]} = ncdouble(dims.M, ...
-                        'TOAModelParameter');
-                elseif ndims(dataFieldVal)==2 && ...
-                    size(dataFieldVal)==[Obj.API.I Obj.API.R]  % [I R]
-                    ncid{['Data.' dataFieldName]} = ncdouble(dims.I,dims.R);
-                elseif ndims(dataFieldVal)==2 && ...
-                    size(dataFieldVal)==[Obj.API.M Obj.API.R]  % [M R]
-                    ncid{['Data.' dataFieldName]} = ncdouble(dims.M,dims.R);
-                elseif ndims(dataFieldVal)==3 && ...
-                    size(dataFieldVal)==[Obj.API.M Obj.API.R Obj.API.N] % [M R N]
-                    ncid{['Data.' dataFieldName]} = ncdouble(dims.M, ...
-                                                             dims.R, ...
-                                                             dims.N);
-                end
-                % store data
-                ncid{['Data.' dataFieldName]}(:) = dataFieldVal;
-            end
-        end
-        % store attributes of the variables
-        for jj=1:length(dataFields)
-            if ~isempty(strfind(dataFields{jj},'_')) % only attributes
-                % store current Field field name and its value
-                dataFieldName = dataFields{jj};
-                dataFieldVal = fieldVal.(dataFieldName);
-                dataFieldNameBase = ...
-                    dataFieldName(1:strfind(dataFieldName,'_')-1);
-                dataFieldNameAttr = ...
-                    dataFieldName(strfind(dataFieldName,'_')+1:end);
-                % store attribute
-                ncid{['Data.' dataFieldNameBase]}.(dataFieldNameAttr) = dataFieldVal;
-            end
-        end
-
-
-    % ----- GLOBAL ATTRIBUTES --------------------------------------------
-    elseif ~isempty(strfind(fieldName,'GLOBAL'))
+    % ----- GLOBAL ATTRIBUTES ----------------------------------------
+    if ~isempty(strfind(fieldName,'GLOBAL'))
         % strip "GLOBAL_" from the name
         fieldName = fieldName(strfind(fieldName,'_')+1:end);
         % store as global attribute
         ncid.(fieldName) = fieldVal;
-
-
-    % ----- LISTENER and SOURCE -------------------------------------------
-    elseif (~isempty(strfind(fieldName,'Listener')) || ...
-           ~isempty(strfind(fieldName,'Source')) ) && ...
-            isempty(strfind(fieldName,'_'))
-
-        if size(fieldVal)==[Obj.API.I Obj.API.C]               % [C]
-            ncid{fieldName} = ncfloat(dims.I,dims.C);
-        elseif size(fieldVal)==[Obj.API.M Obj.API.C]           % [M C]
-            ncid{fieldName} = ncfloat(dims.M,dims.C);
-        end
-
-        % store variable
-        ncid{fieldName}(:) = fieldVal;
-
-
-    % ----- RECEIVER -----------------------------------------------------
-    elseif ~isempty(strfind(fieldName,'Receiver')) && ...
-            isempty(strfind(fieldName,'_'))
-
-        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.API.R Obj.API.C] % [R C]
-            ncid{fieldName} = ncfloat(dims.R,dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.API.R Obj.API.C Obj.API.M] % [R C M]
-            ncid{fieldName} = ncfloat(dims.R,dims.C,dims.M);
-        end
-
-        % store variable
-        ncid{fieldName}(:) = fieldVal;
-
-
-    % ----- EMITTER ------------------------------------------------------
-    elseif ~isempty(strfind(fieldName,'Emitter')) && ...
-            isempty(strfind(fieldName,'_'))
-
-        if ndims(fieldVal)==2 && size(fieldVal)==[Obj.API.E Obj.API.C] % [E C]
-            ncid{fieldName} = ncfloat(dims.E,dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[Obj.API.E Obj.API.C Obj.API.M] % [E C M]
-            ncid{fieldName} = ncfloat(dims.E,dims.C,dims.M);
-        end
-
-        % store variable
-        ncid{fieldName}(:) = fieldVal;
-
-
-    % ----- ROOM CORNERS --------------------------------------------------
-    elseif ~isempty(strfind(fieldName,'RoomCorner')) && ...
-            isempty(strfind(fieldName,'_'))
-
-        if ndims(fieldVal)==2 && size(fieldVal)==[2 Obj.API.C]     % [2 C]
-            ncid{fieldName} = ncfloat('NumberOfRoomCorners',dims.C);
-        elseif ndims(fieldVal)==3 && size(fieldVal)==[2 Obj.API.C Obj.API.M] % [2 C M]
-            ncid{fieldName} = ncfloat('NumberOfRoomCorners',dims.C,dims.M);
-        end
-
-        % store variable
-        ncid{fieldName}(:) = fieldVal;
-
-
-    % ----- NUMERIC VARIABLES ---------------------------------------------
-    % store other numeric vectors
-    elseif isnumeric(fieldVal)
-
-        if ndims(fieldVal)==2
-            ncid{fieldName} = ncfloat([fieldName 'Dimension1'], ...
-                [fieldName 'Dimension2']);
-        elseif ndims(fieldVal)==3
-            ncid{fieldName} = ncfloat([fieldName 'Dimension1'], ...
-                [fieldName 'Dimension2'], ...
-                [fieldName 'Dimension3']);
-        end
-
-        % store variable
-        ncid{fieldName}(:) = fieldVal;
-
-        
-    % ----- ATTRIBUTES ---------------------------------------------------
-    % here we store descriptive attributes of variables, for example units or
-    % long names
-    elseif ~isempty(strfind(fieldName,'_'))
-        % split "VariableName_Attribute" into "VariableName" and "Attribute"
-        fieldNameBase = ...
-            fieldName(1:strfind(fieldName,'_')-1);
-        fieldNameAttr = ...
-            fieldName(strfind(fieldName,'_')+1:end);
-        % store field
-        ncid{fieldNameBase}.(fieldNameAttr) = fieldVal;
-    
-    else
-        disp(fieldName)
-        error('%s: your variable type is not supported by SOFA',upper(mfilename));
     end
 end
 
-% close the file
+
+% ----- DIMENSIONS ---------------------------------------------------
+% get dimensions
+dims=cell2mat(fieldnames(rmfield(Obj.API,'Dimensions'))');
+for ii=1:length(dims)
+    dimName = dims(ii);
+    dimVal = Obj.API.(dimName);
+    % create dimension
+    ncid(dimName) = dimVal;
+end
+
+
+% ----- VARIABLES and ATTRIBUTES -------------------------------------
+fields = fieldnames(rmfield(Obj,{'Data','API'}));
+for ii=1:length(fields)
+    % store current field name and its dimension
+    fieldName = fields{ii};
+    fieldVal = Obj.(fieldName);
+    % --- Variables ---
+    if isempty(strfind(fieldName,'_'))
+        fieldDim = Obj.API.Dimensions.(fieldName);
+        if length(fieldDim)==3
+            ncid{fieldName} = ncfloat(fieldDim(1), ...
+                                      fieldDim(2), ...
+                                      fieldDim(3));
+        elseif length(fieldDim)==2
+            ncid{fieldName} = ncfloat(fieldDim(1), ...
+                                      fieldDim(2));
+        else
+            ncid{fieldName} = ncfloat(fieldDim);
+        end
+        % store variable
+        ncid{fieldName}(:) = fieldVal;
+    % --- Attributes ---
+    elseif isempty(strfind(fieldName,'GLOBAL_'))
+        % here we store descriptive attributes of variables, for example
+        % units or long names
+        % split "VariableName_Attribute" into "VariableName" and "Attribute"
+        fieldNameBase = fieldName(1:strfind(fieldName,'_')-1);
+        fieldNameAttr = fieldName(strfind(fieldName,'_')+1:end);
+        % store field
+        ncid{fieldNameBase}.(fieldNameAttr) = fieldVal;
+    end
+end
+
+
+% ----- DATA ---------------------------------------------------------
+fields = fieldnames(Obj.Data);
+for ii=1:length(fields)
+    fieldName = fields{ii};
+    fieldVal = Obj.Data.(fieldName);
+    if isempty(strfind(fieldName,'_')) % skip all attributes
+        fieldDim = Obj.API.Dimensions.Data.(fieldName);
+        if length(fieldDim)==3
+            ncid{['Data.' fieldName]} = ncfloat(fieldDim(1), ...
+                                                fieldDim(2), ...
+                                                fieldDim(3));
+        elseif length(fieldDim)==2
+            ncid{['Data.' fieldName]} = ncfloat(fieldDim(1), ...
+                                                fieldDim(2));
+        else
+            ncid{['Data.' fieldName]} = ncfloat(fieldDim);
+        end
+        % store variable
+        ncid{['Data.' fieldName]}(:) = fieldVal;
+    else
+        % split "VariableName_Attribute" into "VariableName" and "Attribute"
+        fieldNameBase = fieldName(1:strfind(fieldName,'_')-1);
+        fieldNameAttr = fieldName(strfind(fieldName,'_')+1:end);
+        % store field
+        ncid{['Data.' fieldNameBase]}.(fieldNameAttr) = fieldVal;
+    end
+end
+% close file
 close(ncid);
 
 % Move files to get the desired compression and a newer NetCDF version
