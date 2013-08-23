@@ -15,98 +15,106 @@ function NETCDFsave(filename,Obj,Compression)
 
 
 % --------------------------- N E T C D F save ---------------------------
-% open file
-ncid = netcdf(filename,'c','NETCDF4 with classical model');
+try
+    % open file
+    ncid = netcdf(filename,'c','NETCDF4 with classical model');
 
-% loop through fileds in Obj
-fields = fieldnames(Obj);
-for ii=1:length(fields)
-    % store current field name and its value
-    fieldName = fields{ii};
-    fieldVal = Obj.(fieldName);
+    % loop through fileds in Obj
+    fields = fieldnames(Obj);
+    for ii=1:length(fields)
+        % store current field name and its value
+        fieldName = fields{ii};
+        fieldVal = Obj.(fieldName);
 
-    % ----- GLOBAL ATTRIBUTES ----------------------------------------
-    if ~isempty(strfind(fieldName,'GLOBAL'))
-        % strip "GLOBAL_" from the name
-        fieldName = fieldName(strfind(fieldName,'_')+1:end);
-        % store as global attribute
-        ncid.(fieldName) = fieldVal;
-    end
-end
-
-
-% ----- DIMENSIONS ---------------------------------------------------
-% get dimensions
-dims=cell2mat(fieldnames(rmfield(Obj.API,'Dimensions'))');
-for ii=1:length(dims)
-    dimName = dims(ii);
-    dimVal = Obj.API.(dimName);
-    % create dimension
-    ncid(dimName) = dimVal;
-end
-
-
-% ----- VARIABLES and ATTRIBUTES -------------------------------------
-fields = fieldnames(rmfield(Obj,{'Data','API'}));
-for ii=1:length(fields)
-    % store current field name and its dimension
-    fieldName = fields{ii};
-    fieldVal = Obj.(fieldName);
-    % --- Variables ---
-    if isempty(strfind(fieldName,'_'))
-        fieldDim = Obj.API.Dimensions.(fieldName);
-        if length(fieldDim)==3
-            ncid{fieldName} = ncfloat(fieldDim(1), ...
-                                      fieldDim(2), ...
-                                      fieldDim(3));
-        elseif length(fieldDim)==2
-            ncid{fieldName} = ncfloat(fieldDim(1), ...
-                                      fieldDim(2));
-        else
-            ncid{fieldName} = ncfloat(fieldDim);
+        % ----- GLOBAL ATTRIBUTES ----------------------------------------
+        if ~isempty(strfind(fieldName,'GLOBAL'))
+            % strip "GLOBAL_" from the name
+            fieldName = fieldName(strfind(fieldName,'_')+1:end);
+            % store as global attribute
+            ncid.(fieldName) = fieldVal;
         end
-        % store variable
-        ncid{fieldName}(:) = fieldVal;
-    % --- Attributes ---
-    elseif isempty(strfind(fieldName,'GLOBAL_'))
-        % here we store descriptive attributes of variables, for example
-        % units or long names
-        % split "VariableName_Attribute" into "VariableName" and "Attribute"
-        fieldNameBase = fieldName(1:strfind(fieldName,'_')-1);
-        fieldNameAttr = fieldName(strfind(fieldName,'_')+1:end);
-        % store field
-        ncid{fieldNameBase}.(fieldNameAttr) = fieldVal;
     end
-end
 
 
-% ----- DATA ---------------------------------------------------------
-fields = fieldnames(Obj.Data);
-for ii=1:length(fields)
-    fieldName = fields{ii};
-    fieldVal = Obj.Data.(fieldName);
-    if isempty(strfind(fieldName,'_')) % skip all attributes
-        fieldDim = Obj.API.Dimensions.Data.(fieldName);
-        if length(fieldDim)==3
-            ncid{['Data.' fieldName]} = ncfloat(fieldDim(1), ...
-                                                fieldDim(2), ...
-                                                fieldDim(3));
-        elseif length(fieldDim)==2
-            ncid{['Data.' fieldName]} = ncfloat(fieldDim(1), ...
-                                                fieldDim(2));
-        else
-            ncid{['Data.' fieldName]} = ncfloat(fieldDim);
+    % ----- DIMENSIONS ---------------------------------------------------
+    % get dimensions
+    dims=cell2mat(fieldnames(rmfield(Obj.API,'Dimensions'))');
+    for ii=1:length(dims)
+        dimName = dims(ii);
+        dimVal = Obj.API.(dimName);
+        % create dimension
+        ncid(dimName) = dimVal;
+    end
+
+
+    % ----- VARIABLES and ATTRIBUTES -------------------------------------
+    fields = fieldnames(rmfield(Obj,{'Data','API'}));
+    for ii=1:length(fields)
+        % store current field name and its dimension
+        fieldName = fields{ii};
+        fieldVal = Obj.(fieldName);
+        % --- Variables ---
+        if isempty(strfind(fieldName,'_'))
+            fieldDim = Obj.API.Dimensions.(fieldName);
+            if length(fieldDim)==3
+                ncid{fieldName} = ncfloat(fieldDim(1), ...
+                                          fieldDim(2), ...
+                                          fieldDim(3));
+            elseif length(fieldDim)==2
+                ncid{fieldName} = ncfloat(fieldDim(1), ...
+                                          fieldDim(2));
+            else
+                ncid{fieldName} = ncfloat(fieldDim);
+            end
+            % store variable
+            ncid{fieldName}(:) = fieldVal;
+        % --- Attributes ---
+        elseif isempty(strfind(fieldName,'GLOBAL_'))
+            % here we store descriptive attributes of variables, for example
+            % units or long names
+            % split "VariableName_Attribute" into "VariableName" and "Attribute"
+            fieldNameBase = fieldName(1:strfind(fieldName,'_')-1);
+            fieldNameAttr = fieldName(strfind(fieldName,'_')+1:end);
+            % store field
+            ncid{fieldNameBase}.(fieldNameAttr) = fieldVal;
         end
-        % store variable
-        ncid{['Data.' fieldName]}(:) = fieldVal;
-    else
-        % split "VariableName_Attribute" into "VariableName" and "Attribute"
-        fieldNameBase = fieldName(1:strfind(fieldName,'_')-1);
-        fieldNameAttr = fieldName(strfind(fieldName,'_')+1:end);
-        % store field
-        ncid{['Data.' fieldNameBase]}.(fieldNameAttr) = fieldVal;
     end
-end
+
+    % ----- DATA ---------------------------------------------------------
+    fields = fieldnames(Obj.Data);
+    for ii=1:length(fields)
+        fieldName = fields{ii};
+        fieldVal = Obj.Data.(fieldName);
+        if isempty(strfind(fieldName,'_')) % skip all attributes
+            fieldDim = Obj.API.Dimensions.Data.(fieldName);
+            if length(fieldDim)==3
+                ncid{['Data.' fieldName]} = ncfloat(fieldDim(1), ...
+                                                    fieldDim(2), ...
+                                                    fieldDim(3));
+            elseif length(fieldDim)==2
+                ncid{['Data.' fieldName]} = ncfloat(fieldDim(1), ...
+                                                    fieldDim(2));
+            else
+                ncid{['Data.' fieldName]} = ncfloat(fieldDim);
+            end
+            % store variable
+            ncid{['Data.' fieldName]}(:) = fieldVal;
+        else
+            % split "VariableName_Attribute" into "VariableName" and "Attribute"
+            fieldNameBase = fieldName(1:strfind(fieldName,'_')-1);
+            fieldNameAttr = fieldName(strfind(fieldName,'_')+1:end);
+            % store field
+            ncid{['Data.' fieldNameBase]}.(fieldNameAttr) = fieldVal;
+        end
+    end
+catch
+    if exist('ncid','var') && ~isempty(ncid)
+        close(ncid);
+    end
+    error(['An error occured during writing the SOFA file: ' ...
+        lasterror.message lasterror.stack]);
+end_try_catch
+
 % close file
 close(ncid);
 

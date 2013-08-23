@@ -1,9 +1,16 @@
-function Obj = NETCDFload(filename,flags)
+function [Obj,Dims] = NETCDFload(filename,flags)
 %NETCDFLOAD
-%   [varName,varContent] = NETCDFload(filename,ReturnType) reads all data (no metadata) from
-%   a SOFA file.
+%   [Obj,Dims] = NETCDFload(filename,'all') reads the SOFA object Obj with all
+%       data from a SOFA file.
 %
-%   filename specifies the SOFA file from which the data is read.
+%   Obj = NETCDFload(filename,'nodata') ignores the Data variables while
+%       reading.
+%
+%   Obj = NETCDFload(filename,[START COUNT]) reads only COUNT number of
+%       measurements beginning with the index START.
+%
+%   [Obj,Dims] = NETCDFload(...) returns the dimension variables found in
+%       the file as a string.
 
 % SOFA API - function octave/NETCDFload
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
@@ -34,57 +41,71 @@ try
     for ii=1:length(dimensions)
         fieldName = ncname(dimensions{ii});
         fieldVal = dimensions{ii}(:);
-        Obj.(fieldName) = fieldVal;
+        Obj.API.(fieldName) = fieldVal;
         dims{ii} = fieldName;
-        startp(ii) = 0;
-        countp(ii) = fieldVal;
+        startp.(fieldName) = 1;
+        countp.(fieldName) = fieldVal;
     end
     Dims=cell2mat(dims)';
 
-    %% Check the requested measurements
-    %if isnumeric(flags)
-    %    if Obj.M<flags(2)
-    %        error('Requested end index exceeds the measurement count');
-    %    end
-    %    startp(strfind(Dims,'M'))=flags(1)-1;
-    %    countp(strfind(Dims,'M'))=flags(2);
-    %end
+    % Check the requested measurements
+    if isnumeric(flags)
+        if Obj.API.M<flags(2)
+            error('Requested end index exceeds the measurement count');
+        end
+        startp.M = flags(1);
+        countp.M = flags(2);
+    end
 
     % ----- VARIABLES + ATTRIBUTES ---------------------------------------
     variables = ncvar(ncid);
     for ii=1:length(variables)
         fieldName = ncname(variables{ii});
-        fieldVal = variables{ii}(:);
-        if isempty(strfind(Dims,fieldName)) % don't store data and dimensions for dimensions
-            % --- get data
-            % check if we have something like Data.IR as fieldName and split it at
-            % "."
-            if strfind(fieldName,'.')
-                fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
-                fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
-                Obj.(fieldName1).(fieldName2) = fieldVal;
-            else
-                Obj.(fieldName) = fieldVal;
-            end
-        
-            % --- get dimensions
-            dims = ncdim(variables{ii});
-            dimNames = [];
-            for jj=1:length(dims)
-                dimName = ncname(dims{jj});
-                dimNames = [dimNames dimName];
-            end
-            % check if we have something like Data.IR as fieldName and split it at
-            % "."
-            if strfind(fieldName,'.')
+        dims = ncdim(variables{ii});
+        dimNames = [];
+        for jj=1:length(dims)
+            dimName = ncname(dims{jj});
+            dimNames = [dimNames dimName];
+        end
+        % --- get data
+        % check if we have something like Data.IR as fieldName and split it at
+        % "."
+        if strfind(fieldName,'Data.')
+            if ~strcmp(flags,'nodata')
                 fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
                 fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
                 Obj.API.Dimensions.(fieldName1).(fieldName2) = dimNames;
+                if length(dimNames)==3
+                    Obj.(fieldName1).(fieldName2) = ...
+                        variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)),...
+                                      startp.(dimNames(2)):countp.(dimNames(2)),...
+                                      startp.(dimNames(3)):countp.(dimNames(3)));
+                elseif length(dimNames)==2
+                    Obj.(fieldName1).(fieldName2) = ...
+                        variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)),...
+                                      startp.(dimNames(2)):countp.(dimNames(2)));
+                else
+                    Obj.(fieldName1).(fieldName2) = ...
+                        variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)));
+                end
+            end
+        else
+            Obj.API.Dimensions.(fieldName) = dimNames;
+            if length(dimNames)==3
+                Obj.(fieldName) = ...
+                    variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)),...
+                                  startp.(dimNames(2)):countp.(dimNames(2)),...
+                                  startp.(dimNames(3)):countp.(dimNames(3)));
+            elseif length(dimNames)==2
+                Obj.(fieldName) = ...
+                    variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)),...
+                                  startp.(dimNames(2)):countp.(dimNames(2)));
             else
-                Obj.API.Dimensions.(fieldName) = dimNames;
+                Obj.(fieldName) = ...
+                    variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)));
             end
         end
-            
+           
         % --- get attributes
         attr = ncatt(variables{ii});
         for jj=1:length(attr)
@@ -92,7 +113,7 @@ try
             attrVal = attr{jj}(:);
             % check if we have something like Data.IR as fieldName and split it at
             % "."
-            if strfind(fieldName,'.')
+            if strfind(fieldName,'Data.')
                 fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
                 fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
                 Obj.(fieldName1).([fieldName2 '_' attrName]) = attrVal;
@@ -107,7 +128,8 @@ catch
     if exist('ncid','var') && ~isempty(ncid)
         close(ncid);
     end
-    error(['An error occured during reading the SOFA file: ' lasterror.message]);
+    error(['An error occured during reading the SOFA file: ' ...
+        lasterror.message lasterror.stack]);
 end_try_catch
 
 close(ncid)
