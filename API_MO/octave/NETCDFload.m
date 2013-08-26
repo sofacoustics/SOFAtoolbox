@@ -44,7 +44,7 @@ try
         Obj.API.(fieldName) = fieldVal;
         dims{ii} = fieldName;
         startp.(fieldName) = 1;
-        countp.(fieldName) = fieldVal;
+        endp.(fieldName) = fieldVal;
     end
     Dims=cell2mat(dims)';
 
@@ -54,7 +54,7 @@ try
             error('Requested end index exceeds the measurement count');
         end
         startp.M = flags(1);
-        countp.M = flags(2);
+        endp.M = flags(1)+flags(2)-1;
     end
 
     % ----- VARIABLES + ATTRIBUTES ---------------------------------------
@@ -77,32 +77,32 @@ try
                 Obj.API.Dimensions.(fieldName1).(fieldName2) = dimNames;
                 if length(dimNames)==3
                     Obj.(fieldName1).(fieldName2) = ...
-                        variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)),...
-                                      startp.(dimNames(2)):countp.(dimNames(2)),...
-                                      startp.(dimNames(3)):countp.(dimNames(3)));
+                        variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)),...
+                                      startp.(dimNames(2)):endp.(dimNames(2)),...
+                                      startp.(dimNames(3)):endp.(dimNames(3)));
                 elseif length(dimNames)==2
                     Obj.(fieldName1).(fieldName2) = ...
-                        variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)),...
-                                      startp.(dimNames(2)):countp.(dimNames(2)));
+                        variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)),...
+                                      startp.(dimNames(2)):endp.(dimNames(2)));
                 else
                     Obj.(fieldName1).(fieldName2) = ...
-                        variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)));
+                        variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)));
                 end
             end
         else
             Obj.API.Dimensions.(fieldName) = dimNames;
             if length(dimNames)==3
                 Obj.(fieldName) = ...
-                    variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)),...
-                                  startp.(dimNames(2)):countp.(dimNames(2)),...
-                                  startp.(dimNames(3)):countp.(dimNames(3)));
+                    variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)),...
+                                  startp.(dimNames(2)):endp.(dimNames(2)),...
+                                  startp.(dimNames(3)):endp.(dimNames(3)));
             elseif length(dimNames)==2
                 Obj.(fieldName) = ...
-                    variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)),...
-                                  startp.(dimNames(2)):countp.(dimNames(2)));
+                    variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)),...
+                                  startp.(dimNames(2)):endp.(dimNames(2)));
             else
                 Obj.(fieldName) = ...
-                    variables{ii}(startp.(dimNames(1)):countp.(dimNames(1)));
+                    variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)));
             end
         end
            
