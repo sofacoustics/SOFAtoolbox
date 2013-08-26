@@ -39,7 +39,7 @@ disp(['  Memory requirements: ' num2str(round((xobj.bytes+xmeta.bytes)/1024)) ' 
 
 %% Extract and plot the fully loaded data
 IRsFull=squeeze(ObjFull.Data.IR(idx,1,:));
-legFull=num2str(ObjFull.SourcePosition(idx,2));
+legFull=num2str(ObjFull.SourcePosition(idx,3));
 subplot(1,2,1);
 plot(IRsFull');
 legend(legFull);
@@ -52,7 +52,7 @@ ylabel('Amplitude');
 IRs=zeros(length(idx), Obj(1).API.N);
 for ii=1:length(idx)
 	IRs(ii,:)=squeeze(Obj(ii).Data.IR(:,1,:));
-	leg{ii}=num2str(Obj(ii).SourcePosition(:,2));
+	leg{ii}=num2str(Obj(ii).SourcePosition(:,3));
 end
 subplot(1,2,2);
 plot(IRs');
