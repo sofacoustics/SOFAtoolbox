@@ -28,7 +28,7 @@ switch Obj.GLOBAL_SOFAConventions
     line([LP(:,1), LV(:,1)+LP(:,2)], [LP(:,2) LV(:,2)+LP(:,2)],'Color',[1 0 0]);
     h(end+1)=plot3(LP(:,1), LP(:,2),LP(:,3),'ro','MarkerFaceColor',[1 0 0]);
     h(end+1)=plot3(LV(:,1)+LP(:,1), LV(:,2)+LP(:,2), LV(:,3)+LP(:,3),'ro','MarkerFaceColor',[1 1 1]);
-    h(end+1)=plot3(LP(:,1)+Obj.ReceiverPosition(:,1), LP(:,2)+Obj.ReceiverPosition(:,2), ....
+    h(end+1)=plot3(LP(:,1)+Obj.ReceiverPosition(:,1), LP(:,2)+Obj.ReceiverPosition(:,2), ...
                     LP(:,3)+Obj.ReceiverPosition(:,3),'rx');
       % Plot source
     S=Obj.SourcePosition;
