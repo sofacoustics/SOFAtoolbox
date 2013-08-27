@@ -112,7 +112,7 @@ for ii=1:size(Bf,1)
           C.Data.(Bf{ii})=cat(dim,A.Data.(Bf{ii}),B.Data.(Bf{ii})); % depends on M, cat
           log{end+1}=['Data.' Bf{ii} ' merged'];
         else  % not M-dependend, must be identical in A and B
-          if prod(single(A.Data.(Bf{ii})==B.Data.(Bf{ii})))==1,
+          if all(A.Data.(Bf{ii})==B.Data.(Bf{ii}))==1,
             C.Data.(Bf{ii})=A.Data.(Bf{ii});
             log{end+1}=['Data.' Bf{ii} ' identical'];
           else

@@ -20,9 +20,9 @@ myvar=rand(M,1);
   % add to Obj
 Obj=SOFAaddVariable(Obj,'MyVariable','M',myvar);
   % check if it's there and identical to the created one
-if ~prod((Obj.MyVariable-myvar)<=eps('single')),  error('Error!'); end
+if ~all((Obj.MyVariable-myvar)<=eps('single')),  error('Error!'); end
   % check if the size is M
-if ~prod(size(Obj.MyVariable)==[M 1]), error('Error!'); end 
+if ~all(size(Obj.MyVariable)==[M 1]), error('Error!'); end 
   % check if the dimensions have been correctly stored
 if ~strcmp(Obj.API.Dimensions.MyVariable,'M'), error('Error!'); end
 
@@ -32,9 +32,9 @@ privatevar=rand(1000,10);
   % add to Obj as private
 Obj=SOFAaddVariable(Obj,'MyVariable','Private',privatevar);
   % check if it's there and identical to the created one
-if ~prod((Obj.PRIVATE.MyVariable-privatevar)<=eps('single')),  error('Error!'); end
+if ~all((Obj.PRIVATE.MyVariable-privatevar)<=eps('single')),  error('Error!'); end
   % check if the size is 1000 x 10
-if ~prod(size(Obj.PRIVATE.MyVariable)==[1000 10]), error('Error!'); end 
+if ~all(size(Obj.PRIVATE.MyVariable)==[1000 10]), error('Error!'); end 
 
 %% Save the object
   % create a random file name
@@ -48,9 +48,9 @@ delete(fullfile(SOFAdbPath,'SOFA',fn));
 %% Check if the user-defined variable is still there
 if ~isfield(Obj2,'MyVariable'), error('Error!'); end 
   % check if the size is M
-if ~prod(size(Obj2.MyVariable)==[M 1]), error('Error!'); end 
+if ~all(size(Obj2.MyVariable)==[M 1]), error('Error!'); end 
   % check if it is identical to the created one
-if ~prod((Obj2.MyVariable-myvar)<=eps('single')),  error('Error!'); end
+if ~all((Obj2.MyVariable-myvar)<=eps('single')),  error('Error!'); end
   % check if the dimensions have been correctly stored
 if ~strcmp(Obj2.API.Dimensions.MyVariable,'M'), error('Error!'); end
 
