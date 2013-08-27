@@ -11,9 +11,9 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v??? (19.8.2013) by Piotr Majdak
+*** v0.3.0 (27.8.2013) by Piotr Majdak
 - major change: .API added to the structure, contains .Dimensions and the dimension sizes (formely known as .DimSize)
-- implements SOFA 0.5 without string arrays
+- implements SOFA 0.5 (without the support for string arrays)
 - upgrade of SimpleFreeFieldHRIR 0.3 and other conventions
 - syntax of convention files .csv adapted to that from the specs ("_" replaced by ":")
 - SOFAcalculateAPV added, provides calculation of the apparent position vector (APV)
