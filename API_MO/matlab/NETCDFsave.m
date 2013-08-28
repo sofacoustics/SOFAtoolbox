@@ -21,7 +21,10 @@ globid=netcdf.getConstant('GLOBAL');
 
 try 
 	var='file creation';
-	ncid = netcdf.create(filename,'netcdf4');
+  mode = netcdf.getConstant('NETCDF4');
+%   mode = netcdf.getConstant('clobber');
+%   mode = bitor(mode,netcdf.getConstant('CLASSIC_MODEL'));
+	ncid = netcdf.create(filename,mode);
 
 %% Save global attributes
   f=fieldnames(Obj);
@@ -42,11 +45,9 @@ try
 		var=Dims(ii);
 		dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.API.(var)); 
 		dimsize(ii)=Obj.API.(var);
-	end
-	netcdf.endDef(ncid);
+  end
 
-
-%% Save metadata variables and their attributes
+%% Define metadata variables and their attributes
 Dimensions=rmfield(Obj.API.Dimensions,'Data');
 fv=fieldnames(Dimensions);
 
@@ -54,22 +55,17 @@ fv=fieldnames(Dimensions);
 		var=fv{ii};
 		if isempty(strfind(var,'_')) % skip all attributes
 			ids=cell2mat(regexp(Dims,cellstr((Dimensions.(var))')));
-			varId = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
-			netcdf.defVarDeflate(ncid,varId,true,true,Compression);
-			if length(ids)>1
-				netcdf.putVar(ncid,varId,permute(Obj.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
-			else
-				netcdf.putVar(ncid,varId,Obj.(var));
-			end
+			varId(ii) = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
+			netcdf.defVarDeflate(ncid,varId(ii),true,true,Compression);
 			for jj=1:length(f)
 				if ~isempty(strfind(f{jj},[var '_']))
-					netcdf.putAtt(ncid,varId,f{jj}(strfind(f{jj},[var '_'])+length([var '_']):end),Obj.(f{jj}));
+					netcdf.putAtt(ncid,varId(ii),f{jj}(strfind(f{jj},[var '_'])+length([var '_']):end),Obj.(f{jj}));
 				end
 			end		
 		end
 	end
 
-%% Save data variables and their attributes
+%% Define data variables and their attributes
 fd=fieldnames(Obj.API.Dimensions.Data);
 fod=fieldnames(Obj.Data);
 	
@@ -77,25 +73,55 @@ fod=fieldnames(Obj.Data);
 		var=fd{ii};
 		if isempty(strfind(var,'_'))	% skip all attributes				
 			ids=cell2mat(regexp(Dims,cellstr((Obj.API.Dimensions.Data.(var))')));
-			varId = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
-			netcdf.defVarDeflate(ncid,varId,true,true,Compression);
-			if length(ids)>1
-				netcdf.putVar(ncid,varId,permute(Obj.Data.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
-			else
-				netcdf.putVar(ncid,varId,Obj.Data.(var));
-			end
+			varIdD(ii) = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
+			netcdf.defVarDeflate(ncid,varIdD(ii),true,true,Compression);
 			for jj=1:length(fod)
 				if ~isempty(strfind(fod{jj},[var '_']))
-					netcdf.putAtt(ncid,varId,fod{jj}(strfind(fod{jj},[var '_'])+length([var '_']):end),Obj.Data.(fod{jj}));
+					netcdf.putAtt(ncid,varIdD(ii),fod{jj}(strfind(fod{jj},[var '_'])+length([var '_']):end),Obj.Data.(fod{jj}));
 				end
 			end		
 		end
+  end
+
+%% End of definition
+	netcdf.endDef(ncid);
+  
+%% Save metadata variables
+Dimensions=rmfield(Obj.API.Dimensions,'Data');
+fv=fieldnames(Dimensions);
+
+	for ii=1:length(fv)
+		var=fv{ii};
+		if isempty(strfind(var,'_')) % skip all attributes
+			ids=cell2mat(regexp(Dims,cellstr((Dimensions.(var))')));
+			if length(ids)>1
+				netcdf.putVar(ncid,varId(ii),permute(Obj.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
+			else
+				netcdf.putVar(ncid,varId(ii),Obj.(var));
+			end
+		end
 	end
+
+%% Save data variables
+fd=fieldnames(Obj.API.Dimensions.Data);
+fod=fieldnames(Obj.Data);
 	
-catch ME
-	if ~strcmp(ME.identifier,'MATLAB:imagesci:netcdf:libraryFailure')
-		netcdf.close(ncid);
+	for ii=1:length(fd)
+		var=fd{ii};
+		if isempty(strfind(var,'_'))	% skip all attributes				
+			ids=cell2mat(regexp(Dims,cellstr((Obj.API.Dimensions.Data.(var))')));
+			if length(ids)>1
+				netcdf.putVar(ncid,varIdD(ii),permute(Obj.Data.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
+			else
+				netcdf.putVar(ncid,varIdD(ii),Obj.Data.(var));
+			end
+		end
 	end
+  
+catch ME
+% 	if ~strcmp(ME.identifier,'MATLAB:imagesci:netcdf:libraryFailure')
+		netcdf.close(ncid);
+% 	end
 	for ii=1:length(ME.stack)
 		disp(ME.stack(ii));
 	end
