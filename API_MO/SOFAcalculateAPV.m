@@ -15,17 +15,22 @@ function APV = SOFAcalculateAPV(Obj)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-LP=SOFAgetCoordinates(Obj.ListenerPosition,Obj.ListenerPosition_Type,'cartesian');
-if isfield(Obj,'ListenerView_Type')
-    LV=SOFAgetCoordinates(Obj.ListenerView,Obj.ListenerView_Type,'spherical');
-else
-    LV=SOFAgetCoordinates(Obj.ListenerView,'cartesian','spherical');
-end
-SP=SOFAgetCoordinates(Obj.SourcePosition,Obj.SourcePosition_Type,'cartesian');
-APV=bsxfun(@minus, SP, LP);%cartesian
-APV=SOFAgetCoordinates(APV,'cartesian','spherical');
-APV(:,1)=bsxfun(@minus, APV(:,1),LV(:,1));%spherical
-APV=SOFAgetCoordinates(APV,'spherical','horizontal-polar');
-APV(:,2)=bsxfun(@minus, APV(:,2),LV(:,2));
-APV=SOFAgetCoordinates(APV,'horizontal-polar','spherical');
 
+% listener position, view, up
+ListenerPosition = ...
+    SOFAgetCoordinates(Obj.ListenerPosition,Obj.ListenerPosition_Type,'cartesian');
+ListenerView = ...
+    SOFAgetCoordinates(Obj.ListenerView,Obj.ListenerPosition_Type,'spherical');
+% source position
+SourcePosition = ...
+    SOFAgetCoordinates(Obj.SourcePosition,Obj.SourcePosition_Type,'cartesian');
+% get distance in cartesian coordinates between listener and source
+APV = bsxfun(@minus, SourcePosition, ListenerPosition);
+% convert to spherical and include head movements of the listener
+APV = SOFAgetCoordinates(APV,'cartesian','spherical');
+APV(:,1) = bsxfun(@minus, APV(:,1),ListenerView(:,1));%spherical
+% convert to horizontal-polar coordinates FIXME: why?
+APV = SOFAgetCoordinates(APV,'spherical','horizontal-polar');
+APV(:,2) = bsxfun(@minus, APV(:,2),ListenerView(:,2));%horizontal-polar
+% convert back to spherical
+APV = SOFAgetCoordinates(APV,'horizontal-polar','spherical');
