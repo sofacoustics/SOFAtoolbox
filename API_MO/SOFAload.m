@@ -2,7 +2,7 @@ function Obj = SOFAload(fn,flags)
 %SOFALOAD 
 %   Obj = SOFAload(FN) reads the SOFA object OBJ with all data from
 %   a SOFA file FN. 
-
+%
 %   FN can point to a remote file (containing '://') or to a local file: 
 %     Remote file: FN will be downloaded to a temporary directory and
 %       loaded.
