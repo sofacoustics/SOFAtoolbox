@@ -41,13 +41,21 @@ Obj.GLOBAL_SourceDescription = irs.source;
 
 %% Fill the mandatory variables
 % SimpleFreeFieldHRIR 0.5
+% number of measurements
+M = length(irs.apparent_elevation);
+% fixed loudspeaker position in front of dummy head
+Obj.SourcePosition_Type = 'cartesian';
 distance=sqrt(sum((irs.source_position-irs.head_position).^2));
-Obj.SourcePosition = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
+Obj.SourcePosition = [distance 0 0];
+%Obj.SourceView = [-1 0 0];
+%Obj.SourceUp = [0 0 1];
+% dummy head was rotated between measurements
+Obj.ListenerPosition_Type = 'spherical';
+Obj.ListenerPosition = zeros(M,3);
+Obj.ListenerView = [nav2sph(rad2deg(-irs.apparent_azimuth)') ...
     rad2deg(-irs.apparent_elevation)' ...
-    distance*ones(length(irs.apparent_elevation),1)];
-Obj.ListenerPosition = [0 0 0];
-Obj.ListenerView = [1 0 0];   
-Obj.ListenerUp = [0 0 1];
+    ones(length(irs.apparent_elevation),1)];
+Obj.ListenerUp = repmat([0 90 1],[M 1]);
 
   
 %% Update dimensions
