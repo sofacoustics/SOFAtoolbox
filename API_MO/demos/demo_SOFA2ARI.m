@@ -33,5 +33,7 @@ disp('Converting back to ARI (hM, meta, stimPar)...');
 
 %% Calculate the differences
 disp(['RMS difference between the new hM and the original ARI.hM: ' num2str(sum(sum(rms(hM-ARI.hM))))]);
+if sum(sum(rms(hM-ARI.hM)))>1, error('hM and ARI.hM not identic'); end
 disp(['RMS difference between the new meta.pos and the original ARI.meta.pos: ' num2str(sum(rms(meta.pos-ARI.meta.pos)))]);
+if sum(rms(meta.pos-ARI.meta.pos))>1, error('meta.pos and ARI.meta.pos not identic'); end
 

@@ -26,6 +26,9 @@ stimPar.SubjectID = Obj.GLOBAL_SubjectID;
 
 %% Fill meta
 	% Fill in geodesic coordinate system where azi=(0;360) and ele=(-90;90);
+meta.pos(:,1)=bsxfun(@times,Obj.SourcePosition(:,1),ones(Obj.API.M,1));
+meta.pos(:,2)=bsxfun(@times,Obj.SourcePosition(:,2),ones(Obj.API.M,1));
+  % Fill in the Channel
 if isfield(Obj,'MeasurementSourceAudioChannel'),
 	meta.pos(:,3) = bsxfun(@times,Obj.MeasurementSourceAudioChannel,ones(Obj.API.M,1));
 else
