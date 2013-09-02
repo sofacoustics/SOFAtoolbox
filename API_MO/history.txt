@@ -11,6 +11,10 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.3.1 (2.9.2013) by Piotr Majdak
+- zip file required 7-zip, fixed
+- minor bug fixes
+
 *** v0.3.0 (27.8.2013) by Piotr Majdak
 - major change: .API added to the structure, contains .Dimensions and the dimension sizes (formely known as .DimSize)
 - implements SOFA 0.5 (without the support for string arrays)
