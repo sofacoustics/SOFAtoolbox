@@ -19,7 +19,7 @@ Obj = SOFAgetConventions('SimpleFreeFieldHRIR');
 Obj.Data.IR = zeros(size(LISTEN.l_eq_hrir_S.content_m,1),2,size(LISTEN.l_eq_hrir_S.content_m,2));
 Obj.Data.IR(:,2,:)=LISTEN.r_eq_hrir_S.content_m;
 Obj.Data.IR(:,1,:)=LISTEN.l_eq_hrir_S.content_m;
-Obj.Data.SamplingRate = LISTEN.l_eq_hrir_S.sampling_hz;
+Obj.Data.SamplingRate = 48000; % Note: LISTEN.l_eq_hrir_S.sampling_hz contains 44100 which is wrong!
 
 %% Fill with attributes
 Obj.GLOBAL_SubjectID = subjectID;
