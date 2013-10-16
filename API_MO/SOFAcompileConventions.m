@@ -51,11 +51,11 @@ for jj=1:length(conventions)
   Obj=compileConvention(C,'r');
   if strcmp(Obj.GLOBAL_SOFAConventions,conventions{jj})
     disp(['Compiling ' conventions{jj} ' ' Obj.GLOBAL_SOFAConventionsVersion ' for SOFA ' Obj.GLOBAL_Version]);
-    save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-r.mat'],'Obj');    
+    save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-r.mat'],'Obj','-v7');    
     flags='am';
     for ii=1:2
       Obj=compileConvention(C,flags(ii));
-      save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-' flags(ii) '.mat'],'Obj');
+      save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-' flags(ii) '.mat'],'Obj','-v7');
     end
   end
 end
