@@ -1,6 +1,4 @@
 function SOFAplotGeometry(Obj, index)
-% SOFAplotGeometry(Obj) plots the geometry
-%
 % SOFAplotGeometry(Obj) plots the geometry found in the Obj.
 % 
 % SOFAplotGeometry(Obj, index) plots the geometry for the measurements
@@ -14,7 +12,6 @@ function SOFAplotGeometry(Obj, index)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 
-Obj=SOFAexpand(Obj);
 if ~exist('index','var')
   index=1:Obj.API.M;
 end
@@ -31,7 +28,7 @@ switch Obj.GLOBAL_SOFAConventions
     h(end+1)=plot3(LP(:,1)+Obj.ReceiverPosition(:,1), LP(:,2)+Obj.ReceiverPosition(:,2), ...
                     LP(:,3)+Obj.ReceiverPosition(:,3),'rx');
       % Plot source
-    S=Obj.SourcePosition;
+    S=Obj.SourcePosition(index,:);
     if strcmp(Obj.SourcePosition_Type,'spherical');
       [X,Y,Z]=sph2cart(deg2rad(S(:,1)),deg2rad(S(:,2)),S(:,3));
     else
@@ -44,6 +41,7 @@ switch Obj.GLOBAL_SOFAConventions
     zlabel(['Z (in ' Obj.ListenerPosition_Units ')']);
     title('SimpleFreeFieldHRIR');
   case 'SingleRoomDRIR'    
+    Obj=SOFAexpand(Obj);
     figure('Position',[1 1 (Obj.RoomCornerB(1)-Obj.RoomCornerA(1))*1.2 Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]*100);
     axis([Obj.RoomCornerA(1)-0.5 Obj.RoomCornerB(1)+0.5 Obj.RoomCornerA(2)-0.5 Obj.RoomCornerB(2)+0.5]);
     box on; hold on; h=[];
