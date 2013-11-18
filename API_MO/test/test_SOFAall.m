@@ -25,6 +25,9 @@ clear all;
 radius=[0.5 1 2 3];
 demo_TUBerlin2SOFA;
 
+clear all;
+demo_FHK2SOFA;
+
 %% Test converters from SOFA
 clear all;
 demo_SOFA2ARI;
@@ -57,3 +60,6 @@ demo_SingleRoomDRIROldenburg;
 
 %% Test variables handling
 demo_SOFAvariables
+
+%% Test plotting HRTFs
+demo_SOFAplotHRTF
