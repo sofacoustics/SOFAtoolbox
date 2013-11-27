@@ -22,23 +22,32 @@ function [azi,ele]=hor2sph(lat,pol)
 % See the License for the specific language governing  permissions and
 % limitations under the License. 
 
-if lat==90
-    azi=lat;
-    ele=0;
-    azi=mod(azi+360,360);
-else
-    lat=deg2rad(mod(lat+360,360));
-    pol=deg2rad(mod(pol+360,360));
-    ele=asin(cos(lat)*sin(pol));
-    if cos(ele)==0
-        azi=0;
-    else
-        azi=real(rad2deg(asin(-sin(lat)/cos(ele))));
-    end
-    ele=rad2deg(ele);
-    if pol > pi/2 && pol< 3*pi/2
-        azi=180-azi;
-    end
-    azi=mod(azi+360,360);
+if length(lat) ~= length(pol)
+  disp('lat and pol must not have different dimensions!')
+  return
+end
+
+azi = zeros(size(lat));
+ele = azi;
+for ii = 1:length(lat)  
+  if abs(lat(ii))==90
+      azi(ii)=lat(ii);
+      ele(ii)=0;
+      azi(ii)=mod(azi(ii)+360,360);
+  else
+      lat(ii)=deg2rad(mod(lat(ii)+360,360));
+      pol(ii)=deg2rad(mod(pol(ii)+360,360));
+      ele(ii)=asin(cos(lat(ii))*sin(pol(ii)));
+      if cos(ele(ii))==0
+          azi(ii)=0;
+      else
+          azi(ii)=real(rad2deg(asin(-sin(lat(ii))/cos(ele(ii)))));
+      end
+      ele(ii)=rad2deg(ele(ii));
+      if pol(ii) > pi/2 && pol(ii)< 3*pi/2
+          azi(ii)=180-azi(ii);
+      end
+      azi(ii)=mod(azi(ii)+360,360);
+  end
 end
 end
