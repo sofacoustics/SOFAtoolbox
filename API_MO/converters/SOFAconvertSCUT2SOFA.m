@@ -36,7 +36,7 @@ for jj=1:length(r)
       fclose(fid);
       Obj.Data.IR(ii,1,:) = single(H(1:2:1024));  % separate the left-ear HRIR 
       Obj.Data.IR(ii,2,:) = single(H(2:2:1024));  % separate the right-ear HRIR
-      Obj.SourcePosition(ii,:) = [azi ele r(jj)];
+      Obj.SourcePosition(ii,:) = [mod(360-azi,360) ele r(jj)];
       ii=ii+1;    
     end
   end
