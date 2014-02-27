@@ -32,8 +32,8 @@ disp('Converting back to ARI (hM, meta, stimPar)...');
 [hM, meta, stimPar]=SOFAconvertSOFA2ARI(Obj);
 
 %% Calculate the differences
-disp(['RMS difference between the new hM and the original ARI.hM: ' num2str(sum(sum(rms(hM-ARI.hM))))]);
-if sum(sum(rms(hM-ARI.hM)))>1, error('hM and ARI.hM not identic'); end
-disp(['RMS difference between the new meta.pos and the original ARI.meta.pos: ' num2str(sum(rms(meta.pos-ARI.meta.pos)))]);
-if sum(rms(meta.pos-ARI.meta.pos))>1, error('meta.pos and ARI.meta.pos not identic'); end
+disp(['RMS difference between the new hM and the original ARI.hM: ' num2str(sum(sum(sqrt(mean((hM-ARI.hM).^2)))))]);
+if sum(sum(sqrt(mean((hM-ARI.hM).^2))))>1, error('hM and ARI.hM not identic'); end
+disp(['RMS difference between the new meta.pos and the original ARI.meta.pos: ' num2str(sum(sqrt(mean((meta.pos-ARI.meta.pos).^2))))]);
+if sum(sqrt(mean((meta.pos-ARI.meta.pos).^2)))>1, error('meta.pos and ARI.meta.pos not identic'); end
 
