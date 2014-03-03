@@ -50,7 +50,7 @@ idx(Nfft/2+2:end) = fliplr(idx(2:Nfft/2));
 
 %% CTF calculation
 hrtff=fft(hrtfmtx,Nfft);
-ctfflog=mean(log(abs(hrtff)),2);
+ctfflog=mean(log(abs(hrtff)+eps),2);
 
 % Force minimum phase 
 ctfcep = ifft(ctfflog,Nfft);
@@ -78,8 +78,12 @@ ctf = hrtf;
 ctf.Data.IR = shiftdim(ctfmtx,1);
 ctf.GLOBAL_Comment = [dtf.GLOBAL_Comment '. Common transfer functions (CTFs) were extracted from the HRTFs in terms of averaging the log-amplitude spectrum for each ear. The phase of a CTF is determined as minimum phase.'];
 ctf.SourcePosition = [0 0 0];
-ctf.MeasurementSourceAudioChannel = 0;
-ctf.MeasurementAudioLatency = [0 0];
+if isfield(ctf,'MeasurementSourceAudioChannel')
+  ctf.MeasurementSourceAudioChannel = 0;
+end
+if isfield(ctf,'MeasurementAudioLatency')
+  ctf.MeasurementAudioLatency = [0 0];
+end
 ctf = SOFAupdateDimensions(ctf);
 
 end
