@@ -35,8 +35,8 @@ Obj.GLOBAL_Organization = 'Fachhochschule Köln, Germany';
 Obj.GLOBAL_Author = miroObj.engineer;
 Obj.GLOBAL_References = 'Bernschütz, B. (2013). "A Spherical Far Field HRIR/HRTF Compilation of the Neumann KU 100", proceedings of the AIA/DAGA, Meran, Italy';
 Obj.GLOBAL_RoomType = 'free field';
-Obj.GLOBAL_Source = 'http://www.audiogroup.web.fh-koeln.de/ku100hrir.html';
-Obj.GLOBAL_TimeCreated = datestr(datenum(miroObj.date),'yyyy-mm-dd HH:MM:SS');
+Obj.GLOBAL_Origin = 'http://www.audiogroup.web.fh-koeln.de/ku100hrir.html';
+Obj.GLOBAL_DateCreated = datestr(datenum(miroObj.date),'yyyy-mm-dd HH:MM:SS');
 Obj.GLOBAL_Title = miroObj.name;
 Obj.GLOBAL_DatabaseName='FHK';
 

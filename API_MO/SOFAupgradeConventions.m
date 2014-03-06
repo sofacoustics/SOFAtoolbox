@@ -81,4 +81,30 @@ switch Obj.GLOBAL_Version,
           warning('SimpleFreeFieldHRIR 0.2 upgraded to 0.3');
       end
     end    
+  case '0.5'
+    Obj.GLOBAL_DateCreated=Obj.GLOBAL_TimeCreated;
+    Obj.GLOBAL_DateModified=Obj.GLOBAL_TimeModified;
+    Obj.GLOBAL_Origin=Obj.GLOBAL_Source;
+    Obj.GLOBAL_Version='0.6';
+    modified=1;
+    Obj=rmfield(Obj,'GLOBAL_TimeCreated');
+    Obj=rmfield(Obj,'GLOBAL_TimeModified');
+    Obj=rmfield(Obj,'GLOBAL_Source');
+    if isfield(Obj,'ListenerView') && ~isfield(Obj,'ListenerView_Type')
+      Obj.ListenerView_Type = 'cartesian';
+      Obj.ListenerView_Units = 'meter';
+    end
+    if isfield(Obj,'ReceiverView') && ~isfield(Obj,'ReceiverView_Type')
+      Obj.ReceiverView_Type = 'cartesian';
+      Obj.ReceiverView_Units = 'meter';
+    end
+    switch Obj.GLOBAL_SOFAConventions
+      case {'SimpleFreeFieldHRIR', 'SimpleFreeFieldTF'}
+        Obj.GLOBAL_SOFAConventionsVersion='0.4';
+      case {'GeneralFIR', 'GeneralTF', 'SingleRoomDRIR'}
+        Obj.GLOBAL_SOFAConventionsVersion='0.2';
+    end
+    if isfield(Obj,'GLOBAL_History'), tmp=[Obj.GLOBAL_History '; ']; else tmp=''; end
+    Obj.GLOBAL_History=[tmp 'Upgraded from SOFA 0.5'];
+    warning('SOFA 0.5 upgraded to 0.6');
 end

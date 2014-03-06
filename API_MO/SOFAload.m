@@ -88,7 +88,7 @@ if ~isfield(Obj,'GLOBAL_DataType'), error('DataType is missing'); end
 if ~strcmp(Obj.GLOBAL_DataType,X.GLOBAL_DataType), error('Wrong DataType'); end
 
 %% Ensure backwards compatibility
-[Obj,modified]=SOFAupgradeConventions(Obj);
+modified=1;
 while modified, [Obj,modified]=SOFAupgradeConventions(Obj); end
 
 %% If data loaded, check if correct data format

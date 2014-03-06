@@ -1,23 +1,23 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
-GLOBAL:Version	0.5	rm	 	attribute	
-GLOBAL:SOFAConventions	SimpleFreeFieldHRIR	rm	  	attribute	This conventions is for HRIRs recorded under free-field conditions or other IRs created under conditions where room information is irrelevant
-GLOBAL:SOFAConventionsVersion	0.3	rm	  	attribute	
+GLOBAL:Version	0.6	rm	 	attribute	
+GLOBAL:SOFAConventions	SimpleFreeFieldHRIR	rm	  	attribute	This convention set is for HRIRs recorded under free-field conditions or other IRs created under conditions where room information is irrelevant
+GLOBAL:SOFAConventionsVersion	0.4	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	
 GLOBAL:APIVersion		rm	  	attribute	
-GLOBAL:ApplicationName		m	  	attribute	
-GLOBAL:ApplicationVersion		m	  	attribute	
+GLOBAL:ApplicationName			  	attribute	
+GLOBAL:ApplicationVersion			  	attribute	
 GLOBAL:AuthorContact		m	  	attribute	
-GLOBAL:Comment		m	 	attribute	
+GLOBAL:Comment			 	attribute	
 GLOBAL:DataType	FIR	rm	  	attribute	
-GLOBAL:History		m	 	attribute	
+GLOBAL:History			 	attribute	
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
 GLOBAL:Organization		m	  	attribute	
-GLOBAL:References		m		attribute	
+GLOBAL:References				attribute	
 GLOBAL:RoomType	free field	m	  	attribute	
-GLOBAL:Source		m		attribute	
-GLOBAL:TimeCreated		m	 	attribute	
-GLOBAL:TimeModified		m	 	attribute	
+GLOBAL:Origin				attribute	
+GLOBAL:DateCreated		m	 	attribute	
+GLOBAL:DateModified		m	 	attribute	
 GLOBAL:Title		m		attribute	
 ListenerPosition	[0 0 0] 	m	IC, MC	double	
 ListenerPosition:Type	cartesian	m	  	attribute	
@@ -35,6 +35,8 @@ GLOBAL:DatabaseName		m	  	attribute	name of the database to which these data bel
 GLOBAL:SubjectID		m	  	attribute	ID of the subject from the database
 ListenerUp	[0 0 1]	m	IC, MC	double	
 ListenerView	[1 0 0]	m	IC, MC	double	
+ListenerView:Type	cartesian	m		attribute	
+ListenerView:Units	meter	m		attribute	
 Data.IR	[1 1]	m	mRn	double	
 Data.SamplingRate	48000	m	I	double	
 Data.SamplingRate:Units	hertz	m		attribute	

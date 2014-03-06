@@ -48,13 +48,11 @@ Obj.GLOBAL_History='Converted from the SCUT format';
 
 Obj.GLOBAL_Author = 'Bosun Xie';
 Obj.GLOBAL_AuthorContact = 'phbsxie@scut.edu.cn';
-Obj.GLOBAL_Comment = '';
 Obj.GLOBAL_License = 'CC 3.0 BY-SA-NC';
 Obj.GLOBAL_Organization = 'South China University of Technology, Guangzhou, China';
 
 Obj.GLOBAL_References = 'Bosun Xie, 2013, "Head-Related Transfer Function and Virtual Auditory Display", J Ross Publishing Inc., Plantation, FL, USA';
 Obj.GLOBAL_RoomType = 'free field';
-Obj.GLOBAL_Source = '';
 Obj.GLOBAL_Title = 'SCUT HRTFs of a KEMAR';
 Obj.GLOBAL_DatabaseName='SCUT';
 
