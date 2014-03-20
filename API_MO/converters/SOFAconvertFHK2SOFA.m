@@ -23,13 +23,13 @@ Obj.Data.IR = shiftdim(Obj.Data.IR,1); % convert from [N M R] to [M R N]
 Obj.Data.SamplingRate = miroObj.fs;
 
 %% Fill with attributes
-Obj.GLOBAL_SubjectID = miroObj.name;
+Obj.GLOBAL_ListenerShortName = miroObj.name;
 % Obj.GLOBAL_APIName
 % Obj.GLOBAL_ApplicationName
 % Obj.GLOBAL_ApplicationVersion
 Obj.GLOBAL_AuthorContact = miroObj.contact;
 Obj.GLOBAL_Comment = miroObj.context;
-Obj.GLOBAL_History = [miroObj.postProcessing ';Converted from original format'];
+Obj.GLOBAL_History = SOFAappendText(Obj,'GLOBAL_History','Converted from the miro file format');
 Obj.GLOBAL_License = 'CC 3.0 BY-SA';
 Obj.GLOBAL_Organization = 'Fachhochschule Köln, Germany';
 Obj.GLOBAL_Author = miroObj.engineer;
@@ -37,8 +37,8 @@ Obj.GLOBAL_References = 'Bernschütz, B. (2013). "A Spherical Far Field HRIR/HRTF
 Obj.GLOBAL_RoomType = 'free field';
 Obj.GLOBAL_Origin = 'http://www.audiogroup.web.fh-koeln.de/ku100hrir.html';
 Obj.GLOBAL_DateCreated = datestr(datenum(miroObj.date),'yyyy-mm-dd HH:MM:SS');
-Obj.GLOBAL_Title = miroObj.name;
 Obj.GLOBAL_DatabaseName='FHK';
+Obj.GLOBAL_Title = 'HRTF';
 
 %% Fill the mandatory variables
 Obj.ReceiverPosition = [0 -miroObj.radius 0; 0 +miroObj.radius 0];  

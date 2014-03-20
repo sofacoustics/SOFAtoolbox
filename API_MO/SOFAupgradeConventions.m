@@ -50,8 +50,6 @@ switch Obj.GLOBAL_Version,
       switch Obj.GLOBAL_SOFAConventionsVersion
         case '0.2'
           % Upgrade from SimpleFreeFieldHRIR 0.2 to 0.3
-          modified=1;          
-          Obj.GLOBAL_SOFAConventionsVersion='0.3';
           if isfield(Obj,'GLOBAL_History'), tmp=Obj.GLOBAL_History; else tmp=''; end
           Obj.GLOBAL_History=[tmp '; Upgraded from SimpleFreeFieldHRIR 0.2'];
           % Create temp SourcePosition
@@ -79,16 +77,18 @@ switch Obj.GLOBAL_Version,
           Obj=rmfield(Obj,'ListenerRotation_Units');
           Obj.API.Dimensions=rmfield(Obj.API.Dimensions,'ListenerRotation');
           warning('SimpleFreeFieldHRIR 0.2 upgraded to 0.3');
+          Obj.GLOBAL_SOFAConventionsVersion='0.3';
       end
     end    
+		modified=1;          
+		Obj.GLOBAL_Version='0.5';
   case '0.5'
+		% Upgrade from 0.5 to 0.6
     Obj.GLOBAL_DateCreated=Obj.GLOBAL_TimeCreated;
-    Obj.GLOBAL_DateModified=Obj.GLOBAL_TimeModified;
-    Obj.GLOBAL_Origin=Obj.GLOBAL_Source;
-    Obj.GLOBAL_Version='0.6';
-    modified=1;
     Obj=rmfield(Obj,'GLOBAL_TimeCreated');
+    Obj.GLOBAL_DateModified=Obj.GLOBAL_TimeModified;
     Obj=rmfield(Obj,'GLOBAL_TimeModified');
+    Obj.GLOBAL_Origin=Obj.GLOBAL_Source;
     Obj=rmfield(Obj,'GLOBAL_Source');
     if isfield(Obj,'ListenerView') && ~isfield(Obj,'ListenerView_Type')
       Obj.ListenerView_Type = 'cartesian';
@@ -101,10 +101,14 @@ switch Obj.GLOBAL_Version,
     switch Obj.GLOBAL_SOFAConventions
       case {'SimpleFreeFieldHRIR', 'SimpleFreeFieldTF'}
         Obj.GLOBAL_SOFAConventionsVersion='0.4';
+		Obj.GLOBAL_ListenerShortName=Obj.GLOBAL_SubjectID;	% rename SubjectID to ListenerShortName
+		Obj=rmfield(Obj,'GLOBAL_SubjectID');
       case {'GeneralFIR', 'GeneralTF', 'SingleRoomDRIR'}
         Obj.GLOBAL_SOFAConventionsVersion='0.2';
     end
     if isfield(Obj,'GLOBAL_History'), tmp=[Obj.GLOBAL_History '; ']; else tmp=''; end
     Obj.GLOBAL_History=[tmp 'Upgraded from SOFA 0.5'];
+    Obj.GLOBAL_Version='0.6';
+    modified=1;
     warning('SOFA 0.5 upgraded to 0.6');
 end

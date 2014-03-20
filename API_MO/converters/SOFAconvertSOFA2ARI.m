@@ -22,7 +22,7 @@ hM=shiftdim(Obj.Data.IR,2);	% data.IR is [M R N], hM must be [N M R]
 %% Fill stimPar
 stimPar.SamplingRate = Obj.Data.SamplingRate;
 stimPar.TimeBase = 1e6/stimPar.SamplingRate;
-stimPar.SubjectID = Obj.GLOBAL_SubjectID;
+stimPar.SubjectID = Obj.GLOBAL_ListenerShortName;
 
 %% Fill meta
 	% Fill in geodesic coordinate system where azi=(0;360) and ele=(-90;90);

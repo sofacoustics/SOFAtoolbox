@@ -47,6 +47,7 @@ for ei = 1 : length(eles)
 		flip_azi = mod(360-azi,360);
 		fn=[root filesep prefix filesep 'elev' num2str(ele) filesep postfix num2str(ele) 'e' sprintf('%03d',round(flip_azi)) 'a.wav'];
 		Obj.Data.IR(ii,idx(1),:) = wavread(fn)'; % data.IR must be [M R N]
+    dirfn=dir(fn);
 		fn=[root filesep prefix filesep 'elev' num2str(ele) filesep postfix num2str(ele) 'e' sprintf('%03d',round(azi)) 'a.wav'];
 		Obj.Data.IR(ii,idx(2),:) = wavread(fn)';
       % SimpleFreeFieldHRIR 0.2
@@ -58,8 +59,9 @@ for ei = 1 : length(eles)
 end
 
 %% Fill with attributes
-Obj.GLOBAL_SubjectID = ['KEMAR, ' pinna ' pinna'];
+Obj.GLOBAL_ListenerShortName = ['KEMAR, ' pinna ' pinna'];
 Obj.GLOBAL_History='Converted from the MIT format';
+Obj.GLOBAL_DateCreated = datestr(datenum(dirfn.date),SOFAdefinitions('dateFormat'));
 
 %% Fill the mandatory variables
   % SimpleFreeFieldHRIR 0.2

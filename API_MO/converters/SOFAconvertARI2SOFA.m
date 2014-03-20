@@ -19,7 +19,7 @@ Obj.Data.IR = shiftdim(hM,1); % hM is [N M R], data.IR must be [M R N]
 Obj.Data.SamplingRate = stimPar.SamplingRate;
 
 %% Fill with attributes
-if isfield(stimPar, 'SubjectID'), Obj.GLOBAL_SubjectID = stimPar.SubjectID; end
+if isfield(stimPar, 'SubjectID'), Obj.GLOBAL_ListenerShortName = stimPar.SubjectID; end
 if isfield(stimPar,'Application')
     if isfield(stimPar.Application,'Name'), Obj.GLOBAL_ApplicationName = stimPar.Application.Name; end
     if isfield(stimPar.Application,'Version'), Obj.GLOBAL_ApplicationVersion = stimPar.Application.Version; end

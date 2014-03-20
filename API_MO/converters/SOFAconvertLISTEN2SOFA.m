@@ -22,7 +22,7 @@ Obj.Data.IR(:,1,:)=LISTEN.l_eq_hrir_S.content_m;
 Obj.Data.SamplingRate = 48000; % Note: LISTEN.l_eq_hrir_S.sampling_hz contains 44100 which is wrong!
 
 %% Fill with attributes
-Obj.GLOBAL_SubjectID = subjectID;
+Obj.GLOBAL_ListenerShortName = subjectID;
 Obj.GLOBAL_History='Converted from the LISTEN format';
 
 %% Fill the mandatory variables

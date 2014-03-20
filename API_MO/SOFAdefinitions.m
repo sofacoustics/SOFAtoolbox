@@ -1,7 +1,18 @@
-function Def = SOFAdefinitions
+function output = SOFAdefinitions(varargin)
 % SOFAdefinitions
 %
-%   SOFAdefinitions returns a struct containing definitions like the time format
+%   SOFAdefinitions returns a struct containing definitions like the time
+%   format used in the API.
+%
+%   SOFAdefinitions('dateFormat') returns the date format
+%
+%   SOFAdefinitions('APIName') returns the APIName
+%
+%   SOFAdefinitions('dimensions') returns the dimensions used in the API
+%
+%   SOFAdefinitions('EOL') returns the end-of-line separator used in the API
+%
+%
 
 % SOFA API - function SOFAdefinitions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -11,17 +22,40 @@ function Def = SOFAdefinitions
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
-% API name
 
-Def.APIName = 'ARI SOFA API for Matlab/Octave';
+definput.flags.type={'all','dateFormat','APIName','dimensions','EOL'};
+[flags,~]=SOFAarghelper({},definput,varargin);
 
-% date string to use (see help datestr)
-Def.dateFormat = 'yyyy-mm-dd HH:MM:SS';
+%% Return all definitions in a structure
+if flags.do_all,
+  output.APIName = SOFAdefinitions('APIName');
+  output.dateFormat = SOFAdefinitions('dateFormat');
+  output.dimensions = SOFAdefinitions('dimensions');
+  output.EOL = SOFAdefinitions('EOL');
+end
 
-% dimensions to use
-Def.dimensions.M = 'M'; % Number of Measurements
-Def.dimensions.R = 'R'; % Number of Receivers
-Def.dimensions.N = 'N'; % Number of Samples or the way you represent your data
-Def.dimensions.E = 'E'; % Number of Emitters
-Def.dimensions.C = 'C'; % Coordinates
-Def.dimensions.I = 'I'; % Singleton
+%% name of the API
+if flags.do_APIName, 
+  output = 'ARI SOFA API for Matlab/Octave';
+end
+
+%% date string to use (see help datestr)
+if flags.do_dateFormat, 
+  output = 'yyyy-mm-dd HH:MM:SS';
+end
+
+%% EOL to use
+if flags.do_EOL, 
+  output = char(10);
+end
+
+%% dimensions to use
+if flags.do_dimensions,
+  output.M = 'M'; % Number of Measurements
+  output.R = 'R'; % Number of Receivers
+  output.N = 'N'; % Number of Samples or the way you represent your data
+  output.E = 'E'; % Number of Emitters
+  output.C = 'C'; % Coordinates
+  output.I = 'I'; % Singleton
+  output.S = 'S'; % size of the largest string
+end

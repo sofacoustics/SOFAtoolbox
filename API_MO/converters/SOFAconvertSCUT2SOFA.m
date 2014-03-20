@@ -30,8 +30,9 @@ for jj=1:length(r)
     ele = eles(ei);
     for ai = 0 : elecnt(ei)-1
       azi = 360/elecnt(ei)*ai;
-      fid = fopen(fullfile(root, ['r' num2str(r(jj)*100)], ...
-            ['ele' num2str(ele)], ['H' num2str(azi) 'c.pcm']), 'r');
+      fn=fullfile(root, ['r' num2str(r(jj)*100)], ['ele' num2str(ele)], ['H' num2str(azi) 'c.pcm']);
+      dirfn=dir(fn);
+      fid = fopen(fn, 'r');
       H = fread(fid,'float');
       fclose(fid);
       Obj.Data.IR(ii,1,:) = single(H(1:2:1024));  % separate the left-ear HRIR 
@@ -43,7 +44,7 @@ for jj=1:length(r)
 end
 
 %% Fill with attributes
-Obj.GLOBAL_SubjectID = 'KEMAR';
+Obj.GLOBAL_ListenerShortName = 'KEMAR';
 Obj.GLOBAL_History='Converted from the SCUT format';
 
 Obj.GLOBAL_Author = 'Bosun Xie';
@@ -53,8 +54,10 @@ Obj.GLOBAL_Organization = 'South China University of Technology, Guangzhou, Chin
 
 Obj.GLOBAL_References = 'Bosun Xie, 2013, "Head-Related Transfer Function and Virtual Auditory Display", J Ross Publishing Inc., Plantation, FL, USA';
 Obj.GLOBAL_RoomType = 'free field';
-Obj.GLOBAL_Title = 'SCUT HRTFs of a KEMAR';
+Obj.GLOBAL_Title = 'HRTF';
 Obj.GLOBAL_DatabaseName='SCUT';
+
+Obj.GLOBAL_DateCreated = datestr(datenum(dirfn.date),SOFAdefinitions('dateFormat'));
 
 
 %% Fill the mandatory variables

@@ -11,6 +11,18 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.4 (19.3.2014) by Piotr Majdak
+- implements SOFA 0.6:
+  - GLOBAL_Source renamed to GLOBAL_Origin 
+  - GLOBAL_TimeCreated and GLOBAL_TimeModified renamed to GLOBAL_DateCreated and GLOBAL_DateModified, respectively
+  - If ListenerUp is provided, ListenerView must be provided as well. If ListenerView is provided, ListenerView_Type and ListenerView_Units must be provided as well. This also applies to Source, Emitter, and Receiver objects. 
+  - Geometry: only "cartesian" or "spherical" coordinate systems allowed
+  - In SimpleFreeFieldHRIR: GLOBAL_SubjectID renamed to GLOBAL_ListenerShortName
+- Converters adapted to provide more precise information
+- SOFAappendText added for appending a text to an attribute
+- SOFAdefinitions: returns various definitions, depending on the input flag
+- SOFAupgradeConventions: upgrades conventions up to 0.6 now. 
+
 *** v0.3.1 (2.9.2013) by Piotr Majdak
 - zip file required 7-zip, fixed
 - minor bug fixes

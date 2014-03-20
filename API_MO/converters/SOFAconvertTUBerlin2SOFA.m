@@ -21,7 +21,7 @@ Obj.Data.IR(:,2,:) = shiftdim(shiftdim(irs.right,-1),2);
 Obj.Data.SamplingRate = irs.fs;
 
 %% Fill with attributes
-Obj.GLOBAL_SubjectID = irs.head;
+Obj.GLOBAL_ListenerShortName = 'KEMAR';
 Obj.GLOBAL_History='Converted from the TU-Berlin format';
 Obj.GLOBAL_Comment = irs.description;
 Obj.GLOBAL_License = 'Creative Commons Attribution-NonCommercial-ShareAlike 3.0';
@@ -32,8 +32,9 @@ Obj.GLOBAL_References = ['H. Wierstorf, M. Geier, A. Raake, S. Spors. ', ...
     'A Free Database of Head-Related Impulse Response Measurements in ', ...
     'the Horizontal Plane with Multiple Distances. ', ...
     'In 130th Convention of the Audio Engineering Society, May 2011.'];
-Obj.GLOBAL_Origin = 'Measurement';
-Obj.GLOBAL_DatabaseName = 'TU Berlin KEMAR';
+Obj.GLOBAL_Origin = 'https://dev.qu.tu-berlin.de/projects/measurements/repository/show/2010-11-kemar-anechoic/mat';
+Obj.GLOBAL_DatabaseName = 'TU Berlin';
+Obj.GLOBAL_Title = 'HRTF';
 Obj.GLOBAL_ListenerDescription = irs.head;
 Obj.GLOBAL_ReceiverDescription = irs.ears;
 Obj.GLOBAL_SourceDescription = irs.source;
@@ -46,7 +47,6 @@ distance = sqrt(sum((irs.source_position-irs.head_position).^2));
 Obj.SourcePosition = [nav2sph(rad2deg(irs.apparent_azimuth)') ...
     rad2deg(irs.apparent_elevation)' ...
     distance.*ones(M,1)];
-Obj.ListenerPosition_Type = 'cartesian';
 Obj.ListenerPosition = [0 0 0];
 Obj.ListenerView = [1 0 0];
 Obj.ListenerUp = [0 0 1];

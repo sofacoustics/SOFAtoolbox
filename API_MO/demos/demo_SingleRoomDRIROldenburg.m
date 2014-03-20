@@ -98,7 +98,7 @@ Obj.Data.Delay = zeros(1,size(Obj.Data.IR,2));
 Obj.Data.SamplingRate = A1.fs;
 
 %% Fill with attributes
-Obj.GLOBAL_SubjectID = 'HATS';
+Obj.GLOBAL_ListenerShortName = 'HATS';
 Obj.GLOBAL_History='Converted from the Uni Oldenburg database';
 Obj.GLOBAL_License='http://medi.uni-oldenburg.de/hrir/html/download.html';
 Obj.GLOBAL_References='H. Kayser, S. D. Ewert, J. Anemüller, T. Rohdenburg, V. Hohmann, and B. Kollmeier, "Database of Multichannel In-Ear and Behind-the-Ear Head-Related and Binaural Room Impulse Responses," EURASIP Journal on Advances in Signal Processing, vol. 2009, doi:10.1155/2009/298605';

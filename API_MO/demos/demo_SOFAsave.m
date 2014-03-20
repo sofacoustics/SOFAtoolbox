@@ -54,7 +54,7 @@ end
 Obj=SOFAupdateDimensions(Obj);
 
 %% Fill with attributes
-Obj.GLOBAL_SubjectID = 'KEMAR';
+Obj.GLOBAL_ListenerShortName = 'KEMAR';
 Obj.GLOBAL_History = 'created with a script';
 Obj.GLOBAL_DatabaseName = 'none';
 Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';

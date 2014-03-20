@@ -44,15 +44,15 @@ end
 Obj=SOFAupdateDimensions(Obj);
 
 %% Fill with attributes
-Obj.GLOBAL_SubjectID = CIPIC.name;
-Obj.GLOBAL_History = 'converted from the CIPIC database';
+Obj.GLOBAL_ListenerShortName = CIPIC.name;
+Obj.GLOBAL_History = 'Converted from the CIPIC file format';
 
 %% Fill the mandatory variables
   % SimpleFreeFieldHRIR 0.2
     % Obj.ListenerPosition = [1 0 0];
     % Obj.ListenerView = [-1 0 0];
     % Obj.ListenerUp = [0 0 1];
-% SimpleFreeFieldHRIR 0.3
+% SimpleFreeFieldHRIR 0.3 and 0.4
 Obj.ListenerPosition = [0 0 0];
 Obj.ListenerView = [1 0 0];
 Obj.ListenerUp = [0 0 1];

@@ -32,7 +32,7 @@ EmitterPosition	[0 0 0]	m	eCI, eCM	double
 EmitterPosition:Type	cartesian	m	  	attribute	
 EmitterPosition:Units	meter	m	  	attribute	
 GLOBAL:DatabaseName		m	  	attribute	name of the database to which these data belong
-GLOBAL:SubjectID		m	  	attribute	ID of the subject from the database
+GLOBAL:ListenerShortName		m	  	attribute	ID of the subject from the database
 ListenerUp	[0 0 1]	m	IC, MC	double	
 ListenerView	[1 0 0]	m	IC, MC	double	
 ListenerView:Type	cartesian	m		attribute	
