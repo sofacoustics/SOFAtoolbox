@@ -26,30 +26,45 @@ Obj=SOFAupdateDimensions(Obj);
 
 %% If VarName given, expand a single variable only
 if ~exist('VarName','var'),
-%% Expand all variables
-	% create field names which should have dimensions
-	X=rmfield(Obj,{'Data','API'});
+  
+  %% Expand all variables
+    % create field names which should have dimensions
+  X=rmfield(Obj,{'Data','API'});
   if isfield(X,'PRIVATE'), X=rmfield(X,'PRIVATE'); end
-  dims=fieldnames(Obj.API);
-% 	for ii=1:length(dims)
-% 		if isfield(X,upper(dims{ii})), X=rmfield(X,upper(dims{ii})); end
-% 	end
-	Xf=fieldnames(X);
+  Xf=fieldnames(X);
 
-	% Update the dimensions structure w/o data
-	for ii=1:length(Xf)
-		if ~isempty(strfind(Xf{ii},'_')),	continue; end; % is an attribute --> not expandable
-		if ~isfield(OC.API.Dimensions, Xf{ii}), continue; end; % is a used-defined variable --> not expandable
-		dim=OC.API.Dimensions.(Xf{ii}); % all possible dimensions
-		if ~iscell(dim), continue; end;	% is a variable with a single dimension definition --> not expandable
-		[varNew,dimNew]=expand(Obj,Xf{ii},dim);
-		if ~isempty(varNew),
-			Obj.(Xf{ii})=varNew;
-			Obj.API.Dimensions.(Xf{ii})=dimNew;
-			log{end+1}=[Xf{ii} ' expanded to ' dimNew];
-		end
-	end
-	
+  % Update the dimensions structure w/o data
+  for ii=1:length(Xf)
+    if ~isempty(strfind(Xf{ii},'_')),	continue; end; % is an attribute --> not expandable
+    if ~isfield(OC.API.Dimensions, Xf{ii}), continue; end; % is a used-defined variable --> not expandable
+    dim=OC.API.Dimensions.(Xf{ii}); % all possible dimensions
+    if ~iscell(dim), continue; end;	% is a variable with a single dimension definition --> not expandable
+    if numel(dim)==1, continue; end;	% is a variable with a single dimension definition --> not expandable
+    [varNew,dimNew]=expand(Obj,Xf{ii},dim);
+    if ~isempty(varNew),
+      Obj.(Xf{ii})=varNew;
+      Obj.API.Dimensions.(Xf{ii})=dimNew;
+      log{end+1}=[Xf{ii} ' expanded to ' dimNew];
+    end
+  end
+
+  % Expand the dimensions of Data
+  Xf=fieldnames(Obj.Data);
+  for ii=1:length(Xf)
+    if ~isempty(strfind(Xf{ii},'_')),	continue; end; % is an attribute --> not expandable
+    if ~isfield(OC.API.Dimensions.Data, Xf{ii}), continue; end; % is a used-defined variable --> not expandable
+    dim=OC.API.Dimensions.Data.(Xf{ii}); % all possible dimensions
+    if ~iscell(dim), continue; end;	% is a variable with a single dimension definition --> not expandable
+    if numel(dim)==1, continue; end;	% is a variable with a single dimension definition --> not expandable
+    [varNew,dimNew]=expandData(Obj,Xf{ii},dim);
+    if ~isempty(varNew),
+      Obj.Data.(Xf{ii})=varNew;
+      Obj.API.Dimensions.Data.(Xf{ii})=dimNew;
+      log{end+1}=['Data.' Xf{ii} ' expanded to ' dimNew];
+    end
+  end
+  
+  
 else	% Expand a single variable only
 	if isempty(strfind(VarName,'_')),	% is an attribute --> not expandable
 		if isfield(OC.API.Dimensions, VarName), % is a used-defined variable --> not expandable
@@ -87,3 +102,19 @@ function [var,dN]=expand(Obj,f,dims)
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
 	vec=arrayfun(@(f)(Obj.API.(f)),upper(str));
+  
+%% expand a single Data variable
+% Obj: the full SOFA object
+% f: name of the Data variable
+% dims: allowed dimensions of that variable (cell array)
+% var: expanded variable, or empty if nothing happened
+% dN: new dimension, or empty if nothing happened
+function [var,dN]=expandData(Obj,f,dims)
+	d=cell2mat(strfind(dims,'I'));	% all choices for a singleton dimensions
+	for jj=1:length(d)	% loop through all expandable dimensions
+		len=size(Obj.Data.(f),d(jj)); % size of the considered dimension
+		if len>1, continue; end;	% the expandable dimension is already expanded
+		dN=dims{cellfun('isempty',strfind(dims,'I'))==1};
+		var=bsxfun(@times,Obj.Data.(f),ones(getdim(Obj,dN)));
+	end
+	if ~exist('var','var'), var=[]; dN=[]; end;

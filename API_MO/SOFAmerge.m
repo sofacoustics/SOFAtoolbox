@@ -142,6 +142,7 @@ for ii=1:size(Bf,1)
 end
 
 %% Update the new dimensions and finish
+C=SOFAcompact(C);
 C=SOFAupdateDimensions(C);
 if length(log)>1, log=log(2:end); else log={}; end;
 

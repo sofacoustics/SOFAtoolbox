@@ -11,6 +11,14 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.4.1 (not released yet) by Piotr Majdak
+- SOFAcompact: compacts variables along dimensions, opposite to SOFAexpand. Functionality not complete for 3D variables
+- SOFAcompare: compares two SOFA objects. Preliminary functionality; compares attributes only
+- SOFAexpand: expanding of Data added
+- bug fix: SOFAplotGeometry
+- function-specific warnings added: SOFA:upgrade and SOFA:save
+
+
 *** v0.4 (19.3.2014) by Piotr Majdak
 - implements SOFA 0.6:
   - GLOBAL_Source renamed to GLOBAL_Origin 

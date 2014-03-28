@@ -17,16 +17,38 @@ if ~exist('index','var')
 end
 
 switch Obj.GLOBAL_SOFAConventions
+%%
   case 'SimpleFreeFieldHRIR'
     figure; hold on;
     h=[];
-      % Plot listener and receivers
-    LP=Obj.ListenerPosition; LV=Obj.ListenerView;
-    line([LP(:,1), LV(:,1)+LP(:,2)], [LP(:,2) LV(:,2)+LP(:,2)],'Color',[1 0 0]);
-    h(end+1)=plot3(LP(:,1), LP(:,2),LP(:,3),'ro','MarkerFaceColor',[1 0 0]);
-    h(end+1)=plot3(LV(:,1)+LP(:,1), LV(:,2)+LP(:,2), LV(:,3)+LP(:,3),'ro','MarkerFaceColor',[1 1 1]);
-    h(end+1)=plot3(LP(:,1)+Obj.ReceiverPosition(:,1), LP(:,2)+Obj.ReceiverPosition(:,2), ...
-                    LP(:,3)+Obj.ReceiverPosition(:,3),'rx');
+    OE=SOFAexpand(Obj);
+      % Listener: determine unique listener geometries
+    LP=OE.ListenerPosition(index,:); 
+    LV=OE.ListenerView(index,:); 
+    LU=OE.ListenerUp(index,:);
+    x=unique([LP LV LU],'rows');
+      % Listener: plot first appearance
+    h(end+1)=plot3(x(1,1), x(1,2), x(1,3),'ro','MarkerFaceColor',[1 0 0]);  % ListenerPosition
+    h(end+1)=plot3(x(1,4), x(1,5), x(1,6),'ro','MarkerFaceColor',[1 1 1]); % ListenerView
+    line([x(1,1), x(1,4)], [x(1,2) x(1,5)], [x(1,3) x(1,6)],'Color',[1 0 0]); % Line from LP to LV
+      % Listener: plot other appearances
+    for ii=2:size(x,1)
+      plot3(x(ii,1), x(ii,2), x(ii,3),'ro','MarkerFaceColor',[1 0 0]);  % ListenerPosition
+      plot3(x(ii,4), x(ii,5), x(ii,6),'ro','MarkerFaceColor',[1 1 1]); % ListenerView
+      line([x(ii,1), x(ii,4)], [x(ii,2) x(ii,5)], [x(ii,3) x(ii,6)],'Color',[1 0 0]); % Line from LP to LV
+    end
+      % Plot receivers (at the moment we consider the first ListenerPosition only)
+    if ndims(Obj.ReceiverPosition)>2
+      colors='rbgymc';
+      RP=shiftdim(Obj.ReceiverPosition(:,:,index),2);
+      h(end+1)=plot3(LP(1,1)+RP(:,1,1), LP(1,2)+RP(:,1,2), LP(1,3)+RP(:,1,3),'rx');
+      for ii=2:size(RP,2)
+        plot3(LP(1,1)+RP(:,ii,1), LP(1,2)+RP(:,ii,2), LP(1,3)+RP(:,ii,3),[colors(ii) 'x']);
+      end
+    else % single receivers
+      RP=Obj.ReceiverPosition;
+      h(end+1)=plot3(LP(1,1)+RP(:,1), LP(1,2)+RP(:,2), LP(1,3)+RP(:,3),'rx');
+    end
       % Plot source
     S=Obj.SourcePosition(index,:);
     if strcmp(Obj.SourcePosition_Type,'spherical');
@@ -34,12 +56,14 @@ switch Obj.GLOBAL_SOFAConventions
     else
       X=S(:,1); Y=S(:,2); Z=S(:,3);
     end
-    h(end+1)=plot3(X,Y,Z,'b.');
+    h(end+1)=plot3(X,Y,Z,'k.');
     legend(h,{'ListenerPosition','ListenerView','Receivers','SourcePosition'});
     xlabel(['X (in ' Obj.ListenerPosition_Units ')']);
     ylabel(['Y (in ' Obj.ListenerPosition_Units ')']);
     zlabel(['Z (in ' Obj.ListenerPosition_Units ')']);
     title('SimpleFreeFieldHRIR');
+    
+%%    
   case 'SingleRoomDRIR'    
     Obj=SOFAexpand(Obj);
     figure('Position',[1 1 (Obj.RoomCornerB(1)-Obj.RoomCornerA(1))*1.2 Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]*100);
