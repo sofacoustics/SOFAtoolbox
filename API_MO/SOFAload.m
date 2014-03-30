@@ -1,4 +1,4 @@
-function Obj = SOFAload(fn,flags)
+function Obj = SOFAload(fn,varargin)
 %SOFALOAD 
 %   Obj = SOFAload(FN) reads the SOFA object OBJ with all data from
 %   a SOFA file FN. 
@@ -13,13 +13,13 @@ function Obj = SOFAload(fn,flags)
 %   Obj = SOFAload(FN,'nodata') ignores the "Data." variables and
 %   loads metadata only (variables and attributes).
 %
-%   Obj = SOFAload(FN,'nochecks') loads the file but does not perform
-%   any checks for correct conventions.
-% 
 %   Obj = SOFAload(FN,[START COUNT]) loads only COUNT number of 
 %		measurements beginning with the index START. For remote files, or local
 %   but not existing files, the full file will be downloaded.
 %   
+%   Obj = SOFAload(FN,...,'nochecks') loads the file but does not perform
+%   any checks for correct conventions.
+% 
 
 % SOFA API - function SOFAload
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
@@ -29,9 +29,10 @@ function Obj = SOFAload(fn,flags)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-%% Global definitions
-% dims={'i';'r';'e';'n';'m';'c';'q'}; % dimensions
-if ~exist('flags','var'), flags='all'; end;
+definput.keyvals.Index=[];
+definput.flags.type={'data','nodata'};
+definput.flags.data={'checks','nochecks'};
+[flags,kv]=SOFAarghelper({'Index'},definput,varargin);
 
 %% check file name
 fn=SOFAcheckFilename(fn);
@@ -66,12 +67,17 @@ else
 end 
 
 %% Load the object
-[Obj]=NETCDFload(newfn,flags);
+if flags.do_nodata, Obj=NETCDFload(newfn,'nodata'); end;
+if flags.do_data, 
+  if isempty(kv.Index),
+    Obj=NETCDFload(newfn,'all');
+  else
+    [Obj]=NETCDFload(newfn,kv.Index);
+  end
+end
 
 %% Return if no checks should be performed
-if strcmp(flags, 'nochecks')
-  return;
-end
+if flags.do_nochecks, return; end;
 
 %% Check if SOFA conventions
 if ~isfield(Obj,'GLOBAL_Conventions'), error('File is not a valid SOFA file'); end
@@ -92,11 +98,11 @@ modified=1;
 while modified, [Obj,modified]=SOFAupgradeConventions(Obj); end
 
 %% If data loaded, check if correct data format
-if ~strcmp(flags,'nodata'),
+if ~flags.do_nodata,
 	if ~isfield(Obj,'Data'), error('Data is missing'); end
 	f=fieldnames(X.Data);
 	for ii=1:length(f)
-		if ~isfield(Obj.Data,f{ii})
+    if ~isfield(Obj.Data,f{ii})
       Obj.Data.(f{ii})=X.Data.(f{ii});
       Obj.API.Dimensions.Data.(f{ii})=X.API.Dimensions.Data.(f{ii});
       warning(['Data.' f{ii} ' was missing, set to default']);

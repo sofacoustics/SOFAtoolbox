@@ -67,13 +67,13 @@ end
 		%if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables			
 			if strfind(var,'Data.'),
 				if ~strcmp(flags,'nodata')
-					data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
+% 					data=;
 					dim=fliplr(cell2mat(dims(vardimids+1))');
 					Obj.API.Dimensions.Data.(var(6:end))=dim;
 					if length(dim)>1
-						Obj.Data.(var(6:end))=permute(data, length(dim):-1:1); 
+						Obj.Data.(var(6:end))=permute(netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1)), length(dim):-1:1); 
 					else
-						Obj.Data.(var(6:end))=data;
+						Obj.Data.(var(6:end))=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
 					end
 				end
 			else

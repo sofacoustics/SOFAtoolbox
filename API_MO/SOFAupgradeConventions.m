@@ -25,8 +25,7 @@ switch Obj.GLOBAL_Version,
     Obj.GLOBAL_SOFAConventionsVersion='0.2';
     Obj.GLOBAL_TimeCreated=Obj.GLOBAL_DatabaseTimeCreated;
     Obj.GLOBAL_TimeModified=Obj.GLOBAL_DatabaseTimeModified;
-    if isfield(Obj,'GLOBAL_History'), tmp=Obj.GLOBAL_History; else tmp=''; end
-    Obj.GLOBAL_History=[tmp '; Upgraded from SOFA 0.3'];
+    Obj.GLOBAL_History=SOFAappendText(Obj,'GLOBAL_History','Upgraded from SOFA 0.3');
       % remove dimensional variables and not used variables/attributes
     dims={'I','R','E','N','M','C','Q','SourceView',...
       'SourceUp','GLOBAL_DatabaseTimeCreated','GLOBAL_DatabaseTimeModified'}; 
@@ -50,8 +49,7 @@ switch Obj.GLOBAL_Version,
       switch Obj.GLOBAL_SOFAConventionsVersion
         case '0.2'
           % Upgrade from SimpleFreeFieldHRIR 0.2 to 0.3
-          if isfield(Obj,'GLOBAL_History'), tmp=Obj.GLOBAL_History; else tmp=''; end
-          Obj.GLOBAL_History=[tmp '; Upgraded from SimpleFreeFieldHRIR 0.2'];
+          Obj.GLOBAL_History=SOFAappendText(Obj,'GLOBAL_History','Upgraded from SimpleFreeFieldHRIR 0.2');
           % Create temp SourcePosition
           azi=bsxfun(@times,Obj.ListenerRotation(:,1),ones(size(Obj.ListenerPosition,1),1));
           ele=bsxfun(@times,Obj.ListenerRotation(:,2),ones(size(Obj.ListenerPosition,1),1));
@@ -98,16 +96,18 @@ switch Obj.GLOBAL_Version,
       Obj.ReceiverView_Type = 'cartesian';
       Obj.ReceiverView_Units = 'meter';
     end
+    if isfield(Obj,'GLOBAL_SubjectID'),
+      Obj.GLOBAL_ListenerShortName=Obj.GLOBAL_SubjectID;	% rename SubjectID to ListenerShortName
+      Obj=rmfield(Obj,'GLOBAL_SubjectID');
+    end
     switch Obj.GLOBAL_SOFAConventions
       case {'SimpleFreeFieldHRIR', 'SimpleFreeFieldTF'}
         Obj.GLOBAL_SOFAConventionsVersion='0.4';
-		Obj.GLOBAL_ListenerShortName=Obj.GLOBAL_SubjectID;	% rename SubjectID to ListenerShortName
 		Obj=rmfield(Obj,'GLOBAL_SubjectID');
       case {'GeneralFIR', 'GeneralTF', 'SingleRoomDRIR'}
         Obj.GLOBAL_SOFAConventionsVersion='0.2';
-    end
-    if isfield(Obj,'GLOBAL_History'), tmp=[Obj.GLOBAL_History '; ']; else tmp=''; end
-    Obj.GLOBAL_History=[tmp 'Upgraded from SOFA 0.5'];
+    end   
+    Obj.GLOBAL_History=SOFAappendText(Obj,'GLOBAL_History','Upgraded from SOFA 0.5');
     Obj.GLOBAL_Version='0.6';
     modified=1;
     warning('SOFA:upgrade','SOFA 0.5 upgraded to 0.6');

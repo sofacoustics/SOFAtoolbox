@@ -12,11 +12,13 @@
 *** DEVELOPMENT STATUS ***
 
 *** v0.4.1 (not released yet) by Piotr Majdak
+- MultiSpeakerBRIR conventions added
 - SOFAcompact: compacts variables along dimensions, opposite to SOFAexpand. Functionality not complete for 3D variables
 - SOFAcompare: compares two SOFA objects. Preliminary functionality; compares attributes only
 - SOFAexpand: expanding of Data added
 - bug fix: SOFAplotGeometry
 - function-specific warnings added: SOFA:upgrade and SOFA:save
+- SOFAload optimized for handling huge (3.7 GB) data files on a 4 GB RAM machine
 
 
 *** v0.4 (19.3.2014) by Piotr Majdak
