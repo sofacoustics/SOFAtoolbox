@@ -11,7 +11,7 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v0.4.1 (not released yet) by Piotr Majdak
+*** v0.4.1 (30.3.2014) by Piotr Majdak
 - MultiSpeakerBRIR conventions added
 - SOFAcompact: compacts variables along dimensions, opposite to SOFAexpand. Functionality not complete for 3D variables
 - SOFAcompare: compares two SOFA objects. Preliminary functionality; compares attributes only
