@@ -82,7 +82,7 @@ if isfield(ctf,'MeasurementSourceAudioChannel')
   ctf.MeasurementSourceAudioChannel = 0;
 end
 if isfield(ctf,'MeasurementAudioLatency')
-  ctf.MeasurementAudioLatency = [0 0];
+  ctf.MeasurementAudioLatency = zeros(1,size(ctf.MeasurementAudioLatency,2));
 end
 ctf = SOFAupdateDimensions(ctf);
 

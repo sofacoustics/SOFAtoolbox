@@ -11,6 +11,9 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v0.4.2 (7.4.2014) by Piotr Majdak
+- fix: SOFAhrtf2dtf supports more than two receivers
+
 *** v0.4.1 (30.3.2014) by Piotr Majdak
 - MultiSpeakerBRIR conventions added
 - SOFAcompact: compacts variables along dimensions, opposite to SOFAexpand. Functionality not complete for 3D variables
