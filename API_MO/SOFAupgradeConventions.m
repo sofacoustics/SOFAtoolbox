@@ -42,7 +42,7 @@ switch Obj.GLOBAL_Version,
         end
       end
     end
-    warning('SOFA:upgrade','SimpleFreeFieldHRIR 0.1 upgraded to 0.2');
+    warning('SOFA:upgrade','SOFA 0.3 upgraded to 0.4');
   case '0.4'
     % in SOFA 0.4, only SimpleFreeFieldHRIR might need upgrade
     if strcmp(Obj.GLOBAL_SOFAConventions,'SimpleFreeFieldHRIR')
@@ -74,12 +74,12 @@ switch Obj.GLOBAL_Version,
           Obj=rmfield(Obj,'ListenerRotation_Type');
           Obj=rmfield(Obj,'ListenerRotation_Units');
           Obj.API.Dimensions=rmfield(Obj.API.Dimensions,'ListenerRotation');
-          warning('SOFA:upgrade','SimpleFreeFieldHRIR 0.2 upgraded to 0.3');
           Obj.GLOBAL_SOFAConventionsVersion='0.3';
       end
     end    
 		modified=1;          
 		Obj.GLOBAL_Version='0.5';
+    warning('SOFA:upgrade','SOFA 0.4 upgraded to 0.5');
   case '0.5'
 		% Upgrade from 0.5 to 0.6
     Obj.GLOBAL_DateCreated=Obj.GLOBAL_TimeCreated;
@@ -103,7 +103,6 @@ switch Obj.GLOBAL_Version,
     switch Obj.GLOBAL_SOFAConventions
       case {'SimpleFreeFieldHRIR', 'SimpleFreeFieldTF'}
         Obj.GLOBAL_SOFAConventionsVersion='0.4';
-		Obj=rmfield(Obj,'GLOBAL_SubjectID');
       case {'GeneralFIR', 'GeneralTF', 'SingleRoomDRIR'}
         Obj.GLOBAL_SOFAConventionsVersion='0.2';
     end   
