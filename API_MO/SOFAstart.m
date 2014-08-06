@@ -1,8 +1,10 @@
-function SOFAstart
+function SOFAstart(verbose)
 % SOFAstart 
 %
 %   SOFAstart adds all needed pathes and checks if we need the Matlab or Octave
 %   version of the API
+%
+%   SOFAstart(0) will suppress any message during the start.
 
 % SOFA API - function SOFAstart
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -11,6 +13,12 @@ function SOFAstart
 % You may obtain a copy of the License at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
+
+%% Input parameters
+if nargin<1
+    verbose = 1;
+end
+
 
 %% Check required support
 if exist('OCTAVE_VERSION','builtin')
@@ -61,19 +69,23 @@ else
   end
 end
 
-
-%% Display general informations
-disp(['SOFA Matlab/Octave API version ' SOFAgetVersion '. Copyright 2013 Acoustics Research Institute (piotr@majdak.com).']);
-disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
+% Provide SOFA conventions
 SOFAcompileConventions;
 convs=SOFAgetConventions;
-text=['Available SOFA Conventions: ' convs{1}];
-for ii=2:length(convs)
-	text=[text ', ' convs{ii}];
+
+%% Display general informations
+if verbose
+    disp(['SOFA Matlab/Octave API version ' SOFAgetVersion '. Copyright 2013 Acoustics Research Institute (piotr@majdak.com).']);
+    disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
+    text=['Available SOFA Conventions: ' convs{1}];
+    for ii=2:length(convs)
+        text=[text ', ' convs{ii}];
+    end
+    disp(text);
+    disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
+    disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
 end
-disp(text);
-disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
-disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
+
 % FIXME: I would check only if the URL is available in the function where it is
 % needed. At the start it takes to long. Octaves urlread didn't know the TimeOut
 % parameter.
