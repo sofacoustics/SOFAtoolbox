@@ -9,7 +9,7 @@ GLOBAL:ApplicationName			  	attribute
 GLOBAL:ApplicationVersion			  	attribute	
 GLOBAL:AuthorContact		m	  	attribute	
 GLOBAL:Comment		m	 	attribute	
-GLOBAL:DataType	FIR	rm	  	attribute	We store frequency-dependent data here
+GLOBAL:DataType	TF	rm	  	attribute	We store frequency-dependent data here
 GLOBAL:History			 	attribute	
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
 GLOBAL:Organization		m	  	attribute	
