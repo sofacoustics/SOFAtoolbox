@@ -63,7 +63,7 @@ end
 
 	varids=netcdf.inqVarIDs(ncid);
 	for ii=0:numvars-1
-    [var,~,vardimids,natts] = netcdf.inqVar(ncid,varids(ii+1));	
+    [var,xtype,vardimids,natts] = netcdf.inqVar(ncid,varids(ii+1));	
 		%if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables			
 			if strfind(var,'Data.'),
 				if ~strcmp(flags,'nodata')
@@ -80,11 +80,13 @@ end
 				data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
 				dim=fliplr(cell2mat(dims(vardimids+1))');
 				Obj.API.Dimensions.(var)=dim;
-				if length(dim)>1
+        if strfind(dim,'S')
+          Obj.(var)=cellstr(reshape(reshape(data,1,[]),Obj.API.(dim(1)),[]));
+        elseif length(dim)>1
 					Obj.(var)=permute(data, length(dim):-1:1); 
 				else
 					Obj.(var)=data;
-				end
+        end
 			end
 		%end
 		if natts

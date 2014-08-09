@@ -16,6 +16,8 @@ function Obj = SOFAaddVariable(Obj,Name,Dim,Value)
 %   arbitrary dimensions are allowed.
 %
 
+% 9.8.2014: dimension is added if not previously found.
+%
 % SOFA API - function SOFAaddVariable
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or ñ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -24,7 +26,8 @@ function Obj = SOFAaddVariable(Obj,Name,Dim,Value)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-switch upper(Dim)
+Dim=upper(Dim);
+switch Dim
   case 'PRIVATE'
     Obj.PRIVATE.(Name)=Value;
   otherwise
@@ -34,5 +37,14 @@ switch upper(Dim)
       otherwise
       Obj.(Name)=Value;
       Obj.API.Dimensions.(Name)=Dim;
+      dims=SOFAdefinitions('dimensions');
+      for ii=1:length(Dim)  
+        if ~isfield(dims,Dim(ii))
+          error('Dimension not supported.');
+        end
+        if ~isfield(Obj.API,Dim(ii)), % add the dimension if required
+          Obj.API.(Dim(ii))=size(Value,ii);
+        end
+      end
     end
 end
