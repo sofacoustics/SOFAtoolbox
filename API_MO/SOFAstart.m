@@ -1,10 +1,10 @@
-function SOFAstart(verbose)
+function SOFAstart(flags)
 % SOFAstart 
 %
 %   SOFAstart adds all needed pathes and checks if we need the Matlab or Octave
 %   version of the API
 %
-%   SOFAstart(0) will suppress any message during the start.
+%   SOFAstart(0) or SOFAstart('silent') will suppress any message during the start.
 
 % SOFA API - function SOFAstart
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -15,8 +15,10 @@ function SOFAstart(verbose)
 % See the License for the specific language governing  permissions and limitations under the License.
 
 %% Input parameters
-if nargin<1
-    verbose = 1;
+verbose = 1;
+if nargin>0
+	if strcmp(lower(flags),'silent'), verbose=0; end;
+	if isnumeric(flags), if flags==0, verbose=0; end; end;
 end
 
 
