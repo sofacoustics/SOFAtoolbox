@@ -20,8 +20,13 @@ function Obj = SOFAupdateDimensions(Obj)
 %% Get conventions with allowed dimensions
 OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
 
-%% Update dimension sizes from the variables having dominant dimensions sizes
+%% Add dimensions if required
+dims=fieldnames(SOFAdefinitions('dimensions'));
+for ii=1:size(dims,1)
+  if ~isfield(Obj.API,dims{ii}), Obj.API.(dims{ii})=0; end
+end
 
+%% Update dimension sizes from the variables having dominant dimensions sizes
   % fix dimension sizes
 Obj.API.I=1;
 Obj.API.C=3;
@@ -97,7 +102,7 @@ for ii=1:length(Xf)
       end
       Smax=max(Smax,S);
 		else
-			error(['Unknown data variable' Xf{ii} '.']);
+			error(['Unknown data variable ' Xf{ii} '.']);
 		end		
 	end
 end
@@ -108,6 +113,7 @@ if Smax>0, Obj.API.S=Smax; end
 function s=sizecell(x,dim)
 if iscell(x)
   s=size(char(x));
+  if size(x,1)~=s(1) s=[size(x) s(2)]; end % multidim cellarays: s = [celldim1, celldim2, ... , celldimN, stringdim]
 else
   s=size(x);
 end
@@ -126,12 +132,12 @@ for jj=1:length(dims)
   dimS=dims{jj};
   if length(dimS)==1, dimS=[dimS 'I']; end; % 1D required, but Matlab is always 2D at least.
 	dimR=getdim(Obj.API,dimS);
-  if ~isempty(strfind(dimS,'S'))
-    Sidx=strfind(dimS,'S');
-    S=max(S,dimA(Sidx));
-    dimR(Sidx)=dimA(Sidx); % string dim are always correct
-  end
 	if length(dimA)==length(dimR), % the same size?    
+    if ~isempty(strfind(dimS,'S'))
+      Sidx=strfind(dimS,'S');
+      S=max(S,dimA(Sidx));
+      dimR(Sidx)=dimA(Sidx); % string dim are always correct
+    end
 		if dimA==dimR, dim=upper(dims{jj}); break; end;	% found!
 	elseif length(dimA)<length(dimR)	% extend the size?
 		if [dimA ones(1,length(dimR)-length(dimA))]==dimR, dim=upper(dims{jj}); break; end; % found!

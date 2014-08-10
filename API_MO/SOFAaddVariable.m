@@ -42,9 +42,7 @@ switch Dim
         if ~isfield(dims,Dim(ii))
           error('Dimension not supported.');
         end
-        if ~isfield(Obj.API,Dim(ii)), % add the dimension if required
-          Obj.API.(Dim(ii))=size(Value,ii);
-        end
       end
+      Obj=SOFAupdateDimensions(Obj);
     end
 end

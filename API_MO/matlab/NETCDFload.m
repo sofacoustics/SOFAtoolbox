@@ -12,7 +12,8 @@ function [Obj,Dims] = NETCDFload(filename,flags)
 %   [Obj,Dims] = NETCDFload(...) returns the dimension variables found in
 %   the file as a string.
 
-
+% 10.8.2014: string array support. Works for 1D and 2D strings only.
+% 
 % SOFA API - function matlab/NETCDFload
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -63,32 +64,60 @@ end
 
 	varids=netcdf.inqVarIDs(ncid);
 	for ii=0:numvars-1
-    [var,xtype,vardimids,natts] = netcdf.inqVar(ncid,varids(ii+1));	
-		%if isempty(cell2mat(strfind(dims,var)))	% don't load the data for dimension variables			
-			if strfind(var,'Data.'),
-				if ~strcmp(flags,'nodata')
-% 					data=;
-					dim=fliplr(cell2mat(dims(vardimids+1))');
-					Obj.API.Dimensions.Data.(var(6:end))=dim;
-					if length(dim)>1
-						Obj.Data.(var(6:end))=permute(netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1)), length(dim):-1:1); 
-					else
-						Obj.Data.(var(6:end))=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
-					end
-				end
-			else
-				data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
-				dim=fliplr(cell2mat(dims(vardimids+1))');
-				Obj.API.Dimensions.(var)=dim;
-        if strfind(dim,'S')
-          Obj.(var)=cellstr(reshape(reshape(data,1,[]),Obj.API.(dim(1)),[]));
+    [var,~,vardimids,natts] = netcdf.inqVar(ncid,varids(ii+1));	
+      % Data
+    if strfind(var,'Data.'),
+      if ~strcmp(flags,'nodata')
+        dim=fliplr(cell2mat(dims(vardimids+1))');
+        Obj.API.Dimensions.Data.(var(6:end))=dim;
+        if strfind(dim,'S') % strings
+          if length(dim)>2  % 2D string arrays. ToDo: MdD string arrays
+            data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
+            s=size(data);
+            Obj.Data.(var(6:end))=cell(s(end:-1:2));
+            data=reshape(reshape(data,1,[]),[s(2:end) s(1)]);
+            for jj=1:s(2)
+              for kk=1:s(3)
+                Obj.Data.(var(6:end))(kk,jj)=cellstr(squeeze(data(jj,kk,:))');
+              end
+            end
+          else % 1D string array
+            data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
+            Obj.Data.(var(6:end))=cellstr(reshape(reshape(data,1,[]),size(data,2),[]));
+          end
         elseif length(dim)>1
-					Obj.(var)=permute(data, length(dim):-1:1); 
-				else
-					Obj.(var)=data;
+          Obj.Data.(var(6:end))=permute(netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1)), length(dim):-1:1); 
+        else
+          Obj.Data.(var(6:end))=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
         end
-			end
-		%end
+      end
+      % Variables
+    else
+      data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
+      dim=fliplr(cell2mat(dims(vardimids+1))');
+      Obj.API.Dimensions.(var)=dim;
+      if strfind(dim,'S')
+        if length(dim)>2  % 2D string arrays. ToDo: MdD string arrays
+          data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
+          s=size(data);
+          Obj.(var)=cell(s(end:-1:2));
+          data=reshape(reshape(data,1,[]),[s(2:end) s(1)]);
+          for jj=1:s(2)
+            for kk=1:s(3)
+              Obj.(var)(kk,jj)=cellstr(squeeze(data(jj,kk,:))');
+            end
+          end
+        else % 1D string array
+          data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
+          Obj.(var)=cellstr(reshape(reshape(data,1,[]),size(data,2),[]));
+        end
+      elseif length(dim)>1
+        Obj.(var)=permute(data, length(dim):-1:1); 
+      else
+        Obj.(var)=data;
+      end
+    end
+
 		if natts
 			for jj=0:natts-1
 				att = netcdf.inqAttName(ncid,varids(ii+1),jj);

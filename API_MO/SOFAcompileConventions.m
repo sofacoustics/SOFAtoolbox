@@ -74,7 +74,7 @@ for ii=1:size(C{1,1},1)
       case 'double'
       C{2}{ii}=str2num(C{2}{ii}); % convert default to double
       case 'string'
-      C{2}{ii}={C{2}{ii}};
+      eval(['C{2}{ii}=' C{2}{ii} ';']);
     end
     if isempty(strfind(var,'Data.'))
       Obj.(var)=C{2}{ii};
