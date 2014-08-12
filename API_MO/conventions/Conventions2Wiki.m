@@ -15,8 +15,9 @@ for jj=1:length(conventions)
   fclose(fid);
   fid=fopen([conventions{jj} '.txt'],'w');
   fprintf(fid,'{| border="1"\n!Name\n!Default\n!Flags\n!Dimensions\n!Type\n!Comment\n');
+%   C2=regexprep(C{2},'''', '&rsquo;'); % replace single quota (') by &prime;
   for ii=1:length(C{1})
-    fprintf(fid,['|-\n|' C{1}{ii} '||' C{2}{ii} '||' C{3}{ii} '||' C{4}{ii} '||' C{5}{ii} '||' C{6}{ii} '\n']);
+    fprintf(fid,['|-\n|' C{1}{ii} '||<nowiki>' C{2}{ii} '</nowiki>||' C{3}{ii} '||' C{4}{ii} '||' C{5}{ii} '||' C{6}{ii} '\n']);
   end
   fprintf(fid,'|}');
   fclose(fid);
