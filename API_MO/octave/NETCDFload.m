@@ -24,6 +24,10 @@ function [Obj,Dims] = NETCDFload(filename,flags)
 glob='GLOBAL_';
 
 %% --------------------------- N E T C D F load --------------------------
+% check if the octcdf package is loaded
+if ~exist('netcdf')
+    error('You have to install and load the octcdf package.');
+end
 try
     ncid = netcdf(filename,'r','netcdf4'); % open file
     Obj = [];

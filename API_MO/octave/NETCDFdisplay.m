@@ -10,6 +10,11 @@ function [] = NETCDFdisplay(filename)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
+% check if the octcdf package is loaded
+if ~exist('netcdf')
+    error('You have to install and load the octcdf package.');
+end
+
 ncid=netcdf(filename,'r');
 
 % ----- GLOBAL ATTRIBUTES ------------------------------------------------

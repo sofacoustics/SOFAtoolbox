@@ -15,6 +15,10 @@ function NETCDFsave(filename,Obj,Compression)
 
 
 % --------------------------- N E T C D F save ---------------------------
+% check if the octcdf package is loaded
+if ~exist('netcdf')
+    error('You have to install and load the octcdf package.');
+end
 try
     % open file
     ncid = netcdf(filename,'c','NETCDF4 with classical model');
