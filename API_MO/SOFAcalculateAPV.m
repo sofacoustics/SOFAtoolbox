@@ -18,19 +18,19 @@ function APV = SOFAcalculateAPV(Obj)
 
 % listener position, view, up
 ListenerPosition = ...
-    SOFAgetCoordinates(Obj.ListenerPosition,Obj.ListenerPosition_Type,'cartesian');
+    SOFAconvertCoordinates(Obj.ListenerPosition,Obj.ListenerPosition_Type,'cartesian');
 ListenerView = ...
-    SOFAgetCoordinates(Obj.ListenerView,Obj.ListenerPosition_Type,'spherical');
+    SOFAconvertCoordinates(Obj.ListenerView,Obj.ListenerPosition_Type,'spherical');
 % source position
 SourcePosition = ...
-    SOFAgetCoordinates(Obj.SourcePosition,Obj.SourcePosition_Type,'cartesian');
+    SOFAconvertCoordinates(Obj.SourcePosition,Obj.SourcePosition_Type,'cartesian');
 % get distance in cartesian coordinates between listener and source
 APV = bsxfun(@minus, SourcePosition, ListenerPosition);
 % convert to spherical and include head movements of the listener
-APV = SOFAgetCoordinates(APV,'cartesian','spherical');
+APV = SOFAconvertCoordinates(APV,'cartesian','spherical');
 APV(:,1) = bsxfun(@minus, APV(:,1),ListenerView(:,1));%spherical
 % convert to horizontal-polar coordinates FIXME: why?
-APV = SOFAgetCoordinates(APV,'spherical','horizontal-polar');
+APV = SOFAconvertCoordinates(APV,'spherical','horizontal-polar');
 APV(:,2) = bsxfun(@minus, APV(:,2),ListenerView(:,2));%horizontal-polar
 % convert back to spherical
-APV = SOFAgetCoordinates(APV,'horizontal-polar','spherical');
+APV = SOFAconvertCoordinates(APV,'horizontal-polar','spherical');
