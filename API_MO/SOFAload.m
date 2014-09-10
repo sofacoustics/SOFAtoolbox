@@ -85,7 +85,7 @@ if ~strcmp(Obj.GLOBAL_Conventions,'SOFA'), error('File is not a valid SOFA file'
 if ~isfield(Obj,'GLOBAL_SOFAConventions'), error('Information about SOFA conventions is missing'); end
 try
 	X=SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
-catch ME
+catch
 	error('Unsupported SOFA conventions');
 end
 
