@@ -25,32 +25,33 @@ switch Obj.GLOBAL_SOFAConventions
     fprintf('\n');
     fprintf('Anechoic HRTF mesurement done by %s.\n',Obj.GLOBAL_Organization);
     fprintf('\n');
-    fprintf('Contact: %s.\n',Obj.GLOBAL_AuthorContact);
-    fprintf('License: %s.\n',Obj.GLOBAL_License);
-    fprintf('URL: %s.\n',Obj.GLOBAL_Origin);
+    fprintf('Contact: %s\n',Obj.GLOBAL_AuthorContact);
+    fprintf('License: %s\n',Obj.GLOBAL_License);
+    fprintf('URL: %s\n',Obj.GLOBAL_Origin);
     fprintf('\n');
     fprintf('Measurement details:\n');
     fprintf('--------------------\n');
     fprintf('Number of azimuth angles:   % 5.0f\n',length(unique(Obj.SourcePosition(:,1))));
     fprintf('Number of elevation angles: % 5.0f\n',length(unique(Obj.SourcePosition(:,2))));
     fprintf('Number of radii:            % 5.0f\n',length(unique(Obj.SourcePosition(:,3))));
-    fprintf('Dummy head: %s.\n',Obj.GLOBAL_ListenerShortName);
-    fprintf('Loudspeaker: %s.\n',Obj.GLOBAL_SourceDescription);
+    fprintf('Sampling Rate: %.0f %s\n',Obj.Data.SamplingRate,Obj.Data.SamplingRate_Units);
+    fprintf('Dummy head: %s\n',Obj.GLOBAL_ListenerShortName);
+    fprintf('Loudspeaker: %s\n',Obj.GLOBAL_SourceDescription);
     if size(Obj.ListenerPosition,1)==1
-        fprintf('Listener at (%.1f,%.1f,%.1f) %s.\n', ...
+        fprintf('Listener at (%.1f,%.1f,%.1f) %s\n', ...
             Obj.ListenerPosition,Obj.ListenerPosition_Units);
     else
         fprintf(['%.0f listener positions from (%.1f,%.1f,%.1f) %s ', ...
-            'to (%.1f,%.1f,%.1f) %s.\n'],size(Obj.ListenerPosition,1), ...
+            'to (%.1f,%.1f,%.1f) %s\n'],size(Obj.ListenerPosition,1), ...
             Obj.ListenerPosition(1,:),Obj.ListenerPosition_Units, ...
             Obj.ListenerPosition(end,:),Obj.ListenerPosition_Units);
     end
     if size(Obj.SourcePosition,1)==1
-        fprintf('Source at (%.1f,%.1f,%.1f) %s.\n', ...
+        fprintf('Source at (%.1f,%.1f,%.1f) %s\n', ...
             Obj.SourcePosition,Obj.SourcePosition_Units);
     else
         fprintf(['%.0f source positions from (%.1f,%.1f,%.1f) %s ', ...
-            'to (%.1f,%.1f,%.1f) %s.\n'],size(Obj.SourcePosition,1), ...
+            'to (%.1f,%.1f,%.1f) %s\n'],size(Obj.SourcePosition,1), ...
             Obj.SourcePosition(1,:),Obj.SourcePosition_Units, ...
             Obj.SourcePosition(end,:),Obj.SourcePosition_Units);
     end
