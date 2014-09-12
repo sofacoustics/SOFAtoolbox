@@ -28,6 +28,7 @@ switch Obj.GLOBAL_SOFAConventions
     fprintf('Contact: %s\n',Obj.GLOBAL_AuthorContact);
     fprintf('License: %s\n',Obj.GLOBAL_License);
     fprintf('URL: %s\n',Obj.GLOBAL_Origin);
+    fprintf('Reference: %s\n',Obj.GLOBAL_References);
     fprintf('\n');
     fprintf('Measurement details:\n');
     fprintf('--------------------\n');

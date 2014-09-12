@@ -1,4 +1,4 @@
-function Obj = SOFAupdateDimensions(Obj)
+function Obj = SOFAupdateDimensions(Obj,varargin)
 %SOFAupdateDimensions
 %   Obj = SOFAupdateDimensions(Obj) updates the dimensions in the SOFA
 %   structure
@@ -6,6 +6,7 @@ function Obj = SOFAupdateDimensions(Obj)
 %   Obj is a struct containing the data and meta.
 %		The dimension sizes are created as .API.X and updated corresponding to the
 %		conventions
+%   flag is 'nodata' or 'all'; default is 'all'
 
 % 9.8.2014: String support added. 
 %
@@ -17,11 +18,16 @@ function Obj = SOFAupdateDimensions(Obj)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
+definput.keyvals.Index=[];
+definput.flags.type={'data','nodata'};
+[flags,kv]=SOFAarghelper({'Index'},definput,varargin);
+
 %% Get conventions with allowed dimensions
 OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
 
 %% Add dimensions if required
 dims=fieldnames(SOFAdefinitions('dimensions'));
+Obj.API
 for ii=1:size(dims,1)
   if ~isfield(Obj.API,dims{ii}), Obj.API.(dims{ii})=0; end
 end
@@ -43,17 +49,19 @@ for ii=1:length(dims)
 		end
 	end
 end
-  % check all data variables
-fd=fieldnames(OC.API.Dimensions.Data);
-for ii=1:length(dims)
-	for jj=1:length(fd)
-		dim=strfind(OC.API.Dimensions.Data.(fd{jj}),dims(ii));
-		if iscell(dim), dim=cell2mat(dim); end;
-		if ~isempty(dim)
-			Obj.API.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
-			break;
-		end
-	end
+% check all data variables
+if flags.do_data
+    fd=fieldnames(OC.API.Dimensions.Data);
+    for ii=1:length(dims)
+        for jj=1:length(fd)
+            dim=strfind(OC.API.Dimensions.Data.(fd{jj}),dims(ii));
+            if iscell(dim), dim=cell2mat(dim); end;
+            if ~isempty(dim)
+                Obj.API.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
+                break;
+            end
+        end
+    end
 end
 
 %% Update the dimensions of metadata variables
@@ -88,23 +96,25 @@ for ii=1:length(Xf)
 	end
 end
 %% Update the dimensions of data variables
-Xf=fieldnames(Obj.Data);
-for ii=1:length(Xf)
-	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
-		if isfield(OC.API.Dimensions.Data, Xf{ii}), 			% is a known variable
-			dim=OC.API.Dimensions.Data.(Xf{ii}); 
-			if ~iscell(dim), dim={dim}; end;
-			[dim,S]=checkdim(Obj,dim,sizecell(Obj.Data.(Xf{ii})));
-			if isempty(dim),
-				error(['Data.' Xf{ii} ': dimension could not be matched.']);
-			else
-				Obj.API.Dimensions.Data.(Xf{ii})=dim;
-      end
-      Smax=max(Smax,S);
-		else
-			error(['Unknown data variable ' Xf{ii} '.']);
-		end		
-	end
+if flags.do_data
+    Xf=fieldnames(Obj.Data);
+    for ii=1:length(Xf)
+        if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
+            if isfield(OC.API.Dimensions.Data, Xf{ii}), 			% is a known variable
+                dim=OC.API.Dimensions.Data.(Xf{ii}); 
+                if ~iscell(dim), dim={dim}; end;
+                [dim,S]=checkdim(Obj,dim,sizecell(Obj.Data.(Xf{ii})));
+                if isempty(dim),
+                    error(['Data.' Xf{ii} ': dimension could not be matched.']);
+                else
+                    Obj.API.Dimensions.Data.(Xf{ii})=dim;
+          end
+          Smax=max(Smax,S);
+            else
+                error(['Unknown data variable ' Xf{ii} '.']);
+            end		
+        end
+    end
 end
 %% Update the size of the longest string
 if Smax>0, Obj.API.S=Smax; end

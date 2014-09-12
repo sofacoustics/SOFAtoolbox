@@ -22,7 +22,7 @@ OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
 log={''};
 
 %% Update dimensions
-Obj=SOFAupdateDimensions(Obj);
+Obj=SOFAupdateDimensions(Obj,'nodata');
 
 %% If VarName given, expand a single variable only
 if ~exist('VarName','var'),
