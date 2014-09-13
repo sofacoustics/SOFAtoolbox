@@ -27,7 +27,6 @@ OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
 
 %% Add dimensions if required
 dims=fieldnames(SOFAdefinitions('dimensions'));
-Obj.API
 for ii=1:size(dims,1)
   if ~isfield(Obj.API,dims{ii}), Obj.API.(dims{ii})=0; end
 end
