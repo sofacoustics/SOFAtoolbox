@@ -57,10 +57,15 @@ switch Obj.GLOBAL_SOFAConventions
     end
     legendEntries(end+1) = plot3(LV(:,1),LV(:,2),LV(:,3),'ro','MarkerFaceColor',[1 1 1]);
     % Plot ReceiverPositon (this is plotted only for the first ListenerPosition)
-    RP = shiftdim(RP,2);
-    legendEntries(end+1) = plot3(LP(1,1)+RP(1,1,1), LP(1,2)+RP(1,1,2), LP(1,3)+RP(1,1,3),'ko');
-    for ii=2:size(RP,2)
-      plot3(LP(1,1)+RP(1,ii,1), LP(1,2)+RP(1,ii,2), LP(1,3)+RP(1,ii,3),'ko');
+    if ndims(RP)>2
+        % If ReceiverPositon has more than two dimesnions reduce it to the first
+        % ListenerPosition
+        RP = shiftdim(RP,2);
+        RP = squeeze(RP(1,:,:));
+    end
+    legendEntries(end+1) = plot3(LP(1,1)+RP(1,1), LP(1,2)+RP(1,2), LP(1,3)+RP(1,3),'rx');
+    for ii=2:size(RP,1)
+      plot3(LP(1,1)+RP(ii,1), LP(1,2)+RP(ii,2), LP(1,3)+RP(ii,3),'rx');
     end
     % Plot SourcePosition
     legendEntries(end+1)=plot3(S(:,1),S(:,2),S(:,3),'k.');
