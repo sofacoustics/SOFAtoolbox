@@ -17,7 +17,7 @@ function NETCDFsave(filename,Obj,Compression)
 % --------------------------- N E T C D F save ---------------------------
 % check if the octcdf package is loaded
 if ~exist('netcdf')
-    error('You have to install and load the octcdf package.');
+    error('You have to install and load the octcdf package (http://octave.sourceforge.net/octcdf/).');
 end
 try
     % open file
