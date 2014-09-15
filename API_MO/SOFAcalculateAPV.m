@@ -28,9 +28,11 @@ SourcePosition = ...
 APV = bsxfun(@minus, SourcePosition, ListenerPosition);
 % convert to spherical and include head movements of the listener
 APV = SOFAconvertCoordinates(APV,'cartesian','spherical');
-APV(:,1) = bsxfun(@minus, APV(:,1),ListenerView(:,1));%spherical
-% convert to horizontal-polar coordinates FIXME: why?
-APV = SOFAconvertCoordinates(APV,'spherical','horizontal-polar');
-APV(:,2) = bsxfun(@minus, APV(:,2),ListenerView(:,2));%horizontal-polar
+APV(:,1:2) = bsxfun(@minus, APV(:,1:2),ListenerView(:,1:2));%spherical
+% convert to horizontal-polar coordinates FIXME: this breaks the azimuth angle,
+% it is disabled temporarly. The correct inclusion of elevation is still
+% missing.
+%APV = SOFAconvertCoordinates(APV,'spherical','horizontal-polar');
+%APV(:,2) = bsxfun(@minus, APV(:,2),ListenerView(:,2));%horizontal-polar
 % convert back to spherical
-APV = SOFAconvertCoordinates(APV,'horizontal-polar','spherical');
+%APV = SOFAconvertCoordinates(APV,'horizontal-polar','spherical');
