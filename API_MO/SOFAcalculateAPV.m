@@ -28,7 +28,7 @@ SourcePosition = ...
 Distance = bsxfun(@minus, SourcePosition, ListenerPosition);
 % convert to spherical and include head movements of the listener
 Distance = SOFAconvertCoordinates(Distance,'cartesian','spherical');
-ApparentPositionVector = bsxfun(@minus, Distance(:,1),ListenerView(:,1));%spherical
+ApparentPositionVector = correctAzimuth(bsxfun(@minus, Distance(:,1),ListenerView(:,1)));%spherical
 % convert to horizontal-polar coordinates FIXME: this breaks the azimuth angle,
 % it is disabled temporarly. The correct inclusion of elevation is still
 % missing.
@@ -36,3 +36,21 @@ ApparentPositionVector = bsxfun(@minus, Distance(:,1),ListenerView(:,1));%spheri
 %APV(:,2) = bsxfun(@minus, APV(:,2),ListenerView(:,2));%horizontal-polar
 % convert back to spherical
 %APV = SOFAconvertCoordinates(APV,'horizontal-polar','spherical');
+end
+
+function phi = correctAzimuth(phi)
+    % Ensure -360 <= phi <= 360
+    phi = rem(phi,360);
+    % Ensure -180 <= phi < 180
+    phi(phi<-180) = phi(phi<-180) + 360;
+    phi(phi>=180) = phi(phi>=180) - 360;
+end
+
+% TODO: check what convetion we are using for delta!
+function delta = correctElevation(delta)
+    % Ensure -180 <= delta <= 180
+    delta = correct_azimuth(delta);
+    % Ensure -90 <= delta <= 90
+    delta(delta<-90) = -delta(delta<-90) - 180;
+    delta(delta>90) = -delta(delta>90) + 180;
+end
