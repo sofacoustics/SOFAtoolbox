@@ -1,4 +1,4 @@
-function APV = SOFAcalculateAPV(Obj)
+function ApparentPositionVector = SOFAcalculateAPV(Obj)
 %SOFAcalculateAPV
 %   APV = SOFAcalculateAPV(Obj) calculates the apparent position vector
 %   (APV) which represents the position of the source relative to the
@@ -20,15 +20,15 @@ function APV = SOFAcalculateAPV(Obj)
 ListenerPosition = ...
     SOFAconvertCoordinates(Obj.ListenerPosition,Obj.ListenerPosition_Type,'cartesian');
 ListenerView = ...
-    SOFAconvertCoordinates(Obj.ListenerView,Obj.ListenerPosition_Type,'spherical');
+    SOFAconvertCoordinates(Obj.ListenerView,Obj.ListenerView_Type,'spherical');
 % source position
 SourcePosition = ...
     SOFAconvertCoordinates(Obj.SourcePosition,Obj.SourcePosition_Type,'cartesian');
 % get distance in cartesian coordinates between listener and source
-APV = bsxfun(@minus, SourcePosition, ListenerPosition);
+Distance = bsxfun(@minus, SourcePosition, ListenerPosition);
 % convert to spherical and include head movements of the listener
-APV = SOFAconvertCoordinates(APV,'cartesian','spherical');
-APV(:,1) = bsxfun(@minus, APV(:,1),ListenerView(:,1));%spherical
+Distance = SOFAconvertCoordinates(Distance,'cartesian','spherical');
+ApparentPositionVector = bsxfun(@minus, Distance(:,1),ListenerView(:,1));%spherical
 % convert to horizontal-polar coordinates FIXME: this breaks the azimuth angle,
 % it is disabled temporarly. The correct inclusion of elevation is still
 % missing.
