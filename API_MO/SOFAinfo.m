@@ -75,15 +75,15 @@ switch Obj.GLOBAL_SOFAConventions
     fprintf('\n');
     fprintf('Measurement details:\n');
     fprintf('--------------------\n');
-    fprintf('SOFA Convention: %s',Obj.GLOBAL_SOFAConventions);
+    fprintf('SOFA Convention: %s\n',Obj.GLOBAL_SOFAConventions);
     fprintf('Listener: %s\n',Obj.GLOBAL_ListenerShortName);
     fprintf('Source: %s\n',Obj.GLOBAL_SourceDescription);
-    fprintf('Number of source positions:   % 7.0f\n',length(unique(Obj.SourcePosition,'rows')));
-    fprintf('Number of source views:       % 7.0f\n',length(unique(Obj.SourceView,'rows')));
-    fprintf('Number of emitters:           % 7.0f\n',length(unique(Obj.EmitterPosition,'rows')));
-    fprintf('Number of listener positions: % 7.0f\n',length(unique(Obj.ListenerPosition,'rows')));
-    fprintf('Number of listener views:     % 7.0f\n',length(unique(Obj.ListenerView,'rows')));
-    fprintf('Number of receivers:          % 7.0f\n',length(unique(Obj.ReceiverPosition,'rows')));
+    fprintf('Number of source positions:   % 7.0f\n',size(unique(Obj.SourcePosition,'rows'),1));
+    fprintf('Number of source views:       % 7.0f\n',size(unique(Obj.SourceView,'rows'),1));
+    fprintf('Number of emitters:           % 7.0f\n',size(unique(Obj.EmitterPosition,'rows'),1));
+    fprintf('Number of listener positions: % 7.0f\n',size(unique(Obj.ListenerPosition,'rows'),1));
+    fprintf('Number of listener views:     % 7.0f\n',size(unique(Obj.ListenerView,'rows'),1));
+    fprintf('Number of receivers:          % 7.0f\n',size(unique(Obj.ReceiverPosition,'rows'),1));
     if isfield(Obj.Data,'SamplingRate')
         fprintf('Sampling Rate: %.0f %s\n',Obj.Data.SamplingRate,Obj.Data.SamplingRate_Units);
     end
