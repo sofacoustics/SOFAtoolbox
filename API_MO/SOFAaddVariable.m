@@ -43,6 +43,5 @@ switch Dim
           error('Dimension not supported.');
         end
       end
-      Obj=SOFAupdateDimensions(Obj);
     end
 end

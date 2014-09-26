@@ -78,3 +78,6 @@ demo_SOFAvariables
 %% Test plotting HRTFs
 disp('********************************************');
 demo_SOFAplotHRTF
+
+%% Test using string arrays
+demo_SOFAstrings

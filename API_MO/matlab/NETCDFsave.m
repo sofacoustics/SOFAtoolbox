@@ -106,13 +106,19 @@ fv=fieldnames(Dimensions);
 			ids=cell2mat(regexp(Dims,cellstr((Dimensions.(var))')));
 			if length(ids)>1
         if iscell(Obj.(var))
-          netcdf.putVar(ncid,varId(ii),char(permute(Obj.(var),length(ids):-1:1)));
+          c=char(permute(Obj.(var),length(ids):-1:1));
+          s=size(c);
+          ext=zeros([s(1:end-1) Obj.API.S-s(end)]);
+          netcdf.putVar(ncid,varId(ii),[c ext]);
         else  
           netcdf.putVar(ncid,varId(ii),permute(Obj.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
         end
       else
         if iscell(Obj.(var))
-          netcdf.putVar(ncid,varId(ii),char(Obj.(var)));  
+          c=char(Obj.(var));  % convert to character array
+          s=size(c);      
+          ext=zeros([s(1:end-1) Obj.API.S-s(end)]); % extend along the S dimension
+          netcdf.putVar(ncid,varId(ii),[c ext]);  
         else
           netcdf.putVar(ncid,varId(ii),Obj.(var));
         end
@@ -130,13 +136,19 @@ fod=fieldnames(Obj.Data);
 			ids=cell2mat(regexp(Dims,cellstr((Obj.API.Dimensions.Data.(var))')));
 			if length(ids)>1
         if iscell(Obj.Data.(var))
-          netcdf.putVar(ncid,varIdD(ii),char(permute(Obj.Data.(var),length(ids):-1:1))); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
+          c=char(permute(Obj.Data.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
+          s=size(c);
+          ext=zeros([s(1:end-1) Obj.API.S-s(end)]);
+          netcdf.putVar(ncid,varIdD(ii),[c ext]); 
         else
           netcdf.putVar(ncid,varIdD(ii),permute(Obj.Data.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
         end
       else
         if iscell(Obj.Data.(var))
-          netcdf.putVar(ncid,varIdD(ii),char(Obj.Data.(var)));
+          c=char(Obj.Data.(var));  % convert to character array
+          s=size(c);      
+          ext=zeros([s(1:end-1) Obj.API.S-s(end)]); % extend along the S dimension          
+          netcdf.putVar(ncid,varIdD(ii),[c ext]);
         else
           netcdf.putVar(ncid,varIdD(ii),Obj.Data.(var));
         end

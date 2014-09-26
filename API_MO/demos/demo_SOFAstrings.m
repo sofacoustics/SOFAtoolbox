@@ -25,16 +25,19 @@ X=SOFAgetConventions('GeneralString');
 % create a numeric data with M=15, R=2, N=10
 X.Data.Double=rand(15,2,10);
 % create string arrays
-str2={}; str={};
+str2={}; str={}; 
 for ii=1:15
   id=num2str(round(rand(1,1)*1000000));
   str{ii,1}=['X' id];
-  str2{ii,1}=['L' id];
-  str2{ii,2}=['R' id];
+  str2{ii,1}=['Left' id];
+  str2{ii,2}=['Right' id];
 end
 X.String2=str2; % String1=[MRS]
 X.Data.String1=str; % Data.String1=[MS]
 X.Data.String2=str2;  % Data.String2=[MRS]
+% add a new string with dimensions [RS]
+strn={'left ear'; 'right ear'};
+X=SOFAaddVariable(X, 'Ears', 'RS', strn);
 % update dimensions
 X2=SOFAupdateDimensions(X);
 % save as SOFA
@@ -51,7 +54,11 @@ end
 if ~prod(strcmp(N.Data.String1,X2.Data.String1)), 
   error('Data.String1: Comparison showed differences');
 end
-disp('GeneralString: String1, String2: Load-Reload: OK');
+if ~prod(strcmp(N.Ears,X2.Ears)), 
+  error('Ears: Comparison showed differences');
+end
+disp('GeneralString: String1, String2, Data, Ears: Load-Reload: OK');
+
 delete('stringtest_generalstring.sofa');
 
 
