@@ -35,8 +35,10 @@ GLOBAL:DatabaseName		m	  	attribute
 GLOBAL:RoomDescription		m	  	attribute	
 ListenerUp	[0 0 1]	m	IC, MC	double	
 ListenerView	[1 0 0]	m	IC, MC	double	
+ListenerView:Type	cartesian	m		attribute	
 SourceUp	[0 0 1]	m	IC, MC	double	
 SourceView	[-1 0 0]	m	IC, MC	double	
+SourceView:Type	cartesian	m		attribute	
 Data.IR	[1 1]	m	mRn	double	
 Data.SamplingRate	48000	m	I	double	
 Data.SamplingRate:Units	hertz	m		attribute	

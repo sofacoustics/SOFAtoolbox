@@ -28,7 +28,7 @@ ReceiverPosition:Units	meter	m	  	attribute
 SourcePosition	[0 0 0]	m	IC, MC	double	Default: Headphones are located at the position of the listener
 SourcePosition:Type	spherical	m	  	attribute	
 SourcePosition:Units	degree, degree, meter	m	  	attribute	
-EmitterPosition	[0 -0.09 0; 0 0.09 0]	m	eCI, eCM	double	Default: Reflects the correspondence of each emitter to each receiver
+EmitterPosition	[0 0.09 0; 0 -0.09 0]	m	eCI, eCM	double	Default: Reflects the correspondence of each emitter to each receiver
 EmitterPosition:Type	cartesian	m	  	attribute	
 EmitterPosition:Units	meter	m	  	attribute	
 Data.IR	[1 1]	m	mRn	double	
