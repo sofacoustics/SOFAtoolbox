@@ -12,6 +12,9 @@ function output = SOFAdefinitions(varargin)
 %
 %   SOFAdefinitions('EOL') returns the end-of-line separator used in the API
 %
+%   SOFAdefinitions('dateReference') returns the string with the reference
+%   for the date when stored as numeric (number of seconds elapsed)
+%
 %
 
 % SOFA API - function SOFAdefinitions
@@ -23,7 +26,7 @@ function output = SOFAdefinitions(varargin)
 % See the License for the specific language governing  permissions and limitations under the License.
 
 
-definput.flags.type={'all','dateFormat','APIName','dimensions','EOL'};
+definput.flags.type={'all','dateFormat','APIName','dimensions','EOL','dateReference'};
 [flags,~]=SOFAarghelper({},definput,varargin);
 
 %% Return all definitions in a structure
@@ -32,6 +35,7 @@ if flags.do_all,
   output.dateFormat = SOFAdefinitions('dateFormat');
   output.dimensions = SOFAdefinitions('dimensions');
   output.EOL = SOFAdefinitions('EOL');
+  output.dateReference = SOFAdefinitions('dateReference');
 end
 
 %% name of the API
@@ -58,4 +62,9 @@ if flags.do_dimensions,
   output.C = 'C'; % Coordinates
   output.I = 'I'; % Singleton
   output.S = 'S'; % size of the largest string
+end
+
+%% reference for date when used as numeric (number of seconds elapsed)
+if flags.do_dateReference, 
+  output = '1970-01-01 00:00:00';
 end
