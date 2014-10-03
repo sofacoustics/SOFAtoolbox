@@ -1,10 +1,14 @@
 function [tf,reason,where] = SOFAcompare(Obj1, Obj2, varargin)
 %SOFASOFAcompare
-%   TF = SOFAcompare(Obj1, Obj2) compares Obj1 and Obj2 and
+%   TF = SOFAcompare(A, B) compares A and B and
 %   returns logical 1 (true) if they are identical.
 %
-%   [TF,REASON,WHERE] = SOFAcompare(Obj1, Obj2, varargin) provides the REASON 
+%   [TF,REASON,WHERE] = SOFAcompare(A, B) provides the REASON 
 %   and shows WHERE the difference arose. 
+%
+%   ... = SOFAcompare(A, B, 'ignoreDate') ignores the global attributes
+%   DateCreated and DateModified. 
+%
 %
 %   Limited functionality!!! Only attributes are compared now.
 %
@@ -19,6 +23,10 @@ function [tf,reason,where] = SOFAcompare(Obj1, Obj2, varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
+definput.flags.type={'all','ignoreDate'};
+[flags,~]=SOFAarghelper({},definput,varargin);
+
+
 tf=1;
 reason='';
 where='';
@@ -28,10 +36,17 @@ where='';
 % o2=whos('Obj2');
 % if o1.bytes ~= o2.bytes, tf=0; reason='Different size'; return; end
 
-  % check if we have the same fields in Obj2 as in Obj1
+  % get the field names
 Xf=fieldnames(Obj1);
+
+  % ignore DateCreated and DateModified?
+if flags.do_ignoreDate
+  Xf=fieldnames(rmfield(Obj1,{'GLOBAL_DateCreated','GLOBAL_DateModified'}));
+end
+  
+  % check if we have the same fields in Obj2 as in Obj1
 for ii=1:length(Xf)
-  if ~isfield(Obj2,Xf{ii}), tf=0; reason='Field missing in Obj2'; where=Xf{ii}; return; end
+  if ~isfield(Obj2,Xf{ii}), tf=0; reason='Field missing in B'; where=Xf{ii}; return; end
 end
 
   % check if we have the same content of attributes in Obj2 as in Obj1
