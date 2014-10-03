@@ -48,3 +48,4 @@ GLOBAL:ReceiverDescription		m		attribute	Narrative description of the microphone
 ReceiverDescription	{''}		MS	string	Optional M-dependent version of the attribute ReceiverDescription
 GLOBAL:EmitterDescription		m		attribute	Narrative description of the headphone drivers
 EmitterDescription	{''}		MS	string	Optional M-dependent version of the attribute EmitterDescription
+MeasurementDate	0		M	double	Optional M-dependent date and time of the measurement
