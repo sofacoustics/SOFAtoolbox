@@ -1,5 +1,5 @@
 function Obj=SOFAconvertARI2SOFA(hM,meta,stimPar)
-% OBJ=ARI2SOFA(hM,meta,stimPar) converts the HRTFs described in hM, meta, and
+% OBJ=SOFAconvertARI2SOFA(hM,meta,stimPar) converts the HRTFs described in hM, meta, and
 % stimPar (see ARI HRTF format) to a SOFA object.
 %
 
