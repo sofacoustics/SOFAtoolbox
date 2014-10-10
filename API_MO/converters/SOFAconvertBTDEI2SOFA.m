@@ -1,8 +1,8 @@
-function Obj = SOFAconvertBTdei2SOFA(BTdei)
-% OBJ=SOFAconvertBTdei2SOFA(BTdei) converts the HRTFs described in BTdei
+function Obj = SOFAconvertBTDEI2SOFA(BTDEI)
+% OBJ=SOFAconvertBTDEI2SOFA(BTDEI) converts the HRTFs described in BT-DEI
 % to a SOFA object.
 % 
-% BTdei format is used by Michele Geronazzo, University of Padova.
+% BTDEI format is used by Michele Geronazzo, University of Padova.
 %
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
@@ -17,9 +17,9 @@ function Obj = SOFAconvertBTdei2SOFA(BTdei)
 Obj=SOFAgetConventions('SimpleHeadphoneIR','m');
 
 Obj.GLOBAL_Title = 'HPIR';
-Obj.GLOBAL_DatabaseName = BTdei.specs.Database;
+Obj.GLOBAL_DatabaseName = BTDEI.specs.Database;
 
-Obj.GLOBAL_History =             'Converted from the BTdei format';
+Obj.GLOBAL_History =             'Converted from the BT-DEI format';
 Obj.GLOBAL_License =             'Creative Commons Attribution-NonCommercial-ShareAlike 3.0';
 Obj.GLOBAL_ApplicationName =     'HpTFs from DEI - University of Padova';
 Obj.GLOBAL_ApplicationVersion =  SOFAgetVersion('API');
@@ -33,14 +33,14 @@ Obj.GLOBAL_Comment = '';
 % copy the data
 
 % Emitter - Source
-Obj.GLOBAL_SourceDescription    = [BTdei.hp.Id ' - ' BTdei.hp.Producer ' ' BTdei.hp.Model];
-Obj.GLOBAL_SourceManufacturer   = BTdei.hp.Producer;
-Obj.GLOBAL_SourceModel          = BTdei.hp.Model;
-%Obj.GLOBAL_SourceURI           = BTdei.hp.Uri;
+Obj.GLOBAL_SourceDescription    = [BTDEI.hp.Id ' - ' BTDEI.hp.Producer ' ' BTDEI.hp.Model];
+Obj.GLOBAL_SourceManufacturer   = BTDEI.hp.Producer;
+Obj.GLOBAL_SourceModel          = BTDEI.hp.Model;
+%Obj.GLOBAL_SourceURI           = BTDEI.hp.Uri;
 % Receiver - Listener
-Obj.GLOBAL_SubjectID            = BTdei.specs.SubjectId;
-Obj.GLOBAL_ListenerDescription  = BTdei.sbjType;
-Obj.GLOBAL_ReceiverDescription  = BTdei.specs.MicrophonePosition; % qualitative data e.g. blocked ear canal, open ear canal, at the eardrum
+Obj.GLOBAL_SubjectID            = BTDEI.specs.SubjectId;
+Obj.GLOBAL_ListenerDescription  = BTDEI.sbjType;
+Obj.GLOBAL_ReceiverDescription  = BTDEI.specs.MicrophonePosition; % qualitative data e.g. blocked ear canal, open ear canal, at the eardrum
 
 
 Obj.ListenerPosition = [0 0 0];
@@ -49,15 +49,15 @@ Obj.SourcePosition   = [0 0 0];
 Obj.EmitterPosition  = [0 0.09 0; 0 -0.09 0];
 
 %% Fill data with data
-Obj.Data.SamplingRate           = BTdei.specs.SampleRate; % Sampling rate
+Obj.Data.SamplingRate           = BTDEI.specs.SampleRate; % Sampling rate
 
 % calculate the effective size of the data matrix
-M = length(BTdei.data);         % number of repositionings
-R = size(BTdei.data(1).HpIR,2); % number of channels (stereo)
+M = length(BTDEI.data);         % number of repositionings
+R = size(BTDEI.data(1).HpIR,2); % number of channels (stereo)
 
 len_vec = zeros(M,1);
 for ii=1:M
-    len_vec(ii)= length(BTdei.data(ii).HpIR);
+    len_vec(ii)= length(BTDEI.data(ii).HpIR);
 end
 N = max(len_vec);
 
@@ -68,7 +68,7 @@ Obj.API.N=N;
 % store IR data
 Obj.Data.IR = NaN(M,R,N); % data.IR must be [M R N]
 for aa=1:M
-	  HpIR = [BTdei.data(aa).HpIR; zeros((N-length(BTdei.data(aa).HpIR)),2)];
+	  HpIR = [BTDEI.data(aa).HpIR; zeros((N-length(BTDEI.data(aa).HpIR)),2)];
     Obj.Data.IR(aa,1,:)= HpIR(:,1)';
 		Obj.Data.IR(aa,2,:)= HpIR(:,2)';	
 end

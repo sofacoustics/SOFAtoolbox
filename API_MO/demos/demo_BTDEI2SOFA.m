@@ -1,5 +1,5 @@
 % SOFA API demo script
-% load HRTF in BTdei format and save in SOFA format.
+% load HRTF in BT-DEI format and save in SOFA format.
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -13,50 +13,50 @@
 hp= 'H010';
 % Subject index of the files to convert
 subject= 'S115';
-% Measurements index of the files to convert
+% Measurement index of the files to convert
 setm= 'Set02'; %Set01 Set02 ... 
-% File name of the BTdei file
-BTdeifold='COMPENSATED'; %RAW %COMPENSATED %EQUALIZED
+% File name of the BTDEI file
+BTDEIfold='COMPENSATED'; %RAW %COMPENSATED %EQUALIZED
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 
-%% load BTdei file \ load database structure data
+%% load BTDEI file \ load database structure data
 f=filesep;
-BTdei_hp_add=fullfile(SOFAdbPath,'BTdei',hp,'headphones_info.mat');
-BTdei_add=fullfile(SOFAdbPath,'BTdei',hp,subject,setm,BTdeifold,'MAT',[hp '-' subject '_btdei.mat']);
-disp(['Loading BTdei data']);
+BTDEI_hp_add=fullfile(SOFAdbPath,'BTDEI',hp,'headphones_info.mat');
+BTDEI_add=fullfile(SOFAdbPath,'BTDEI',hp,subject,setm,BTDEIfold,'MAT',[hp '_' subject '_btdei.mat']);
+disp(['Loading BT-DEI data']);
 
 try
-    datasheet = load(BTdei_hp_add);
-    BTdei.hp  = datasheet.hp_specs; 
+    datasheet = load(BTDEI_hp_add);
+    BTDEI.hp  = datasheet.hp_specs; 
 
     switch subject
       case 'S115'
-        BTdei.sbjType = 'dummy head with large pinna';
+        BTDEI.sbjType = 'dummy head with large pinna';
       case 'S116'
-        BTdei.sbjType = 'dummy head without pinna';
+        BTDEI.sbjType = 'dummy head without pinna';
       case 'S117'
-        BTdei.sbjType = 'dummy head without pinna';
+        BTDEI.sbjType = 'dummy head without pinna';
       otherwise
-        BTdei.sbjType = 'human';
+        BTDEI.sbjType = 'human';
     end
 
-    container   = load(BTdei_add);
-    BTdei.specs = container.specs; 
-    BTdei.data  = container.data; 
+    container   = load(BTDEI_add);
+    BTDEI.specs = container.specs; 
+    BTDEI.data  = container.data; 
 catch e
 	error(['Convertion - Error message: ' e.message]);
 end
 
-BTdei.type    = BTdeifold;
-BTdei.typeset = setm;
+BTDEI.type    = BTDEIfold;
+BTDEI.typeset = setm;
 
 %% convert
-Obj = SOFAconvertBTdei2SOFA(BTdei);
-Obj.GLOBAL_Comment = SOFAappendText(Obj,'GLOBAL_Comment',BTdeifold);
+Obj = SOFAconvertBTDEI2SOFA(BTDEI);
+Obj.GLOBAL_Comment = SOFAappendText(Obj,'GLOBAL_Comment',BTDEIfold);
 
 %% save SOFA file 
-SOFAfn=fullfile(SOFAdbPath,'SOFA',['BTdei-hp_' hp '-subj_' subject '-' setm '-' BTdeifold '.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'SOFA',['BTDEI-hp_' hp '-subj_' subject '-' setm '-' BTDEIfold '.sofa']);
 disp(['Saving:  ' SOFAfn])
 SOFAsave(SOFAfn, Obj, compression);
