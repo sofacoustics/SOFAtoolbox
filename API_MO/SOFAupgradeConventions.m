@@ -16,6 +16,8 @@ function [Obj,modified] = SOFAupgradeConventions(Obj)
 
 modified=0;
 
+%% Upgrade specific to a SOFA version
+
 switch Obj.GLOBAL_Version,
   case '0.3'
     modified=1;
@@ -110,4 +112,18 @@ switch Obj.GLOBAL_Version,
     Obj.GLOBAL_Version='0.6';
     modified=1;
     warning('SOFA:upgrade','SOFA 0.5 upgraded to 0.6');
+end
+
+%% Upgrade specific to conventions
+if ~modified
+  switch Obj.GLOBAL_SOFAConventions
+    case 'MultiSpeakerBRIR'
+      if strcmp(Obj.GLOBAL_SOFAConventionsVersion,'0.1');
+          % upgrade to 0.2
+        Obj.GLOBAL_DataType='FIRE';
+        Obj.GLOBAL_SOFAConventionsVersion='0.2';
+        modified=1;
+        warning('SOFA:upgrade','Conventions MultiSpeakerBRIR 0.1 upgraded to 0.2');
+      end
+  end
 end

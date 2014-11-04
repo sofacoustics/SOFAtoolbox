@@ -89,9 +89,9 @@ catch
 	error('Unsupported SOFA conventions');
 end
 
-%% Check if DataType is present and correct
+%% Check if DataType is present
 if ~isfield(Obj,'GLOBAL_DataType'), error('DataType is missing'); end
-if ~strcmp(Obj.GLOBAL_DataType,X.GLOBAL_DataType), error('Wrong DataType'); end
+%if ~strcmp(Obj.GLOBAL_DataType,X.GLOBAL_DataType), error('Wrong DataType'); end remove because this might be corrected in upgradeconventions
 
 %% Ensure backwards compatibility
 modified=1;
