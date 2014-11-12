@@ -45,4 +45,4 @@ EmitterView:Units	meter		  	attribute
 Data.IR	[1 1]	m	mREn	double	
 Data.SamplingRate	48000	m	I	double	
 Data.SamplingRate:Units	hertz	m		attribute	
-Data.Delay	[0 0]	m	IR, MR	double	
+Data.Delay	[0 0]	m	IRE, MRE	double	
