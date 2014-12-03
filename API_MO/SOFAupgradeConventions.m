@@ -125,11 +125,11 @@ if ~modified
         %Obj.Data.Delay = 
         if strcmp(Obj.API.Dimensions.Data.Delay,'IR')
           Obj.API.Dimensions.Data.Delay='IRE'; 
-          Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 Obj.API.E]);
+          Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 size(Obj.EmitterPosition,1)]);
         end
         if strcmp(Obj.API.Dimensions.Data.Delay,'MR')
           Obj.API.Dimensions.Data.Delay='MRE'; 
-          Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 Obj.API.E]);
+          Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 size(Obj.EmitterPosition,1)]);
         end
         modified=1;
         warning('SOFA:upgrade','Conventions MultiSpeakerBRIR 0.1 upgraded to 0.2');

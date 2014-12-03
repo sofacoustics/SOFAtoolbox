@@ -3,7 +3,7 @@ function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist
 %   Usage: [flags,varargout]  = SOFAarghelper(posdepnames,definput,arglist,callfun);
 %
 %   Input parameters:
-%      posdepnames : Names of the position dependant parameters.
+%      posdepnames : Names of the position dependent parameters.
 %      definput    : Struct to define the allowed input
 %      arglist     : Commandline of the calling function (varargin)
 %      callfun     : Name of calling function (optional)
@@ -11,17 +11,17 @@ function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist
 %   Output parameters:
 %      flags       : Struct with information about flags.
 %      keyvals     : Struct with key / values.
-%      varargout   : The position dependant pars. properly initialized
+%      varargout   : The position dependent pars. properly initialized
 %
 %   [flags,keyvals]=SOFAARGHELPER(posdepnames,definput,arglist) assists in
 %   parsing input parameters for a function. Parameters come in
 %   four categories:
 %  
-%      Position dependant parameters. These must not be strings. These are
+%      Position dependent parameters. These must not be strings. These are
 %       the first parameters passed to a function, and they are really just a short way
 %       of specifying key/value pairs. See below.
 %
-%      Flags. These are single string appearing after the position dependant
+%      Flags. These are single string appearing after the position dependent
 %       parameters.
 %
 %      Key/value pairs. The key is always a string followed by the value, which can be
@@ -31,7 +31,7 @@ function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist
 %       This is a short-hand way of specifying standard sets of flags and key/value pairs.
 %
 %   The parameters are parsed in order, so parameters appearing later in varargin will override
-%   previously set values.
+%   previously set values except for the flaggroup dim.
 %
 %   The following example for calling SOFAARGHELPER is taken from DGT:
 %  
@@ -205,6 +205,7 @@ if isfield(definput,'importdefaults')
   restlist=[definput.importdefaults,restlist];
 end;
 
+kk=1; %counter for setting of flags for field dim (ensures backwards compatibility)
 while ~isempty(restlist)
   argname=restlist{1};
   restlist=restlist(2:end);  % pop
@@ -212,13 +213,27 @@ while ~isempty(restlist)
   
   % Is this name a flag? If so, set it
   if isfield(flagsreverse,['x_',argname])
-    % Unset all other flags in this group
-    flaggroup=defflags.(flagsreverse.(['x_',argname]));
-    for jj=1:numel(flaggroup)
-      flags.(['do_',flaggroup{jj}])=0;
-    end;
-    
-    flags.(flagsreverse.(['x_',argname]))=argname;
+    if strcmp(flagsreverse.(['x_',argname]),'dim')
+      % at first run (ensures backwards compatibility):
+      if kk==1
+        % clear field dim
+        flags.(flagsreverse.(['x_',argname]))='';
+        % Unset all other flags in this group
+        flaggroup=defflags.(flagsreverse.(['x_',argname]));
+        for jj=1:numel(flaggroup)
+          flags.(['do_',flaggroup{jj}])=0;
+        end;
+      end
+      flags.(flagsreverse.(['x_',argname]))(length(flags.(flagsreverse.(['x_',argname])))+1)=argname;
+      kk=kk+1;
+    else
+      % Unset all other flags in this group
+      flaggroup=defflags.(flagsreverse.(['x_',argname]));
+      for jj=1:numel(flaggroup)
+        flags.(['do_',flaggroup{jj}])=0;
+      end;
+      flags.(flagsreverse.(['x_',argname]))=argname;
+    end
     flags.(['do_',argname])=1;
     found=1;
   end;
@@ -252,6 +267,14 @@ while ~isempty(restlist)
     restlist=restlist(3:end);
     found=1;
   end;
+  
+  % Is this name numeric? If so, append to keyvals
+  if isnumeric(argname)
+    for ii=1:n_first_args
+      keyvals.(posdepnames{ii})(size(keyvals.(posdepnames{ii}),1)+1,:)=argname;
+    end;
+    found=1;
+  end
   
   if found==0
     if ischar(argname)

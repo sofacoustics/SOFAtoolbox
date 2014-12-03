@@ -1,4 +1,4 @@
-function [Obj,Dims] = NETCDFload(filename,flags)
+function [Obj,Dims] = NETCDFload(filename,flags,varargin)
 %% NETCDFLOAD
 %   Obj = NETCDFload(filename,'all') reads the SOFA object OBJ with all data from
 %   a SOFA file.
@@ -7,7 +7,12 @@ function [Obj,Dims] = NETCDFload(filename,flags)
 %   reading.
 %
 %   Obj = NETCDFload(filename,[START COUNT]) reads only COUNT number of 
-%		measurements beginning with the index START.
+%	measurements (first dimension) beginning with the index START.
+%
+%   Obj = NETCDFload(filename,[START1 COUNT1],partialDim1,[START2 COUNT2],partialDim2,...)
+%   reads only COUNT1 number of data in dimension partialDim1 beginning with the index
+%   START1, COUNT2 number of data in dimension partialDIM2 beginning with the index START2
+%   and so on.
 %
 %   [Obj,Dims] = NETCDFload(...) returns the dimension variables found in
 %   the file as a string.
@@ -55,9 +60,12 @@ try
 	
 %% Check the requested measurements
 if isnumeric(flags)
-	if Obj.API.M<flags(2), error('Requested end index exceeds the measurement count'); end;
-	startp(strfind(Dims,'M'))=flags(1)-1;
-	countp(strfind(Dims,'M'))=flags(2);
+    partialDim = varargin{1};
+    for ii=1:length(partialDim)
+        if Obj.API.(partialDim(ii))<(flags(ii,1)+flags(ii,2)-1), error('Requested indices exceed measurement count'); end;
+        startp(strfind(Dims,partialDim(ii)))=flags(ii,1)-1;
+        countp(strfind(Dims,partialDim(ii)))=flags(ii,2);
+    end
 end
 	
 %% Load variables and their attributes

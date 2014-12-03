@@ -37,6 +37,18 @@ disp(['  Elapsed time: ' num2str(toc) ' s.']);
 xobj=whos('Obj'); xmeta=whos('Meta');
 disp(['  Memory requirements: ' num2str(round((xobj.bytes+xmeta.bytes)/1024)) ' kb']);
 
+%% Load parts of multiple dimensions of the full object
+%e.g. only left ear for source positions 0°-90° at distance 1m
+tic
+idxSTART=find(Meta.SourcePosition(:,1)==0 & Meta.SourcePosition(:,3)==1);
+idxEND=find(Meta.SourcePosition(:,1)==90 & Meta.SourcePosition(:,3)==1);
+idxCOUNT=idxEND-idxSTART+1;
+disp('Loading partial data in multiple dimensions')
+ObjPartMultDim=SOFAload(SOFAfile,[idxSTART idxCOUNT],'M',[1 1],'R');
+disp(['  Elapsed time: ' num2str(toc) ' s.']);
+xobj=whos('ObjPartMultDim'); xmeta=whos('Meta');
+disp(['  Memory requirements: ' num2str(round((xobj.bytes+xmeta.bytes)/1024)) ' kb']);
+
 %% Extract and plot the fully loaded data
 IRsFull=squeeze(ObjFull.Data.IR(idx,1,:));
 legFull=num2str(ObjFull.SourcePosition(idx,3));

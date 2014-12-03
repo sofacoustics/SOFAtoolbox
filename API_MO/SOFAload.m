@@ -14,8 +14,13 @@ function Obj = SOFAload(fn,varargin)
 %   loads metadata only (variables and attributes).
 %
 %   Obj = SOFAload(FN,[START COUNT]) loads only COUNT number of 
-%		measurements beginning with the index START. For remote files, or local
-%   but not existing files, the full file will be downloaded.
+%	measurements (dimension M) beginning with the index START. For remote
+%   files, or local but not existing files, the full file will be downloaded.
+%
+%   Obj = SOFAload(FN,[START1 COUNT1],DIM1,[START2 COUNT2],DIM2,...) loads
+%   only COUNT1 number of data in dimension DIM1 beginning with the index
+%   START1, COUNT2 number of data in dimension DIM2 with the index START2
+%   and so on.
 %   
 %   Obj = SOFAload(FN,...,'nochecks') loads the file but does not perform
 %   any checks for correct conventions.
@@ -32,7 +37,11 @@ function Obj = SOFAload(fn,varargin)
 definput.keyvals.Index=[];
 definput.flags.type={'data','nodata'};
 definput.flags.data={'checks','nochecks'};
+definput.flags.dim={'M','R','E','N'};
 [flags,kv]=SOFAarghelper({'Index'},definput,varargin);
+
+%% check number of input arguments for partial loading
+if ~(length(flags.dim)==size(kv.Index,1) || isempty(kv.Index)), error('Missing dimension or range for partial loading'), end
 
 %% check file name
 fn=SOFAcheckFilename(fn);
@@ -72,7 +81,7 @@ if flags.do_data,
   if isempty(kv.Index),
     Obj=NETCDFload(newfn,'all');
   else
-    [Obj]=NETCDFload(newfn,kv.Index);
+    [Obj]=NETCDFload(newfn,kv.Index,flags.dim);
   end
 end
 
