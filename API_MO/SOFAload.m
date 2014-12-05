@@ -34,14 +34,41 @@ function Obj = SOFAload(fn,varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
+%% sort input arguments
+inputargs={}; % for setting flags with SOFAarghelper
+pDims=''; % for partial loading
+pDimRange=[]; % for partial loading
+jj=1; kk=1; ll=1;
+for ii=1:length(varargin)
+  if isnumeric(varargin{ii})
+    pDimRange(jj,:)=varargin{ii};
+    jj=jj+1;
+    if ii==1
+      inputargs{kk}=varargin{ii};
+      kk=kk+1;
+    end
+  elseif strfind('MREN',varargin{ii})
+    pDims(ll)=varargin{ii};
+    ll=ll+1;
+  elseif strcmp(varargin{ii},'nochecks')
+    inputargs{kk}=varargin{ii};
+  elseif strcmp(varargin{ii},'nodata')
+    inputargs{kk}=varargin{ii};
+    kk=kk+1;
+  end
+end
+if ~isempty(pDimRange) && isempty(pDims)
+  pDims='M';
+end
+
+%% set flags with SOFAarghelper
 definput.keyvals.Index=[];
 definput.flags.type={'data','nodata'};
 definput.flags.data={'checks','nochecks'};
-definput.flags.dim={'M','R','E','N'};
-[flags,kv]=SOFAarghelper({'Index'},definput,varargin);
+[flags,kv]=SOFAarghelper({'Index'},definput,inputargs);
 
 %% check number of input arguments for partial loading
-if ~(length(flags.dim)==size(kv.Index,1) || isempty(kv.Index)), error('Missing dimension or range for partial loading'), end
+if ~(length(pDims)==size(pDimRange,1) || isempty(kv.Index)), error('Missing dimension or range for partial loading'), end
 
 %% check file name
 fn=SOFAcheckFilename(fn);
@@ -81,7 +108,7 @@ if flags.do_data,
   if isempty(kv.Index),
     Obj=NETCDFload(newfn,'all');
   else
-    [Obj]=NETCDFload(newfn,kv.Index,flags.dim);
+    [Obj]=NETCDFload(newfn,pDimRange,pDims);
   end
 end
 
