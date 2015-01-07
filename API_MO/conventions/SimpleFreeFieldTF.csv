@@ -8,10 +8,11 @@ GLOBAL:APIVersion		rm	  	attribute
 GLOBAL:ApplicationName			  	attribute	
 GLOBAL:ApplicationVersion			  	attribute	
 GLOBAL:AuthorContact		m	  	attribute	
-GLOBAL:Comment		m	 	attribute	
+GLOBAL:Comment			 	attribute	
 GLOBAL:DataType	TF	rm	  	attribute	
 GLOBAL:History			 	attribute	
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:ListenerShortName		m		attribute	ID of the subject from the database
 GLOBAL:Organization		m	  	attribute	
 GLOBAL:References				attribute	
 GLOBAL:RoomType	free field	m	  	attribute	
@@ -32,9 +33,10 @@ EmitterPosition	[0 0 0]	m	eCI, eCM	double
 EmitterPosition:Type	cartesian	m	  	attribute	
 EmitterPosition:Units	meter	m	  	attribute	
 GLOBAL:DatabaseName		m	  	attribute	name of the database to which these data belong
-GLOBAL:SubjectID		m	  	attribute	ID of the subject from the database
 ListenerUp	[0 0 1]	m	IC, MC	double	
 ListenerView	[1 0 0]	m	IC, MC	double	
+ListenerView:Type	cartesian	m		attribute
+ListenerView:Units	meter	m		attribute
 Data.Real	[1 1]	m	mRn	double	
 Data.Imag	[0 0]	m	MRN	double	
 N	0	m	N	double	
