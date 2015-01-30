@@ -85,6 +85,11 @@ else
       % local path: replace SOFAdbPath by SOFAdbURL, download to SOFAdbPath 
     if length(fn)>length(SOFAdbPath) % fn is longer than SOFAdbPath?
       if strcmp(SOFAdbPath,fn(1:length(SOFAdbPath))) % fn begins with SOFAdbPath
+          % create dir if not existing
+        if ~exist(fileparts(newfn),'dir'), 
+          [success,msg]=mkdir(fileparts(newfn));
+          if success~=1, error(msg); end
+        end          
         webfn=fn(length(SOFAdbPath)+1:end);
         webfn(strfind(webfn,'\'))='/';
         webfn=[SOFAdbURL regexprep(webfn,' ','%20')];        
@@ -105,10 +110,14 @@ end
 %% Load the object
 if flags.do_nodata, Obj=NETCDFload(newfn,'nodata'); end;
 if flags.do_data, 
-  if isempty(kv.Index),
-    Obj=NETCDFload(newfn,'all');
-  else
-    [Obj]=NETCDFload(newfn,pDimRange,pDims);
+  try
+    if isempty(kv.Index),
+        Obj=NETCDFload(newfn,'all');
+    else
+      [Obj]=NETCDFload(newfn,pDimRange,pDims);
+    end
+  catch 
+    error(['Error loading the file: ' newfn]);
   end
 end
 
