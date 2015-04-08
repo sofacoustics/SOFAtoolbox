@@ -16,26 +16,43 @@ function ApparentPositionVector = SOFAcalculateAPV(Obj)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 
-% listener position, view, up
-ListenerPosition = ...
-    SOFAconvertCoordinates(Obj.ListenerPosition,Obj.ListenerPosition_Type,'cartesian');
-ListenerView = ...
-    SOFAconvertCoordinates(Obj.ListenerView,Obj.ListenerView_Type,'spherical');
-% source position
-SourcePosition = ...
-    SOFAconvertCoordinates(Obj.SourcePosition,Obj.SourcePosition_Type,'cartesian');
-% get distance in cartesian coordinates between listener and source
-Distance = bsxfun(@minus, SourcePosition, ListenerPosition);
-% convert to spherical and include head movements of the listener
-Distance = SOFAconvertCoordinates(Distance,'cartesian','spherical');
-ApparentPositionVector = correctAzimuth(bsxfun(@minus, Distance(:,1),ListenerView(:,1)));%spherical
-% convert to horizontal-polar coordinates FIXME: this breaks the azimuth angle,
-% it is disabled temporarly. The correct inclusion of elevation is still
-% missing.
-%APV = SOFAconvertCoordinates(APV,'spherical','horizontal-polar');
-%APV(:,2) = bsxfun(@minus, APV(:,2),ListenerView(:,2));%horizontal-polar
-% convert back to spherical
-%APV = SOFAconvertCoordinates(APV,'horizontal-polar','spherical');
+% === Apparent azimuth ===
+% Apparent azimuth is the relative direction of the sound source in the
+% horizontal plane from the listener viewpoint
+%
+% Get head orientation of the listener and source position in spherical
+% coordinates
+HeadOrientation = SOFAconvertCoordinates( ...
+    Obj.ListenerView,Obj.ListenerView_Type,'spherical');
+SourcePosition = SOFAconvertCoordinates( ...
+    Obj.SourcePosition,Obj.SourcePosition_Type,'spherical');
+% Calculate the relative azimuth angle between them
+APVazimuth = correctAzimuth(bsxfun( ...
+    @minus,SourcePosition(:,1),HeadOrientation(:,1)));
+
+% === Apparent elevation ===
+% Apparent elevation is the relative direction of the sound source in the median
+% plane from the listener viewpoint
+APVelevation = correctElevation(bsxfun( ...
+    @minus,SourcePosition(:,2),HeadOrientation(:,2)));
+
+% === Apparent distance ===
+% Apparent distance is the relative distance between the sound source and the
+% listener
+%
+% Get listener positon in spherical coordinates
+ListenerPosition = SOFAconvertCoordinates( ...
+    Obj.ListenerPosition,Obj.ListenerPosition_Type,'spherical');
+% Relative distance
+APVdistance = bsxfun(@minus,SourcePosition(:,3),ListenerPosition(:,3));
+
+% Combine to matrix
+ApparentPositionVector = [ ...
+    APVazimuth, ...
+    APVelevation, ...
+    APVdistance, ...
+];
+    
 end
 
 function phi = correctAzimuth(phi)
