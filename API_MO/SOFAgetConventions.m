@@ -1,14 +1,16 @@
 function Obj = SOFAgetConventions(sofaconventions,flags)
 %SOFAgetConventions
 %
-%	  List = SOFAgetConventions() returns a list with supported conventions.
+%    List = SOFAgetConventions() returns a list with supported conventions.
 % 
-%   Obj = SOFAgetConventions(sofaconventions,flags) returns a SOFA object
-%   with all metadata and data for the corresponding sofaconventions.
+%    Obj = SOFAgetConventions(sofaconvention) returns a SOFA object
+%    with all metadata and data for the corresponding sofaconvention.
 % 
-%   Obj = SOFAgetConventions(sofaconventions,flags) returns only selected
-%   metadata for the conventions with the following encoding:
-%				m: mandatory, r: readonly, a: all (default)
+%    Obj = SOFAgetConventions(sofaconvention,flags) returns only selected
+%    metadata for the corresponding sofaconvention with the following encoding:
+%        m: mandatory
+%        r: readonly
+%        a: all (default)
 
 % SOFA API - function SOFAgetConventions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
