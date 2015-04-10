@@ -1,8 +1,9 @@
 function SOFAcompileConventions(conventions)
 %SOFAcompileConventions
 %
-%   Obj = SOFAcompileConventions(conventions) compiles SOFA conventions
-%   given by a CSV file to .mat files used later by SOFAgetConventions.
+%   Obj = SOFAcompileConventions(sofaconventions) compiles the specified
+%   SOFA conventions. For every convention a CSV file has to exist which
+%   will be compiled to a .mat file used later by SOFAgetConventions().
 % 
 %   The CSV file must be in the directory conventions and have the same
 %   filename as conventions. SOFAcompileConventions generates 3 files, one
@@ -21,112 +22,146 @@ function SOFAcompileConventions(conventions)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-p=mfilename('fullpath');
+baseFolder = fileparts(which('SOFAstart'));
 
-if ~exist('conventions','var')
-  p=mfilename('fullpath');
-  d=dir([p(1:length(p)-length(mfilename)) 'conventions' filesep '*.csv']);
-  conventions={};
-  for ii=1:length(d)
-    dn=d(ii).name;
-    [~,name,ext]=fileparts(dn);
-    flags='ram';
-    okcnt=0;
-    for jj=1:length(flags)
-      x=dir([p(1:length(p)-length(mfilename)) 'conventions' filesep name '-' flags(jj) '.mat']);
-      if ~isempty(x)
-        if x(1).datenum>d(ii).datenum, okcnt=okcnt+1; end
-      end
+if nargin<1
+    conventionFiles = dir(fullfile(baseFolder,'conventions','*.csv'));
+    conventions={};
+    for file = conventionFiles'
+        [~,name,ext] = fileparts(file.name);
+        % Check if mat files exist for every convention flag (r,m,a)
+        flagsCounter = 0;
+        for flag = 'rma'
+            flagFile = dir(fullfile(baseFolder,'conventions', ...
+                             strcat(name,'-',flag,'.mat')));
+            if ~isempty(flagFile) && flagFile(1).datenum>file.datenum
+                flagsCounter = flagsCounter+1;
+            end
+        end
+        % If not all three files are up to request conventions compilation
+        if flagsCounter~=3
+            conventions{end+1} = name;
+        end
     end
-    if okcnt~=3, conventions{end+1}=name; end
-  end
-else
-  if ~iscell(conventions), conventions={conventions}; end;
+elseif ~iscell(conventions)
+    conventions={conventions};
 end
+
   
-for jj=1:length(conventions)
-  fid=fopen([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '.csv']);
-  C=textscan(fid,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1);
-  fclose(fid);
-  Obj=compileConvention(C,'r');
-  if strcmp(Obj.GLOBAL_SOFAConventions,conventions{jj})
-    disp(['Compiling ' conventions{jj} ' ' Obj.GLOBAL_SOFAConventionsVersion ' for SOFA ' Obj.GLOBAL_Version]);
-    save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-r.mat'],'Obj','-v7');    
-    flags='am';
-    for ii=1:2
-      Obj=compileConvention(C,flags(ii));
-      save([p(1:length(p)-length(mfilename)) 'conventions' filesep conventions{jj} '-' flags(ii) '.mat'],'Obj','-v7');
+%% ----- Convert convention csv files into mat files -----
+for convention = conventions
+    % Read convention description from csv file
+    fid = fopen(fullfile(baseFolder,'conventions', ...
+                         strcat(convention{:},'.csv')));
+    C = textscan(fid,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1);
+    fclose(fid);
+    % Convert to mat files for r,m,a cases
+    for flag = 'rma'
+        % Convert to SOFA object
+        Obj = compileConvention(C,flag);
+        % Write to mat file
+        if strcmp(Obj.GLOBAL_SOFAConventions,convention{:})
+            if strcmp(flag,'r') % Display message only the very first time
+                disp(strcat('Compiling ',convention{:},' ', ...
+                            Obj.GLOBAL_SOFAConventionsVersion,' for SOFA ', ...
+                            Obj.GLOBAL_Version));
+            end
+            save(fullfile(baseFolder,'conventions', ...
+                          strcat(convention{:},'-',flag,'.mat')), ...
+                 'Obj','-v7');
+        end
     end
-  end
 end
+end % of main function
 
-%%
-function Obj=compileConvention(C,flags)
-     
-flagc=cellstr((flags)');
 
-% create object structure
-for ii=1:size(C{1,1},1)
-  C{3}{ii}=[C{3}{ii} 'a']; 
-	if  ~isempty(cell2mat(regexp(C{3}{ii},flagc)))
-    var=regexprep(C{1}{ii},':','_');
-    switch lower(C{5}{ii})
-      case 'double'
-      C{2}{ii}=str2num(C{2}{ii}); % convert default to double
-      case 'string'
-      eval(['C{2}{ii}=' C{2}{ii} ';']);
+%% ----- Subroutines -----------------------------------------------------
+function Obj = compileConvention(convention,flag)
+    % Compile convention mat structure for the specified flag
+    %
+    % The csv files provide the following columns (corresponding cell numbers in
+    % brackets)
+    % Name {1}, Default {2}, Flags {3}, Dimensions {4}, Type {5}, Comment {6}
+    convName = convention{1};
+    convDefault = convention{2};
+    convFlags = convention{3};
+    convDimensions = convention{4};
+    convType = convention{5};
+    convComment = convention{6};
+
+    % Create object structure
+    for ii=1:length(convName)
+        % Append 'a' to Flags entry as it only contains 'm' or 'r' in the csv
+        % file
+        convFlags{ii} = strcat(convFlags{ii},'a');
+        if ~isempty(regexp(convFlags{ii},flag))
+            var = regexprep(convName{ii},':','_');
+            switch lower(convType{ii})
+            case 'double'
+                % Convert default to double
+                convDefault{ii} = str2num(convDefault{ii});
+            case 'string'
+                eval(['convDefault{ii}=' convDefault{ii} ';']);
+            end
+            if isempty(strfind(var,'Data.'))
+                Obj.(var) = convDefault{ii};
+                if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
+                    x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
+                    y = regexprep(x2,',',['''' 10 '''']); % enclose in quotations and insert line breaks
+                    Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
+                end
+            else      
+                Obj.Data.(var(6:end)) = convDefault{ii};
+                if isempty(strfind(var(6:end),'_')) 
+                    x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
+                    y = regexprep(x2,',',['''' 10 '''']); % enclose in quatations and insert line breaks
+                    Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
+                end      
+            end
+        end
     end
-    if isempty(strfind(var,'Data.'))
-      Obj.(var)=C{2}{ii};
-      if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
-        x2=regexprep(C{4}{ii},' ',''); %  remove spaces
-        y=regexprep(x2,',',['''' 10 '''']); % enclose in quotations and insert line breaks
-        Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
-      end
-    else      
-      Obj.Data.(var(6:end))=C{2}{ii};
-      if isempty(strfind(var(6:end),'_')) 
-        x2=regexprep(C{4}{ii},' ',''); %  remove spaces
-        y=regexprep(x2,',',['''' 10 '''']); % enclose in quatations and insert line breaks
-        Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
-      end      
+
+
+    % ----- Overwrite some special fields -----
+    if isfield(Obj,'GLOBAL_APIVersion')
+        Obj.GLOBAL_APIVersion = SOFAgetVersion;
     end
-	end
-end
+    if isfield(Obj,'GLOBAL_APIName')
+        Obj.GLOBAL_APIName = 'ARI Matlab/Octave API';
+    end
 
-
-% Overwrite some special fields
-if isfield(Obj,'GLOBAL_APIVersion'), Obj.GLOBAL_APIVersion=SOFAgetVersion; end
-if isfield(Obj,'GLOBAL_APIName'), Obj.GLOBAL_APIName='ARI Matlab/Octave API'; end
-
-% Create dimension size variables - if not read-only
-if flags=='r', return; end
-  % fix dimension sizes
-Obj.API.I=1;
-Obj.API.C=3;
-  % variable-dependent dimension sizes
-dims='renm'; 
-  % check all metadata variables
-f=fieldnames(rmfield(Obj.API.Dimensions,'Data'));
-for ii=1:length(dims)
-	for jj=1:length(f)
-		dim=strfind(Obj.API.Dimensions.(f{jj}),dims(ii));
-		if iscell(dim), dim=cell2mat(dim); end;
-		if ~isempty(dim)
-			Obj.API.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
-			break;
-		end
-	end
-end
-  % check all data variables
-fd=fieldnames(Obj.API.Dimensions.Data);
-for ii=1:length(dims)
-	for jj=1:length(fd)
-		dim=strfind(Obj.API.Dimensions.Data.(fd{jj}),dims(ii));
-		if iscell(dim), dim=cell2mat(dim); end;
-		if ~isempty(dim)
-			Obj.API.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
-			break;
-		end
-	end
+    % ----- Create dimension size variables - if not read-only -----
+    if strcmp(flag,'r')
+        return;
+    else
+        % Fix dimension sizes (why we have to fix them?)
+        Obj.API.I = 1;
+        Obj.API.C = 3;
+        % Variable-dependent dimension sizes
+        dims = 'renm';
+        % Check all metadata variables
+        fields =fieldnames(rmfield(Obj.API.Dimensions,'Data'));
+        for ii=1:length(dims)
+            for jj=1:length(fields)
+                dim = strfind(Obj.API.Dimensions.(fields{jj}),dims(ii));
+                if iscell(dim), dim=cell2mat(dim); end;
+                if ~isempty(dim)
+                    Obj.API.(upper(dims(ii)))=size(Obj.(fields{jj}),dim(1));
+                    break;
+                end
+            end
+        end
+        % Check all data variables
+        fields = fieldnames(Obj.API.Dimensions.Data);
+        for ii=1:length(dims)
+            for jj=1:length(fields)
+                dim = strfind(Obj.API.Dimensions.Data.(fields{jj}),dims(ii));
+                if iscell(dim), dim=cell2mat(dim); end;
+                if ~isempty(dim)
+                    Obj.API.(upper(dims(ii)))=size(Obj.Data.(fields{jj}),dim(1));
+                    break;
+                end
+            end
+        end
+    end
 end
