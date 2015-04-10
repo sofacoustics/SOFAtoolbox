@@ -1,4 +1,4 @@
-function [Obj,Dims] = NETCDFload(filename,flags)
+function [Obj,Dims] = NETCDFload(filename,flags,varargin)
 %NETCDFLOAD
 %   [Obj,Dims] = NETCDFload(filename,'all') reads the SOFA object Obj with all
 %       data from a SOFA file.
@@ -6,7 +6,7 @@ function [Obj,Dims] = NETCDFload(filename,flags)
 %   Obj = NETCDFload(filename,'nodata') ignores the Data variables while
 %       reading.
 %
-%   Obj = NETCDFload(filename,[START COUNT]) reads only COUNT number of
+%   Obj = NETCDFload(filename,[START COUNT],partialDim) reads only COUNT number of
 %       measurements beginning with the index START.
 %
 %   [Obj,Dims] = NETCDFload(...) returns the dimension variables found in
@@ -21,7 +21,7 @@ function [Obj,Dims] = NETCDFload(filename,flags)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 
-glob='GLOBAL_';
+glob = 'GLOBAL_';
 
 %% --------------------------- N E T C D F load --------------------------
 % check if the octcdf package is loaded
@@ -50,15 +50,18 @@ try
         startp.(fieldName) = 1;
         endp.(fieldName) = fieldVal;
     end
-    Dims=cell2mat(dims)';
-
+    Dims = cell2mat(dims)';
     % Check the requested measurements
     if isnumeric(flags)
-        if Obj.API.M<flags(2)
-            error('Requested end index exceeds the measurement count');
+        partialDimRange = flags;
+        partialDim = varargin{1};
+        for ii=1:length(partialDim)
+            if Obj.API.(partialDim(ii))<(sum(partialDimRange(ii,:))-1)
+                error('Requested end index exceeds the measurement count');
+            end
+            startp.(partialDim(ii)) = partialDimRange(ii,1);
+            endp.(partialDim(ii)) = partialDimRange(ii,1)+partialDimRange(ii,2)-1;
         end
-        startp.M = flags(1);
-        endp.M = flags(1)+flags(2)-1;
     end
 
     % ----- VARIABLES + ATTRIBUTES ---------------------------------------
@@ -79,7 +82,13 @@ try
                 fieldName1 = fieldName(1:strfind(fieldName,'.')-1);
                 fieldName2 = fieldName(strfind(fieldName,'.')+1:end);
                 Obj.API.Dimensions.(fieldName1).(fieldName2) = dimNames;
-                if length(dimNames)==3
+                if length(dimNames)==4
+                    Obj.(fieldName1).(fieldName2) = ...
+                        variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)),...
+                                      startp.(dimNames(2)):endp.(dimNames(2)),...
+                                      startp.(dimNames(3)):endp.(dimNames(3)),...
+                                      startp.(dimNames(4)):endp.(dimNames(4)));
+                elseif length(dimNames)==3
                     Obj.(fieldName1).(fieldName2) = ...
                         variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)),...
                                       startp.(dimNames(2)):endp.(dimNames(2)),...
@@ -95,7 +104,13 @@ try
             end
         else
             Obj.API.Dimensions.(fieldName) = dimNames;
-            if length(dimNames)==3
+            if length(dimNames)==4
+                Obj.(fieldName) = ...
+                    variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)),...
+                                  startp.(dimNames(2)):endp.(dimNames(2)),...
+                                  startp.(dimNames(3)):endp.(dimNames(3)),...
+                                  startp.(dimNames(4)):endp.(dimNames(4)));
+            elseif length(dimNames)==3
                 Obj.(fieldName) = ...
                     variables{ii}(startp.(dimNames(1)):endp.(dimNames(1)),...
                                   startp.(dimNames(2)):endp.(dimNames(2)),...
