@@ -64,5 +64,5 @@ if ~prod(strcmp(Obj2.Ears,Obj.Ears))
     error('Ears: Comparison showed differences');
 end
 disp('GeneralString: String1, String2, Data, Ears: Load-Reload: OK');
-%clear all
+clear all
 delete('stringtest_generalstring.sofa');

@@ -3,7 +3,7 @@ function NETCDFsave(filename,Obj,Compression)
 %   NETCDFsave(filename,Dataset,Compression) saves all data and metadata to
 %   a SOFA file.
 
-% SOFA API - function matlab/NETCDFsave
+% SOFA API - function netcdf/NETCDFsave
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
@@ -12,6 +12,12 @@ function NETCDFsave(filename,Obj,Compression)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 % Piotr Majdak, 9.4.2013
+
+% If we are running octave we have to import the NETCDF namespace, in order to
+% run functions like netcdf.getConstant
+if exist('OCTAVE_VERSION','builtin')
+    import_netcdf;
+end
 
 %% Global definitions
 glob='GLOBAL_';

@@ -28,8 +28,8 @@ if exist('OCTAVE_VERSION','builtin')
   if compare_versions(OCTAVE_VERSION,'3.6.0','<=')   % check if the octave version is high enough
     error('You need Octave >=3.6.0 to work with SOFA.');
   end  
-  if ~which('netcdf') % check if octcdf is installed
-    error('You have to install the octcdf package in Octave to work with SOFA.');
+  if ~which('test_netcdf') % check if octcdf is installed
+    error('You have to install the netcdf package in Octave to work with SOFA.');
   end
 else
     % We're in Matlab
@@ -53,22 +53,14 @@ if exist('addpath','builtin')
   addpath([basepath f 'coordinates']);
   addpath([basepath f 'converters']);
   addpath([basepath f 'demos']);
-  if exist('OCTAVE_VERSION','builtin')
-    addpath([basepath f 'octave']);
-  else
-    addpath([basepath f 'matlab']);
-  end
+  addpath([basepath f 'netcdf']);
 else
   path(path,basepath);
   path(path,[basepath f 'helper']);
   path(path,[basepath f 'coordinates']);
   path(path,[basepath f 'converters']);
   path(path,[basepath f 'demos']);
-  if exist('OCTAVE_VERSION','builtin')
-    path(path,[basepath f 'octave']);
-  else
-    path(path,[basepath f 'matlab']);
-  end
+  path(path,[basepath f 'netcdf']);
 end
 
 % Provide SOFA conventions
