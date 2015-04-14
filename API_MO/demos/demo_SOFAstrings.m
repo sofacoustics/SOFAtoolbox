@@ -1,64 +1,68 @@
+% Script for testing the string array feature of SOFA
+
+
 %% Test Strings as application-specific variable
-% load any HRTFs
-X=SOFAload([SOFAdbPath '\SOFA\ARI_NH2_hrtf_M_dtf 256.sofa']);
-% add a string
+% Load some arbritrary HRTFs
+hrtf = SOFAload([SOFAdbPath '\SOFA\ARI_NH2_hrtf_M_dtf 256.sofa']);
+% Add a string array
 str={};
-for ii=1:X.API.M
-  str{ii,1}=['NH' num2str(round(rand(1,1)*10000))];
+for ii=1:hrtf.API.M
+  str{ii,1}=['String' num2str(round(rand(1,1)*10000))];
 end
-X2=SOFAaddVariable(X,'Test','MS',str);    
-% save as SOFA
-SOFAsave('stringtest_applicationvar.sofa',X2);
-% reload the file
-N=SOFAload('stringtest_applicationvar.sofa');
+% SOFAaddVariable(Obj,Name,Dim,Value)
+hrtf2 = SOFAaddVariable(hrtf,'Test','MS',str);
+% Save as SOFA
+SOFAsave('stringtest_applicationvar.sofa',hrtf2);
+% Reload the file
+hrtf = SOFAload('stringtest_applicationvar.sofa');
 % compare the strings
-if prod(strcmp(N.Test,X2.Test)), 
-  disp('SimpleFreeFieldHRIR: String Load-Reload: OK');
-  delete('stringtest_applicationvar.sofa');
+if prod(strcmp(hrtf.Test,hrtf2.Test))
+    disp('SimpleFreeFieldHRIR: String Load-Reload: OK');
+    delete('stringtest_applicationvar.sofa');
 else
-  error('String comparison showed differences');
+    error('String comparison showed differences');
 end
+clear all
+
 
 %% Test with conventions GeneralString
-% create an empty object
-X=SOFAgetConventions('GeneralString');
-% create a numeric data with M=15, R=2, N=10
-X.Data.Double=rand(15,2,10);
-% create string arrays
-str2={}; str={}; 
+% Create an empty object
+Obj = SOFAgetConventions('GeneralString');
+% Create numeric data with M=15, R=2, N=10
+Obj.Data.Double=rand(15,2,10);
+% Create string arrays
+str2={}; str={};
 for ii=1:15
-  id=num2str(round(rand(1,1)*1000000));
+  id = num2str(round(rand(1,1)*1000000));
   str{ii,1}=['X' id];
   str2{ii,1}=['Left' id];
   str2{ii,2}=['Right' id];
 end
-X.String2=str2; % String1=[MRS]
-X.Data.String1=str; % Data.String1=[MS]
-X.Data.String2=str2;  % Data.String2=[MRS]
-% add a new string with dimensions [RS]
+Obj.String2 = str2;      % String1=[MRS]
+Obj.Data.String1 = str;  % Data.String1=[MS]
+Obj.Data.String2 = str2; % Data.String2=[MRS]
+% Add a new string with dimensions [RS]
 strn={'left ear'; 'right ear'};
-X=SOFAaddVariable(X, 'Ears', 'RS', strn);
-% update dimensions
-X2=SOFAupdateDimensions(X);
-% save as SOFA
-SOFAsave('stringtest_generalstring.sofa',X2);
-% reload the file
-N=SOFAload('stringtest_generalstring.sofa');
-% compare the strings
-if ~prod(strcmp(N.Data.String2,X2.Data.String2)), 
-  error('Data.String2: Comparison showed differences');
+Obj = SOFAaddVariable(Obj, 'Ears', 'RS', strn);
+% Update dimensions
+Obj = SOFAupdateDimensions(Obj);
+% Save as SOFA
+SOFAsave('stringtest_generalstring.sofa',Obj);
+% Reload the file
+Obj2 = SOFAload('stringtest_generalstring.sofa');
+% Compare the strings
+if ~prod(strcmp(Obj2.Data.String2,Obj.Data.String2))
+    error('Data.String2: Comparison showed differences');
 end
-if ~prod(strcmp(N.String2,X2.String2)), 
-  error('String2: Comparison showed differences');
+if ~prod(strcmp(Obj2.String2,Obj.String2))
+    error('String2: Comparison showed differences');
 end
-if ~prod(strcmp(N.Data.String1,X2.Data.String1)), 
-  error('Data.String1: Comparison showed differences');
+if ~prod(strcmp(Obj2.Data.String1,Obj.Data.String1))
+    error('Data.String1: Comparison showed differences');
 end
-if ~prod(strcmp(N.Ears,X2.Ears)), 
-  error('Ears: Comparison showed differences');
+if ~prod(strcmp(Obj2.Ears,Obj.Ears))
+    error('Ears: Comparison showed differences');
 end
 disp('GeneralString: String1, String2, Data, Ears: Load-Reload: OK');
-
+%clear all
 delete('stringtest_generalstring.sofa');
-
-
