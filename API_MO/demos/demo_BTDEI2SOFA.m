@@ -24,7 +24,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 %% load BTDEI file \ load database structure data
 f=filesep;
 BTDEI_hp_add=fullfile(SOFAdbPath,'BTDEI',hp,'headphones_info.mat');
-BTDEI_add=fullfile(SOFAdbPath,'BTDEI',hp,subject,setm,BTDEIfold,'MAT',[hp '_' subject '_btdei.mat']);
+BTDEI_add=fullfile(SOFAdbPath,'BTDEI',hp,subject,setm,BTDEIfold,'MAT',[hp '-' subject '_btdei.mat']);
 disp(['Loading BT-DEI data']);
 
 try

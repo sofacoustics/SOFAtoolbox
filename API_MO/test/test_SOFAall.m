@@ -39,7 +39,7 @@ clear all;
 demo_FHK2SOFA;
 
 clear all;
-demo_BTdei2SOFA;
+demo_BTDEI2SOFA;
 
 %% Test converters from SOFA
 disp('********************************************');
