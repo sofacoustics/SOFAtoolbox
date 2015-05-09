@@ -11,7 +11,14 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v0.4.4 
+*** v1.0.0 (???)
+- changes according to the AES212-standard implemented
+- Octave: upgraded to a new netcdf-package: http://modb.oce.ulg.ac.be/mediawiki/index.php/Octave-netcdf
+- Matlab/Octave: NETCDF* functions merged for both systems (thx to Hagen Wierstorf)
+- clean up of comments
+- SOFAcalculateAPV: reimplemented
+
+*** v0.4.4 (until 20.4.2015) unreleased
 
 *** v0.4.3 (5.6.2014) by Piotr Majdak
 - fix: annoying bug in SOFAupgradeConventions

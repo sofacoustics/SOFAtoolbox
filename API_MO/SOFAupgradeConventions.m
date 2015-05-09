@@ -112,6 +112,11 @@ switch Obj.GLOBAL_Version,
     Obj.GLOBAL_Version='0.6';
     modified=1;
     warning('SOFA:upgrade','SOFA 0.5 upgraded to 0.6');
+  case '0.6'
+    Obj.GLOBAL_History=SOFAappendText(Obj,'GLOBAL_History','Upgraded from SOFA 0.6');
+    Obj.GLOBAL_Version='1.0';
+    modified=1;
+    warning('SOFA:upgrade','SOFA 0.6 upgraded to 1.0');    
 end
 
 %% Upgrade specific to conventions

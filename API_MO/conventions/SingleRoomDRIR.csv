@@ -1,6 +1,6 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
-GLOBAL:Version	0.6	rm	 	attribute	
+GLOBAL:Version	1.0	rm	 	attribute	
 GLOBAL:SOFAConventions	SingleRoomDRIR	rm	  	attribute	This convention stores arbitrary number of receivers while providing an information about the room. The main application is to store DRIRs for a single room.
 GLOBAL:SOFAConventionsVersion	0.2	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	

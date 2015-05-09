@@ -1,5 +1,6 @@
 This is a readme file for the SOFA API for Matlab and Octave.
 
+* DO NOT ADD PATHS WITH SUBFOLDERS TO THE SEARCH PATH !!!
 * Start the API: execute "SOFAstart" in Matlab or Octave.
 * No HRTF files to play around? Follow the advices in the readme.txt files in the HRTFs directories.
 * Explore the API: execute some of the "demo_" files in the directory "demos".

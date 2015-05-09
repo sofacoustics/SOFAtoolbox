@@ -1,6 +1,6 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
-GLOBAL:Version	0.6	rm	 	attribute	
+GLOBAL:Version	1.0	rm	 	attribute	
 GLOBAL:SOFAConventions	SimpleFreeFieldTF	rm	  	attribute	This conventions is for TFs created under conditions where room information is irrelevant
 GLOBAL:SOFAConventionsVersion	0.4	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	
@@ -35,8 +35,8 @@ EmitterPosition:Units	meter	m	  	attribute
 GLOBAL:DatabaseName		m	  	attribute	name of the database to which these data belong
 ListenerUp	[0 0 1]	m	IC, MC	double	
 ListenerView	[1 0 0]	m	IC, MC	double	
-ListenerView:Type	cartesian	m		attribute
-ListenerView:Units	meter	m		attribute
+ListenerView:Type	cartesian	m		attribute	
+ListenerView:Units	meter	m		attribute	
 Data.Real	[1 1]	m	mRn	double	
 Data.Imag	[0 0]	m	MRN	double	
 N	0	m	N	double	
