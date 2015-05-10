@@ -11,7 +11,8 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v1.0.0 (???)
+*** v0.9.9 (???) Beta before 1.0
+- update of all conventions to SOFA 1.0
 - changes according to the AES212-standard implemented
 - Octave: upgraded to a new netcdf-package: http://modb.oce.ulg.ac.be/mediawiki/index.php/Octave-netcdf
 - Matlab/Octave: NETCDF* functions merged for both systems (thx to Hagen Wierstorf)

@@ -1,8 +1,5 @@
 function SOFAinfo(Obj)
-% SOFAplotGeometry(Obj) plots the geometry found in the Obj.
-% 
-% SOFAplotGeometry(Obj, index) plots the geometry for the measurements
-% given in the index. 
+% SOFAinfo(Obj) gathers information about the SOFA object and display it.
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
