@@ -1,7 +1,6 @@
 function [lat,pol]=sph2hor(azi,ele)
-%SPH2HOR  Coordinate Transform
-%   [lat,pol]=sph2hor(azi,ele) converts coordinates in spherical format to the horizontal polar
-%   one.
+%SPH2HOR  transform spherical to horizontal-polar coordinates.
+%   [lat,pol]=sph2hor(azi,ele)
 % 
 %   Input:
 %       azi ... azimuth (in degrees)
@@ -13,6 +12,8 @@ function [lat,pol]=sph2hor(azi,ele)
 %
 %   See also SPH2NAV, SPH2VERT, VERT2SPH, NAV2SPH, HOR2SPH
 
+% AUTHOR: Robert Baumgartner
+
 % SOFA API - function sph2hor
 % Copyright (C) 2012 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -22,29 +23,14 @@ function [lat,pol]=sph2hor(azi,ele)
 % See the License for the specific language governing  permissions and
 % limitations under the License. 
 
-% azi=azi/180*pi;
-% ele=ele/180*pi;
-% lat=zeros(size(azi));
-% pol=lat;
-% for ii=1:length(azi)
-%     lat(ii)=asin(-sin(azi(ii))*cos(ele(ii)));
-%     pol(ii)=sign(ele(ii))*acos(cos(azi(ii))*cos(ele(ii))/cos(lat(ii)));
-% end
-% lat=-lat/pi*180;
-% pol=pol/pi*180;
-azi=mod(azi+360,360);
-ele=mod(ele+360,360);
+[x,y,z] = sph2cart(deg2rad(azi),deg2rad(ele),ones(size(azi)));
 
-razi = azi*2*pi/360;
-rele = ele*2*pi/360;
-rlat=asin(sin(razi).*cos(rele));
-rpol=zeros(size(rlat));
-idx=find(cos(rlat)~=0);
-rpol(idx)=real(asin(sin(rele(idx))./cos(rlat(idx))));
-pol = rpol*360/2/pi;
-lat = rlat*360/2/pi;
+% interpret horizontal polar format as rotated spherical coordinates with
+% negative azimuth direction
+[pol,nlat,r] = cart2sph(x,z,-y);
+pol = rad2deg(pol);
+lat = rad2deg(-nlat);
 
-idx = find(razi>pi/2 & razi < 3*pi/2 & (rele < pi/2 | rele > 3*pi/2));
-pol(idx)=180-pol(idx);
-idx = find(~(razi>pi/2 & razi < 3*pi/2) & rele > pi/2 & rele < 3*pi/2);
-pol(idx)=180-pol(idx);
+% adjust polar angle range
+pol = mod(pol+90,360)-90;
+end
