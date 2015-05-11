@@ -15,6 +15,7 @@ function output = SOFAdefinitions(varargin)
 %   SOFAdefinitions('dateReference') returns the string with the reference
 %   for the date when stored as numeric (number of seconds elapsed)
 %
+%   SOFAdefinitions('units') returns the units and their corresponding aliases
 %
 
 % SOFA API - function SOFAdefinitions
@@ -26,8 +27,8 @@ function output = SOFAdefinitions(varargin)
 % See the License for the specific language governing  permissions and limitations under the License.
 
 
-definput.flags.type={'all','dateFormat','APIName','dimensions','EOL','dateReference'};
-[flags,~]=SOFAarghelper({},definput,varargin);
+definput.flags.type={'all','dateFormat','APIName','dimensions','EOL','dateReference','units'};
+[flags,kv]=SOFAarghelper({},definput,varargin);
 
 %% Return all definitions in a structure
 if flags.do_all,
@@ -36,6 +37,7 @@ if flags.do_all,
   output.dimensions = SOFAdefinitions('dimensions');
   output.EOL = SOFAdefinitions('EOL');
   output.dateReference = SOFAdefinitions('dateReference');
+  output.units=SOFAdefinitions('units');
 end
 
 %% name of the API
@@ -67,4 +69,12 @@ end
 %% reference for date when used as numeric (number of seconds elapsed)
 if flags.do_dateReference, 
   output = '1970-01-01 00:00:00';
+end
+
+%% return units with defined aliases
+if flags.do_units,
+  output.metre={'metres','meter','meters'};
+  output.degree={'degrees'};
+  output.second={'seconds'};
+end
 end
