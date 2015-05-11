@@ -11,13 +11,23 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v0.9.9 (???) Beta before 1.0
+*** v0.9.9 (???) [1.0rc1]
+
 - update of all conventions to SOFA 1.0
 - changes according to the AES212-standard implemented
 - Octave: upgraded to a new netcdf-package: http://modb.oce.ulg.ac.be/mediawiki/index.php/Octave-netcdf
 - Matlab/Octave: NETCDF* functions merged for both systems (thx to Hagen Wierstorf)
+- HRTFs directory: database handling improved: 
+  - SOFAdbPath mirrors http://sofacoustics.org/data now. 
+	- Warning: directory structure of HRTFs/SOFA changed! 
+	- all SOFA files created by demo_ will be saved in sofa_api_mo_test 
+	- all demo_ files which use SOFA files will be automatically downloaded from sofacoustics.org
 - clean up of comments
 - SOFAcalculateAPV: reimplemented
+- horsph and sph2hor: bug fixes
+- directory CDL deleted (had historical relevance only)
+- SOFAdefinitions: flag 'units' added for unit aliases.
+- SOFAgetConventions: returns empty vector if conventions not supported
 
 *** v0.4.4 (until 20.4.2015) unreleased
 
