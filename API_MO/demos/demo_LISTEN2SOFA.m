@@ -10,7 +10,7 @@
 
 %% Define parameters
 % Subject index of the file to convert
-if ~exist('subjectID','var'); subjectID='1002'; end;
+subjectID='1002'
 % File name of the LISTEN file
 LISTENfile=['IRC_' subjectID '_C_HRIR'];
 % Data compression (0..uncompressed, 9..most compressed)
@@ -18,8 +18,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 
 
 %% Load LISTEN file
-f=filesep;
-LISTENfn=[SOFAdbPath f 'LISTEN' f 'IRC_' subjectID f 'COMPENSATED' f 'MAT' f 'HRIR' f LISTENfile '.mat'];
+LISTENfn=fullfile(fileparts(SOFAdbPath),'LISTEN',['IRC_' subjectID],'COMPENSATED','MAT','HRIR',[LISTENfile '.mat']);
 disp(['Loading: ' LISTENfn]);
 LISTEN=load(LISTENfn);
 
@@ -30,6 +29,6 @@ Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
 Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'LISTEN_' subjectID '_' LISTENfile '.sofa'];
+SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['LISTEN_' subjectID '_' LISTENfile '.sofa']);
 disp(['Saving:  ' SOFAfn]);
 SOFAsave(SOFAfn, Obj, compression);

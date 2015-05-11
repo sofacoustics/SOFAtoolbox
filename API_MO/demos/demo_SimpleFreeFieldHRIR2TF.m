@@ -11,9 +11,9 @@
 
 %% Define parameters
 % Subject index of the file to convert
-if ~exist('subjectID','var'); subjectID='NH4'; end;
-% File name of the ARI file
-ARIfile='hrtf_M_dtf 256';
+subjectID='NH4';
+% HRTF or DTF?
+ARIfile='hrtf';
 % Which frequency bins to store?
 bins=[10, 20, 50, 70];
 % Data compression (0..uncompressed, 9..most compressed)
@@ -21,7 +21,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 
 %% Load file in SimpleFreeFieldHRIR Conventions
 f=filesep;
-SOFAfn=fullfile(SOFAdbPath,'SOFA', ['ARI_' subjectID '_' ARIfile '.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'database','ari', [ARIfile '_' lower(subjectID) '.sofa']);
 disp(['Loading:  ' SOFAfn]);
 IR=SOFAload(SOFAfn);
 
@@ -51,6 +51,6 @@ end
 Obj=SOFAupdateDimensions(TF);
 
 %% Save
-SOFAfn=fullfile(SOFAdbPath,'SOFA',['ARI_' subjectID '_' num2str(length(bins)) '_freqs.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['ARI_' ARIfile '_' subjectID '_' num2str(length(bins)) '_freqs.sofa']);
 disp(['Saving:   ' SOFAfn]);
 SOFAsave(SOFAfn,Obj,compression);

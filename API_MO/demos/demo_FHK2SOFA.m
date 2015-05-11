@@ -10,14 +10,14 @@
 
 %% Define parameters
 % Get a file name of the FHK directory
-d=dir(fullfile(SOFAdbPath,'FHK','HRIR_*.mat'));
+d=dir(fullfile(fileparts(SOFAdbPath),'FHK','HRIR_*.mat'));
 fn=d(1).name;
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 
 %% Load FHK file
-FHKfn=fullfile(SOFAdbPath, 'FHK', fn);
+FHKfn=fullfile(fileparts(SOFAdbPath), 'FHK', fn);
 disp(['Loading: ' FHKfn]);
 FHK=load(FHKfn);
 FHKvar=fieldnames(FHK);
@@ -30,6 +30,6 @@ Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
 Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 
 %% save SOFA file
-SOFAfn=fullfile(SOFAdbPath, 'SOFA', ['FHK_' FHKname '.sofa']);
+SOFAfn=fullfile(SOFAdbPath, 'sofa_api_mo_test', ['FHK_' FHKname '.sofa']);
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj, compression); 

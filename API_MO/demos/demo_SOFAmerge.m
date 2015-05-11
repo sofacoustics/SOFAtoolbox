@@ -12,18 +12,17 @@
 
 %% Define parameters
 % Prefix to the files 
-TUBfile = 'TU-Berlin_QU_KEMAR_anechoic_';
+TUBfile = 'qu_kemar_anechoic_';
 % Define vector with radii to be merged. Available files: 0.5, 1, 2, and 3 m
-if ~exist('radius','var'); radius=[0.5 1 2 3]; end;
+radius=[0.5 1 2 3]; 
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% Load the objects to be merged
-f=filesep;
 clear Obj;
 for ii=1:length(radius)
-	sourcefn=fullfile(SOFAdbPath,'SOFA',[TUBfile 'radius_' num2str(radius(ii)) 'm.sofa']);
+	sourcefn=fullfile(SOFAdbPath, 'database', 'tu-berlin', [TUBfile num2str(radius(ii)) 'm.sofa']);
 	disp(['Loading: ' sourcefn]);
 	Obj(ii)=SOFAload(sourcefn);
 end
@@ -40,7 +39,7 @@ x=whos('ObjFull');
 disp(['  Memory requirements: ' num2str(round(x.bytes/1024)) ' kb']);
 
 %% save the object as a single SOFA file
-SOFAfn=fullfile(SOFAdbPath,'SOFA',[TUBfile 'radius_' sprintf('%g_',radius) 'm.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',[TUBfile 'radius_' sprintf('%g_',radius) 'm.sofa']);
 disp(['Saving:  ' SOFAfn]);
 tic;
 Obj=SOFAsave(SOFAfn, ObjFull, compression);
@@ -51,8 +50,8 @@ disp(['Saved ' num2str(round(x.bytes/1024)) ' kb in ' num2str(toc) ' s.']);
 azi=0; ele=0;
 idx=find(Obj.SourcePosition(:,1)==azi & Obj.SourcePosition(:,2)==ele);
 plot(squeeze(ObjFull.Data.IR(idx,1,:))');
-legend(num2str(ObjFull.SourcePosition(idx,2)))
+legend(num2str(ObjFull.SourcePosition(idx,3)))
 title(['Demo of SOFAmerge:' 10 ...
 			'IRs for the left ear with radius as parameter retrieved from a merged object']);
-xlabel([' index (sample taps)']);
+xlabel(' index (sample taps)');
 ylabel('Amplitude');

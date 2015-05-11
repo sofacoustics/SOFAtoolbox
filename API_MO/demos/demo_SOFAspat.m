@@ -8,22 +8,19 @@
 
 
 %% Define the filename of the SOFA HRTFs
-if ~exist('HRTFfilename','var'); HRTFfilename='ARI_NH4_hrtf_M_dtf 256'; end;
-% HRTFfilename='CIPIC_subject_003_hrir_final';
-% HRTFfilename='LISTEN_1002_IRC_1002_C_HRIR';
-% HRTFfilename='MIT_KEMAR_normal_pinna';
-% HRTFfilename='KEMAR_horizontal_only_normal_pinna_resolution_0.5_deg';
-% HRTFfilename='TU-Berlin_QU_KEMAR_anechoic_radius_0.5m';
-% HRTFfilename='TU-Berlin_QU_KEMAR_anechoic_radius_3m';
-% HRTFfilename='TU-Berlin_QU_KEMAR_anechoic_radius_0.5_1_2_3_m';
+database='ari';       HRTFfilename='hrtf_nh4.sofa';
+% database='cipic';     HRTFfilename='subject_003.sofa';
+% database='listen';    HRTFfilename='irc_1002.sofa';
+% database='mit';       HRTFfilename='mit_kemar_normal_pinna.sofa';
+% database='tu-berlin'; HRTFfilename='qu_kemar_anechoic_0.5m.sofa';
+% database='tu-berlin'; HRTFfilename='qu_kemar_anechoic_all.sofa';
 
 %% Define the trajectory
 azi=[-45 90 0];	% azimuth angles in degrees. If negative values are found, navigational system (-180;+180) will be used. 
 ele=[0 0 -30 90]; %elevation angles in degrees
 
 %% Load the HRTFs
-f=filesep;
-fullfn=[SOFAdbPath f 'SOFA' f HRTFfilename '.sofa'];
+fullfn=fullfile(SOFAdbPath, 'database', database, HRTFfilename);
 disp(['Loading ' fullfn]);
 Obj=SOFAload(fullfn);
 

@@ -10,15 +10,14 @@
 
 %% Define parameters
 % Two ears are available: normal and large. Select one.
-if ~exist('pinna','var'); pinna='normal'; end;
+pinna='normal'; 
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 
 %% Define directory
-f=filesep;
-MITfn=[SOFAdbPath f 'MIT KEMAR'];
+MITfn=fullfile(fileparts(SOFAdbPath),'MIT KEMAR');
 disp(['Loading: ' MITfn ', pinna:' pinna]);
 
 %% load and convert
@@ -28,6 +27,6 @@ Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
 Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'MIT_KEMAR_' pinna '_pinna.sofa'];
+SOFAfn=fullfile(SOFAdbPath, 'sofa_api_mo_test', ['MIT_KEMAR_' pinna '_pinna.sofa']);
 disp(['Saving:  ' SOFAfn]);
 SOFAsave(SOFAfn, Obj, compression); 

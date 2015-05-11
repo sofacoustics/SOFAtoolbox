@@ -3,7 +3,7 @@
 
 %% Test Strings as application-specific variable
 % Load some arbritrary HRTFs
-hrtf = SOFAload([SOFAdbPath '\SOFA\ARI_NH2_hrtf_M_dtf 256.sofa']);
+hrtf = SOFAload(fullfile(SOFAdbPath, 'database','ari','dtf_nh2.sofa'));
 % Add a string array
 str={};
 for ii=1:hrtf.API.M

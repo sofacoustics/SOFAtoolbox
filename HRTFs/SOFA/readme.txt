@@ -1,8 +1,7 @@
-SOFA files go here. They can be
+SOFA files go here. 
 
-* manually downloaded by you from http://tinyurl.com/sofaHRTFs
-* automatically created by the API by demo_ functions when the source HRTFs are available
-* automatically downloaded by the API from http://www.sofacoustics.org/data/sofa_api_mo/SOFA when requested and available
+When used with the default settings of SOFAdbURL and SOFAdbPath, this directory reflects http://www.sofacoustics.org/data/
+
 
 SOFA API for Matlab and Octave
 Piotr Majdak, ARI, OeAW

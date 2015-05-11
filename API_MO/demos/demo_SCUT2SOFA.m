@@ -10,7 +10,7 @@
 
 %% Define parameters
 % Two ears are available: normal and large. Select one.
-if ~exist('pinna','var'); pinna='normal'; end;
+pinna='normal';
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
@@ -18,7 +18,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 
 %% Define directory
 SCUTdata = 'nearfield';
-SCUTroot=fullfile(SOFAdbPath,'SCUT',SCUTdata);
+SCUTroot=fullfile(fileparts(SOFAdbPath),'SCUT',SCUTdata);
 disp(['Loading: ' SCUTroot]);
 
 %% Define radii for converting
@@ -32,6 +32,6 @@ Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 
 %% save SOFA file
 str=sprintf('%g,',radius);
-SOFAfn=fullfile(SOFAdbPath,'SOFA',['SCUT_KEMAR_radius_' str(1:end-1) '.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['SCUT_KEMAR_radius_' str(1:end-1) '.sofa']);
 disp(['Saving:  ' SOFAfn]);
 SOFAsave(SOFAfn, Obj, compression); 

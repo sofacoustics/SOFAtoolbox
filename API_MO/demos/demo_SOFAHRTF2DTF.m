@@ -11,15 +11,12 @@
 
 %% Define parameters
 % Subject index of the file to convert
-if ~exist('subject','var'), subject=3; end;
-% File name of the CIPIC file
-CIPICfile='hrir_final';
+subject=3;
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% load SOFA file
-f=filesep;
-SOFAfn=[SOFAdbPath f 'SOFA' f 'CIPIC_' 'subject_' sprintf('%03d',subject) '_' CIPICfile '.sofa'];
+SOFAfn=fullfile(SOFAdbPath, 'database', 'cipic', ['subject_' sprintf('%03d',subject) '.sofa']);
 X=SOFAload(SOFAfn);
 [D,C]=SOFAhrtf2dtf(X);
 
@@ -49,7 +46,7 @@ data=(20*log10(abs(fft(squeeze(CC.Data.IR(1,1,:))))));
 stepsize=CC.Data.SamplingRate/length(data)*2;
 plot(1:stepsize:CC.Data.SamplingRate,data(1:length(data)/2),'r');
 title('left');
-xlabel('f/Hz'); ylabel('dB');
+xlabel('f (in Hz)'); ylabel('dB');
 legend('CTF','Avg DTF','Location','Best')
 
 subplot(1,2,2);
@@ -58,5 +55,5 @@ data=(20*log10(abs(fft(squeeze(CC.Data.IR(1,2,:))))));
 stepsize=CC.Data.SamplingRate/length(data)*2;
 plot(1:stepsize:CC.Data.SamplingRate,data(1:length(data)/2),'r');
 title('right');
-xlabel('f/Hz'); ylabel('dB');
-legend('CTF','Avg DTF','Location','Best')
+xlabel('f (in Hz)'); ylabel('dB');
+legend('CTF','Avg DTF','Location','Best');

@@ -64,7 +64,6 @@ Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
 Obj.GLOBAL_Comment = 'Contains simple pulses for all directions';
 
 %% save the SOFA file
-f=filesep;
-SOFAfn=fullfile(SOFAdbPath,'SOFA','Pulse.sofa');
+SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test','Pulse.sofa');
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj, compression);

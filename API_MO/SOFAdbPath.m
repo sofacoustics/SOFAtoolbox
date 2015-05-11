@@ -1,9 +1,8 @@
-function [dbPath,f]=SOFAdbPath(newPath)
-% [dbPath,f]=SOFAdbPath 
+function dbPath=SOFAdbPath(newPath)
+% dbPath=SOFAdbPath 
 %
-%   [dbPath,f]=SOFAdbPath returns the path to the directory containing
-%   HRTFs for demos and applications. It also returns the system-specific 
-%		file separator for creating file names. 
+%   dbPath=SOFAdbPath returns the path to the directory containing
+%   HRTFs for demos and applications. The default path is: this_directory/../HRTFs/SOFA
 % 
 %   [...]=SOFAdbPath(Path) sets the path to the directory for further calls
 %   of SOFAdbPath.
@@ -16,16 +15,13 @@ function [dbPath,f]=SOFAdbPath(newPath)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
-f=filesep;
-
 persistent CachedPath;
 
 if exist('newPath','var')
   CachedPath=newPath;
-elseif isempty(CachedPath)
-  basepath=which('SOFAstart');
-  basepath=basepath(1:end-length('SOFAstart')-3); % Kill the function name from the path.
-  CachedPath=fullfile(basepath, '..', 'HRTFs');
+elseif isempty(CachedPath)  
+    % default: 'this_directory/../HRTFs/SOFA'
+  CachedPath=fullfile(fileparts(fileparts(mfilename('fullpath'))),'HRTFs','SOFA');
 end
 dbPath=CachedPath;
 

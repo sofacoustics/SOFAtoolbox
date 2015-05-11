@@ -7,7 +7,7 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 %% load a SOFA file
-SOFAfile=fullfile(SOFAdbPath,'SOFA','ARI_NH2_hrtf_M_dtf 256.sofa');
+SOFAfile=fullfile(SOFAdbPath,'database','ari','dtf_nh2.sofa');
 Obj=SOFAload(SOFAfile);
 
 % plot ETC horizontal plane

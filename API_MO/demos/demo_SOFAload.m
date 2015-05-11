@@ -7,8 +7,7 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 %% Path definitions
-f=filesep;
-SOFAfile=[SOFAdbPath f 'SOFA' f 'TU-Berlin_QU_KEMAR_anechoic_radius_0.5_1_2_3_m.sofa'];
+SOFAfile=fullfile(SOFAdbPath, 'database', 'tu-berlin', 'qu_kemar_anechoic_all.sofa');
 
 %% Loading the full object
 disp(['Loading full object: ' SOFAfile]);

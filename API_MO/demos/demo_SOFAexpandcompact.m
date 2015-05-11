@@ -12,18 +12,17 @@
 
 %% Define parameters
 % Prefix to the files 
-TUBfile = 'TU-Berlin_QU_KEMAR_anechoic_';
+TUBfile = 'qu_kemar_anechoic_';
 % Define vector with radii to be merged. Available files: 0.5, 1, 2, and 3 m
-if ~exist('radius','var'); radius=[0.5 1 2 3]; end;
+radius=[0.5 1 2 3];
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% Load the objects 
-f=filesep;
 clear Obj;
 for ii=1:length(radius)
-	sourcefn=fullfile(SOFAdbPath,'SOFA',[TUBfile 'radius_' num2str(radius(ii)) 'm.sofa']);
+	sourcefn=fullfile(SOFAdbPath, 'database', 'tu-berlin', [TUBfile num2str(radius(ii)) 'm.sofa']);
 	disp(['Loading: ' sourcefn]);
 	Obj(ii)=SOFAload(sourcefn);
 end

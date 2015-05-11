@@ -14,12 +14,7 @@
 subjectID='NH5';
 
 %% Load SOFA file
-SOFAfn=fullfile(SOFAdbPath, 'SOFA', ['hpir_' lower(subjectID) '.sofa']);
-% SOFAfn=fullfile(SOFAdbPath, 'SOFA', 'hrtf_M_hpir.sofa');
-if ~exist(SOFAfn,'file')
-  disp(['Downloading from: http://www.sofacoustics.org/data/headphones/ari']);
-  urlwrite(['http://www.sofacoustics.org/data/headphones/ari/' 'hpir_' lower(subjectID) '.sofa'], SOFAfn);
-end  
+SOFAfn=fullfile(SOFAdbPath, 'headphones', 'ari', ['hpir_' lower(subjectID) '.sofa']);
 disp(['Loading:  ' SOFAfn]);
 X=SOFAload(SOFAfn);  
 

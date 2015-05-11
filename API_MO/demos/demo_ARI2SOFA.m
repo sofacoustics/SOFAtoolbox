@@ -10,7 +10,7 @@
 
 %% Define parameters
 % Subject index of the file to convert
-if ~exist('subjectID','var'); subjectID='NH4'; end;
+subjectID='NH4';
 % File name of the ARI file
 ARIfile='hrtf_M_dtf 256';
 % Data compression (0..uncompressed, 9..most compressed)
@@ -18,8 +18,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 
 
 %% Load ARI file
-f=filesep;
-ARIfn=[SOFAdbPath f 'ARI' f subjectID f ARIfile '.mat'];
+ARIfn=fullfile(fileparts(SOFAdbPath), 'ARI', subjectID, [ARIfile '.mat']);
 disp(['Loading: ' ARIfn]);
 ARI=load(ARIfn);
 
@@ -32,6 +31,6 @@ Obj.GLOBAL_Organization = 'Acoustics Research Institute';
 Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
 
 %% save SOFA file
-SOFAfn=[SOFAdbPath f 'SOFA' f 'ARI_' subjectID '_' ARIfile '.sofa'];
+SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['ARI_' subjectID '_' ARIfile '.sofa']);
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj, compression); 

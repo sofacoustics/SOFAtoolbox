@@ -2,7 +2,7 @@ function dbURL=SOFAdbURL(dbURL)
 % dbURL=SOFAdbURL 
 %
 %   dbURL=SOFAdbURL returns the internet URL to the directory containing
-%   HRTFs. 
+%   HRTFs. The default URL is http://www.sofacoustics.org/data.
 % 
 %   dbURL=SOFAdbURL(newURL) sets the internet URL to the newURL for further calls
 %   of SOFAdbURL.
@@ -20,6 +20,6 @@ persistent CachedURL;
 if exist('dbURL','var')
   CachedURL=dbURL;
 elseif isempty(CachedURL)
-  CachedURL='http://www.sofacoustics.org/data/sofa_api_mo';
+  CachedURL='http://www.sofacoustics.org/data';
 end
 dbURL=CachedURL;

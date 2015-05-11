@@ -37,7 +37,7 @@
 compression=1; % results in a nice compression within a reasonable processing time
 
 %% --- loading Uni Oldenburg data ----
-PathO=fullfile(SOFAdbPath, 'Oldenburg','HRIR_database_mat','hrir','office_II');
+PathO=fullfile(fileparts(SOFAdbPath), 'Oldenburg','HRIR_database_mat','hrir','office_II');
 disp(['Loading: ' PathO]);
 A1 = load([PathO filesep 'office_II_1_A.mat']); % has dimension: N x R
 B1 = load([PathO filesep 'office_II_1_B.mat']);
@@ -121,7 +121,7 @@ Obj.API.Dimensions.RoomCornerB='C';
 Obj=SOFAupdateDimensions(Obj);
 
 %% Save SOFA file
-SOFAfn=fullfile(SOFAdbPath,'SOFA','Oldenburg_OfficeII.sofa');
+SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test','Oldenburg_OfficeII.sofa');
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj, compression);
 clear Obj;

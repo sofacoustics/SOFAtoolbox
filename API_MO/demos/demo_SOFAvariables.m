@@ -7,7 +7,7 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 %% load a SOFA file
-SOFAfile=fullfile(SOFAdbPath,'SOFA','ARI_NH2_hrtf_M_dtf 256.sofa');
+SOFAfile=fullfile(SOFAdbPath,'database','ari','hrtf_nh5.sofa');
 Obj=SOFAload(SOFAfile);
 
 %% read an API internal variable
@@ -39,11 +39,11 @@ if ~all(size(Obj.PRIVATE.MyVariable)==[1000 10]), error('Error!'); end
 %% Save the object
   % create a random file name
 fn=[mfilename '_temp_' num2str(rand(1,1)) '.sofa'];
-SOFAsave(fullfile(SOFAdbPath,'SOFA',fn),Obj);
+SOFAsave(fn,Obj);
 
 %% Reload the object and remove the temporary file
-Obj2=SOFAload(fullfile(SOFAdbPath,'SOFA',fn));
-delete(fullfile(SOFAdbPath,'SOFA',fn));
+Obj2=SOFAload(fn);
+delete(fn);
 
 %% Check if the user-defined variable is still there
 if ~isfield(Obj2,'MyVariable'), error('Error!'); end 

@@ -12,17 +12,16 @@
 % Prefix to the files 
 TUBfile = 'QU_KEMAR_anechoic_';
 % Define vector with radii to be loaded. Available files: 0.5, 1, 2, and 3 m
-if ~exist('radius','var'); radius=[0.5 1 2 3]; end;
+% radius=[0.5 1 2 3];
+radius=[0.5];
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
 
-
 %% Load, convert, and save the requested TU-Berlin files
-f=filesep;
 for ii=1:length(radius)
-		% load 
-	TUBfn=[SOFAdbPath f 'TU-Berlin KEMAR' f TUBfile num2str(radius(ii)) 'm.mat'];
+		% load
+	TUBfn=fullfile(fileparts(SOFAdbPath), 'TU-Berlin KEMAR', [TUBfile num2str(radius(ii)) 'm.mat']);
 	disp(['Loading: ' TUBfn]);
 	TUB=load(TUBfn);
 		% convert and add application specific metadata
@@ -33,7 +32,7 @@ for ii=1:length(radius)
 	Obj.GLOBAL_Organization = 'Technische Universität Berlin';
 	Obj.GLOBAL_AuthorContact = 'hagen.wierstorf@tu-berlin.de';
 		% save
-	SOFAfn=[SOFAdbPath f 'SOFA' f 'TU-Berlin_' TUBfile 'radius_' sprintf('%g',radius(ii)) 'm.sofa'];
+	SOFAfn=fullfile(SOFAdbPath, 'sofa_api_mo_test', ['TU-Berlin_' TUBfile 'radius_' sprintf('%g',radius(ii)) 'm.sofa']);
 	disp(['Saving:  ' SOFAfn]);
 	Obj=SOFAsave(SOFAfn, Obj, compression);
 end
