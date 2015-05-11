@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
 GLOBAL:Version	1.0	rm	 	attribute	
 GLOBAL:SOFAConventions	GeneralString	rm	  	attribute	Conventions for testing the string support
-GLOBAL:SOFAConventionsVersion	0.1	rm	  	attribute	
+GLOBAL:SOFAConventionsVersion	0.2	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	
 GLOBAL:APIVersion		rm	  	attribute	
 GLOBAL:ApplicationName			  	attribute	
@@ -21,16 +21,16 @@ GLOBAL:DateModified		m	 	attribute
 GLOBAL:Title		m		attribute	
 ListenerPosition	[0 0 0] 	m	IC, MC	double	
 ListenerPosition:Type	cartesian	m	  	attribute	
-ListenerPosition:Units	meter	m	  	attribute	
+ListenerPosition:Units	metre	m	  	attribute	
 ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rCI, rCM	double	
 ReceiverPosition:Type	cartesian	m	  	attribute	
-ReceiverPosition:Units	meter	m	  	attribute	
+ReceiverPosition:Units	metre	m	  	attribute	
 SourcePosition	[0 0 1]	m	IC, MC	double	
 SourcePosition:Type	spherical	m	  	attribute	
-SourcePosition:Units	degree, degree, meter	m	  	attribute	
+SourcePosition:Units	degree, degree, metre	m	  	attribute	
 EmitterPosition	[0 0 0]	m	eCI, eCM	double	
 EmitterPosition:Type	cartesian	m	  	attribute	
-EmitterPosition:Units	meter	m	  	attribute	
+EmitterPosition:Units	metre	m	  	attribute	
 String2	{'' ''}	m	MRS	string	
 String2:Description	2-D string	m		attribute	
 String2:Units	latin1	m		attribute	

@@ -113,10 +113,39 @@ switch Obj.GLOBAL_Version,
     modified=1;
     warning('SOFA:upgrade','SOFA 0.5 upgraded to 0.6');
   case '0.6'
-    Obj.GLOBAL_History=SOFAappendText(Obj,'GLOBAL_History','Upgraded from SOFA 0.6');
-    Obj.GLOBAL_Version='1.0';
-    modified=1;
-    warning('SOFA:upgrade','SOFA 0.6 upgraded to 1.0');    
+    X=SOFAgetConventions(Obj.GLOBAL_SOFAConventions);
+    if ~isempty(X),
+      Obj.GLOBAL_History=SOFAappendText(Obj,'GLOBAL_History','Upgraded from SOFA 0.6');
+      Obj.GLOBAL_Version='1.0';
+      Obj.GLOBAL_SOFAConventionsVersion = X.GLOBAL_SOFAConventionsVersion;
+        % replace aliases by correct unit names
+      U=SOFAdefinitions('units');
+      Uf=fieldnames(U);
+      f=fieldnames(Obj);
+      for jj=1:length(f)
+        if length(f{jj}) > 6
+          if strcmp(f{jj}(end-5:end),'_Units')
+            for ii=1:length(Uf) % _Units found, check for alias
+              Obj.(f{jj})=regexprep(Obj.(f{jj}), U.(Uf{ii}), Uf{ii}, 'ignorecase');
+            end
+          end
+        end
+      end
+      f=fieldnames(Obj.Data);
+      for jj=1:length(f)
+        if length(f{jj}) > 6
+          if strcmp(f{jj}(end-5:end),'_Units')
+            for ii=1:length(Uf) % _Units found, check for alias
+              Obj.Data.(f{jj})=regexprep(Obj.Data.(f{jj}), U.(Uf{ii}), Uf{ii}, 'ignorecase');
+            end
+          end
+        end
+      end
+      modified=1;
+      warning('SOFA:upgrade','SOFA 0.6 upgraded to 1.0');    
+    else
+      warning('SOFA:upgrade','Unknown conventions');
+    end
 end
 
 %% Upgrade specific to conventions
