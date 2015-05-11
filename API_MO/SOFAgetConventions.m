@@ -4,7 +4,8 @@ function Obj = SOFAgetConventions(sofaconventions,flags)
 %    List = SOFAgetConventions() returns a list with supported conventions.
 % 
 %    Obj = SOFAgetConventions(sofaconvention) returns a SOFA object
-%    with all metadata and data for the corresponding sofaconvention.
+%    with all metadata and data for the corresponding sofaconvention. Obj
+%    will be empty if sofaconventions is not supported.
 % 
 %    Obj = SOFAgetConventions(sofaconvention,flags) returns only selected
 %    metadata for the corresponding sofaconvention with the following encoding:
@@ -20,7 +21,7 @@ function Obj = SOFAgetConventions(sofaconventions,flags)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-%% If not conventions provided, return the list with supported conventions
+%% If sofaconventions not provided, return the list with supported conventions
 if ~exist('sofaconventions','var')
   p=mfilename('fullpath');
   d=dir([p(1:length(p)-length(mfilename)) 'conventions' filesep '*-m.mat']);
@@ -32,7 +33,7 @@ if ~exist('sofaconventions','var')
 	return;
 end
 
-%% If no flags provided, return the conventions with all metadata
+%% If flags not provided, return the conventions with all metadata
 if ~exist('flags','var')
     flags='a'; % flags: m: mandatory, r: readonly, a: all
 end
@@ -48,16 +49,20 @@ if isfield(AllObj,flags)
     end
   end
 end
-if ~found,
+if found,
+  Obj=AllObj.(flags).Obj; % return cached convention object
+else
   p=mfilename('fullpath');
-  AllObj.(flags)=load([p(1:length(p)-length(mfilename)) 'conventions' filesep sofaconventions '-' flags '.mat']);
+  if ~isempty(dir([p(1:length(p)-length(mfilename)) 'conventions' filesep sofaconventions '-' flags '.mat']))
+    AllObj.(flags)=load([p(1:length(p)-length(mfilename)) 'conventions' filesep sofaconventions '-' flags '.mat']);
+    Obj=AllObj.(flags).Obj; % load conventions to the cache and return
+  else
+    Obj=[]; % return empty array when conventions not found
+  end
 end
-Obj=AllObj.(flags).Obj;
 
-%% Get the supported dimension tokens
-Def = SOFAdefinitions;
 
 %% Overwrite some special fields
-if isfield(Obj,'GLOBAL_TimeCreated'), Obj.GLOBAL_TimeCreated=datestr(now,Def.dateFormat); end
+if isfield(Obj,'GLOBAL_DateCreated'), Obj.GLOBAL_DateCreated=datestr(now,SOFAdefinitions('dateFormat')); end
 if isfield(Obj,'GLOBAL_APIVersion'), Obj.GLOBAL_APIVersion=SOFAgetVersion; end
-if isfield(Obj,'GLOBAL_APIName'), Obj.GLOBAL_APIName=Def.APIName; end
+if isfield(Obj,'GLOBAL_APIName'), Obj.GLOBAL_APIName=SOFAdefinitions('APIName'); end
