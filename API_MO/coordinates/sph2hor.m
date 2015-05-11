@@ -25,6 +25,11 @@ function [lat,pol]=sph2hor(azi,ele)
 
 [x,y,z] = sph2cart(deg2rad(azi),deg2rad(ele),ones(size(azi)));
 
+% remove noise below eps
+x(abs(x)<eps)=0;
+y(abs(y)<eps)=0;
+z(abs(z)<eps)=0;
+
 % interpret horizontal polar format as rotated spherical coordinates with
 % negative azimuth direction
 [pol,nlat,r] = cart2sph(x,z,-y);
