@@ -62,9 +62,8 @@ for convention = conventions
         % Write to mat file
         if strcmp(Obj.GLOBAL_SOFAConventions,convention{:})
             if strcmp(flag,'r') % Display message only the very first time
-                disp(strcat('Compiling ',convention{:},' ', ...
-                            Obj.GLOBAL_SOFAConventionsVersion,' for SOFA ', ...
-                            Obj.GLOBAL_Version));
+                disp(['Compiling ',convention{:},' ', ...
+                            Obj.GLOBAL_SOFAConventionsVersion]);
             end
             save(fullfile(baseFolder,'conventions', ...
                           strcat(convention{:},'-',flag,'.mat')), ...
@@ -91,8 +90,7 @@ function Obj = compileConvention(convention,flag)
 
     % Create object structure
     for ii=1:length(convName)
-        % Append 'a' to Flags entry as it only contains 'm' or 'r' in the csv
-        % file
+        % Append 'a' to Flags entry as it only contains 'm' or 'r' in the csv file
         convFlags{ii} = strcat(convFlags{ii},'a');
         if ~isempty(regexp(convFlags{ii},flag))
             var = regexprep(convName{ii},':','_');
