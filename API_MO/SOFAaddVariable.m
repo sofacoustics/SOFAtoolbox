@@ -39,13 +39,21 @@ switch Dim
       case {'API','PRIVATE','GLOBAL'}
         error('This variable name is reserved.');
       otherwise
-      Obj.(Name)=Value;
-      Obj.API.Dimensions.(Name)=Dim;
-      dims=SOFAdefinitions('dimensions');
-      for ii=1:length(Dim)  
-        if ~isfield(dims,Dim(ii))
-          error('Dimension not supported.');
+        if strncmp(Name,'Data.',length('Data.'))         
+          % add variable to Data
+          Name=Name(length('Data.')+1:end);
+          Obj.Data.(Name)=Value;
+          Obj.API.Dimensions.Data.(Name)=Dim;
+        else
+          % add variable to root
+          Obj.(Name)=Value;
+          Obj.API.Dimensions.(Name)=Dim;
         end
-      end
+        dims=SOFAdefinitions('dimensions');
+        for ii=1:length(Dim)  
+          if ~isfield(dims,Dim(ii))
+            error('Dimension not supported.');
+          end
+        end
     end
 end

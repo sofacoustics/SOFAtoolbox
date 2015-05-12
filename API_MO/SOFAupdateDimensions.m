@@ -107,10 +107,18 @@ if flags.do_data
                     error(['Data.' Xf{ii} ': dimension could not be matched.']);
                 else
                     Obj.API.Dimensions.Data.(Xf{ii})=dim;
-          end
-          Smax=max(Smax,S);
+                end
+                Smax=max(Smax,S);
             else
-                error(['Unknown data variable ' Xf{ii} '.']);
+              if ~isfield(Obj.API.Dimensions.Data,Xf{ii}),
+                error([Xf{ii} ' seems to be a user-defined variable without a dimension.']);
+              else
+                dim=Obj.API.Dimensions.Data.(Xf{ii});
+                [dim,S]=checkdim(Obj,{dim},sizecell(Obj.Data.(Xf{ii})));
+                if isempty(dim),
+                  error(['Data.' Xf{ii} ': dimension does not match.']);
+                end  
+              end
             end		
         end
     end
