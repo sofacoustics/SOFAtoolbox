@@ -1,9 +1,11 @@
 function M=SOFAplotHRTF(Obj,type,ch)
-% SOFAplotHRTF(OBJ, TYPE, CH) plots the CH channel of HRTFs given in OBJ as
-% SimpleFreeFieldHRIR. The following TYPEs are supported:
+% SOFAplotHRTF(OBJ, TYPE, CH) plots the CH channel of HRTFs given in OBJ. 
+%  The following TYPEs are supported:
 %  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- 5 deg)
 %  'EtcMedian'      energy-time curve in the median plane (+/- 2 deg)
 %  'MagMedian'      magnitude spectrum in the median plane (+/- 2 deg)
+%
+%  OBJ must be in SimpleFreeFieldHRIR or SimpleFreeFieldSOS.
 %
 % M=SOFAplotHRTF... returns the matrix M displayed in the figure.
 %
@@ -40,6 +42,9 @@ switch Obj.GLOBAL_SOFAConventions
     Obj.Data=rmfield(Obj.Data,'SOS');
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
     Obj=SOFAupdateDimensions(Obj);
+  case 'SimpleFreeFieldHRIR'
+  otherwise
+    error('Conventions not supported');
 end
 
 %% Plot according to the type
