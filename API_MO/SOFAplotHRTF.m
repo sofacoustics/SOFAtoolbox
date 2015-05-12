@@ -21,22 +21,50 @@ if ~exist('ch','var')
 end
 fs=Obj.Data.SamplingRate;
 
+%% Convert data to FIR
+switch Obj.GLOBAL_SOFAConventions
+  case 'SimpleFreeFieldSOS'
+    N=512;
+    impulse=[1; zeros(N-1,1)];
+    T=SOFAgetConventions('SimpleFreeFieldHRIR');
+    Obj.GLOBAL_SOFAConventions=T.GLOBAL_SOFAConventions;
+    Obj.GLOBAL_SOFAConventionsVersion=T.GLOBAL_SOFAConventionsVersion;
+    Obj.GLOBAL_DataType=T.GLOBAL_DataType;
+    Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.SOS;
+    Obj.Data.IR=zeros(Obj.API.M, Obj.API.R, N);
+    for ii=1:Obj.API.M
+      for jj=1:Obj.API.R
+        Obj.Data.IR(ii,jj,:)=sosfilt(reshape(squeeze(Obj.Data.SOS(ii,jj,:)),6,[])',impulse);
+      end
+    end
+    Obj.Data=rmfield(Obj.Data,'SOS');
+    Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
+    Obj=SOFAupdateDimensions(Obj);
+end
+
+%% Plot according to the type
 switch lower(type)
+    % Energy-time curve (ETC) in the horizontal plane
   case 'etchorizontal'
     noisefloor=-50;
     ele=0;
     thr=5;
-
+    Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
     pos(pos(:,1)>180,1)=pos(pos(:,1)>180,1)-360;
     idx=find(pos(:,2)<(ele+thr) & pos(:,2)>(ele-thr));
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
-    M=M-max(max(M));
-    M(M<noisefloor)=noisefloor;
+    del=round(Obj.Data.Delay(idx,ch));    
+    M2=noisefloor*ones(size(M)+[0 max(del)]);
+    for ii=1:size(M,1)
+      M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
+    end
     [azi,i]=sort(pos(:,1));
-    M=M(i,:);
+    M=M2(i,:);
+    M=M-max(max(M));
+    M(M<=noisefloor)=noisefloor;
     surface(0:1/fs*1000:(size(M,2)-1)/fs*1000,azi,M(:,:));
     set(gca,'FontName','Arial','FontSize',10);
     set(gca, 'TickLength', [0.02 0.05]);
@@ -51,6 +79,7 @@ switch lower(type)
     ylabel('Azimuth (deg)');
     title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');    
     
+    % Magnitude spectrum in the median plane
   case 'magmedian'
     noisefloor=-50;
     azi=0;
@@ -73,10 +102,13 @@ switch lower(type)
     xlabel('Frequency (Hz)');
     ylabel('Elevation (deg)');
     title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
+    
+    % ETC in the median plane
   case 'etcmedian'
     noisefloor=-50;
     azi=0;
     thr=2;
+    Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
     idx=find(abs(pos(:,1))>90);
@@ -85,7 +117,12 @@ switch lower(type)
     idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
-    M=M-max(max(M));
+    del=round(Obj.Data.Delay(idx,ch));    
+    M2=zeros(size(M)+[0 max(del)]);
+    for ii=1:size(M,1)
+      M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
+    end    
+    M=M2-max(max(M2));
     M(M<noisefloor)=noisefloor;
     [ele,i]=sort(pos(:,2));
     M=M(i,:);

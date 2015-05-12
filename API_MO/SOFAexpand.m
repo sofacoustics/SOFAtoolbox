@@ -67,16 +67,32 @@ if ~exist('VarName','var'),
   
 else	% Expand a single variable only
 	if isempty(strfind(VarName,'_')),	% is an attribute --> not expandable
-		if isfield(OC.API.Dimensions, VarName), % is a used-defined variable --> not expandable
-			dim=OC.API.Dimensions.(VarName); % all possible dimensions
-            if iscell(dim), % is a variable with a single dimension definition --> not expandable
-                [varNew,dimNew]=expand(Obj,VarName,dim);
-                if ~isempty(varNew),
-                    Obj.(VarName)=varNew;
-                    Obj.API.Dimensions.(VarName)=dimNew;
-                    log{end+1}=[VarName ' expanded to ' dimNew];
-                end
+    if strncmp(VarName,'Data.',length('Data.'))         
+      % variable within the Data. structure
+      VarName=VarName(length('Data.')+1:end);
+      if isfield(OC.API.Dimensions.Data, VarName), % is a used-defined variable --> not expandable
+        dim=OC.API.Dimensions.Data.(VarName); % all possible dimensions
+        if iscell(dim), % is a variable with a single dimension definition --> not expandable
+            [varNew,dimNew]=expandData(Obj,VarName,dim);
+            if ~isempty(varNew),
+                Obj.Data.(VarName)=varNew;
+                Obj.API.Dimensions.Data.(VarName)=dimNew;
+                log{end+1}=['Data.' VarName ' expanded to ' dimNew];
             end
+        end
+      end
+    else
+      if isfield(OC.API.Dimensions, VarName), % is a used-defined variable --> not expandable
+        dim=OC.API.Dimensions.(VarName); % all possible dimensions
+        if iscell(dim), % is a variable with a single dimension definition --> not expandable
+          [varNew,dimNew]=expand(Obj,VarName,dim);
+          if ~isempty(varNew),
+              Obj.(VarName)=varNew;
+              Obj.API.Dimensions.(VarName)=dimNew;
+              log{end+1}=[VarName ' expanded to ' dimNew];
+          end
+        end
+      end
 		end
 	end
 end	
