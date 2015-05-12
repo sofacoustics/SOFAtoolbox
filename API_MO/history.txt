@@ -11,8 +11,9 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v0.9.9 (???) [1.0rc1]
+*** v0.9.0 (???) 
 
+- 0.9.0 is the internal numbering for the release version 1.0 RC1
 - update of all conventions to SOFA 1.0
 - changes according to the AES212-standard implemented
 - Octave: upgraded to a new netcdf-package: http://modb.oce.ulg.ac.be/mediawiki/index.php/Octave-netcdf
