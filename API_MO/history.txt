@@ -11,7 +11,13 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v0.9.0 (???) 
+*** v0.9.1 (13.5.2015) 
+- 0.9.1 is the internal numbering for the release version 1.0 RC2
+- SimpleFreeFieldSOS added
+- SOFAexpand and SOFAaddVariable handle Data. variables now
+- SOFAplotHRTF supports SimpleFreeFielsSOS now
+
+*** v0.9.0 (12.5.2015) 
 
 - 0.9.0 is the internal numbering for the release version 1.0 RC1
 - update of all conventions to SOFA 1.0
