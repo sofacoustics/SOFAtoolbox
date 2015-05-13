@@ -37,7 +37,7 @@ ListenerUp	[0 0 1]	m	IC, MC	double
 ListenerView	[1 0 0]	m	IC, MC	double	
 ListenerView:Type	cartesian	m		attribute	
 ListenerView:Units	metre	m		attribute	
-Data.Real	[1 1]	m	mRn	double	
+Data.Real	[0 0]	m	mRn	double	
 Data.Imag	[0 0]	m	MRN	double	
 N	0	m	N	double	
 N_LongName	frequency			attribute	

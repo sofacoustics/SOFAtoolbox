@@ -22,7 +22,7 @@ GLOBAL:Title		m		attribute
 ListenerPosition	[0 0 0] 	m	IC, MC	double	
 ListenerPosition:Type	cartesian	m	  	attribute	
 ListenerPosition:Units	metre	m	  	attribute	
-ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rCI, rCM	double	
+ReceiverPosition	[0 0 0]	m	rCI, rCM	double	
 ReceiverPosition:Type	cartesian	m	  	attribute	
 ReceiverPosition:Units	metre	m	  	attribute	
 SourcePosition	[0 0 1]	m	IC, MC	double	In order to store different directions/positions around the listener, SourcePosition is assumed to vary
@@ -31,7 +31,7 @@ SourcePosition:Units	degree, degree, metre	m	  	attribute
 EmitterPosition	[0 0 0]	m	eCI, eCM	double	
 EmitterPosition:Type	cartesian	m	  	attribute	
 EmitterPosition:Units	metre	m	  	attribute	
-Data.IR	[1 1]	m	mRn	double	Impulse responses
+Data.IR	0	m	mRn	double	Impulse responses
 Data.SamplingRate	48000	m	I	double	Sampling rate of the samples in Data.IR and Data.Delay
 Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
-Data.Delay	[0 0]	m	IR, MR	double	Additional delay of each IR (in samples)
+Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples)

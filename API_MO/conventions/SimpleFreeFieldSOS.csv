@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
 GLOBAL:Version	1.0	rm	 	attribute	
 GLOBAL:SOFAConventions	SimpleFreeFieldSOS	rm	  	attribute	This convention set follows SimpleFreeFieldHRIR but the data is stored as second-order section (SOS) coefficients.
-GLOBAL:SOFAConventionsVersion	0.1	rm	  	attribute	
+GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	
 GLOBAL:APIVersion		rm	  	attribute	
 GLOBAL:ApplicationName			  	attribute	
@@ -37,7 +37,7 @@ ListenerUp	[0 0 1]	m	IC, MC	double
 ListenerView	[1 0 0]	m	IC, MC	double	
 ListenerView:Type	cartesian	m		attribute	
 ListenerView:Units	metre	m		attribute	
-Data.SOS	0	m	mRn	double	Filter coefficients as SOS coefficients.
+Data.SOS	permute([0 0 0 1 0 0; 0 0 0 1 0 0], [3 1 2]);	m	mRn	double	Filter coefficients as SOS coefficients.
 Data.SamplingRate	48000	m	I	double	Sampling rate of the coefficients in Data.SOS and the delay in Data.Delay
 Data.SamplingRate:Units	hertz	m		attribute	
-Data.Delay	0	m	IR, MR	double	Broadband delay (in samples resulting from SamplingRate)
+Data.Delay	[0 0]	m	IR, MR	double	Broadband delay (in samples resulting from SamplingRate)
