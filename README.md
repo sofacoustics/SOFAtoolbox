@@ -63,8 +63,3 @@ soundOutput = [conv(squeeze(hrtf.Data.IR(91, 1, :)), soundInput) ...
                conv(squeeze(hrtf.Data.IR(91, 2, :)), soundInput)];
 sound(soundOutput, hrtf.Data.SamplingRate);
 ```
-
-## C++ API
-
-No explanation so far, but you can have a look in the `SOFAlizer` folder which
-is an example SOFA program written in C.
