@@ -34,7 +34,7 @@ if exist('OCTAVE_VERSION','builtin')
 else
     % We're in Matlab
   if verLessThan('matlab','8')
-    warning('SOFA for Matlab version <= 8 (2012b) not tested. Use on your risk.');
+    warning('SOFA:start','SOFA for Matlab version <= 8 (2012b) not tested. Use on your risk.');
   end
 end
 

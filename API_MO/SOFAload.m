@@ -82,7 +82,7 @@ if strfind(fn,'://')
 else
     newfn = fn;
     if ~exist(fn,'file') % file does not exist? 
-        warning(['File not found: ' fn]);
+        warning('SOFA:load',['File not found: ' fn]);
         % local path: replace SOFAdbPath by SOFAdbURL, download to SOFAdbPath 
         if length(fn)>length(SOFAdbPath) % fn is longer than SOFAdbPath?
             if strcmp(SOFAdbPath,fn(1:length(SOFAdbPath))) % fn begins with SOFAdbPath
@@ -157,7 +157,7 @@ else
             if ~strfind(field,'_') % if `_` is missing it is a dimension
                 Obj.API.Dimensions.(field) = ObjTemplate.API.Dimensions.(field);
             end
-            warning([field ' was missing, set to default']);
+            warning('SOFA:load',[field ' was missing, set to default']);
         end
     end
 
@@ -172,7 +172,7 @@ else
                 Obj.Data.(field) = ObjTemplate.Data.(field);
                 Obj.API.Dimensions.Data.(field) = ...
                     ObjTemplate.API.Dimensions.Data.(field);
-                warning(['Data.' field ' was missing, set to default']);
+                warning('SOFA:load',['Data.' field ' was missing, set to default']);
             end
         end
         Obj = SOFAupdateDimensions(Obj);
