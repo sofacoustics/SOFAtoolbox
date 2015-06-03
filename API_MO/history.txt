@@ -11,6 +11,10 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v1.0.0 (3.6.2015)
+- 'short' flag added to SOFAstart in order to show only a short header on start-up.
+- warnings are function-specific now and can be specifically enabled/disabled.
+
 *** v0.9.1 (13.5.2015) 
 - 0.9.1 is the internal numbering for the release version 1.0 RC2
 - SimpleFreeFieldSOS added
