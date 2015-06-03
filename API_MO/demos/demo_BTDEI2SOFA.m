@@ -24,7 +24,7 @@ compression=1; % results in a nice compression within a reasonable processing ti
 %% load BTDEI file \ load database structure data
 f=filesep;
 BTDEI_hp_add=fullfile(fileparts(SOFAdbPath),'BTDEI',hp,'headphones_info.mat');
-BTDEI_add=fullfile(fileparts(SOFAdbPath),'BTDEI',hp,subject,setm,BTDEIfold,'MAT',[hp '-' subject '_btdei.mat']);
+BTDEI_add=fullfile(fileparts(SOFAdbPath),'BTDEI',hp,subject,setm,BTDEIfold,'MAT',[hp '_' subject '_btdei.mat']);
 disp(['Loading BT-DEI data']);
 
 try
@@ -57,6 +57,6 @@ Obj = SOFAconvertBTDEI2SOFA(BTDEI);
 Obj.GLOBAL_Comment = SOFAappendText(Obj,'GLOBAL_Comment',BTDEIfold);
 
 %% save SOFA file 
-SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['BTDEI-hp_' hp '-subj_' subject '-' setm '-' BTDEIfold '.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['BTDEI-hp_' hp '_subj_' subject '-' setm '-' BTDEIfold '.sofa']);
 disp(['Saving:  ' SOFAfn])
 SOFAsave(SOFAfn, Obj, compression);
