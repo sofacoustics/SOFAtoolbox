@@ -5,6 +5,7 @@ function SOFAstart(flags)
 %   version of the API
 %
 %   SOFAstart(0) or SOFAstart('silent') will suppress any message during the start.
+%   SOFAstart ('short') will show a short header only during the start.
 
 % SOFA API - function SOFAstart
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -15,9 +16,10 @@ function SOFAstart(flags)
 % See the License for the specific language governing  permissions and limitations under the License.
 
 %% Input parameters
-verbose = 1;
+verbose = 2; 
 if nargin>0
 	if strcmp(lower(flags),'silent'), verbose=0; end;
+	if strcmp(lower(flags),'short'), verbose=1; end;
 	if isnumeric(flags), if flags==0, verbose=0; end; end;
 end
 
@@ -70,14 +72,16 @@ convs=SOFAgetConventions;
 %% Display general informations
 if verbose
     disp(['SOFA Matlab/Octave API version ' SOFAgetVersion '. Copyright 2013 Acoustics Research Institute (piotr@majdak.com).']);
-    disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
-    text=['Available SOFA Conventions: ' convs{1}];
-    for ii=2:length(convs)
-        text=[text ', ' convs{ii}];
-    end
-    disp(text);
-    disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
-    disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
+		if verbose==2,
+			disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
+			text=['Available SOFA Conventions: ' convs{1}];
+			for ii=2:length(convs)
+					text=[text ', ' convs{ii}];
+			end
+			disp(text);
+			disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
+			disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
+		end
 end
 
 % FIXME: I would check only if the URL is available in the function where it is
