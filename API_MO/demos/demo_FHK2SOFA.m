@@ -6,6 +6,12 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
+% Octave has no support for the miro class of the FHK data
+if isoctave
+    error(['Octave is not able to convert FHK to SOFA, you have to use ', ...
+           'Matlab instead.']);
+end
+
 % load HRTF in FHK format and save as SOFA format
 
 %% Define parameters
