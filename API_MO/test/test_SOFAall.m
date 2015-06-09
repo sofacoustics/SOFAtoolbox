@@ -36,7 +36,7 @@ radius=[0.5 1 2 3];
 demo_TUBerlin2SOFA;
 
 clear all;
-demo_FHK2SOFA;
+if ~exist('OCTAVE_VERSION','builtin'), demo_FHK2SOFA; end
 
 clear all;
 demo_BTDEI2SOFA;

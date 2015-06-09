@@ -7,9 +7,8 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 % Octave has no support for the miro class of the FHK data
-if isoctave
-    error(['Octave is not able to convert FHK to SOFA, you have to use ', ...
-           'Matlab instead.']);
+if exist('OCTAVE_VERSION','builtin')
+    error(['Octave is not able to convert FHK to SOFA, use Matlab instead.']);
 end
 
 % load HRTF in FHK format and save as SOFA format
