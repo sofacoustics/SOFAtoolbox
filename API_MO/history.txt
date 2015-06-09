@@ -11,6 +11,11 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v1.0.1 
+- miro class is not supported in Octave. Error is thrown in demo_FHK2SOFA and converterFHK2SOFA
+- demo_BTDEI2SOFA: bug fix in renamed BTDEI files
+- demo_SOFA2ARI: bug fix in coordinate comparison
+
 *** v1.0.0 (3.6.2015)
 - 'short' flag added to SOFAstart in order to show only a short header on start-up.
 - warnings are function-specific now and can be specifically enabled/disabled.
