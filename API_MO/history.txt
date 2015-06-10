@@ -11,7 +11,7 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v1.0.1 
+*** v1.0.1 (10.6.2016)
 - miro class is not supported in Octave. Error is thrown in demo_FHK2SOFA and converterFHK2SOFA
 - demo_BTDEI2SOFA: bug fix in renamed BTDEI files
 - demo_SOFA2ARI: bug fix in coordinate comparison
