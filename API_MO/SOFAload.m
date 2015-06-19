@@ -82,7 +82,7 @@ if strfind(fn,'://')
 else
     newfn = fn;
     if ~exist(fn,'file') % file does not exist? 
-        warning('SOFA:load',['File not found: ' fn]);
+        warning('SOFA:load',['File not found: '  strrep(fn,'\','\\')]);
         % local path: replace SOFAdbPath by SOFAdbURL, download to SOFAdbPath 
         if length(fn)>length(SOFAdbPath) % fn is longer than SOFAdbPath?
             if strcmp(SOFAdbPath,fn(1:length(SOFAdbPath))) % fn begins with SOFAdbPath
