@@ -18,7 +18,7 @@ end
 
 switch Obj.GLOBAL_SOFAConventions
 %%
-  case {'SimpleFreeFieldHRIR','SingleRoomDRIR'}
+  case {'SimpleFreeFieldHRIR','SingleRoomDRIR','SimpleFreeFieldTF'}
     % Expand entries to the same number of measurement points
     Obj = SOFAexpand(Obj);
     % See if the room geometry is specified
