@@ -66,7 +66,7 @@ end
 % TODO: check what convetion we are using for delta!
 function delta = correctElevation(delta)
     % Ensure -180 <= delta <= 180
-    delta = correct_azimuth(delta);
+    delta = correctAzimuth(delta);
     % Ensure -90 <= delta <= 90
     delta(delta<-90) = -delta(delta<-90) - 180;
     delta(delta>90) = -delta(delta>90) + 180;
