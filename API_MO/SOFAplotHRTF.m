@@ -21,7 +21,6 @@ function M=SOFAplotHRTF(Obj,type,ch)
 if ~exist('ch','var')
     ch=1;
 end
-fs=Obj.Data.SamplingRate;
 
 %% Convert data to FIR
 switch Obj.GLOBAL_SOFAConventions
@@ -42,10 +41,41 @@ switch Obj.GLOBAL_SOFAConventions
     Obj.Data=rmfield(Obj.Data,'SOS');
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
     Obj=SOFAupdateDimensions(Obj);
+  case 'SimpleFreeFieldTF'
+    fs=max(Obj.N)*2;
+    N=fs/min([min(diff(Obj.N)) Obj.N(1)]);
+    N=2*(round(N/2+1)-1);
+    T=SOFAgetConventions('SimpleFreeFieldHRIR');
+    Obj.GLOBAL_SOFAConventions=T.GLOBAL_SOFAConventions;
+    Obj.GLOBAL_SOFAConventionsVersion=T.GLOBAL_SOFAConventionsVersion;
+    Obj.GLOBAL_DataType=T.GLOBAL_DataType;
+    Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.Real;
+    Obj.Data.SamplingRate=fs;
+    Obj.Data.SamplingRate_Units='Hertz';
+    Obj.Data.IR_LongName=Obj.Data.Real_LongName;
+    Obj.Data.IR_Units=Obj.Data.Real_Units;
+    Obj.Data.IR=zeros(Obj.API.M, Obj.API.R, N);
+    for ii=1:Obj.API.M
+      for jj=1:Obj.API.R
+        s=zeros(N/2+1,1);
+        s(Obj.N*N/fs+1)=squeeze(Obj.Data.Real(ii,jj,:))+1i*squeeze(Obj.Data.Imag(ii,jj,:));
+        Obj.Data.IR(ii,jj,:)=myifftreal(s,N);
+      end
+      Obj.SourcePosition(ii,:)=SOFAconvertCoordinates(Obj.SourcePosition(ii,:),Obj.SourcePosition_Type,T.SourcePosition_Type,Obj.SourcePosition_Units,T.SourcePosition_Units);
+    end
+    Obj.Data.Delay=zeros(1,Obj.API.R);
+    Obj.SourcePosition_Type=T.SourcePosition_Type;
+    Obj.SourcePosition_Units=T.SourcePosition_Units;  
+    Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
+    Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
+    Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
+    Obj=SOFAupdateDimensions(Obj);    
   case 'SimpleFreeFieldHRIR'
   otherwise
     error('Conventions not supported');
 end
+
+fs=Obj.Data.SamplingRate;
 
 %% Plot according to the type
 switch lower(type)
@@ -145,3 +175,12 @@ switch lower(type)
     ylabel('Elevation (deg)');
     title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');    
 end
+
+
+function f=myifftreal(c,N) % thanks goto the LTFAT <http://ltfat.sf.net>
+if rem(N,2)==0
+  f=[c; flipud(conj(c(2:end-1,:)))];
+else
+  f=[c; flipud(conj(c(2:end,:)))];
+end;
+f=real(ifft(f,N,1));
