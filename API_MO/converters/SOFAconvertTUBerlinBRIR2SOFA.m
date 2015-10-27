@@ -1,6 +1,7 @@
 function Obj=SOFAconvertTUBerlinBRIR2SOFA(irs)
 % OBJ=SOFAconvertTUBerlin2SOFA(irs) converts the HRTFs described in irs
-% (see TU-Berlin HRTF format) to a SOFA object.
+% (see TU-Berlin HRTF format) to a SOFA object, using the MultiSpeakerBRIR
+% Convention.
 %
 
 % SOFA API - demo script
@@ -13,11 +14,12 @@ function Obj=SOFAconvertTUBerlinBRIR2SOFA(irs)
 
 
 %% Get an empy conventions structure
-Obj = SOFAgetConventions('SingleRoomDRIR');
+Obj = SOFAgetConventions('MultiSpeakerBRIR');
 
 %% Fill data with data
-Obj.Data.IR = shiftdim(shiftdim(irs.left,-1),2); % irs.left is [N M], data.IR must be [M R N]
-Obj.Data.IR(:,2,:) = shiftdim(shiftdim(irs.right,-1),2);
+Obj.Data.IR = zeros(size(irs.left,2),2,1,size(irs.left,1));
+Obj.Data.IR(:,1,:) = shiftdim(shiftdim(irs.left,-2),3); % irs.left is [N M], data.IR must be [M R E N]
+Obj.Data.IR(:,2,:) = shiftdim(shiftdim(irs.right,-2),3);
 Obj.Data.SamplingRate = irs.fs;
 
 %% Fill with attributes
@@ -41,11 +43,12 @@ Obj.GLOBAL_RoomDescription = '';
 
 
 %% Fill the mandatory variables
-% SingleRoomDRIR
+% MultiSpeakerBRIR
 % === Source ===
-Obj.SourcePosition = irs.source_position';
-Obj.SourceView = irs.head_position';
-Obj.SourceUp = [0 0 1];
+Obj.SourcePosition = [0 0 0]; % center of loudspeaker array
+Obj.EmitterPosition = irs.source_position';
+Obj.EmitterView = irs.head_position';
+Obj.EmitterUp = [0 0 1];
 % === Listener ===
 % number of measurements
 M = length(irs.apparent_elevation);
