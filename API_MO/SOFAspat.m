@@ -59,9 +59,12 @@ end;
 
 %% create a 2D-grid with nearest positions of the moving source
 idx=zeros(S,1);
+[target.x,target.y,target.z] = sph2cart(azi,ele,ones(1,S));
+[pos.x,pos.y,pos.z] = sph2cart(Obj.SourcePosition(:,1),Obj.SourcePosition(:,2),Obj.SourcePosition(:,3));
 for ii=1:S % find nearest point on grid (LSP)
-    dist=(Obj.SourcePosition(:,1)-azi(ii)).^2+(Obj.SourcePosition(:,2)-ele(ii)).^2;
-    [~,idx(ii)]=min(dist);
+%     dist=(Obj.SourcePosition(:,1)-azi(ii)).^2+(Obj.SourcePosition(:,2)-ele(ii)).^2;
+  dist = (pos.x-target.x(ii)).^2 + (pos.y-target.y(ii)).^2 + (pos.z-target.z(ii)).^2; 
+  [~,idx(ii)]=min(dist);
 end
 
 %% normalize HRTFs to the frontal, eye-level position
