@@ -46,4 +46,7 @@ xlabel('Time index');
 legend({'Requested', 'Actual'},'Location','Best');
 
 %% Play the sound - use headphones!
-if ~exist('dontplay','var'); wavplay(out,Obj.Data.SamplingRate); end
+if ~exist('dontplay','var'); 
+  p=audioplayer(out, Obj.Data.SamplingRate);
+  play(p); 
+end

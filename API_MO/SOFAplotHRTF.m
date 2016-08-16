@@ -41,7 +41,7 @@ switch Obj.GLOBAL_SOFAConventions
     Obj.Data=rmfield(Obj.Data,'SOS');
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
     Obj=SOFAupdateDimensions(Obj);
-  case 'SimpleFreeFieldTF'
+  case {'SimpleFreeFieldTF' 'GeneralTF'}
     fs=max(Obj.N)*2;
     N=fs/min([min(diff(Obj.N)) Obj.N(1)]);
     N=2*(round(N/2+1)-1);
