@@ -7,7 +7,9 @@ function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele,flag)
 %		Obj: SOFA object containing the HRTFs
 %		azi, ele: vectors with the trajectory (in degrees) independent for
 %							azimuth and elevation
-%   flag: 'interaural-polar': use the interaural-polar coordinate system
+%   flag: 'interaural-polar': azi and ele are given in the 
+%         interaural-polar coordinate system as lateral and polar angles, 
+%         respectively.
 % 
 % Output: 
 %		out: binaural signal
@@ -59,7 +61,7 @@ else
 end;
 
 %% Convert to spherical system if required
-if ~isempty(flag)
+if exist('flag','var')
   if strcmp(flag,'horizontal-polar')
     x=SOFAconvertCoordinates([azi; ele; ones(size(azi))]','horizontal-polar','spherical');
     azi=mod(x(:,1)',360);
