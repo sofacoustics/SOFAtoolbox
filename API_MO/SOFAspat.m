@@ -1,4 +1,4 @@
-function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
+function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele,flag)
 % SOFAspat
 % [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele) spatializes the sound IN using
 % the HRTFs from OBJ according to the trajectory given in AZI and ELE.
@@ -7,6 +7,7 @@ function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
 %		Obj: SOFA object containing the HRTFs
 %		azi, ele: vectors with the trajectory (in degrees) independent for
 %							azimuth and elevation
+%   flag: 'interaural-polar': use the interaural-polar coordinate system
 % 
 % Output: 
 %		out: binaural signal
@@ -57,6 +58,14 @@ else
 	ele=repmat(ele,1,S);
 end;
 
+%% Convert to spherical system if required
+if ~isempty(flag)
+  if strcmp(flag,'horizontal-polar')
+    x=SOFAconvertCoordinates([azi; ele; ones(size(azi))]','horizontal-polar','spherical');
+    azi=mod(x(:,1)',360);
+    ele=x(:,2)';
+  end
+end
 %% create a 2D-grid with nearest positions of the moving source
 idx=zeros(S,1);
 for ii=1:S % find nearest point on grid (LSP)
@@ -87,12 +96,11 @@ while ii<iiend
 		%-----------
 		segTO=real(ifft(segFO));   % back to the time domain
 		out(ii+1:ii+2*N,:)=out(ii+1:ii+2*N,:)+segTO;  % overlap and add
-		ii=ii+N*hop;
+		ii=ii+ceil(N*hop);
 		jj=jj+1;
 end
 
 %% Normalize
-out(:,1)=out(:,1)/peak(1);
-out(:,2)=out(:,2)/peak(2);
+out=out./max(peak);
 
 if exist('converted','var'), azi=nav2sph(azi,ele); end;
