@@ -6,14 +6,20 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-%% load a SOFA file
+%% load a SOFA file in SimpleFreeFieldHRIR
 SOFAfile=fullfile(SOFAdbPath,'database','ari','dtf_nh2.sofa');
 Obj=SOFAload(SOFAfile);
 
 % plot ETC horizontal plane
 figure;
 SOFAplotHRTF(Obj,'ETCHorizontal',1);
-
 % plot magnitude spectrum in the median plane, channel 2
 figure;
 SOFAplotHRTF(Obj,'MagMedian',2);
+
+%% load a GeneralTF SOFA file
+SOFAfile=fullfile(SOFAdbPath,'database','ari (sim)','hrtf_nh5_ref.sofa');
+Obj=SOFAload(SOFAfile);
+% plot magnitude spectrum in the median plane, channel 1
+figure;
+SOFAplotHRTF(Obj,'MagMedian',1);

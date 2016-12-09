@@ -11,7 +11,13 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v1.0.1 (10.6.2016)
+*** v1.0.2 (16.8.2016)
+- SOFAplotHRTF: extended to SimpleFreeFieldTF and some cases of GeneralTF
+- SOFAplotGeometry: extended to SimpleFreeFieldTF
+- SOFAconvertTUBerling2SOFA: uses MultiSpeakerBRIR now
+- SOFAspat, SOFAcalculateAPV: minor bug fixes
+
+*** v1.0.1 (10.6.2015)
 - miro class is not supported in Octave. Error is thrown in demo_FHK2SOFA and converterFHK2SOFA
 - demo_BTDEI2SOFA: bug fix in renamed BTDEI files
 - demo_SOFA2ARI: bug fix in coordinate comparison

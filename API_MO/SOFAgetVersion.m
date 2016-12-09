@@ -20,7 +20,7 @@ end
 
 switch flag
 	case 'API'
-		results = '1.0.2';
+		results = '1.0.3';
 	case 'SOFA'
 		results = '1.0';
 end

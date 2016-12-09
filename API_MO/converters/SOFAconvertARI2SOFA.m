@@ -43,4 +43,4 @@ Obj=SOFAupdateDimensions(Obj);
 %% Fill with some additional data
 Obj.GLOBAL_History='Converted from the ARI format';
 if size(meta.pos,2)>2, Obj=SOFAaddVariable(Obj,'MeasurementSourceAudioChannel','M',meta.pos(1:size(hM,2),3)); end
-Obj=SOFAaddVariable(Obj,'MeasurementAudioLatency','MR',meta.lat);
+if isfield(meta,'lat'), Obj=SOFAaddVariable(Obj,'MeasurementAudioLatency','MR',meta.lat); end
