@@ -1,5 +1,6 @@
 function [dtf,ctf]=SOFAhrtf2dtf(hrtf,varargin)
-%SOFAHRTF2DTF converts HRTFs to DTFs (and CTFs)
+%SOFAHRTF2DTF splits HRTFs into directional transfer functions (DTFs) and
+%common transfer functions (CTFs)
 %   Usage:      [dtf,ctf]=SOFAhrtf2dtf(hrtf)
 %               [dtf,ctf]=SOFAhrtf2dtf(hrtf,f1,f2)
 %
@@ -10,31 +11,59 @@ function [dtf,ctf]=SOFAhrtf2dtf(hrtf,varargin)
 %     dtf:      SOFA object with the directional transfer functions
 %     ctf:      SOFA object with the common transfer functions
 %
-%   `SOFAhrtf2dtf(...)` calculates directional transfer functions (DTFs) using 
-%   the method from Majdak et al. (2010), which is similar to the procedure 
-%   of Middlebrooks (1999a). 
-%   The magnitude of the common transfer function (CTF) is calculated by   
-%   averaging the log-magnitude spectra across all HRTFs for each ear.
+%   `SOFAhrtf2dtf(...)` calculates DTFs using the method from either 
+%   Majdak et al. (2010; 'log' flag) or Middlebrooks (1999; 'rms' flag). 
+%   The magnitude spectrum of the CTF is calculated by   
+%   averaging the (log-)magnitude spectra across all HRTFs for each ear.
 %   The phase spectrum of the CTF is the minimum phase 
-%   corresponding to the amplitude spectrum of the CTF. 
-%   A DTF results from filtering the HRTF with the inverse complex CTF. 
+%   corresponding to the magnitude spectrum of the CTF. 
+%   DTFs result from filtering the HRTF with the inverse complex CTF. 
 %
-%   `SOFAhrtf2dtf` accepts the following optional parameters:
+%   `SOFAhrtf2dtf` accepts the following key-value pairs:
 %
 %     'f1',f1     start frequency of the filtering (in Hz; default: 50 Hz)
 %     'f2',f2     end frequency of the filtering (in Hz; default: 18 kHz)
-%     'atten',a   broadband attenuation in order to avoid clipping (in dB; default: 20 dB)
+%     'atten',a   broadband attenuation in order to avoid clipping (in dB; 
+%                 default: 20 dB)
+%     'weights' w area weights for averaging. Vector of size [M 1]
+%                 (M=number of HRIRs), or flase (default: false)
 %
-%   References: majdak2010methods middlebrooks1999scaling
+%   `SOFAhrtf2dtf` accepts the following flags:
+%
+%     'log'       evaluate CTF magnitude spectrum by average of log-magnitude 
+%                 spectra, equivalent to geometric mean of linear filters
+%                 (c.f., Majdak et al., 2010; Baumgartner et al., 2014). 
+%                 This is the default.
+%     'rms'       evaluate CTF magnitude spectrum by RMS of linear
+%                 magnitude spectra, equivalent to diffuse-field
+%                 compensation (c.f., Middlebrooks, 1999; Moller et al.,
+%                 1995).
+%
+% References:
+% Baumgartner, R., Majdak, P., & Laback, B. (2014). Modeling sound-source
+%  localization in sagittal planes for human listeners. J. Acoust. Soc. Am.
+%  136(2), 791-802. 
+% Majdak, P., Goupell, M. J., & Laback, B. (2010). 3-D localization of
+%  virtual sound sources: Effects of visual environment, pointing method,
+%  and training. Attention, Perception, & Psychophysics, 72(2), 454-469. 
+% Middlebrooks, J. C. (1999). Individual differences in external-ear
+%  transfer functions reduced by scaling in frequency. J. Acoust. Soc. Am.,
+%  106(3), 1480-1492. 
+% Moller, H., Hammershoi, D., Jensen, C. B., S?rensen, M. F. (1995).
+%  Design criteria for headphones. J. Audio Eng. Soc., 43(4), 218-232. 
 
-% Author: Robert Baumgartner, 16.01.2014
+
+% Author: Robert Baumgartner, 2014/01/16
+%         Fabian Brinkmann, 2016/09/08 - added rms, and weighted averaging
 
 %% Check Input
 definput.keyvals.f1 = 50;     % Hz
 definput.keyvals.f2 = 18000;  % Hz
 definput.keyvals.atten = 20;  % dB
+definput.keyvals.weights = false;
+definput.flags.avg = {'log','rms'};
 
-[flags,kv]=SOFAarghelper({'f1','f2','atten'},definput,varargin);
+[flags,kv]=SOFAarghelper({'f1','f2','atten', 'weights'},definput,varargin);
 
 %% Settings
 kv.fs = hrtf.Data.SamplingRate;
@@ -49,16 +78,42 @@ idx = f >= kv.f1 & f <= kv.f2;
 idx(Nfft/2+2:end) = fliplr(idx(2:Nfft/2));
 
 %% CTF calculation
+
+% get magnitude response
 hrtff=fft(hrtfmtx,Nfft);
-ctfflog=mean(log(abs(hrtff)+eps),2);
+if flags.do_rms
+    if any(kv.weights)
+        kv.weights = squeeze(kv.weights) / sum(kv.weights);
+        ctffavg=sqrt(sum( abs(hrtff).^2 .* repmat(kv.weights', [hrtf.API.N 1 hrtf.API.R]), 2 ));
+    else
+        ctffavg=sqrt(mean(abs(hrtff).^2,2));
+    end
+else % flags.do_log
+    if any(kv.weights)
+        kv.weights = squeeze(kv.weights) / sum(kv.weights);
+        ctffavg= sum(log(abs(hrtff)+eps) .* repmat(kv.weights', [hrtf.API.N 1 hrtf.API.R]), 2);
+    else
+        ctffavg=mean(log(abs(hrtff)+eps),2);
+    end
+end
 
 % Force minimum phase 
+ctfflog=mean(log(abs(hrtff)+eps),2);
 ctfcep = ifft(ctfflog,Nfft);
 ctfcep(Nfft/2+2:Nfft,:,:) = 0;    % flip acausal part to causal part or simply multiply
 ctfcep(2:Nfft/2,:,:) = 2*ctfcep(2:Nfft/2,:,:);    % causal part by 2 (due to symmetry)
 ctfflog = fft(ctfcep,Nfft);
-ctff = exp(ctfflog);
-ctfmtx = ifft(ctff,Nfft);
+ctfp = exp(ctfflog);
+
+% get complex spectrum
+if flags.do_rms
+    ctff = ctffavg .*exp(1j*angle(ctfp));
+else
+    ctff = exp(ctffavg) .*exp(1j*angle(ctfp));
+end
+
+% get IR
+ctfmtx = ifft(ctff, Nfft, 'symmetric');
 
 %% DTF calculation
 dtff = hrtff;

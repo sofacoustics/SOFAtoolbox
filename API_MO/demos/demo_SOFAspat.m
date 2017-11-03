@@ -32,18 +32,18 @@ in=randn(5*Obj.Data.SamplingRate,1);	% Five seconds of noise
 disp('Binaural signal rendered');
 
 %% Plot the trajectories
-subplot(2,1,1); hold on; box on;
-plot(azi); % plot the requested, resampled azimuthal trajectory
-plot(Obj.SourcePosition(idx,1),'rx');
+time = (1:length(azi))/Obj.Data.SamplingRate;
+
+figure
+subplot(2,1,1);
+plot(time,azi); % plot azimuthal trajectory
 ylabel('Azimuth (deg)');
 title('SOFAspat: Trajectory');
 
-subplot(2,1,2); hold on; box on;
-plot(ele); 
-plot(Obj.SourcePosition(idx,2),'rx');
+subplot(2,1,2);
+plot(time,ele); % plot elevational trajectory
 ylabel('Elevation (deg)');
-xlabel('Time index');
-legend({'Requested', 'Actual'},'Location','Best');
+xlabel('Time (s)');
 
 %% Play the sound - use headphones!
 if ~exist('dontplay','var'); 
