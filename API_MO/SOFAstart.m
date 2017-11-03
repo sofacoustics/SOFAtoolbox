@@ -29,7 +29,8 @@ if exist('OCTAVE_VERSION','builtin')
     % We're in Octave
   if compare_versions(OCTAVE_VERSION,'3.6.0','<=')   % check if the octave version is high enough
     error('You need Octave >=3.6.0 to work with SOFA.');
-  end  
+  end
+  pkg load netcdf  
   if ~which('test_netcdf') % check if octcdf is installed
     error('You have to install the netcdf package in Octave to work with SOFA.');
   end
