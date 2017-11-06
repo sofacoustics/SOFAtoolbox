@@ -35,7 +35,7 @@ elecnt=[ 56  60  72  72 72 72 72 60 56 45 36 24 12  1];
 %% Determine data size
 M=sum(elecnt);
 Obj.SourcePosition=zeros(M,3);
-Obj.Data.IR=zeros(M,2,length(wavread([root filesep prefix filesep 'elev0' filesep postfix '0e000a.wav'])));
+Obj.Data.IR=zeros(M,2,length(audioread([root filesep prefix filesep 'elev0' filesep postfix '0e000a.wav'])));
 
 %% Fill with data 
 Obj.Data.SamplingRate = 44100;
@@ -46,10 +46,10 @@ for ei = 1 : length(eles)
 		azi = 360/elecnt(ei)*ai;
 		flip_azi = mod(360-azi,360);
 		fn=[root filesep prefix filesep 'elev' num2str(ele) filesep postfix num2str(ele) 'e' sprintf('%03d',round(flip_azi)) 'a.wav'];
-		Obj.Data.IR(ii,idx(1),:) = wavread(fn)'; % data.IR must be [M R N]
+		Obj.Data.IR(ii,idx(1),:) = audioread(fn)'; % data.IR must be [M R N]
     dirfn=dir(fn);
 		fn=[root filesep prefix filesep 'elev' num2str(ele) filesep postfix num2str(ele) 'e' sprintf('%03d',round(azi)) 'a.wav'];
-		Obj.Data.IR(ii,idx(2),:) = wavread(fn)';
+		Obj.Data.IR(ii,idx(2),:) = audioread(fn)';
       % SimpleFreeFieldHRIR 0.2
         % Obj.ListenerRotation(ii,:)=[azi ele 0];
       % SimpleFreeFieldHRIR 0.3
