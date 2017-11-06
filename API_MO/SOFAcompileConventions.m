@@ -53,7 +53,9 @@ for convention = conventions
     % Read convention description from csv file
     fid = fopen(fullfile(baseFolder,'conventions', ...
                          strcat(convention{:},'.csv')));
-    C = textscan(fid,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1);
+    x=char(fread(fid));
+    xr=strrep(x',char([9 13 10]),char([9 32 32 13 10]));
+    C = textscan(xr,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1,'WhiteSpace','');
     fclose(fid);
     % Convert to mat files for r,m,a cases
     for flag = 'rma'
