@@ -55,6 +55,7 @@ function [dtf,ctf]=SOFAhrtf2dtf(hrtf,varargin)
 
 % Author: Robert Baumgartner, 2014/01/16
 %         Fabian Brinkmann, 2016/09/08 - added rms, and weighted averaging
+%         Piotr Majdak, 2018/02/23 - Octave ifft compatibility
 
 %% Check Input
 definput.keyvals.f1 = 50;     % Hz
@@ -113,7 +114,7 @@ else
 end
 
 % get IR
-ctfmtx = ifft(ctff, Nfft, 'symmetric');
+ctfmtx = real(ifft(ctff, Nfft));
 
 %% DTF calculation
 dtff = hrtff;
@@ -141,4 +142,11 @@ if isfield(ctf,'MeasurementAudioLatency')
 end
 ctf = SOFAupdateDimensions(ctf);
 
-end
+
+function f=myifftreal(c,N) % thanks goto the LTFAT <http://ltfat.sf.net>
+if rem(N,2)==0
+  f=[c; flipud(conj(c(2:end-1,:)))];
+else
+  f=[c; flipud(conj(c(2:end,:)))];
+end;
+f=real(ifft(f,N,1));
