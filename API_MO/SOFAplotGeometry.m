@@ -40,7 +40,11 @@ switch Obj.GLOBAL_SOFAConventions
     LP = SOFAconvertCoordinates(Obj.ListenerPosition(index,:),Obj.ListenerPosition_Type,'cartesian');
     LV = SOFAconvertCoordinates(Obj.ListenerView(index,:),Obj.ListenerView_Type,'cartesian');
     RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,index),Obj.ReceiverPosition_Type,'cartesian');
-    S  = SOFAconvertCoordinates(Obj.SourcePosition(index,:),Obj.SourcePosition_Type,'cartesian');
+    if strcmp(Obj.SourcePosition_Type,'cartesian')
+        S=Obj.SourcePosition(index,:);
+    else
+        S  = SOFAconvertCoordinates(Obj.SourcePosition(index,:),Obj.SourcePosition_Type,'cartesian');
+    end
     % Use only unique listeber and source positons
     uniquePoints = unique([LP LV S],'rows');
     LP = uniquePoints(:,1:3);

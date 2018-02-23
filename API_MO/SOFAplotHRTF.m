@@ -1,4 +1,4 @@
-function M=SOFAplotHRTF(Obj,type,ch)
+function [M,Obj]=SOFAplotHRTF(Obj,type,ch)
 % SOFAplotHRTF(OBJ, TYPE, CH) plots the CH channel of HRTFs given in OBJ. 
 %  The following TYPEs are supported:
 %  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- 5 deg)
@@ -76,6 +76,17 @@ switch Obj.GLOBAL_SOFAConventions
 end
 
 fs=Obj.Data.SamplingRate;
+%% Convert to spherical if cartesian
+if strcmp(Obj.SourcePosition_Type,'cartesian')
+    for ii=1:Obj.API.M
+        [Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3)]=cart2sph(Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3));
+        Obj.SourcePosition(ii,2)=rad2deg(Obj.SourcePosition(ii,2));
+        Obj.SourcePosition(ii,1)=rad2deg(Obj.SourcePosition(ii,1));
+        Obj.SourcePosition(ii,1)=npi2pi(Obj.SourcePosition(ii,1),'degrees');
+    end
+    Obj.SourcePosition_Type='spherical';
+    Obj.SourcePosition_Units='degrees';
+end
 
 %% Plot according to the type
 switch lower(type)
@@ -83,7 +94,7 @@ switch lower(type)
   case 'etchorizontal'
     noisefloor=-50;
     ele=0;
-    thr=5;
+    thr=1;
     Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
@@ -135,7 +146,7 @@ switch lower(type)
     surface(0:fs/size(hM,2):(size(M,2)-1)*fs/size(hM,2),ele,M(:,:));
     shading flat
     xlabel('Frequency (Hz)');
-    ylabel('Elevation (deg)');
+    ylabel('Polar angle (deg)');
     title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
     
     % ETC in the median plane
@@ -172,7 +183,7 @@ switch lower(type)
     box on;
     colorbar;
     xlabel('Time (ms)');
-    ylabel('Elevation (deg)');
+    ylabel('Polar angle (deg)');
     title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');    
 end
 
