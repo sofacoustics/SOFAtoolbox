@@ -1,6 +1,10 @@
 function Obj=SOFAconvertConventions(Obj)
 % SOFAconvertConventions(OBJ) converts an object to SimpleFreeFieldHRIR
 %
+%  Supported conventions: 
+%    SimpleFreeFieldSOS
+%    SimpleFreeFieldTF
+%    some special cases of GeneralTF.
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -30,7 +34,7 @@ switch Obj.GLOBAL_SOFAConventions
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
     Obj=SOFAupdateDimensions(Obj);
   case {'SimpleFreeFieldTF' 'GeneralTF'}
-    fs=max(Obj.N)*2;
+    fs=48000; %max(Obj.N)*2;
     N=fs/min([min(diff(Obj.N)) Obj.N(1)]);
     N=2*(round(N/2+1)-1);
     T=SOFAgetConventions('SimpleFreeFieldHRIR');

@@ -1,11 +1,16 @@
-function [M,Obj]=SOFAplotHRTF(Obj,type,ch)
-% SOFAplotHRTF(OBJ, TYPE, CH) plots the CH channel of HRTFs given in OBJ. 
+function [M,Obj,h]=SOFAplotHRTF(Obj,type,ch,dir,color)
+% SOFAplotHRTF(OBJ, TYPE, CH, COLOR) plots the CH channel of HRTFs given in OBJ. 
 %  The following TYPEs are supported:
 %  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- 5 deg)
 %  'EtcMedian'      energy-time curve in the median plane (+/- 2 deg)
 %  'MagMedian'      magnitude spectrum in the median plane (+/- 2 deg)
+%  'MagSpectrum'    magnitude spectrum of a particular direction. Provide channel, direction, and color
 %
-%  OBJ must be in SimpleFreeFieldHRIR or SimpleFreeFieldSOS.
+%  Supported conventions: 
+%    SimpleFreeFieldHRIR
+%    SimpleFreeFieldSOS
+%    SimpleFreeFieldTF
+%    some special cases of GeneralTF.
 %
 % M=SOFAplotHRTF... returns the matrix M displayed in the figure.
 %
@@ -18,9 +23,9 @@ function [M,Obj]=SOFAplotHRTF(Obj,type,ch)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 
-if ~exist('ch','var')
-    ch=1;
-end
+if ~exist('ch','var'), ch=1; end
+if ~exist('dir','var'), dir=[0,0]; end;
+if ~exist('color','var'), color='b'; end;
 
 %% Convert data to FIR
 switch Obj.GLOBAL_SOFAConventions
@@ -111,7 +116,7 @@ switch lower(type)
     M=M2(i,:);
     M=M-max(max(M));
     M(M<=noisefloor)=noisefloor;
-    surface(0:1/fs*1000:(size(M,2)-1)/fs*1000,azi,M(:,:));
+    h=surface(0:1/fs*1000:(size(M,2)-1)/fs*1000,azi,M(:,:));
     set(gca,'FontName','Arial','FontSize',10);
     set(gca, 'TickLength', [0.02 0.05]);
     set(gca,'LineWidth',1);
@@ -143,7 +148,7 @@ switch lower(type)
     M(M<noisefloor)=noisefloor;
     [ele,i]=sort(pos(:,2));
     M=M(i,:);
-    surface(0:fs/size(hM,2):(size(M,2)-1)*fs/size(hM,2),ele,M(:,:));
+    h=surface(0:fs/size(hM,2):(size(M,2)-1)*fs/size(hM,2),ele,M(:,:));
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Polar angle (deg)');
@@ -172,7 +177,7 @@ switch lower(type)
     M(M<noisefloor)=noisefloor;
     [ele,i]=sort(pos(:,2));
     M=M(i,:);
-    surface(0:1/fs*1000:(size(M,2)-1)/fs*1000,ele,M(:,:));
+    h=surface(0:1/fs*1000:(size(M,2)-1)/fs*1000,ele,M(:,:));
     set(gca,'FontName','Arial','FontSize',10);
     set(gca, 'TickLength', [0.02 0.05]);
     set(gca,'LineWidth',1);
@@ -184,7 +189,50 @@ switch lower(type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Polar angle (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');    
+    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');   
+    
+  case 'magspectrum'
+    noisefloor=-50;
+    pos=round(Obj.SourcePosition,1);
+    switch length(dir)
+        case 1
+            idx=find(pos(:,1)==dir(:,1));
+        case 2
+            idx=find(pos(:,1)==dir(:,1) & pos(:,2)==dir(:,2));
+        otherwise
+            idx=find(pos(:,1)==dir(:,1) & pos(:,2)==dir(:,2) & pos(:,3)==dir(:,3));
+    end
+    if isempty(idx), error('Position not found'); end
+    IR=squeeze(Obj.Data.IR(idx,ch,:));
+    
+    if size(idx) > 1,
+        M=20*log10(abs(fft(IR)));
+        M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
+        h=plot(0:fs/size(M,2):(size(M,2)-1)*fs/size(M,2),M);
+        for ii=1:length(idx)
+            labels{ii}=['#' num2str(idx(ii)) ': (' num2str(pos(idx(ii),1)) ', ' num2str(pos(idx(ii),2)) ')'];
+        end
+        legend(labels);
+    else
+        hM=20*log10(abs(fft(IR)));
+        M=hM(1:floor(length(hM)/2));
+        hold on;
+        h=plot(0:fs/length(hM):(length(M)-1)*fs/length(hM),M,color,...
+            'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
+        leg=legend;
+        if isempty(leg), 
+            legend(['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']); 
+        else
+            leg=leg.String;
+            leg{end+1}=['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')'];
+            legend('off');
+            legend(leg);
+        end
+    end
+    ylabel('Magnitude (dB)');
+    xlabel('Frequency (Hz)');
+    ylim([max(max(M))+noisefloor-10 max(max(M))+10]);
+    xlim([0 fs/2]);
 end
 
 
