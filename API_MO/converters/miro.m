@@ -2,14 +2,22 @@
 %
 % miro Class Definition
 %
-% 2012 by Benjamin Bernschütz (bBrn)
-%         Cologne University of Applied Sciences
-%         Institute of Communication Systems
-%         mail benjamin.bernschuetz@fh-koeln.de
-%         GSM   +49 171 4176069
-%         Phone +49 221 8275 2496
+% 2012-2014 Benjamin Bernschütz 
+% 2014-2017 Johannes M. Arend
+% 2012-2017 Christoph Pörschmann
+%           TH Köln
+%           University of Applied Sciences
+%           Institute of Communications Engineering
+%           Mail  christoph.poerschmann@th-koeln.de
+%           Phone +49 221 8275 2495
 %
-% MIRO V1, Release 1.03 - 03/dec/2012
+% MIRO V1, Release 1.04 - 07/Feb/2014
+% MIRO V1, Release 1.05 - 25/Dez/2016
+% MIRO V1, Release 1.06 - 20/Sep/2017
+%
+% Modified Feb/2014 by Chris Pike, BBC R&D
+% Modified Dez/2016 by Johannes M. Arend, TH Köln
+% Modified Sep/2017 by Johannes M. Arend & Christoph Pörschmann, TH Köln
 
 
 classdef miro
@@ -66,6 +74,9 @@ classdef miro
         headPhone          = [];
         hpcfKernel         = [];
         headPhoneComp      = false;
+        mic                = [];
+        mcfKernel          = [];
+        micComp            = false;
         shutUp             = false;
         angles             = 'RAD';
         
@@ -112,7 +123,15 @@ classdef miro
             end
             
             if obj.headPhoneComp && irID > 0      % Applying HP Filter
-                irOne = miro_fastConv(irOne, obj.hpcfKernel);
+                if size(obj.hpcfKernel,2)==1
+                    irOne = miro_fastConv(irOne, obj.hpcfKernel);
+                else
+                    irOne = miro_fastConv(irOne, obj.hpcfKernel(:,1));
+                end
+            end
+            
+            if obj.micComp && irID > 0      % Applying Mic Filter %JMA-Edit
+                irOne = miro_fastConv(irOne, obj.mcfKernel);
             end
             
             if obj.headWin > 0                    % Windowing Head
@@ -135,7 +154,15 @@ classdef miro
                 irTwo = cast(irTwo, 'double');
                 
                 if obj.headPhoneComp
-                    irTwo = miro_fastConv(irTwo, obj.hpcfKernel);
+                    if size(obj.hpcfKernel,2)==1
+                        irTwo = miro_fastConv(irTwo, obj.hpcfKernel);
+                    else
+                        irTwo = miro_fastConv(irTwo, obj.hpcfKernel(:,2));
+                    end
+                end
+                
+                if obj.micComp                  % Applying Mic Filter %JMA-Edit
+                    irTwo = miro_fastConv(irTwo, obj.mcfKernel);
                 end
                 
                 if obj.headWin > 0                % Windowing Head
@@ -224,8 +251,11 @@ classdef miro
             axis off; hold on; grid off; sphere; axis equal; rotate3d on; light;
             alpha(.6); lighting phong; hold off; set(gcf,'color','w');
             
-            title(['Sampling Points or Virtural Source Positions in: ',strrep(obj.name,'_','-')]);
-            
+            if strcmp(obj.type,'HRIR')
+                title(['Sampling Points or Virtural Source Positions in: ',strrep(obj.name,'_','-')]);
+            elseif strcmp(obj.type,'BRIR')
+                title(['Head orientations in: ',strrep(obj.name,'_','-')]); %JMA-Edit: Distinguish between HRIR and BRIR type
+            end
         end
         
         function miroCoordinates(obj)
@@ -437,14 +467,40 @@ classdef miro
                 if obj.headPhoneComp
                     filename = [filename,'_',obj.headPhone];
                 end
+                
+                if obj.micComp
+                    filename = [filename,'_',obj.mic]; %JMA Edit - MCF (needed for NarDasS research project)
+                end
             end
             
+            if strcmp(filename,'NoCoor') %JMA Edit - Small hack to export wav files without any info on coordinates in the filename (needed for NarDasS research project)
+                filename = ['SSR_',obj.name];
+                
+                if obj.headPhoneComp
+                    filename = [filename,'_',obj.headPhone];
+                end
+                
+                if obj.micComp
+                    filename = [filename,'_',obj.mic]; %JMA Edit - MCF (needed for NarDasS research project)
+                end
+            end
+                
             ir = getIR(obj, irID);
             
             if isempty(obj.resampleToFS)
-                wavwrite(ir, obj.fs, nBits, filename);
+                %JMA-Edit - Use wavwrite for matlab < 2012b (8.0) and audiowrite for matlab > 2012b
+                if verLessThan ('matlab','8.0')
+                    wavwrite(ir, obj.fs, nBits, filename); 
+                else
+                    audiowrite([filename,'.wav'], ir, obj.fs, 'BitsPerSample', nBits);
+                end
             else
-                wavwrite(ir, obj.resampleToFS, nBits, filename);
+                %JMA-Edit - Use wavwrite for matlab < 2012b (8.0) and audiowrite for matlab > 2012b
+                if verLessThan ('matlab','8.0')
+                    wavwrite(ir, obj.resampleToFS, nBits, filename); 
+                else
+                    audiowrite([filename,'.wav'], ir, obj.resampleToFS, 'BitsPerSample', nBits);
+                end
             end
             if ~obj.shutUp
                 fprintf(['Wave file has been written.\n']);
@@ -528,9 +584,46 @@ classdef miro
             end
         end
         
-        function miroToSSR(obj, mirror, nBits, filename)
+        %JMA Edit - Microphone Compensation Filters (needed for NarDasS research project)
+        function obj = setMic(obj, mcf, linearPhase) 
             
-            % miroToSSR(obj, nBits, filename)
+            % obj = setMic(obj, mcf, linearPhase)
+            %
+            % This method sets microphone compensation filters
+            % for HRIR and BRIR datasets. The filters are
+            % applied to all outgoing impulse responses while
+            % obj.micComp is set "true".
+            
+            if strcmp(obj.type,'BRIR') || strcmp(obj.type,'HRIR')
+                
+                if nargin < 3
+                    linearPhase = false;
+                end
+                
+                obj.mic = mcf.micName;
+                
+                if linearPhase
+                    obj.mcfKernel = mcf.linPhase;
+                else
+                    obj.mcfKernel = mcf.minPhase; %DEFAULT
+                end
+                
+                obj.micComp = true;
+                if ~obj.shutUp
+                    fprintf(['Mic compensation filters (',mcf.micName,') are set.\n']);
+                end
+            else
+                if ~obj.shutUp
+                    fprintf('Mic compensation filters can only be applied to objects of type HRIR or BRIR.');
+                end
+                return
+                
+            end
+        end
+        
+        function miroToSSR(obj, mirror, nBits, filename, normalize)
+            
+            % miroToSSR(obj, mirror, nBits, filename, normalize)
             %
             % This method writes a 720 channel interleaved
             % wave file for the Sound Scape Renderer (SSR):
@@ -547,6 +640,7 @@ classdef miro
             %            e.g. from Left to Right.)
             % nBits    = 16
             % filename = 'SSR_', obj.name, [obj.headphone]
+            % normalize= true
             % ------------------------------------------------
             % WARNING: NO DITHERING/NOISESHAPING APPLIED
             
@@ -571,6 +665,14 @@ classdef miro
                         filename = [filename,'_',obj.headPhone];
                     end
                     
+                    if obj.micComp
+                        filename = [filename,'_',obj.mic]; %JMA Edit -  Add mcf
+                    end
+                    
+                end
+                
+                if nargin < 5
+                    normalize = true;
                 end
                 
                 if mirror
@@ -602,9 +704,15 @@ classdef miro
                 
                 fprintf('\n\n');
                 
-                irArray = 0.99*irArray/max(max(abs(irArray)));
+                if (normalize)
+                    %disp('Normalizing...'); %JMA-Edit
+                    irArray = 0.99*irArray/max(max(abs(irArray)));
+                    disp('Normalization set true - peak normalization applied'); %JMA-Edit - Always print info about normalization
+                else
+                    disp('Normalization set false - no peak normalization applied');
+                end
                 
-                wavwrite(irArray, obj.fs, nBits, filename)
+                miro_wavwrite([filename,'.wav'], irArray, obj.fs, nBits); %JMA-Edit - Use miro_wavwrite
                 disp(['SSR file sucessfully generated: ', filename])
             else
                 if ~obj.shutUp
@@ -684,6 +792,9 @@ classdef miro
     end
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Private methods
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function ab = miro_fastConv(a,b)
 
@@ -714,5 +825,177 @@ function ir = miro_winTail(ir, wLen)
 c = wLen:2*wLen-1;
 w = 0.5+0.5*cos(2*pi*(c-((2*wLen-1)/2))/(2*wLen-1));
 ir(end-size(w,2)+1:end) = ir(end-size(w,2)+1:end) .* w';
+
+end
+
+%CP-Edit: wavwrite function to write multichannel wav files with more than
+%512 channels. Required to write wavfiles for the SSR
+function [] = miro_wavwrite(filename, Y, Fs, nbits)
+%This function writes a multichannel .wav file
+%Due to the removement of the wavread function it is currently not possible
+%to write or read multichannel wav-files with extremely large number of
+%channels (n > 512)
+%To create BRIRs or HRIRs for the SSR (SoundScapeRenderer) multi-channel
+%.wav-files are required
+% Input Parameters: 
+%       filename:   Filename of the .wav-File
+%       Y:          Audio data of the .wav-file
+%       Fs:         Sampling rate
+%       nbits:      Number of bits per sample
+% C.Pörschmann / TH Köln / January 2017
+
+
+if nargin < 4    
+    nbits=16;
+end
+
+% calculate som relevant values
+number_of_channels=length(Y(1,:));
+number_of_samples=length(Y(:,1));
+FileSize=44 + nbits/8 * number_of_channels * number_of_samples;
+
+%Open File
+fileID = fopen(filename,'w');
+
+% Write header
+fwrite(fileID,'RIFF','*char');
+fwrite(fileID,FileSize-8,'int');
+fwrite(fileID,'WAVE','*char');
+fwrite(fileID,'fmt ','*char');
+
+FmtSize=16;
+fwrite(fileID,FmtSize,'int');
+
+Format=1;
+fwrite(fileID,Format,'short');
+
+fwrite(fileID,number_of_channels,'short');
+
+fwrite(fileID,Fs,'int');
+
+BytesPerSecond = Fs*nbits/8*number_of_channels;
+fwrite(fileID,BytesPerSecond,'int'); 
+
+Block_Alignment = number_of_channels * nbits/8;
+fwrite(fileID,Block_Alignment,'short');
+
+
+BitsPerSample = nbits ; 
+fwrite(fileID,BitsPerSample,'short');
+
+fwrite(fileID,'data','*char');
+
+Datasize = FileSize - 44; 
+fwrite(fileID,Datasize,'int');
+
+% Change Amplitudes from [-1;1] as used in Matlab to integer
+Y = Y * (2^(BitsPerSample-1)); 
+
+
+for my_loop=1:size(Y,1)
+    
+    switch BitsPerSample
+        case 8
+            fwrite(fileID,Y(my_loop,:),'bit8');
+        case 16
+            fwrite(fileID,Y(my_loop,:),'bit16');
+        case 24
+            fwrite(fileID,Y(my_loop,:),'bit24');
+        case 32
+            fwrite(fileID,Y(my_loop,:),'bit32');
+        otherwise
+            error('Error writing SSR_file - Wrong number of bits per sample')
+    end    
+end
+%Close File
+fclose(fileID);
+
+end
+
+%CP-Edit: counterpart to miroWavread. Not really needed actually :)
+function [Y, Fs, nbits] = miro_wavread(filename)
+%This function reads a multichannel .wav file
+%Due to the removement of the wavread function it is currently not possible
+%to write or read multichannel wav-files with extremely large number of
+%channels. 
+%To create BRIRs or HRIRs for the SSR (SoundScapeRenderer) multi-channel
+%.wav-files are required
+% Input Parameters: 
+%       filename:   Filename of the .wav-File
+% Return Values: 
+%       Y:          Audio data of the .wav-file
+%       Fs:         Sampling rate
+%       nbits:      Number of bits per sample
+
+% C.Pörschmann / TH Köln / January 2017
+
+
+%open File
+fileID = fopen(filename,'r');
+
+% read header
+my_wave.header.RIFF= fread(fileID,4,'*char');
+my_wave.header.RIFF=my_wave.header.RIFF';
+my_wave.header.RiffSize = fread(fileID,1,'int');
+my_wave.header.WAVE= fread(fileID,4,'*char');
+my_wave.header.WAVE=my_wave.header.WAVE';
+my_wave.header.FMT= fread(fileID,4,'*char');
+my_wave.header.FMT=my_wave.header.FMT';
+my_wave.header.FmtSize = fread(fileID,1,'int');
+my_wave.header.Format = fread(fileID,1,'short');
+my_wave.header.Channels = fread(fileID,1,'short');
+my_wave.header.SamplesPerSecond = fread(fileID,1,'int');
+my_wave.header.BytesPerSecond = fread(fileID,1,'int');
+my_wave.header.BlockAlign = fread(fileID,1,'short');
+my_wave.header.BitsPerSample = fread(fileID,1,'short');
+
+%Adjust things, if header is longer than expected
+my_wave.header.chunk = fread(fileID,my_wave.header.FmtSize-16,'*char');
+
+my_wave.header.nextblock = fread(fileID,4,'*char');
+my_wave.header.nextblock=my_wave.header.nextblock';
+
+% IF a 'fact' chunk is included in the wavfile
+if my_wave.header.nextblock=='fact'
+    my_wave.header.fact_length = fread(fileID,1,'int');
+    my_wave.header.chunk = fread(fileID,my_wave.header.fact_length,'*char');
+    my_wave.header.nextblock = fread(fileID,4,'*char');
+    my_wave.header.nextblock=my_wave.header.nextblock';
+end
+if my_wave.header.nextblock~='data'
+    error ('This type of wav-format is not implemented');
+end
+
+my_wave.header.Datasize = fread(fileID,1,'int');
+    
+if my_wave.header.Format~=1
+    error ('This type of wav-format is not implemented');
+end
+
+
+number_of_samples=my_wave.header.Datasize*8/my_wave.header.BitsPerSample/my_wave.header.Channels;
+%read audio data
+switch my_wave.header.BitsPerSample    
+    case 8
+        Y=fread(fileID,[my_wave.header.Channels number_of_samples],'bit8');
+    case 16
+        Y=fread(fileID,[my_wave.header.Channels number_of_samples],'bit16');
+    case 24
+        Y=fread(fileID,[my_wave.header.Channels number_of_samples],'bit24');
+    case 32
+        Y=fread(fileID,[my_wave.header.Channels number_of_samples],'bit32');
+    otherwise
+        error('Not implemented number of bits per sample in this wav-format')
+end
+Y=Y';
+
+% Change amplitudes from integer to [-1;1] as used in Matlab 
+Y = Y / (2^(my_wave.header.BitsPerSample-1)); 
+
+%Calculate return values
+Fs = my_wave.header.SamplesPerSecond;
+nbits = my_wave.header.BitsPerSample;
+%Close audio file
+fclose(fileID);
 
 end

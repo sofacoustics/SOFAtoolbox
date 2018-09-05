@@ -1,12 +1,17 @@
-function [M,meta]=SOFAplotHRTF(Obj,varargin)
-% SOFAplotHRTF(OBJ, TYPE, CH) plots the CH channel of HRTFs given in OBJ. 
+function [M,meta]=SOFAplotHRTF(Obj,type,varargin)
+% SOFAplotHRTF(OBJ, TYPE, CH, DIR, COLOR) plots the CH channel of HRTFs given in OBJ.
 %  The following TYPEs are supported:
 %  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- 5 deg)
 %  'EtcMedian'      energy-time curve in the median plane (+/- 2 deg)
-%  'MagHorizontal'  magnitude spectrum in the horizontal plane (+/- 5 deg)
-%  'MagMedian'      magnitude spectrum in the median plane (+/- 2 deg)
+%  'MagHorizontal'  magnitude spectra in the horizontal plane (+/- 5 deg)
+%  'MagMedian'      magnitude spectra in the median plane (+/- 2 deg)
+%  'magspectrum'    single magnitude spectrum for direction DIR in COLOR
 %
-%  OBJ must be in SimpleFreeFieldHRIR or SimpleFreeFieldSOS.
+%  Supported conventions: 
+%    SimpleFreeFieldHRIR
+%    SimpleFreeFieldSOS
+%    SimpleFreeFieldTF
+%    some special cases of GeneralTF.
 %
 % [M,meta]=SOFAplotHRTF... returns the matrix M and axes (meta) displayed in the figure.
 %
@@ -16,18 +21,29 @@ function [M,meta]=SOFAplotHRTF(Obj,varargin)
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing  permissions and limitations under the License. 
+% See the License for the specific language governing  permissions and limitations under the License.
 
 % for backward compatibility (type as position-dependent input parameter)
-if nargin == 3 && ischar(varargin{1}) && isscalar(varargin{2})
-  varargin = flipud(varargin(:));
+if nargin == 3 && ischar(type) && isscalar(varargin{1})
+%   varargin = flipud(varargin(:));
+    ch = varargin{1};
+    flags.do_normalize=1;
+    dir=[0,0];
+    color='b';
+else
+    definput.keyvals.ch=1;
+    definput.keyvals.dir=[0,0];
+    definput.flags.color={'b','r','k','y','g','c','m'};
+    definput.flags.level={'normalize','absolute'};
+    argin=varargin;
+    for ii=1:length(argin)
+        if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
+    end
+    [flags,kv] = SOFAarghelper({'ch','dir'},definput,argin);
+    ch = kv.ch;
+    dir = kv.dir;
+    color = flags.color;
 end
-
-definput.keyvals.ch=1;
-definput.flags.type=lower({'EtcHorizontal','EtcMedian','MagHorizontal','MagMedian'});
-definput.flags.level={'normalize','absolute'};
-[flags,kv] = SOFAarghelper({'ch'},definput,lower(varargin));
-ch = kv.ch;
 
 %% Convert data to FIR
 switch Obj.GLOBAL_SOFAConventions
@@ -72,20 +88,31 @@ switch Obj.GLOBAL_SOFAConventions
     end
     Obj.Data.Delay=zeros(1,Obj.API.R);
     Obj.SourcePosition_Type=T.SourcePosition_Type;
-    Obj.SourcePosition_Units=T.SourcePosition_Units;  
+    Obj.SourcePosition_Units=T.SourcePosition_Units;
     Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
     Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
-    Obj=SOFAupdateDimensions(Obj);    
+    Obj=SOFAupdateDimensions(Obj);
   case 'SimpleFreeFieldHRIR'
   otherwise
     error('Conventions not supported');
 end
 
 fs=Obj.Data.SamplingRate;
+%% Convert to spherical if cartesian
+if strcmp(Obj.SourcePosition_Type,'cartesian')
+    for ii=1:Obj.API.M
+        [Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3)]=cart2sph(Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3));
+        Obj.SourcePosition(ii,2)=rad2deg(Obj.SourcePosition(ii,2));
+        Obj.SourcePosition(ii,1)=rad2deg(Obj.SourcePosition(ii,1));
+        Obj.SourcePosition(ii,1)=npi2pi(Obj.SourcePosition(ii,1),'degrees');
+    end
+    Obj.SourcePosition_Type='spherical';
+    Obj.SourcePosition_Units='degrees';
+end
 
 %% Plot according to the type
-switch lower(flags.type)
+switch lower(type)
     % Energy-time curve (ETC) in the horizontal plane
   case 'etchorizontal'
     noisefloor=-50;
@@ -98,7 +125,7 @@ switch lower(flags.type)
     idx=find(pos(:,2)<(ele+thr) & pos(:,2)>(ele-thr));
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
-    del=round(Obj.Data.Delay(idx,ch));    
+    del=round(Obj.Data.Delay(idx,ch));
     M2=noisefloor*ones(size(M)+[0 max(del)]);
     for ii=1:size(M,1)
       M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
@@ -123,8 +150,8 @@ switch lower(flags.type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Azimuth (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');    
-    
+    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
+
     % Magnitude spectrum in the horizontal plane
   case 'maghorizontal'
     noisefloor=-50;
@@ -136,7 +163,7 @@ switch lower(flags.type)
     idx=find(pos(:,2)<(ele+thr) & pos(:,2)>(ele-thr));
 %     idx=find(abs(pos(:,1))>90);
 %     pos(idx,2)=180-pos(idx,2);
-%     pos(idx,1)=180-pos(idx,1);    
+%     pos(idx,1)=180-pos(idx,1);
 %     idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
     M=(20*log10(abs(fft(hM(idx,:)')')));
     M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
@@ -153,8 +180,8 @@ switch lower(flags.type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Azimuth (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');  
-    
+    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
+
     % Magnitude spectrum in the median plane
   case 'magmedian'
     noisefloor=-50;
@@ -164,7 +191,7 @@ switch lower(flags.type)
     pos=Obj.SourcePosition;
     idx=find(abs(pos(:,1))>90);
     pos(idx,2)=180-pos(idx,2);
-    pos(idx,1)=180-pos(idx,1);    
+    pos(idx,1)=180-pos(idx,1);
     idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
     M=(20*log10(abs(fft(hM(idx,:)')')));
     M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
@@ -182,7 +209,7 @@ switch lower(flags.type)
     xlabel('Frequency (Hz)');
     ylabel('Elevation (deg)');
     title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
-    
+
     % ETC in the median plane
   case 'etcmedian'
     noisefloor=-50;
@@ -193,15 +220,15 @@ switch lower(flags.type)
     pos=Obj.SourcePosition;
     idx=find(abs(pos(:,1))>90);
     pos(idx,2)=180-pos(idx,2);
-    pos(idx,1)=180-pos(idx,1);    
+    pos(idx,1)=180-pos(idx,1);
     idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
-    del=round(Obj.Data.Delay(idx,ch));    
+    del=round(Obj.Data.Delay(idx,ch));
     M2=zeros(size(M)+[0 max(del)]);
     for ii=1:size(M,1)
       M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
-    end  
+    end
     if flags.do_normalize
       M=M2-max(max(M2));
     else
@@ -224,7 +251,50 @@ switch lower(flags.type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Elevation (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');    
+    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
+
+  case 'magspectrum'
+    noisefloor=-50;
+    pos=round(Obj.SourcePosition,1);
+    switch length(dir)
+        case 1
+            idx=find(pos(:,1)==dir(:,1));
+        case 2
+            idx=find(pos(:,1)==dir(:,1) & pos(:,2)==dir(:,2));
+        otherwise
+            idx=find(pos(:,1)==dir(:,1) & pos(:,2)==dir(:,2) & pos(:,3)==dir(:,3));
+    end
+    if isempty(idx), error('Position not found'); end
+    IR=squeeze(Obj.Data.IR(idx,ch,:));
+
+    if length(idx) > 1,
+        M=20*log10(abs(fft(IR)));
+        M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
+        h=plot(0:fs/size(M,2):(size(M,2)-1)*fs/size(M,2),M);
+        for ii=1:length(idx)
+            labels{ii}=['#' num2str(idx(ii)) ': (' num2str(pos(idx(ii),1)) ', ' num2str(pos(idx(ii),2)) ')'];
+        end
+        legend(labels);
+    else
+        hM=20*log10(abs(fft(IR)));
+        M=hM(1:floor(length(hM)/2));
+        hold on;
+        h=plot(0:fs/length(hM):(length(M)-1)*fs/length(hM),M,color,...
+            'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
+        leg=legend;
+        if isempty(leg),
+            legend(['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
+        else
+            leg=leg.String;
+            leg{end+1}=['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')'];
+            legend('off');
+            legend(leg);
+        end
+    end
+    ylabel('Magnitude (dB)');
+    xlabel('Frequency (Hz)');
+    ylim([max(max(M))+noisefloor-10 max(max(M))+10]);
+    xlim([0 fs/2]);
 end
 
 

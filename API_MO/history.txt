@@ -12,13 +12,16 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v1.0.3 
+*** v1.0.3 (5.9.2018)
 - automatic load of the netcdf package in Octave on SOFAstart
 - SOFAspat: bugs in normalization, actual position selection removed
 - SOFAhrtf2dtf: RMS and weighted averaging added, Octave compatibility ensured
 - SOFAcompileConventions: bug fix when compiling conventions in Octave 4.2.1
 - test_SOFAall: suppress irrelevant warnings
 - SOFAconvertMIT2SOFA: wavread replaced by audioread
+- SOFAconvertConventions: it can convert from SimpleFreeFieldTF to SimpleFreeFieldHRIR. 
+- SOFAplotHRTF: more variable input of parameters, normalization optional
+- SOFAconvertTHK2SOFA: converter from THK format (in miro format) to SOFA added. 
 
 *** v1.0.2 (16.8.2016)
 - SOFAplotHRTF: extended to SimpleFreeFieldTF and some cases of GeneralTF
