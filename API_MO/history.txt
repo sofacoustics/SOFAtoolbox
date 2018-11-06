@@ -12,7 +12,7 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v1.0.4
+*** v1.0.4  
 
 *** v1.0.3 (5.9.2018)
 - automatic load of the netcdf package in Octave on SOFAstart
