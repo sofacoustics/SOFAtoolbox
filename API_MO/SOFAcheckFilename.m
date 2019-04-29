@@ -14,6 +14,10 @@ function newfn=SOFAcheckFilename(fn)
 if ~ischar(fn)
 	error('Filename must be a string.');
 end
-
+fn=strrep(fn,'/',filesep);
+fn=strrep(fn,'\',filesep);
+if length(fn)>4 
+    if strcmpi(fn(1:4),['db:' filesep]), fn=[SOFAdbPath fn(5:end)]; end
+end
 newfn=fn;
 

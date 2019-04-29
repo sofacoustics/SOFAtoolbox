@@ -44,7 +44,7 @@ switch Obj.GLOBAL_Version,
         end
       end
     end
-    warning('SOFA:upgrade','SOFA 0.3 upgraded to 0.4');
+    warning('SOFA:upgrade','SOFA 0.3 upgraded to 0.4.   Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');
   case '0.4'
     % in SOFA 0.4, only SimpleFreeFieldHRIR might need upgrade
     if strcmp(Obj.GLOBAL_SOFAConventions,'SimpleFreeFieldHRIR')
@@ -81,7 +81,7 @@ switch Obj.GLOBAL_Version,
     end    
 		modified=1;          
 		Obj.GLOBAL_Version='0.5';
-    warning('SOFA:upgrade','SOFA 0.4 upgraded to 0.5');
+    warning('SOFA:upgrade','SOFA 0.4 upgraded to 0.5.   Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');
   case '0.5'
 		% Upgrade from 0.5 to 0.6
     Obj.GLOBAL_DateCreated=Obj.GLOBAL_TimeCreated;
@@ -111,7 +111,7 @@ switch Obj.GLOBAL_Version,
     Obj.GLOBAL_History=SOFAappendText(Obj,'GLOBAL_History','Upgraded from SOFA 0.5');
     Obj.GLOBAL_Version='0.6';
     modified=1;
-    warning('SOFA:upgrade','SOFA 0.5 upgraded to 0.6');
+    warning('SOFA:upgrade','SOFA 0.5 upgraded to 0.6.   Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');
   case '0.6'
     X=SOFAgetConventions(Obj.GLOBAL_SOFAConventions);
     if ~isempty(X),
@@ -142,7 +142,7 @@ switch Obj.GLOBAL_Version,
         end
       end
       modified=1;
-      warning('SOFA:upgrade','SOFA 0.6 upgraded to 1.0');    
+      warning('SOFA:upgrade','SOFA 0.6 upgraded to 1.0.   Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');    
     else
       warning('SOFA:upgrade','Unknown conventions');
     end
@@ -166,7 +166,7 @@ if ~modified
           Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 size(Obj.EmitterPosition,1)]);
         end
         modified=1;
-        warning('SOFA:upgrade','Conventions MultiSpeakerBRIR 0.1 upgraded to 0.2');
+        warning('SOFA:upgrade','Conventions MultiSpeakerBRIR 0.1 upgraded to 0.2.  Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');
       end
   end
 end

@@ -17,12 +17,16 @@ function SOFAstart(flags)
 
 %% Input parameters
 verbose = 2; 
+restart = 0;
 if nargin>0
 	if strcmp(lower(flags),'silent'), verbose=0; end;
 	if strcmp(lower(flags),'short'), verbose=1; end;
 	if isnumeric(flags), if flags==0, verbose=0; end; end;
+    if strcmp(lower(flags),'restart'), restart=1; end
 end
 
+%% do not start when already started but not forced to restart
+if exist('demo_ARI2SOFA','file') && ~restart, return; end;
 
 %% Check required support
 if exist('OCTAVE_VERSION','builtin')

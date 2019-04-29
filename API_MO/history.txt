@@ -12,7 +12,14 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v1.0.4  
+*** v1.0.4 (
+- on "SOFA upgrade warning", display a message on how to switch it off
+- SOFAplotHRTF: 'magsagittal' added to plot HRTFs along a sagittal plane.
+- SOFAload can use filenames beginning with "db://" to indicate to load from the database (local or remote)
+- SOFAstart avoids repeated starts now - 
+  - once SOFAstart has been started, SOFAstart won't be executed fully again, when the paths are still available.
+  - Call SOFAstart('restart') if a restart needs to be forced. 
+  
 
 *** v1.0.3 (5.9.2018)
 - automatic load of the netcdf package in Octave on SOFAstart

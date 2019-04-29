@@ -1,11 +1,26 @@
 function [M,meta]=SOFAplotHRTF(Obj,type,varargin)
 % SOFAplotHRTF(OBJ, TYPE, CH, DIR, COLOR) plots the CH channel of HRTFs given in OBJ.
 %  The following TYPEs are supported:
-%  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- 5 deg)
-%  'EtcMedian'      energy-time curve in the median plane (+/- 2 deg)
-%  'MagHorizontal'  magnitude spectra in the horizontal plane (+/- 5 deg)
-%  'MagMedian'      magnitude spectra in the median plane (+/- 2 deg)
-%  'magspectrum'    single magnitude spectrum for direction DIR in COLOR
+%  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- THR)
+%  'EtcMedian'      energy-time curve in the median plane (+/- THR)
+%  'MagHorizontal'  magnitude spectra in the horizontal plane (+/- THR)
+%  'MagMedian'      magnitude spectra in the median plane (+/- THR)
+%  'magspectrum'    single magnitude spectrum for direction(s) DIR in COLOR
+%  'MagSagittal'    magnitude spectra in a sagittal plane specified by OFFSET +/- THR
+%
+%  More options are available by SOFAplotHRTF(Obj,type,parameter,value)
+%
+%   Parameter
+%     'ch'     receiver channel to be plotted. Default: 1
+%     'dir'    fixes the positions to be plotted:
+%              [azi]: shows all direction for that azimuth
+%              [azi, ele]: shows all distances for that direction 
+%              [azi, ele, distance]: shows only that position 
+%              default: [0,0]
+%     'offset' chooses a plane to be plotted. Default: 0 deg.
+%     'thr'    threshold for selecting positions around a plane. Default: 2 deg.
+%     'color'  color for plotting as used by PLOT
+%
 %
 %  Supported conventions: 
 %    SimpleFreeFieldHRIR
@@ -30,19 +45,25 @@ if nargin == 3 && ischar(type) && isscalar(varargin{1})
     flags.do_normalize=1;
     dir=[0,0];
     color='b';
+    thr=2;
+    offset=0;
 else
     definput.keyvals.ch=1;
     definput.keyvals.dir=[0,0];
+    definput.keyvals.thr=2;
+    definput.keyvals.offset=0;
     definput.flags.color={'b','r','k','y','g','c','m'};
     definput.flags.level={'normalize','absolute'};
     argin=varargin;
     for ii=1:length(argin)
         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
     end
-    [flags,kv] = SOFAarghelper({'ch','dir'},definput,argin);
+    [flags,kv] = SOFAarghelper({'ch','dir','thr','offset'},definput,argin);
     ch = kv.ch;
     dir = kv.dir;
+    thr=kv.thr;
     color = flags.color;
+    offset = kv.offset;
 end
 
 %% Convert data to FIR
@@ -93,7 +114,7 @@ switch Obj.GLOBAL_SOFAConventions
     Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
     Obj=SOFAupdateDimensions(Obj);
-  case 'SimpleFreeFieldHRIR'
+  case {'SimpleFreeFieldHRIR','GeneralFIR'}
   otherwise
     error('Conventions not supported');
 end
@@ -117,7 +138,6 @@ switch lower(type)
   case 'etchorizontal'
     noisefloor=-50;
     ele=0;
-    thr=5;
     Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
@@ -156,7 +176,6 @@ switch lower(type)
   case 'maghorizontal'
     noisefloor=-50;
     ele=0;
-    thr=5;
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
     pos(pos(:,1)>180,1)=pos(pos(:,1)>180,1)-360;
@@ -186,7 +205,6 @@ switch lower(type)
   case 'magmedian'
     noisefloor=-50;
     azi=0;
-    thr=2;
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
     idx=find(abs(pos(:,1))>90);
@@ -210,11 +228,38 @@ switch lower(type)
     ylabel('Elevation (deg)');
     title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
 
+    % Magnitude spectrum in the median plane
+  case 'magsagittal'
+    noisefloor=-50;
+    hM=double(squeeze(Obj.Data.IR(:,ch,:)));
+    [lat,pol]=sph2hor(Obj.SourcePosition(:,1),Obj.SourcePosition(:,2));
+    pos=[lat pol];
+%     idx=find(abs(pos(:,1))>90);
+%     pos(idx,2)=180-pos(idx,2);
+%     pos(idx,1)=180-pos(idx,1);
+    idx=find(pos(:,1)<(offset+thr) & pos(:,1)>(offset-thr));
+    M=(20*log10(abs(fft(hM(idx,:)')')));
+    M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
+    pos=pos(idx,:);
+    if flags.do_normalize
+      M=M-max(max(M));
+    end
+    M(M<noisefloor)=noisefloor;
+    [ele,i]=sort(pos(:,2));
+    M=M(i,:);
+    meta.freq = 0:fs/size(hM,2):(size(M,2)-1)*fs/size(hM,2);
+    meta.ele = ele;
+    surface(meta.freq,ele,M(:,:));
+    shading flat
+    xlabel('Frequency (Hz)');
+    ylabel('Polar angle (deg)');
+    title([Obj.GLOBAL_Title '; channel: ' num2str(ch) '; Lateral angle: ' num2str(offset) 'deg'],'Interpreter','none');
+ 
+
     % ETC in the median plane
   case 'etcmedian'
     noisefloor=-50;
     azi=0;
-    thr=2;
     Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
