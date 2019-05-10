@@ -42,7 +42,7 @@ SourceView	[0 0 1]	m	IC, MC	double	Orientation of the acoustic source (instrumen
 SourceView:Type	spherical	m		attribute	
 SourceView:Units	degree, degree, metre	m		attribute	
 SourceView:Reference		m		attribute	Narrative description of the spatial reference of the source view, e.g., for the trumpet, ‘Viewing direction of the bell’. Mandatory in order to provide a reference across different instruments
-SourceUp	[0 0 1]	m	IC, MC	double	Up vector of the acoustic source (instrument)
+SourceUp	[0 90 1]	m	IC, MC	double	Up vector of the acoustic source (instrument)
 SourceUp:Type	spherical	m		attribute	
 SourceUp:Units	degree, degree, metre	m		attribute	
 SourceUp:Reference		m		attribute	Narrative description of the spatial reference of the source up, e.g., for the trumpet, ‘Along the keys, keys up’. Mandatory in order to provide a reference across different instruments
