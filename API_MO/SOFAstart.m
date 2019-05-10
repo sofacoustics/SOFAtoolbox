@@ -6,6 +6,11 @@ function SOFAstart(flags)
 %
 %   SOFAstart(0) or SOFAstart('silent') will suppress any message during the start.
 %   SOFAstart ('short') will show a short header only during the start.
+%
+%   SOFAstart checks if SOFA has been started within the MATLAB session. If
+%   it is the case, SOFAstart skips all the initialization. If the initialization
+%   is required, SOFA('restart') performs the initialization in any case. 
+%
 
 % SOFA API - function SOFAstart
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences

@@ -1,4 +1,4 @@
-function [M,meta]=SOFAplotHRTF(Obj,type,varargin)
+function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % SOFAplotHRTF(OBJ, TYPE, CH, DIR, COLOR) plots the CH channel of HRTFs given in OBJ.
 %  The following TYPEs are supported:
 %  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- THR)
@@ -28,7 +28,8 @@ function [M,meta]=SOFAplotHRTF(Obj,type,varargin)
 %    SimpleFreeFieldTF
 %    some special cases of GeneralTF.
 %
-% [M,meta]=SOFAplotHRTF... returns the matrix M and axes (meta) displayed in the figure.
+% [M,meta,h]=SOFAplotHRTF... returns the matrix M and axes (meta) displayed in the figure.
+%    h is the handle of the plot.
 %
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
@@ -65,6 +66,8 @@ else
     color = flags.color;
     offset = kv.offset;
 end
+M=[];
+meta=[];
 
 %% Convert data to FIR
 switch Obj.GLOBAL_SOFAConventions
@@ -158,7 +161,7 @@ switch lower(type)
     M(M<=noisefloor)=noisefloor;
     meta.time = 0:1/fs*1000:(size(M,2)-1)/fs*1000;
     meta.azi = azi;
-    surface(meta.time,azi,M(:,:));
+    h=surface(meta.time,azi,M(:,:));
     set(gca,'FontName','Arial','FontSize',10);
     set(gca, 'TickLength', [0.02 0.05]);
     set(gca,'LineWidth',1);
@@ -195,7 +198,7 @@ switch lower(type)
     M=M(i,:);
     meta.freq = 0:fs/size(hM,2):(size(M,2)-1)*fs/size(hM,2);
     meta.azi = azi;
-    surface(meta.freq,azi,M(:,:));
+    h=surface(meta.freq,azi,M(:,:));
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Azimuth (deg)');
@@ -222,7 +225,7 @@ switch lower(type)
     M=M(i,:);
     meta.freq = 0:fs/size(hM,2):(size(M,2)-1)*fs/size(hM,2);
     meta.ele = ele;
-    surface(meta.freq,ele,M(:,:));
+    h=surface(meta.freq,ele,M(:,:));
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Elevation (deg)');
@@ -249,7 +252,7 @@ switch lower(type)
     M=M(i,:);
     meta.freq = 0:fs/size(hM,2):(size(M,2)-1)*fs/size(hM,2);
     meta.ele = ele;
-    surface(meta.freq,ele,M(:,:));
+    h=surface(meta.freq,ele,M(:,:));
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Polar angle (deg)');
@@ -284,7 +287,7 @@ switch lower(type)
     M=M(i,:);
     meta.time = 0:1/fs*1000:(size(M,2)-1)/fs*1000;
     meta.ele = ele;
-    surface(meta.time,ele,M(:,:));
+    h=surface(meta.time,ele,M(:,:));
     set(gca,'FontName','Arial','FontSize',10);
     set(gca, 'TickLength', [0.02 0.05]);
     set(gca,'LineWidth',1);
@@ -313,7 +316,7 @@ switch lower(type)
     IR=squeeze(Obj.Data.IR(idx,ch,:));
 
     if length(idx) > 1,
-        M=20*log10(abs(fft(IR)));
+        M=20*log10(abs(fft(IR')))';
         M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
         h=plot(0:fs/size(M,2):(size(M,2)-1)*fs/size(M,2),M);
         for ii=1:length(idx)

@@ -70,6 +70,8 @@ for convention = conventions
             save(fullfile(baseFolder,'conventions', ...
                           strcat(convention{:},'-',flag,'.mat')), ...
                  'Obj','-v7');
+        else
+            warning([convention{:} '.csv: file name not convention name (' Obj.GLOBAL_SOFAConventions]);
         end
     end
 end

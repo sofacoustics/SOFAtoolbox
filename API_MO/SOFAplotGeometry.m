@@ -18,7 +18,7 @@ end
 
 switch Obj.GLOBAL_SOFAConventions
 %%
-  case {'SimpleFreeFieldHRIR','SingleRoomDRIR','SimpleFreeFieldTF'}
+  case {'SimpleFreeFieldHRIR','SingleRoomDRIR','SimpleFreeFieldTF','GeneralFIR','FreeFieldDirectivityTF'}
     % Expand entries to the same number of measurement points
     Obj = SOFAexpand(Obj);
     % See if the room geometry is specified
@@ -38,14 +38,18 @@ switch Obj.GLOBAL_SOFAConventions
     % Get ListenerPosition, ListenerView, ReceiverPosition, and SourcePosition
     % NOTE: ListenerPosition is set to [0 0 0] for SimpleFreeFieldHRIR
     LP = SOFAconvertCoordinates(Obj.ListenerPosition(index,:),Obj.ListenerPosition_Type,'cartesian');
-    LV = SOFAconvertCoordinates(Obj.ListenerView(index,:),Obj.ListenerView_Type,'cartesian');
+    if isfield(Obj,'ListenerView')
+        LV = SOFAconvertCoordinates(Obj.ListenerView(index,:),Obj.ListenerView_Type,'cartesian');
+    else
+        LV = repmat([1 0 0],size(LP,1),1);
+    end
     RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,index),Obj.ReceiverPosition_Type,'cartesian');
     if strcmp(Obj.SourcePosition_Type,'cartesian')
         S=Obj.SourcePosition(index,:);
     else
         S  = SOFAconvertCoordinates(Obj.SourcePosition(index,:),Obj.SourcePosition_Type,'cartesian');
     end
-    % Use only unique listeber and source positons
+    % Use only unique listener and source positons
     uniquePoints = unique([LP LV S],'rows');
     LP = uniquePoints(:,1:3);
     LV = uniquePoints(:,4:6);
