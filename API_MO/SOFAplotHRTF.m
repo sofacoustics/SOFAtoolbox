@@ -318,7 +318,7 @@ switch lower(type)
     if length(idx) > 1,
         M=20*log10(abs(fft(IR')))';
         M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
-        h=plot(0:fs/size(M,2):(size(M,2)-1)*fs/size(M,2),M);
+        h=plot(0:fs/2/size(M,2):(size(M,2)-1)*fs/2/size(M,2),M);
         for ii=1:length(idx)
             labels{ii}=['#' num2str(idx(ii)) ': (' num2str(pos(idx(ii),1)) ', ' num2str(pos(idx(ii),2)) ')'];
         end
@@ -327,7 +327,7 @@ switch lower(type)
         hM=20*log10(abs(fft(IR)));
         M=hM(1:floor(length(hM)/2));
         hold on;
-        h=plot(0:fs/length(hM):(length(M)-1)*fs/length(hM),M,color,...
+        h=plot(0:fs/2/length(hM):(length(M)-1)*fs/2/length(hM),M,color,...
             'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
         leg=legend;
         if isempty(leg),
