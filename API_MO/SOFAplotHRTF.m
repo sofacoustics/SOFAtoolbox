@@ -140,12 +140,11 @@ switch lower(type)
     % Energy-time curve (ETC) in the horizontal plane
   case 'etchorizontal'
     noisefloor=-50;
-    ele=0;
     Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
     pos(pos(:,1)>180,1)=pos(pos(:,1)>180,1)-360;
-    idx=find(pos(:,2)<(ele+thr) & pos(:,2)>(ele-thr));
+    idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
     del=round(Obj.Data.Delay(idx,ch));
@@ -178,11 +177,10 @@ switch lower(type)
     % Magnitude spectrum in the horizontal plane
   case 'maghorizontal'
     noisefloor=-50;
-    ele=0;
     hM=double(squeeze(Obj.Data.IR(:,ch,:)));
     pos=Obj.SourcePosition;
     pos(pos(:,1)>180,1)=pos(pos(:,1)>180,1)-360;
-    idx=find(pos(:,2)<(ele+thr) & pos(:,2)>(ele-thr));
+    idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
 %     idx=find(abs(pos(:,1))>90);
 %     pos(idx,2)=180-pos(idx,2);
 %     pos(idx,1)=180-pos(idx,1);
