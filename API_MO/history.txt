@@ -12,6 +12,9 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v1.1.0 (19.6.2019)
+- SOFAremoveVariable added. It removes a variable from the SOFA object.
+
 *** v1.0.4 (29.4.2019)
 - on "SOFA upgrade warning", display a message on how to switch it off
 - SOFAplotHRTF: 'magsagittal' added to plot HRTFs along a sagittal plane.

@@ -1,7 +1,7 @@
 function output = SOFAappendText(Obj,attribute,new)
 %SOFAappendText
 %
-%	  output = SOFAappendText(input,new) appends the new text to the
+%	  output = SOFAappendText(Obj,attribute,new) appends the new text to the
 %	  attribute using the correct SOFA separators. If the attribute is empty
 %	  or non-existing, the output will be the new text only.
 % 
