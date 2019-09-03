@@ -14,6 +14,10 @@
 
 *** v1.1.0 (19.6.2019)
 - SOFAremoveVariable added. It removes a variable from the SOFA object.
+- SOFAplotGeometry: show SourceView, and bug fix ListenerView. 
+- SOFAdbPath, SOFAdbURL: reset the path/URL to the default if the parameter is 'reset'.
+- SOFAhrtf2dtf: handling for R=1 added.
+- SOFAfind added: Find an index for a given position (draft, to be improved).
 
 *** v1.0.4 (29.4.2019)
 - on "SOFA upgrade warning", display a message on how to switch it off

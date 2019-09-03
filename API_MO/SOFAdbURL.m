@@ -18,7 +18,11 @@ function dbURL=SOFAdbURL(dbURL)
 persistent CachedURL;
 
 if exist('dbURL','var')
-  CachedURL=dbURL;
+    if strcmp(dbURL,'reset')
+        CachedURL='http://www.sofacoustics.org/data';
+    else
+        CachedURL=dbURL;
+    end
 elseif isempty(CachedURL)
   CachedURL='http://www.sofacoustics.org/data';
 end

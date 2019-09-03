@@ -18,7 +18,11 @@ function dbPath=SOFAdbPath(newPath)
 persistent CachedPath;
 
 if exist('newPath','var')
-  CachedPath=newPath;
+    if strcmp(newPath,'reset')
+        CachedPath=fullfile(fileparts(fileparts(mfilename('fullpath'))),'HRTFs','SOFA');
+    else
+        CachedPath=newPath;
+    end
 elseif isempty(CachedPath)  
     % default: 'this_directory/../HRTFs/SOFA'
   CachedPath=fullfile(fileparts(fileparts(mfilename('fullpath'))),'HRTFs','SOFA');
