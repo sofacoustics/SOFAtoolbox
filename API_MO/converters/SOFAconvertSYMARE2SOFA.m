@@ -32,7 +32,7 @@ Obj.GLOBAL_License = strcat('Creative Commons Attribution-Non', ...
 Obj.GLOBAL_Organization = 'University of Sydney';
 Obj.GLOBAL_Author = 'Craig Jin, Anthony Tew, et al.';
 Obj.GLOBAL_Origin = 'https://www.morphoacoustics.org/resources.html';
-Obj.GLOBAL_DateCreated = datetime('now','Format','yyyy-MM-dd HH:mm:ss.SSS');
+Obj.GLOBAL_DateCreated = char(datetime('now','Format','yyyy-MM-dd HH:mm:ss.SSS'));
 Obj.GLOBAL_DatabaseName='SYMARE';
 
 %% Get SYMARE data and convert to SOFA structure
