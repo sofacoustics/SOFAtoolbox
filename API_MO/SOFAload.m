@@ -140,8 +140,11 @@ else
     end
     try
         ObjTemplate = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
+        if isempty(ObjTemplate),
+            error(['Unsupported SOFA conventions: ' Obj.GLOBAL_SOFAConventions]);    
+        end
     catch
-        error('Unsupported SOFA conventions');
+        error(['Unsupported SOFA conventions: ' Obj.GLOBAL_SOFAConventions]);
     end
 
     % ----- Check if DataType is present -----
