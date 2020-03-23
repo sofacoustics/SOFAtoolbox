@@ -19,6 +19,7 @@
 - SOFAhrtf2dtf: handling for R=1 added.
 - SOFAfind added: Find an index for a given position (draft, to be improved).
 - SOFAload: provide error message on loading unknown conventions
+- SOFAconvertTUBerlinBRIR2SOFA.m: bug fixed in Obj.ReceiverPosition: left / right was inverted
 
 *** v1.0.4 (29.4.2019)
 - on "SOFA upgrade warning", display a message on how to switch it off
