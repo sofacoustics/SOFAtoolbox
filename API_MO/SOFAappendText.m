@@ -2,9 +2,11 @@ function output = SOFAappendText(Obj,attribute,new)
 %SOFAappendText
 %
 %	  output = SOFAappendText(Obj,attribute,new) appends the new text to the
-%	  attribute using the correct SOFA separators. If the attribute is empty
+%	  attribute (as string) using the correct SOFA separators. If the attribute is empty
 %	  or non-existing, the output will be the new text only.
-% 
+%
+%   example:  
+%     Obj.GLOBAL_Title = SOFAappendText(Obj, 'GLOBAL_Title', 'Append me to the title.');
 
 % SOFA API - function SOFAappendText
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
