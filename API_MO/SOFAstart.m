@@ -31,8 +31,11 @@ if nargin>0
 end
 
 %% do not start when already started but not forced to restart
-if exist('demo_ARI2SOFA','file') && ~restart, return; end;
-
+persistent started
+if ~isempty(started) && ~restart, 
+    return; 
+end
+started=1;
 %% Check required support
 if exist('OCTAVE_VERSION','builtin')
     % We're in Octave
