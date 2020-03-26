@@ -1,12 +1,12 @@
 function Obj=SOFAconvertFHK2SOFA(miroObj)
 % OBJ=SOFAconvertFHK2SOFA(miroObj) converts the HRTFs described in miroObj
-% to SOFA. miroObj is the miro object saved at the Fach-Hochschule Köln
-% provided by Benjamin Bernschütz.
+% to SOFA. miroObj is the miro object saved at the Fach-Hochschule KÃ¶ln
+% provided by Benjamin BernschÃ¼tz.
 % Reference to the source format: http://www.audiogroup.web.fh-koeln.de/ku100hrir.html
 % Reference to the source coordinate system: [1] http://code.google.com/p/sofia-toolbox/wiki/COORDINATES
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
-% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% Licensed under the EUPL, Version 1.1 or â€“ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,9 +34,9 @@ Obj.GLOBAL_AuthorContact = miroObj.contact;
 Obj.GLOBAL_Comment = miroObj.context;
 Obj.GLOBAL_History = SOFAappendText(Obj,'GLOBAL_History','Converted from the miro file format');
 Obj.GLOBAL_License = 'CC 3.0 BY-SA';
-Obj.GLOBAL_Organization = 'Fachhochschule Köln, Germany';
+Obj.GLOBAL_Organization = 'Fachhochschule KÃ¶ln, Germany';
 Obj.GLOBAL_Author = miroObj.engineer;
-Obj.GLOBAL_References = 'Bernschütz, B. (2013). "A Spherical Far Field HRIR/HRTF Compilation of the Neumann KU 100", proceedings of the AIA/DAGA, Meran, Italy';
+Obj.GLOBAL_References = 'BernschÃ¼tz, B. (2013). "A Spherical Far Field HRIR/HRTF Compilation of the Neumann KU 100", proceedings of the AIA/DAGA, Meran, Italy';
 Obj.GLOBAL_RoomType = 'free field';
 Obj.GLOBAL_Origin = 'http://www.audiogroup.web.fh-koeln.de/ku100hrir.html';
 Obj.GLOBAL_DateCreated = datestr(datenum(miroObj.date),'yyyy-mm-dd HH:MM:SS');
@@ -44,7 +44,7 @@ Obj.GLOBAL_DatabaseName='FHK';
 Obj.GLOBAL_Title = 'HRTF';
 
 %% Fill the mandatory variables
-Obj.ReceiverPosition = [0 -miroObj.radius 0; 0 +miroObj.radius 0];  
+Obj.ReceiverPosition = [0 +miroObj.radius 0; 0 -miroObj.radius 0];  
 Obj.ListenerPosition = [0 0 0];
 Obj.ListenerView = [1 0 0];
 Obj.ListenerUp = [0 0 1];
