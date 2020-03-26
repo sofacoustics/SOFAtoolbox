@@ -4,10 +4,10 @@ function Obj = SOFAconvertTHK2SOFA(miroObj)
 % miroObj is the miro object saved at the Technische Hochschule Koeln, provided by Benjamin Bernschuetz.
 % Reference to the source format: http://www.audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
 % Reference to the source coordinate system: [1] http://www.audiogroup.web.th-koeln.de/SOFiA_wiki/COORDINATES.html
-% SOFAconvertTHK2SOFA written by Tim Lübeck, TH Köln, 2018
+% SOFAconvertTHK2SOFA written by Tim LÃ¼beck, TH KÃ¶ln, 2018
 %
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
-% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% Licensed under the EUPL, Version 1.1 or â€“ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -97,14 +97,14 @@ Obj.Data.SamplingRate = miroObj.fs;
 
 %% Fill the mandatory source emitter variables
 Obj.ListenerPosition = [0 0 0]; % for BRIR and HRIR listener in center
-Obj.ReceiverPosition = [0 -miroObj.radius 0; 0 +miroObj.radius 0];  % for HRIR and BRIR ears as receiver 
+Obj.ReceiverPosition = [0 +miroObj.radius 0; 0 -miroObj.radius 0];  % for HRIR and BRIR ears as receiver 
 
 if (typeFlag == 0)%HRIR
     Obj.ListenerView = [1 0 0];
     Obj.ListenerUp = [0 0 1];
     Obj.SourcePosition = [...
-        miroObj.azimuth' ... % azimuth angle in a range of (0-360°(. Whereas AZ=0° is defined to be the front direction and AZ=180° to be the rear direction.
-        90-miroObj.elevation' ... % elevation angle in range of (0-180°). EL=0 points upwards, EL=90° points to the horizontal plane and EL=180° points downwards.
+        miroObj.azimuth' ... % azimuth angle in a range of (0-360Â°(. Whereas AZ=0Â° is defined to be the front direction and AZ=180Â° to be the rear direction.
+        90-miroObj.elevation' ... % elevation angle in range of (0-180Â°). EL=0 points upwards, EL=90Â° points to the horizontal plane and EL=180Â° points downwards.
         miroObj.sourceDistance*ones(size(miroObj.azimuth'))]; % radius in meters
 elseif (typeFlag == 1) %BRIR
     Obj.SourcePosition = [0 0 0]; % default edit manually!
