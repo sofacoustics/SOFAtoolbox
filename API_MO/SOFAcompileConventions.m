@@ -53,10 +53,31 @@ for convention = conventions
     % Read convention description from csv file
     fid = fopen(fullfile(baseFolder,'conventions', ...
                          strcat(convention{:},'.csv')));
-    x=char(fread(fid));
-    xr=strrep(x',char([9 13 10]),char([9 32 32 13 10]));
-    C = textscan(xr,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1,'WhiteSpace','');
+	if exist('OCTAVE_VERSION','builtin') 
+      % We're in Octave where textscan works differently since ver. 4.2
+      C_lines = textscan(fid,'%s','Delimiter','\n','Headerlines',1);
+      C_line = C_lines{1}{1};
+      C_elems = cell(length(C_lines{1}),1);
+      for line_nr = 1:length(C_lines{1})
+        C_line = C_lines{1}{line_nr};
+        C_elems{line_nr} = strsplit(C_line, '\t', 'collapsedelimiters', false); 
+      end
+      C = cell(1,length(C_elems{1}));
+      for col_nr = 1:length(C_elems{1})
+        C{col_nr} = cell(length(C_lines{1}),1); 
+      end
+      for line_nr = 1:length(C_lines{1})
+        for col_nr = 1:length(C_elems{1})
+          C{col_nr}{line_nr} = C_elems{line_nr}{col_nr}; 
+        end
+      end
+    else
+        x=char(fread(fid));
+        xr=strrep(x',char([9 13 10]),char([9 32 32 13 10]));
+        C = textscan(xr,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1,'WhiteSpace','');
+    end	
     fclose(fid);
+
     % Convert to mat files for r,m,a cases
     for flag = 'rma'
         % Convert to SOFA object
