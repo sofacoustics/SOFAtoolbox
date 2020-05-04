@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm		attribute	
 GLOBAL:Version	1.0	rm		attribute	
 GLOBAL:SOFAConventions	FreeFieldDirectivityTF	rm		attribute	This conventions stores directivities of acoustic sources (instruments, loudspeakers, singers, talkers, etc) in the frequency domain for multiple musical notes in free field.
-GLOBAL:SOFAConventionsVersion	0.1	rm		attribute	
+GLOBAL:SOFAConventionsVersion	0.2	rm		attribute	
 GLOBAL:APIName		rm		attribute	
 GLOBAL:APIVersion		rm		attribute	
 GLOBAL:ApplicationName				attribute	
@@ -50,7 +50,7 @@ EmitterPosition	[0 0 0]	m	eCI	double	A more detailed structure of the Source. In
 EmitterPosition:Type	cartesian	m		attribute	
 EmitterPosition:Units	degree, degree, metre	m		attribute	
 MIDINote			I, M	double	Defines the note played by the source during the measurement. The note is specified a MIDI note by the [https://www.midi.org/specifications-old/item/the-midi-1-0-specification MIDI specifications, version 1.0]. Not mandatory, but recommended for tonal instruments.
-MIDINoteDescription			IS, MS	attribute	Narrative description of a note (recommend for documenting the data), e.g., the musical dynamic (pp., ff., etc.), the string on which the note was played, the playing style (pizzicato, legato, etc.), or the location at which a cymbal was hit. 
+Description			IS, MS	attribute	Narrative description of a measurement (recommend for documenting the data), e.g., the note, the musical dynamic (pp., ff., etc.), the string on which the note was played, the playing style (pizzicato, legato, etc.), or the location at which a cymbal was hit. 
 TuningFrequency			I, M	double	Defines the frequency (in Hertz) the instrument is tuned to during the measurements corresponding to the note A4 (MIDINote = 69).
 Data.Real	0	m	mRn	double	The real part of the complex-valued spectrum
 Data.Imag	0	m	MRN	double	The imaginary part of the complex-valued spectrum

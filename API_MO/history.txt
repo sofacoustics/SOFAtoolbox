@@ -19,6 +19,7 @@
 - SOFAconvertFHK2SOFA.m: bug fixed in Obj.ReceiverPosition: left / right was inverted 
 - SOFAappendText.m: example added to help
 - SOFAcompileConventions: fix for changes in Octave 4.2
+- FreeFieldDirectivityTF: updated to version 0.2
 
 *** v1.1.0 (not released)
 - SOFAremoveVariable added. It removes a variable from the SOFA object.
