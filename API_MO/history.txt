@@ -12,6 +12,9 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v1.1.2
+- SOFAplotGeometry: bug fix if no SourceView given
+
 *** v1.1.1
 - SOFAstart: bug fix when starting for the first time
 - SOFAconvertTUBerlinBRIR2SOFA.m: bug fixed in Obj.ReceiverPosition: left / right was inverted 

@@ -49,10 +49,14 @@ switch Obj.GLOBAL_SOFAConventions
     else
         SP  = SOFAconvertCoordinates(Obj.SourcePosition(index,:),Obj.SourcePosition_Type,'cartesian');
     end
-    if strcmp(Obj.SourceView_Type,'cartesian')
-        SV=Obj.SourceView(index,:);
+    if isfield(Obj,'SourceView')
+        if strcmp(Obj.SourceView_Type,'cartesian')
+            SV=Obj.SourceView(index,:);
+        else
+            SV  = SOFAconvertCoordinates(Obj.SourceView(index,:),Obj.SourceView_Type,'cartesian');
+        end
     else
-        SV  = SOFAconvertCoordinates(Obj.SourceView(index,:),Obj.SourceView_Type,'cartesian');
+        SV = zeros(size(LP));   % if SourceView not given, source is omnidirectional
     end
     % Use only unique listener and source positons
     uniquePoints = unique([LP LV SP SV],'rows');
