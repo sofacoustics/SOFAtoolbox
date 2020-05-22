@@ -14,6 +14,7 @@
 
 *** v1.1.2
 - SOFAplotGeometry: bug fix if no SourceView given
+- FreeFieldDirectivityTF: missing eCM in EmitterPosition fixed
 
 *** v1.1.1
 - SOFAstart: bug fix when starting for the first time

@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm		attribute	
 GLOBAL:Version	1.0	rm		attribute	
 GLOBAL:SOFAConventions	FreeFieldDirectivityTF	rm		attribute	This conventions stores directivities of acoustic sources (instruments, loudspeakers, singers, talkers, etc) in the frequency domain for multiple musical notes in free field.
-GLOBAL:SOFAConventionsVersion	0.2	rm		attribute	
+GLOBAL:SOFAConventionsVersion	0.3	rm		attribute	
 GLOBAL:APIName		rm		attribute	
 GLOBAL:APIVersion		rm		attribute	
 GLOBAL:ApplicationName				attribute	
@@ -46,7 +46,7 @@ SourceUp	[0 90 1]	m	IC, MC	double	Up vector of the acoustic source (instrument)
 SourceUp:Type	spherical	m		attribute	
 SourceUp:Units	degree, degree, metre	m		attribute	
 SourceUp:Reference		m		attribute	Narrative description of the spatial reference of the source up, e.g., for the trumpet, ‘Along the keys, keys up’. Mandatory in order to provide a reference across different instruments
-EmitterPosition	[0 0 0]	m	eCI	double	A more detailed structure of the Source. In a simple settings, a single Emitter is considered that is collocated with the source.
+EmitterPosition	[0 0 0]	m	eCI, eCM	double	A more detailed structure of the Source. In a simple settings, a single Emitter is considered that is collocated with the source.
 EmitterPosition:Type	cartesian	m		attribute	
 EmitterPosition:Units	degree, degree, metre	m		attribute	
 MIDINote			I, M	double	Defines the note played by the source during the measurement. The note is specified a MIDI note by the [https://www.midi.org/specifications-old/item/the-midi-1-0-specification MIDI specifications, version 1.0]. Not mandatory, but recommended for tonal instruments.
