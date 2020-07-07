@@ -15,6 +15,8 @@
 *** v1.1.2
 - SOFAplotGeometry: bug fix if no SourceView given
 - FreeFieldDirectivityTF: missing eCM in EmitterPosition fixed
+- SOFAcheckFilename: do not convert if filename is http://
+- SOFAplotHRTF: plot TF with regular frequency grid. Not tested for irregular grids, though...
 
 *** v1.1.1
 - SOFAstart: bug fix when starting for the first time
