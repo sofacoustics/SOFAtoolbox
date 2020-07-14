@@ -220,6 +220,8 @@ switch lower(type)
     idx=find(abs(pos(:,1))>90);
     pos(idx,2)=180-pos(idx,2);
     pos(idx,1)=180-pos(idx,1);
+    % would be the same?
+    % pos(idx,1:2)=180-pos(idx,1:2);
     idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
     M=(20*log10(abs(fft(hM(idx,:)')')));
     M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
@@ -336,20 +338,24 @@ switch lower(type)
         hold on;
         h=plot(0:fs/2/length(hM):(length(M)-1)*fs/2/length(hM),M,color,...
             'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
-        leg=legend;
-        if isempty(leg),
-            legend(['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
-        else
-            leg=leg.String;
-            leg{end+1}=['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')'];
-            legend('off');
-            legend(leg);
-        end
+        legend;
+%         leg=legend;
+%         if isempty(leg),
+%             legend(['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
+%         else
+%             leg=leg.String;
+%             leg{end+1}=['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')'];
+%             legend('off');
+%             legend(leg);
+%         end
     end
     ylabel('Magnitude (dB)');
     xlabel('Frequency (Hz)');
     ylim([max(max(M))+noisefloor-10 max(max(M))+10]);
     xlim([0 fs/2]);
+    
+  otherwise
+    error("'" + type + "' as SOFAConventions not supported for plotting.")
 end
 
 

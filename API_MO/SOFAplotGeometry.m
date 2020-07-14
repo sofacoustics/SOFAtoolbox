@@ -20,6 +20,7 @@ switch Obj.GLOBAL_SOFAConventions
 %%
   case {'SimpleFreeFieldHRIR','SingleRoomDRIR','SimpleFreeFieldTF','FreeFieldDirectivityTF'}
     % Expand entries to the same number of measurement points
+    ObjC=Obj; % save as compact object
     Obj = SOFAexpand(Obj);
     % See if the room geometry is specified
     if strcmp(Obj.GLOBAL_RoomType,'shoebox')
@@ -43,7 +44,10 @@ switch Obj.GLOBAL_SOFAConventions
     else
         LV = repmat([1 0 0],size(LP,1),1);
     end
+    
     RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,index),Obj.ReceiverPosition_Type,'cartesian');
+
+    
     if strcmp(Obj.SourcePosition_Type,'cartesian')
         SP=Obj.SourcePosition(index,:);
     else
@@ -80,6 +84,7 @@ switch Obj.GLOBAL_SOFAConventions
         % ListenerPosition
         RP = shiftdim(RP,2);
         RP = squeeze(RP(1,:,:));
+        RP = reshape(RP,[size(Obj.ReceiverPosition,1), Obj.API.C]);
     end
     legendEntries(end+1) = plot3(LP(1,1)+RP(1,1), LP(1,2)+RP(1,2), LP(1,3)+RP(1,3),'rx');
     for ii=2:size(RP,1)
