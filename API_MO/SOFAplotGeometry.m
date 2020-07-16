@@ -34,17 +34,33 @@ switch Obj.GLOBAL_SOFAConventions
     % Expand entries to the same number of measurement points
     Obj = SOFAexpand(Obj);
     % See if the room geometry is specified
-    if strcmp(Obj.GLOBAL_RoomType,'shoebox')
-        figure('Position',[1 1 (Obj.RoomCornerB(1)-Obj.RoomCornerA(1))*1.2 Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]*100);
+%     if strcmp(Obj.GLOBAL_RoomType,'shoebox')
+%         figure('Position',[1 1 (Obj.RoomCornerB(1)-Obj.RoomCornerA(1))*1.2 Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]*100);
+%         box on; hold on;
+%         % plot the room
+%         rectangle('Position',[Obj.RoomCornerA(1) ...  
+%                               Obj.RoomCornerA(2) ...
+%                               Obj.RoomCornerB(1)-Obj.RoomCornerA(1) ...
+%                               Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]);
+%     else
+%         figure; hold on;
+%     end
+    
+     if strcmp(Obj.GLOBAL_RoomType,'shoebox')
+        x = min(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
+        xd = max(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
+        y = min(Obj.RoomCornerA(2), Obj.RoomCornerB(2));
+        yd = max(Obj.RoomCornerA(2), Obj.RoomCornerB(2));
+        w = xd - x;
+        h = yd - y;
+        figure('Position',[1 1 w*1.2 h]*100);
         box on; hold on;
         % plot the room
-        rectangle('Position',[Obj.RoomCornerA(1) ...  
-                              Obj.RoomCornerA(2) ...
-                              Obj.RoomCornerB(1)-Obj.RoomCornerA(1) ...
-                              Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]);
+        rectangle('Position',[x y w h]);
     else
         figure; hold on;
     end
+    
     legendEntries = [];
     title(sprintf('%s, %s',Obj.GLOBAL_SOFAConventions,Obj.GLOBAL_RoomType));
     % Get ListenerPosition, ListenerView, ReceiverPosition, and SourcePosition
@@ -86,7 +102,9 @@ switch Obj.GLOBAL_SOFAConventions
       % Scale size of ListenerView vector smaller
       LV(ii,:) = 0.2*LV(ii,:)./norm(LV(ii,:));
       % Plot line for ListenerView vector
-      line([LP(ii,1), LV(ii,1)+LP(ii,1)], [LP(ii,2) LV(ii,2)+LP(ii,2)], 'Color',[1 0 0]);
+%       line([LP(ii,1), LV(ii,1)+LP(ii,1)], [LP(ii,2) LV(ii,2)+LP(ii,2)], 'Color',[1 0 0]);
+      plot3([LP(ii,1) LV(ii,1)+LP(ii,1)],[LP(ii,2) LV(ii,2)+LP(ii,2)],[LP(ii,3) LV(ii,3)+LP(ii,3)], 'Color',[1 0 0]);
+
     end
     legendEntries(end+1) = plot3(LV(:,1)+LP(:,1),LV(:,2)+LP(:,2),LV(:,3)+LP(:,3),'ro','MarkerFaceColor',[1 1 1]);
     % Plot ReceiverPositon (this is plotted only for the first ListenerPosition)
@@ -108,7 +126,9 @@ switch Obj.GLOBAL_SOFAConventions
       % Scale size of SourceView vector smaller
       SV(ii,:) = 0.2*SV(ii,:)./norm(SV(ii,:));
       % Plot line for SourceView vector
-      line([SP(ii,1), SV(ii,1)+SP(ii,1)], [SP(ii,2) SV(ii,2)+SP(ii,2)], 'Color',[0 0 0]);
+%       line([SP(ii,1), SV(ii,1)+SP(ii,1)], [SP(ii,2) SV(ii,2)+SP(ii,2)], 'Color',[0 0 0]);
+      plot3([LP(ii,1) LV(ii,1)+LP(ii,1)],[LP(ii,2) LV(ii,2)+LP(ii,2)],[LP(ii,3) LV(ii,3)+LP(ii,3)], 'Color',[1 0 0]);
+
     end
     legendEntries(end+1) = plot3(SV(:,1)+SP(:,1),SV(:,2)+SP(:,2),SV(:,3)+SP(:,3),'ks','MarkerFaceColor',[1 1 1]);
     % create legend
@@ -122,17 +142,33 @@ switch Obj.GLOBAL_SOFAConventions
     ObjC=Obj; % save as compact object
     Obj = SOFAexpand(Obj);
     % See if the room geometry is specified
+%     if strcmp(Obj.GLOBAL_RoomType,'shoebox')
+%         figure('Position',[1 1 (Obj.RoomCornerB(1)-Obj.RoomCornerA(1))*1.2 Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]*100);
+%         box on; hold on;
+%         % plot the room
+%         rectangle('Position',[Obj.RoomCornerA(1) ...  
+%                               Obj.RoomCornerA(2) ...
+%                               Obj.RoomCornerB(1)-Obj.RoomCornerA(1) ...
+%                               Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]);
+%     else
+%         figure; hold on;
+%     end
+    
     if strcmp(Obj.GLOBAL_RoomType,'shoebox')
-        figure('Position',[1 1 (Obj.RoomCornerB(1)-Obj.RoomCornerA(1))*1.2 Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]*100);
+        x = min(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
+        xd = max(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
+        y = min(Obj.RoomCornerA(2), Obj.RoomCornerB(2));
+        yd = max(Obj.RoomCornerA(2), Obj.RoomCornerB(2));
+        w = xd - x;
+        h = yd - y;
+        figure('Position',[1 1 w*1.2 h]*100);
         box on; hold on;
         % plot the room
-        rectangle('Position',[Obj.RoomCornerA(1) ...  
-                              Obj.RoomCornerA(2) ...
-                              Obj.RoomCornerB(1)-Obj.RoomCornerA(1) ...
-                              Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]);
+        rectangle('Position',[x y w h]);
     else
         figure; hold on;
     end
+    
     legendEntries = [];
     title(sprintf('%s, %s',Obj.GLOBAL_SOFAConventions,Obj.GLOBAL_RoomType));
     % Get ListenerPosition, ListenerView, ReceiverPosition, and SourcePosition
@@ -160,7 +196,8 @@ switch Obj.GLOBAL_SOFAConventions
       % Scale size of ListenerView vector smaller
       LV(ii,:) = 0.2*LV(ii,:)./norm(LV(ii,:));
       % Plot line for ListenerView vector
-      line([LP(ii,1), LV(ii,1)+LP(ii,1)], [LP(ii,2) LV(ii,2)+LP(ii,2)], 'Color',[1 0 0]);
+%       line([LP(ii,1), LV(ii,1)+LP(ii,1)], [LP(ii,2) LV(ii,2)+LP(ii,2)], 'Color',[1 0 0]);
+      plot3([LP(ii,1) LV(ii,1)+LP(ii,1)],[LP(ii,2) LV(ii,2)+LP(ii,2)],[LP(ii,3) LV(ii,3)+LP(ii,3)], 'Color',[1 0 0]);
     end
     legendEntries(end+1) = plot3(LV(:,1)+LP(:,1),LV(:,2)+LP(:,2),LV(:,3)+LP(:,3),'ro','MarkerFaceColor',[1 1 1]);
     % Plot ReceiverPositon (this is plotted only for the first ListenerPosition)

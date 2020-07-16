@@ -41,3 +41,9 @@ SOFAfile=fullfile(SOFAdbPath,'database', 'tu-berlin','FABIAN_CTF_modeled.sofa');
 Obj = SOFAload(SOFAfile);
 
 SOFAplotGeometry(Obj);
+
+%% load example with room geometry 
+SOFAfile = fullfile(SOFAdbPath,'sofa_api_mo_test', 'Oldenburg_OfficeII.sofa');
+Obj = SOFAload(SOFAfile);
+
+SOFAplotGeometry(Obj);
