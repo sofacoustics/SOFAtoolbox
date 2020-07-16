@@ -35,3 +35,6 @@ Data.IR	0	m	mRn	double	Impulse responses
 Data.SamplingRate	48000	m	I	double	Sampling rate of the samples in Data.IR and Data.Delay
 Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
 Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples)
+ListenerView	[1 0 0]		IC, MC	double	
+ListenerView:Type	cartesian			attribute	
+ListenerView:Units	metre			attribute	
