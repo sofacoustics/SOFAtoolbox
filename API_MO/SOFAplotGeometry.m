@@ -3,7 +3,14 @@ function SOFAplotGeometry(Obj, index)
 % 
 % SOFAplotGeometry(Obj, index) plots the geometry for the measurements
 % given in the index. 
-
+%
+% Supported conventions: 
+%    SimpleFreeFieldHRIR'
+%    SingleRoomDRIR
+%    SimpleFreeFieldTF
+%    FreeFieldDirectivityTF
+%    some special cases of GeneralFIR.
+%
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
@@ -13,19 +20,23 @@ function SOFAplotGeometry(Obj, index)
 
 
 if ~exist('index','var')
-  index=1:Obj.API.M;
+  index=1:Obj.API.M;  
+elseif any(index > Obj.API.M)
+	error("Index out of range. Only " + Obj.API.M + ...
+        " measurement(s) performed.")
+elseif any(index < 1)
+    error("Choose index to be >= 1.")
 end
 
 switch Obj.GLOBAL_SOFAConventions
 %%
   case {'SimpleFreeFieldHRIR','SingleRoomDRIR','SimpleFreeFieldTF','FreeFieldDirectivityTF'}
     % Expand entries to the same number of measurement points
-    ObjC=Obj; % save as compact object
     Obj = SOFAexpand(Obj);
     % See if the room geometry is specified
     if strcmp(Obj.GLOBAL_RoomType,'shoebox')
         figure('Position',[1 1 (Obj.RoomCornerB(1)-Obj.RoomCornerA(1))*1.2 Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]*100);
-        box on; hold on; h=[];
+        box on; hold on;
         % plot the room
         rectangle('Position',[Obj.RoomCornerA(1) ...  
                               Obj.RoomCornerA(2) ...
@@ -113,7 +124,7 @@ switch Obj.GLOBAL_SOFAConventions
     % See if the room geometry is specified
     if strcmp(Obj.GLOBAL_RoomType,'shoebox')
         figure('Position',[1 1 (Obj.RoomCornerB(1)-Obj.RoomCornerA(1))*1.2 Obj.RoomCornerB(2)-Obj.RoomCornerA(2)]*100);
-        box on; hold on; h=[];
+        box on; hold on;
         % plot the room
         rectangle('Position',[Obj.RoomCornerA(1) ...  
                               Obj.RoomCornerA(2) ...
