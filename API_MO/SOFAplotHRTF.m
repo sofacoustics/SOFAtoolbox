@@ -66,6 +66,12 @@ else
     color = flags.color;
     offset = kv.offset;
 end
+
+% check if channel selsction is possible
+if ch > size(Obj.Data.IR,2)
+    error("Choosen chanel out of range. Only '" + size(Obj.Data.IR,2) + "' channels recorded.")
+end
+
 M=[];
 meta=[];
 
@@ -355,7 +361,7 @@ switch lower(type)
     xlim([0 fs/2]);
     
   otherwise
-    error("'" + type + "' as SOFAConventions not supported for plotting.")
+    error("'" + type + "' no supported plotting type.")
 end
 
 
