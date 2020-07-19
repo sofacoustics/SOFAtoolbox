@@ -355,7 +355,7 @@ switch lower(type)
     xlim([0 fs/2]);
     
   otherwise
-    error("'" + type + "' as SOFAConventions not supported for plotting.")
+    error(''' + type + '' as SOFAConventions not supported for plotting.')
 end
 
 
