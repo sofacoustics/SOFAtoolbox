@@ -22,10 +22,10 @@ function SOFAplotGeometry(Obj, index)
 if ~exist('index','var')
   index=1:Obj.API.M;  
 elseif any(index > Obj.API.M)
-	error("Index out of range. Only " + Obj.API.M + ...
-        " measurement(s) performed.")
+	error('Index out of range. Only ' + Obj.API.M + ...
+        ' measurement(s) performed.')
 elseif any(index < 1)
-    error("Choose index to be >= 1.")
+    error('Choose index to be >= 1.')
 end
 
 switch Obj.GLOBAL_SOFAConventions
