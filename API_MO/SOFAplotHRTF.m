@@ -69,7 +69,7 @@ end
 
 % check if channel selsction is possible
 if ch > size(Obj.Data.IR,2)
-    error("Choosen chanel out of range. Only '" + size(Obj.Data.IR,2) + "' channels recorded.")
+    error(['Choosen chanel out of range. Only ', num2str(size(Obj.Data.IR,2)), ' channels recorded.'])
 end
 
 M=[];
