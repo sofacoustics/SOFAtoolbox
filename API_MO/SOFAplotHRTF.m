@@ -361,7 +361,7 @@ switch lower(type)
     xlim([0 fs/2]);
     
   otherwise
-    error("'" + type + "' no supported plotting type.")
+    error([type , ' no supported plotting type.'])
 end
 
 
