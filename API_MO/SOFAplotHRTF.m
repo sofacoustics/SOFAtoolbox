@@ -67,11 +67,6 @@ else
     offset = kv.offset;
 end
 
-% check if channel selsction is possible
-if ch > size(Obj.Data.IR,2)
-    error(['Choosen chanel out of range. Only ', num2str(size(Obj.Data.IR,2)), ' channels recorded.'])
-end
-
 M=[];
 meta=[];
 
@@ -94,7 +89,7 @@ switch Obj.GLOBAL_SOFAConventions
     Obj.Data=rmfield(Obj.Data,'SOS');
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
     Obj=SOFAupdateDimensions(Obj);
-  case {'SimpleFreeFieldTF' 'GeneralTF'}
+  case {'SimpleFreeFieldTF', 'SimpleFreeFieldHRTF', 'GeneralTF'}
     if sum(diff(diff(Obj.N)))
       fs=max(Obj.N)*2;  % irregular grid, find the smallest frequency difference
       N=fs/min([min(diff(Obj.N)) Obj.N(1)]);
@@ -133,6 +128,11 @@ switch Obj.GLOBAL_SOFAConventions
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
     Obj=SOFAupdateDimensions(Obj);
   case {'SimpleFreeFieldHRIR','GeneralFIR'}
+    % check if channel selection is possible
+    if ch > size(Obj.Data.IR,2)
+        error(['Choosen chanel out of range. Only ', num2str(size(Obj.Data.IR,2)), ' channels recorded.'])
+    end
+
   otherwise
     error('Conventions not supported');
 end
