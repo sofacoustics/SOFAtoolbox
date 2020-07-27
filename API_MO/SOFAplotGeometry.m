@@ -41,11 +41,11 @@ end
 
 switch Obj.GLOBAL_SOFAConventions
 %%
-  case {'SimpleFreeFieldHRIR','SingleRoomDRIR','SimpleFreeFieldTF','FreeFieldDirectivityTF','GeneralFIR'}
+  case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','SimpleFreeFieldTF','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','SHFreeFieldHRTF','GeneralTF-E'}
     % Expand entries to the same number of measurement points
     Obj = SOFAexpand(Obj);
     % See if the room geometry is specified
-     if strcmp(Obj.GLOBAL_RoomType,'shoebox')
+     if strcmpi(Obj.GLOBAL_RoomType,'shoebox')
         x = min(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
         xd = max(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
         y = min(Obj.RoomCornerA(2), Obj.RoomCornerB(2));
@@ -68,8 +68,9 @@ switch Obj.GLOBAL_SOFAConventions
     LP = SOFAconvertCoordinates(Obj.ListenerPosition(index,:),Obj.ListenerPosition_Type,'cartesian');
     RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,index),Obj.ReceiverPosition_Type,'cartesian');
     SP = SOFAconvertCoordinates(Obj.SourcePosition(index,:),Obj.SourcePosition_Type,'cartesian');
-    EP = SOFAconvertCoordinates(Obj.EmitterPosition(:,:,index),Obj.EmitterPosition_Type,'cartesian');
-    
+    if ~(strcmpi(Obj.EmitterPosition_Type,'Harmonics'))
+        EP = SOFAconvertCoordinates(Obj.EmitterPosition(:,:,index),Obj.EmitterPosition_Type,'cartesian');
+    end
     if isfield(Obj,'ListenerView')
         LV = SOFAconvertCoordinates(Obj.ListenerView(index,:),Obj.ListenerView_Type,'cartesian');
     end
@@ -179,23 +180,84 @@ switch Obj.GLOBAL_SOFAConventions
     end
     % Plot SourcePosition
     legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'bd','MarkerSize',7);
-    % Plot EmitterPosition
-    if ndims(EP)>2
-        % If ReceiverPosition has more than two dimensions reduce it to the first
-        % ListenerPosition
-        EP = shiftdim(EP,2);
-        EP = squeeze(EP(1,:,:));
-        EP = reshape(EP,[size(Obj.EmitterPosition,1), Obj.API.C]);
-    end
-    % plot Emitters for first Source
-    legendEntries(end+1) = plot3(SP(1,1)+EP(1,1), SP(1,2)+EP(1,2), SP(1,3)+EP(1,3),'b+','MarkerSize',8);
-    for ii=2:size(EP,1)
-    	plot3(SP(1,1)+EP(ii,1), SP(1,2)+EP(ii,2), SP(1,3)+EP(ii,3),'b+','MarkerSize',8);
-    end
-    % plot all Emitters for each Source
-    for jj=2:size(SP,1)
-        for ii=1:size(EP,1)
-          plot3(SP(jj,1)+EP(ii,1), SP(jj,2)+EP(ii,2), SP(jj,3)+EP(ii,3),'b+');
+    if strcmpi(Obj.EmitterPosition_Type,'Harmonics')
+        S = sqrt(Obj.API.R-1);
+        S = 4;
+        x0 = Obj.SourcePosition(1,1);
+        y0 = Obj.SourcePosition(1,2);
+        z0 = Obj.SourcePosition(1,3);
+        
+        indexOfOrderForPlotting = floor(power(S+1,2)-(3/2)*S);
+
+        azi = linspace(0,360,50);
+        elev = linspace(-180,180,50);
+        azi_rad = azi*pi/180;
+        elev_rad = elev*pi/180;
+        [Az, El] = meshgrid(azi, elev);
+        [Az_rad, El_rad] = meshgrid(azi_rad, elev_rad);
+        
+        Y = zeros(size(Az));
+        for ii = 1:size(Az,1)
+            buffer = sph2SH([Az(:,ii),El(:,ii)], S);
+            Y(:,ii) = buffer(:,indexOfOrderForPlotting);
+        end
+
+
+        D_x = cos(Az_rad).*sin(El_rad).*squeeze(abs(Y));
+        D_y = sin(Az_rad).*sin(El_rad).*squeeze(abs(Y));
+        D_z = cos(El_rad).*squeeze(abs(Y));
+        % create sphere
+        r = (max(max(abs(Y))))./(randi(2,size(Az_rad)));
+        S_x = cos(Az_rad).*sin(El_rad).*r;
+        S_y = sin(Az_rad).*sin(El_rad).*r;
+        S_z = cos(El_rad).*r;
+        
+        % overlay sphere with harmonics and consider offset (x0,y0,z0)
+        Dp_x = (S_x+D_x).*(Y>=0) + x0;
+        Dp_y = (S_y+D_y).*(Y>=0) + y0;
+        Dp_z = (S_z+D_z).*(Y>=0) + z0;
+        
+        Dn_x = (S_x+D_x).*(Y<0) + x0;
+        Dn_y = (S_y+D_y).*(Y<0) + y0;
+        Dn_z = (S_z+D_z).*(Y<0) + z0;
+        
+        legendEntries(end+1) = surf(Dp_x, Dp_y, Dp_z,'LineStyle','none','FaceAlpha',0.09);
+        surf(Dn_x, Dn_y, Dn_z,'LineStyle','none','FaceAlpha',0.09);
+
+%     elseif strcmpi(Obj.EmitterPosition_Type,'spherical')
+%         S = sqrt(Obj.API.R-1);
+%         x0 = Obj.SourcePosition(1,1);
+%         y0 = Obj.SourcePosition(1,2);
+%         theta = -pi : 0.01 : pi;
+%         r = 1;
+%         phi = sin(S*theta);
+%         phi_negativ = sin(-S*theta);
+%         
+%         [x,y] = pol2cart(theta,(r*(1+ abs(phi)+ abs(phi_negativ)))./3);
+%         legendEntries(end+1)=plot(x+x0,y+y0,'LineStyle','--','Color',[0.741 0.747 0.741]);
+% 
+% %         text(x0,y0+r,['Order: ',num2str(S)],'HorizontalAlignment',...
+% %            'center','VerticalAlignment','bottom')
+
+    else
+        % Plot EmitterPosition
+        if ndims(EP)>2
+            % If ReceiverPosition has more than two dimensions reduce it to the first
+            % ListenerPosition
+            EP = shiftdim(EP,2);
+            EP = squeeze(EP(1,:,:));
+            EP = reshape(EP,[size(Obj.EmitterPosition,1), Obj.API.C]);
+        end
+        % plot Emitters for first Source
+        legendEntries(end+1) = plot3(SP(1,1)+EP(1,1), SP(1,2)+EP(1,2), SP(1,3)+EP(1,3),'b+','MarkerSize',8);
+        for ii=2:size(EP,1)
+            plot3(SP(1,1)+EP(ii,1), SP(1,2)+EP(ii,2), SP(1,3)+EP(ii,3),'b+','MarkerSize',8);
+        end
+        % plot all Emitters for each Source
+        for jj=2:size(SP,1)
+            for ii=1:size(EP,1)
+              plot3(SP(jj,1)+EP(ii,1), SP(jj,2)+EP(ii,2), SP(jj,3)+EP(ii,3),'b+');
+            end
         end
     end
     if exist('LV')
@@ -263,7 +325,13 @@ switch Obj.GLOBAL_SOFAConventions
         legendEntries(end+1) = quiver3(SP(1,1),SP(1,2),SP(1,3),SU(1,1),SU(1,2),SU(1,3),'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
     end
     % create legend
-    legendDescription = {'ListenerPosition','ReceiverPosition','SourcePosition','EmitterPosition'};
+    legendDescription = {'ListenerPosition','ReceiverPosition','SourcePosition'};
+    if (strcmpi(Obj.EmitterPosition_Type,'Harmonics'))
+        legendDescription{end+1} = ['Emitter (', num2str(S) ,' order)'];
+    else
+        legendDescription{end+1} = 'EmitterPosition';
+    end
+    
     if exist('LV')
         legendDescription{end+1} = 'ListenerView';
     end
