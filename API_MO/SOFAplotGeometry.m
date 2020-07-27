@@ -182,7 +182,6 @@ switch Obj.GLOBAL_SOFAConventions
     legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'bd','MarkerSize',7);
     if strcmpi(Obj.EmitterPosition_Type,'Harmonics')
         S = sqrt(Obj.API.R-1);
-        S = 4;
         x0 = Obj.SourcePosition(1,1);
         y0 = Obj.SourcePosition(1,2);
         z0 = Obj.SourcePosition(1,3);
