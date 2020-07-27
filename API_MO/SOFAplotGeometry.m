@@ -66,7 +66,9 @@ switch Obj.GLOBAL_SOFAConventions
     % EmitterPosition
     % NOTE: ListenerPosition is set to [0 0 0] for SimpleFreeFieldHRIR
     LP = SOFAconvertCoordinates(Obj.ListenerPosition(index,:),Obj.ListenerPosition_Type,'cartesian');
-    RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,index),Obj.ReceiverPosition_Type,'cartesian');
+    if ~(strcmpi(Obj.ReceiverPosition_Type,'Harmonics'))
+        RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,index),Obj.ReceiverPosition_Type,'cartesian');
+    end
     SP = SOFAconvertCoordinates(Obj.SourcePosition(index,:),Obj.SourcePosition_Type,'cartesian');
     if ~(strcmpi(Obj.EmitterPosition_Type,'Harmonics'))
         EP = SOFAconvertCoordinates(Obj.EmitterPosition(:,:,index),Obj.EmitterPosition_Type,'cartesian');
@@ -166,27 +168,13 @@ switch Obj.GLOBAL_SOFAConventions
 
     % Plot ListenerPosition
     legendEntries(end+1) = plot3(LP(:,1),LP(:,2),LP(:,3),'ro','MarkerFaceColor','r','MarkerSize',5);
-    % Plot ReceiverPositon (this is plotted only for the first ListenerPosition)
-    if ndims(RP)>2
-        % If ReceiverPosition has more than two dimensions reduce it to the first
-        % ListenerPosition
-        RP = shiftdim(RP,2);
-        RP = squeeze(RP(1,:,:));
-        RP = reshape(RP,[size(Obj.ReceiverPosition,1), Obj.API.C]);
-    end
-    legendEntries(end+1) = plot3(LP(1,1)+RP(1,1), LP(1,2)+RP(1,2), LP(1,3)+RP(1,3),'r*','MarkerSize',8);
-    for ii=2:size(RP,1)
-      plot3(LP(1,1)+RP(ii,1), LP(1,2)+RP(ii,2), LP(1,3)+RP(ii,3),'r*','MarkerSize',8);
-    end
-    % Plot SourcePosition
-    legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'bd','MarkerSize',7);
-    if strcmpi(Obj.EmitterPosition_Type,'Harmonics')
-        S = sqrt(Obj.API.R-1);
-        x0 = Obj.SourcePosition(1,1);
-        y0 = Obj.SourcePosition(1,2);
-        z0 = Obj.SourcePosition(1,3);
+    if strcmpi(Obj.ReceiverPosition_Type,'Harmonics')
+        S_R = sqrt(Obj.API.E-1);
+        x0 = Obj.ListenerPosition(1,1);
+        y0 = Obj.ListenerPosition(1,2);
+        z0 = Obj.ListenerPosition(1,3);
         
-        indexOfOrderForPlotting = floor(power(S+1,2)-(3/2)*S);
+        indexOfOrderForPlotting = floor(power(S_R+1,2)-(3/2)*S_R);
 
         azi = linspace(0,360,50);
         elev = linspace(-180,180,50);
@@ -197,7 +185,82 @@ switch Obj.GLOBAL_SOFAConventions
         
         Y = zeros(size(Az));
         for ii = 1:size(Az,1)
-            buffer = sph2SH([Az(:,ii),El(:,ii)], S);
+            buffer = sph2SH([Az(:,ii),El(:,ii)], S_R);
+            Y(:,ii) = buffer(:,indexOfOrderForPlotting);
+        end
+
+
+        D_x = cos(Az_rad).*sin(El_rad).*squeeze(abs(Y));
+        D_y = sin(Az_rad).*sin(El_rad).*squeeze(abs(Y));
+        D_z = cos(El_rad).*squeeze(abs(Y));
+        % create sphere
+        r = (max(max(abs(Y))))./(randi(2,size(Az_rad)));
+        S_x = cos(Az_rad).*sin(El_rad).*r;
+        S_y = sin(Az_rad).*sin(El_rad).*r;
+        S_z = cos(El_rad).*r;
+        
+        % overlay sphere with harmonics and consider offset (x0,y0,z0)
+        Dp_x = (S_x+D_x).*(Y>=0) + x0;
+        Dp_y = (S_y+D_y).*(Y>=0) + y0;
+        Dp_z = (S_z+D_z).*(Y>=0) + z0;
+        
+        Dn_x = (S_x+D_x).*(Y<0) + x0;
+        Dn_y = (S_y+D_y).*(Y<0) + y0;
+        Dn_z = (S_z+D_z).*(Y<0) + z0;
+        
+        legendEntries(end+1) = surf(Dp_x, Dp_y, Dp_z,'LineStyle','none','FaceAlpha',0.09);
+        surf(Dn_x, Dn_y, Dn_z,'LineStyle','none','FaceAlpha',0.09);
+
+%     elseif strcmpi(Obj.ReceiverPosition_Type,'spherical')
+%         S = sqrt(Obj.API.E-1);
+%         x0 = Obj.ListenerPosition(1,1);
+%         y0 = Obj.ListenerPosition(1,2);
+%         theta = -pi : 0.01 : pi;
+%         r = 1;
+%         phi = sin(S*theta);
+%         phi_negativ = sin(-S*theta);
+%         
+%         [x,y] = pol2cart(theta,(r*(1+ abs(phi)+ abs(phi_negativ)))./3);
+%         legendEntries(end+1)=plot(x+x0,y+y0,'LineStyle','--','Color',[0.741 0.747 0.741]);
+% 
+% %         text(x0,y0+r,['Order: ',num2str(S)],'HorizontalAlignment',...
+% %            'center','VerticalAlignment','bottom')
+
+    else
+       % Plot ReceiverPositon (this is plotted only for the first ListenerPosition)
+        if ndims(RP)>2
+            % If ReceiverPosition has more than two dimensions reduce it to the first
+            % ListenerPosition
+            RP = shiftdim(RP,2);
+            RP = squeeze(RP(1,:,:));
+            RP = reshape(RP,[size(Obj.ReceiverPosition,1), Obj.API.C]);
+        end
+        legendEntries(end+1) = plot3(LP(1,1)+RP(1,1), LP(1,2)+RP(1,2), LP(1,3)+RP(1,3),'r*','MarkerSize',8);
+        for ii=2:size(RP,1)
+          plot3(LP(1,1)+RP(ii,1), LP(1,2)+RP(ii,2), LP(1,3)+RP(ii,3),'r*','MarkerSize',8);
+        end
+    end
+    % Plot SourcePosition
+    legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'bd','MarkerSize',7);
+    % Plot EmitterPositions depending on Type
+    if strcmpi(Obj.EmitterPosition_Type,'Harmonics')
+        S_E = sqrt(Obj.API.R-1);
+        x0 = Obj.SourcePosition(1,1);
+        y0 = Obj.SourcePosition(1,2);
+        z0 = Obj.SourcePosition(1,3);
+        
+        indexOfOrderForPlotting = floor(power(S_E+1,2)-(3/2)*S_E);
+
+        azi = linspace(0,360,50);
+        elev = linspace(-180,180,50);
+        azi_rad = azi*pi/180;
+        elev_rad = elev*pi/180;
+        [Az, El] = meshgrid(azi, elev);
+        [Az_rad, El_rad] = meshgrid(azi_rad, elev_rad);
+        
+        Y = zeros(size(Az));
+        for ii = 1:size(Az,1)
+            buffer = sph2SH([Az(:,ii),El(:,ii)], S_E);
             Y(:,ii) = buffer(:,indexOfOrderForPlotting);
         end
 
@@ -324,9 +387,15 @@ switch Obj.GLOBAL_SOFAConventions
         legendEntries(end+1) = quiver3(SP(1,1),SP(1,2),SP(1,3),SU(1,1),SU(1,2),SU(1,3),'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
     end
     % create legend
-    legendDescription = {'ListenerPosition','ReceiverPosition','SourcePosition'};
+    legendDescription = {'ListenerPosition'};
+    if (strcmpi(Obj.ReceiverPosition_Type,'Harmonics'))
+        legendDescription{end+1} = ['Receiver (', num2str(S_R) ,' order)'];
+    else
+        legendDescription{end+1} = 'ReceiverPosition';
+    end
+    legendDescription{end+1} ='SourcePosition';
     if (strcmpi(Obj.EmitterPosition_Type,'Harmonics'))
-        legendDescription{end+1} = ['Emitter (', num2str(S) ,' order)'];
+        legendDescription{end+1} = ['Emitter (', num2str(S_E) ,' order)'];
     else
         legendDescription{end+1} = 'EmitterPosition';
     end
