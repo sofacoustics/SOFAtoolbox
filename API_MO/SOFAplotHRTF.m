@@ -132,7 +132,73 @@ switch Obj.GLOBAL_SOFAConventions
     if ch > size(Obj.Data.IR,2)
         error(['Choosen chanel out of range. Only ', num2str(size(Obj.Data.IR,2)), ' channels recorded.'])
     end
+  case 'GeneralTF-E'
+    T=SOFAgetConventions('SimpleFreeFieldHRIR');
+    Obj.GLOBAL_SOFAConventions=T.GLOBAL_SOFAConventions;
+    Obj.GLOBAL_SOFAConventionsVersion=T.GLOBAL_SOFAConventionsVersion;
+    Obj.GLOBAL_DataType=T.GLOBAL_DataType;
+    Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.Real;
+    Obj.Data.SamplingRate=max(Obj.N)*2;
+    Obj.Data.SamplingRate_Units='Hertz';
+    Obj.Data.IR_LongName=Obj.Data.Real_LongName;
+    Obj.Data.IR_Units=Obj.Data.Real_Units;
 
+    % convert sperical harmonics
+    if Obj.EmitterPosition_Type == 'Harmonics'
+        azi = linspace(0,360,100);
+        ele = linspace(-90,90,100);
+
+        [ele,azi] = meshgrid(ele,azi);
+        ele = ele(:);
+        azi = azi(:);
+        radius=1.2*ones(size(ele));
+        Obj.SourcePosition=[azi ele radius];
+        S = sph2SH(Obj.SourcePosition(:,1:2), sqrt(Obj.API.E)-1);
+        Obj.API.M=size(S,1);
+        Obj.SourcePosition_Type='spherical';
+        Obj.SourcePosition_Units='degree, degree, metre';    
+
+        Data.Real = zeros(Obj.API.M,2,Obj.API.N);
+        Data.Imag = zeros(Obj.API.M,2,Obj.API.N);
+        for ii=1:Obj.API.R
+          for jj=1:Obj.API.N
+           Data.Real(:,ii,jj)=S*squeeze(Obj.Data.Real(1,ii,jj,:));
+           Data.Imag(:,ii,jj)=S*squeeze(Obj.Data.Imag(1,ii,jj,:));
+          end
+        end
+    else
+        Data.Real = Obj.Data.Real;
+        Data.Imag = Obj.Data.Imag;
+    end
+    
+    if sum(diff(diff(Obj.N)))
+      fs=max(Obj.N)*2;  % irregular grid, find the smallest frequency difference
+      N=fs/min([min(diff(Obj.N)) Obj.N(1)]);
+      N=2*(round(N/2+1)-1);
+      Nidx=Obj.N*N/fs+1;
+      Nsize=floor(N/2+1);
+    else
+      N=2*(length(Obj.N)-1);  % regular grid (from an DFT probably), works for odd length only
+      fs=max(Obj.N)*2;
+      Nidx=1:length(Obj.N);
+      Nsize=length(Obj.N);
+    end
+    
+    Obj.Data.IR=zeros(Obj.API.M, Obj.API.R, N);
+    for ii=1:Obj.API.M
+      for jj=1:Obj.API.R
+        s=zeros(Nsize,1);
+        s(Nidx)=squeeze(Data.Real(ii,jj,:))+1i*squeeze(Data.Imag(ii,jj,:));
+        Obj.Data.IR(ii,jj,:)=myifftreal(s,N);
+      end
+    end
+    
+    Obj.Data.Delay=zeros(Obj.API.M,Obj.API.R,1);
+    Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
+    Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
+    Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
+    Obj=SOFAupdateDimensions(Obj);
+    
   otherwise
     error('Conventions not supported');
 end
@@ -226,7 +292,6 @@ switch lower(type)
     idx=find(abs(pos(:,1))>90);
     pos(idx,2)=180-pos(idx,2);
     pos(idx,1)=180-pos(idx,1);
-    % would be the same?
     % pos(idx,1:2)=180-pos(idx,1:2);
     idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
     M=(20*log10(abs(fft(hM(idx,:)')')));
