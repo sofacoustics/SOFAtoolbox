@@ -87,6 +87,11 @@ SH.EmitterPosition=zeros(SH.API.E, SH.API.C);
 SH.EmitterPosition_Type='Harmonics';
 SH.EmitterPosition_Units='Spherical';
 
+figure;
+SOFAplotHRTF(SH,'magmedian'); title('TF for SH');
+figure;
+SOFAplotHRTF(SH,'etchorizontal'); title ('TF for SH');
+
 %% plot spatial spectra
 figure;
 for y=1:4

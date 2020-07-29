@@ -26,7 +26,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %    SimpleFreeFieldHRIR
 %    SimpleFreeFieldSOS
 %    SimpleFreeFieldTF
-%    some special cases of GeneralTF.
+%    some special cases of GeneralTF, GeneralTF-E.
 %
 % [M,meta,h]=SOFAplotHRTF... returns the matrix M and axes (meta) displayed in the figure.
 %    h is the handle of the plot.
@@ -132,7 +132,7 @@ switch Obj.GLOBAL_SOFAConventions
     if ch > size(Obj.Data.IR,2)
         error(['Choosen chanel out of range. Only ', num2str(size(Obj.Data.IR,2)), ' channels recorded.'])
     end
-  case 'GeneralTF-E'
+  case {'SHFreeFieldHRTF', 'GeneralTF-E'}
     T=SOFAgetConventions('SimpleFreeFieldHRIR');
     Obj.GLOBAL_SOFAConventions=T.GLOBAL_SOFAConventions;
     Obj.GLOBAL_SOFAConventionsVersion=T.GLOBAL_SOFAConventionsVersion;
