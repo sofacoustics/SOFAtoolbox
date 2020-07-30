@@ -14,6 +14,9 @@ function SOFAplotGeometry(Obj,varargin)
 % Parameter
 %     'index'        measurement to be plotted. Default: 1:Obj.API.M
 %     'normalize'    normalize view and up vectors
+%     'SHorder'      order of spherical harmonics
+%     'SHm'          m of shperical harmonics
+%     'normalize'    normalize view and up vectors
 %
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -23,13 +26,17 @@ function SOFAplotGeometry(Obj,varargin)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 definput.keyvals.index=1:Obj.API.M;
+definput.keyvals.shorder=Inf;
+definput.keyvals.shm=Inf;
 definput.flags.normalize={'normalize'};
 argin=varargin;
 for ii=1:length(argin)
     if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
 end
-[flags,kv] = SOFAarghelper({'index'},definput,argin);
+[flags,kv] = SOFAarghelper({'index','shorder','shm'},definput,argin);
 index = kv.index;
+SHorder=kv.shorder;
+SHm=kv.shm;
 flags.do_normalize = flags.normalize;
 
 if any(index > Obj.API.M)
@@ -169,11 +176,32 @@ switch Obj.GLOBAL_SOFAConventions
     % Plot ListenerPosition
     legendEntries(end+1) = plot3(LP(:,1),LP(:,2),LP(:,3),'ro','MarkerFaceColor','r','MarkerSize',5);
     if strcmpi(Obj.ReceiverPosition_Type,'Harmonics')
-        S_R = sqrt(Obj.API.R)-1;
+        maxSHorder = sqrt(Obj.API.R)-1;
+         % set SHorder to max if user didn't specify it
+        if isinf(SHorder)
+            SHorder = maxSHorder;
+        end
+        % check if chosen SHorder is possible
+        if SHorder > maxSHorder
+            error(['Chosen SHorder not possibile, only orders up to ', ...
+                num2str(maxSHorder), ' possible.'])
+        elseif SHorder < 0
+            error('Chosen SHorder not possibile, as it must be positive.')
+        end
         x0 = Obj.ListenerPosition(1,1);
         y0 = Obj.ListenerPosition(1,2);
         z0 = Obj.ListenerPosition(1,3);
-        indexOfOrderForPlotting = floor(power(S_R+1,2)-(3/2)*S_R);
+        
+        % check for m given by the user and if it is possible
+        if isinf(SHm)
+            % if not set to some value
+            SHm = -floor(1/2 * SHorder);
+        elseif abs(SHm) > SHorder
+               error(['Chosen SHm not possibile, must be in range of abs(', ...
+                num2str(SHorder), ').'])
+        end
+        % if possibile set SHmForPlotting
+        SHmForPlotting = power(SHorder,2)+SHorder+SHm+1;
         
         [X,Y,Z] = sphere(50); 
         [azi_rad,elev_rad,~] = cart2sph(X,Y,Z);
@@ -184,16 +212,15 @@ switch Obj.GLOBAL_SOFAConventions
         azi = azi(:);
         elev = elev(:);
         
-        Y = sph2SH([azi,elev], S_R);
-        Y = Y(:,indexOfOrderForPlotting);
-        Y = reshape(Y,[azi_length,elev_length]);
-
-        r_sphere = 0.5*max(max(Y))*randi(2,size(Y)); 
-        r = abs(Y) + r_sphere;        
+        S = sph2SH([azi,elev], SHorder);
+        S = S(:,SHmForPlotting);
+        S = reshape(S,[azi_length,elev_length]);
+        
+        r_sphere = 0.7*max(max(S))*randi(2,size(S)); 
+        r = abs(S) + r_sphere;        
         
         [D_x,D_y,D_z] = sph2cart(azi_rad,elev_rad,abs(r));
         legendEntries(end+1) = surf(D_x+x0,D_y+y0,D_z+z0,Y,'LineStyle','none','FaceAlpha',0.09);
-
 %     elseif strcmpi(Obj.ReceiverPosition_Type,'spherical')
 %         S = sqrt(Obj.API.R-1);
 %         x0 = Obj.ListenerPosition(1,1);
@@ -227,11 +254,31 @@ switch Obj.GLOBAL_SOFAConventions
     legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'bd','MarkerSize',7);
     % Plot EmitterPositions depending on Type
     if strcmpi(Obj.EmitterPosition_Type,'Harmonics')
-        S_E = sqrt(Obj.API.E)-1;
+        maxSHorder = sqrt(Obj.API.E)-1;
+        % set SHorder to max if user didn't specify it
+        if isinf(SHorder)
+            SHorder = maxSHorder;
+        end
+        % check if chosen SHorder is possible
+        if SHorder > maxSHorder
+            error(['Chosen SHorder not possibile, only orders up to ', ...
+                num2str(maxSHorder), ' possible.'])
+        elseif SHorder < 0
+            error('Chosen SHorder not possibile, as it must be positive.')
+        end
         x0 = Obj.SourcePosition(1,1);
         y0 = Obj.SourcePosition(1,2);
         z0 = Obj.SourcePosition(1,3);
-        indexOfOrderForPlotting = floor(power(S_E+1,2)-(3/2)*S_E);
+        
+        % check for m given by the user
+        if isinf(SHm)
+            SHm = -floor(1/2 * SHorder);
+        elseif abs(SHm) > SHorder
+               error(['Chosen SHm not possibile, must be in range of abs(', ...
+                num2str(SHorder), ').'])
+        end
+        % if possibile set SHmForPlotting
+        SHmForPlotting = power(SHorder,2)+SHorder+SHm+1;
         
         [X,Y,Z] = sphere(50); 
         [azi_rad,elev_rad,~] = cart2sph(X,Y,Z);
@@ -242,12 +289,12 @@ switch Obj.GLOBAL_SOFAConventions
         azi = azi(:);
         elev = elev(:);
         
-        Y = sph2SH([azi,elev], S_E);
-        Y = Y(:,indexOfOrderForPlotting);
-        Y = reshape(Y,[azi_length,elev_length]);
+        S = sph2SH([azi,elev], SHorder);
+        S = S(:,SHmForPlotting);
+        S = reshape(S,[azi_length,elev_length]);
         
-        r_sphere = 0.5*max(max(Y))*randi(2,size(Y)); 
-        r = abs(Y) + r_sphere;        
+        r_sphere = 0.7*max(max(S))*randi(2,size(S)); 
+        r = abs(S) + r_sphere;        
         
         [D_x,D_y,D_z] = sph2cart(azi_rad,elev_rad,abs(r));
         legendEntries(end+1) = surf(D_x+x0,D_y+y0,D_z+z0,Y,'LineStyle','none','FaceAlpha',0.09);
@@ -361,7 +408,7 @@ switch Obj.GLOBAL_SOFAConventions
     end
     legendDescription{end+1} ='SourcePosition';
     if (strcmpi(Obj.EmitterPosition_Type,'Harmonics'))
-        legendDescription{end+1} = ['Emitter (order: ', num2str(S_E) ,')'];
+        legendDescription{end+1} = ['Emitter (order: ', num2str(SHorder),', m: ', num2str(SHm),')'];
     else
         legendDescription{end+1} = 'EmitterPosition';
     end
