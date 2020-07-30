@@ -169,50 +169,33 @@ switch Obj.GLOBAL_SOFAConventions
     % Plot ListenerPosition
     legendEntries(end+1) = plot3(LP(:,1),LP(:,2),LP(:,3),'ro','MarkerFaceColor','r','MarkerSize',5);
     if strcmpi(Obj.ReceiverPosition_Type,'Harmonics')
-        S_R = sqrt(Obj.API.E-1);
+        S_R = sqrt(Obj.API.R)-1;
         x0 = Obj.ListenerPosition(1,1);
         y0 = Obj.ListenerPosition(1,2);
         z0 = Obj.ListenerPosition(1,3);
-        
         indexOfOrderForPlotting = floor(power(S_R+1,2)-(3/2)*S_R);
+        
+        [X,Y,Z] = sphere(50); 
+        [azi_rad,elev_rad,~] = cart2sph(X,Y,Z);
+        azi_length =size(azi_rad,1);
+        elev_length=size(elev_rad,1);
+        azi= azi_rad/pi*180;
+        elev = elev_rad/pi*180;
+        azi = azi(:);
+        elev = elev(:);
+        
+        Y = sph2SH([azi,elev], S_R);
+        Y = Y(:,indexOfOrderForPlotting);
+        Y = reshape(Y,[azi_length,elev_length]);
 
-        azi = linspace(0,360,50);
-        elev = linspace(-180,180,50);
-        azi_rad = azi*pi/180;
-        elev_rad = elev*pi/180;
-        [Az, El] = meshgrid(azi, elev);
-        [Az_rad, El_rad] = meshgrid(azi_rad, elev_rad);
+        r_sphere = 0.5*max(max(Y))*randi(2,size(Y)); 
+        r = abs(Y) + r_sphere;        
         
-        Y = zeros(size(Az));
-        for ii = 1:size(Az,1)
-            buffer = sph2SH([Az(:,ii),El(:,ii)], S_R);
-            Y(:,ii) = buffer(:,indexOfOrderForPlotting);
-        end
-
-
-        D_x = cos(Az_rad).*sin(El_rad).*squeeze(abs(Y));
-        D_y = sin(Az_rad).*sin(El_rad).*squeeze(abs(Y));
-        D_z = cos(El_rad).*squeeze(abs(Y));
-        % create sphere
-        r = (max(max(abs(Y))))./(randi(2,size(Az_rad)));
-        S_x = cos(Az_rad).*sin(El_rad).*r;
-        S_y = sin(Az_rad).*sin(El_rad).*r;
-        S_z = cos(El_rad).*r;
-        
-        % overlay sphere with harmonics and consider offset (x0,y0,z0)
-        Dp_x = (S_x+D_x).*(Y>=0) + x0;
-        Dp_y = (S_y+D_y).*(Y>=0) + y0;
-        Dp_z = (S_z+D_z).*(Y>=0) + z0;
-        
-        Dn_x = (S_x+D_x).*(Y<0) + x0;
-        Dn_y = (S_y+D_y).*(Y<0) + y0;
-        Dn_z = (S_z+D_z).*(Y<0) + z0;
-        
-        legendEntries(end+1) = surf(Dp_x, Dp_y, Dp_z,'LineStyle','none','FaceAlpha',0.09);
-        surf(Dn_x, Dn_y, Dn_z,'LineStyle','none','FaceAlpha',0.09);
+        [D_x,D_y,D_z] = sph2cart(azi_rad,elev_rad,abs(r));
+        legendEntries(end+1) = surf(D_x+x0,D_y+y0,D_z+z0,Y,'LineStyle','none','FaceAlpha',0.09);
 
 %     elseif strcmpi(Obj.ReceiverPosition_Type,'spherical')
-%         S = sqrt(Obj.API.E-1);
+%         S = sqrt(Obj.API.R-1);
 %         x0 = Obj.ListenerPosition(1,1);
 %         y0 = Obj.ListenerPosition(1,2);
 %         theta = -pi : 0.01 : pi;
@@ -244,47 +227,30 @@ switch Obj.GLOBAL_SOFAConventions
     legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'bd','MarkerSize',7);
     % Plot EmitterPositions depending on Type
     if strcmpi(Obj.EmitterPosition_Type,'Harmonics')
-        S_E = sqrt(Obj.API.R-1);
+        S_E = sqrt(Obj.API.E)-1;
         x0 = Obj.SourcePosition(1,1);
         y0 = Obj.SourcePosition(1,2);
         z0 = Obj.SourcePosition(1,3);
-        
         indexOfOrderForPlotting = floor(power(S_E+1,2)-(3/2)*S_E);
-
-        azi = linspace(0,360,50);
-        elev = linspace(-180,180,50);
-        azi_rad = azi*pi/180;
-        elev_rad = elev*pi/180;
-        [Az, El] = meshgrid(azi, elev);
-        [Az_rad, El_rad] = meshgrid(azi_rad, elev_rad);
         
-        Y = zeros(size(Az));
-        for ii = 1:size(Az,1)
-            buffer = sph2SH([Az(:,ii),El(:,ii)], S_E);
-            Y(:,ii) = buffer(:,indexOfOrderForPlotting);
-        end
-
-
-        D_x = cos(Az_rad).*sin(El_rad).*squeeze(abs(Y));
-        D_y = sin(Az_rad).*sin(El_rad).*squeeze(abs(Y));
-        D_z = cos(El_rad).*squeeze(abs(Y));
-        % create sphere
-        r = (max(max(abs(Y))))./(randi(2,size(Az_rad)));
-        S_x = cos(Az_rad).*sin(El_rad).*r;
-        S_y = sin(Az_rad).*sin(El_rad).*r;
-        S_z = cos(El_rad).*r;
+        [X,Y,Z] = sphere(50); 
+        [azi_rad,elev_rad,~] = cart2sph(X,Y,Z);
+        azi_length =size(azi_rad,1);
+        elev_length=size(elev_rad,1);
+        azi= azi_rad/pi*180;
+        elev = elev_rad/pi*180;
+        azi = azi(:);
+        elev = elev(:);
         
-        % overlay sphere with harmonics and consider offset (x0,y0,z0)
-        Dp_x = (S_x+D_x).*(Y>=0) + x0;
-        Dp_y = (S_y+D_y).*(Y>=0) + y0;
-        Dp_z = (S_z+D_z).*(Y>=0) + z0;
+        Y = sph2SH([azi,elev], S_E);
+        Y = Y(:,indexOfOrderForPlotting);
+        Y = reshape(Y,[azi_length,elev_length]);
         
-        Dn_x = (S_x+D_x).*(Y<0) + x0;
-        Dn_y = (S_y+D_y).*(Y<0) + y0;
-        Dn_z = (S_z+D_z).*(Y<0) + z0;
+        r_sphere = 0.5*max(max(Y))*randi(2,size(Y)); 
+        r = abs(Y) + r_sphere;        
         
-        legendEntries(end+1) = surf(Dp_x, Dp_y, Dp_z,'LineStyle','none','FaceAlpha',0.09);
-        surf(Dn_x, Dn_y, Dn_z,'LineStyle','none','FaceAlpha',0.09);
+        [D_x,D_y,D_z] = sph2cart(azi_rad,elev_rad,abs(r));
+        legendEntries(end+1) = surf(D_x+x0,D_y+y0,D_z+z0,Y,'LineStyle','none','FaceAlpha',0.09);
 
 %     elseif strcmpi(Obj.EmitterPosition_Type,'spherical')
 %         S = sqrt(Obj.API.R-1);
@@ -389,13 +355,13 @@ switch Obj.GLOBAL_SOFAConventions
     % create legend
     legendDescription = {'ListenerPosition'};
     if (strcmpi(Obj.ReceiverPosition_Type,'Harmonics'))
-        legendDescription{end+1} = ['Receiver (', num2str(S_R) ,' order)'];
+        legendDescription{end+1} = ['Receiver (order: ', num2str(S_R) ,')'];
     else
         legendDescription{end+1} = 'ReceiverPosition';
     end
     legendDescription{end+1} ='SourcePosition';
     if (strcmpi(Obj.EmitterPosition_Type,'Harmonics'))
-        legendDescription{end+1} = ['Emitter (', num2str(S_E) ,' order)'];
+        legendDescription{end+1} = ['Emitter (order: ', num2str(S_E) ,')'];
     else
         legendDescription{end+1} = 'EmitterPosition';
     end
