@@ -1,5 +1,5 @@
 function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
-% SOFAplotHRTF(OBJ, TYPE, CH, DIR, COLOR) plots the CH channel of HRTFs given in OBJ.
+% SOFAplotHRTF(OBJ, TYPE, R, DIR, COLOR) plots the R receiver of HRTFs given in OBJ.
 %  The following TYPEs are supported:
 %  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- THR)
 %  'EtcMedian'      energy-time curve in the median plane (+/- THR)
@@ -11,7 +11,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %  More options are available by SOFAplotHRTF(Obj,type,parameter,value)
 %
 %   Parameter
-%     'ch'     receiver channel to be plotted. Default: 1
+%     'R'      receiver  to be plotted. Default: 1
 %     'dir'    fixes the positions to be plotted:
 %              [azi]: shows all direction for that azimuth
 %              [azi, ele]: shows all distances for that direction 
@@ -26,6 +26,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %    SimpleFreeFieldHRIR
 %    SimpleFreeFieldSOS
 %    SimpleFreeFieldTF
+%    SHFreeFieldHRTF
 %    some special cases of GeneralTF, GeneralTF-E.
 %
 % [M,meta,h]=SOFAplotHRTF... returns the matrix M and axes (meta) displayed in the figure.
@@ -42,14 +43,14 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % for backward compatibility (type as position-dependent input parameter)
 if nargin == 3 && ischar(type) && isscalar(varargin{1})
 %   varargin = flipud(varargin(:));
-    ch = varargin{1};
+    R = varargin{1};
     flags.do_normalize=1;
     dir=[0,0];
     color='b';
     thr=2;
     offset=0;
 else
-    definput.keyvals.ch=1;
+    definput.keyvals.R=1;
     definput.keyvals.dir=[0,0];
     definput.keyvals.thr=2;
     definput.keyvals.offset=0;
@@ -59,8 +60,8 @@ else
     for ii=1:length(argin)
         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
     end
-    [flags,kv] = SOFAarghelper({'ch','dir','thr','offset'},definput,argin);
-    ch = kv.ch;
+    [flags,kv] = SOFAarghelper({'R','dir','thr','offset'},definput,argin);
+    R = kv.R;
     dir = kv.dir;
     thr=kv.thr;
     color = flags.color;
@@ -72,138 +73,20 @@ meta=[];
 
 %% Convert data to FIR
 switch Obj.GLOBAL_SOFAConventions
-  case 'SimpleFreeFieldSOS'
-    N=512;
-    impulse=[1; zeros(N-1,1)];
-    T=SOFAgetConventions('SimpleFreeFieldHRIR');
-    Obj.GLOBAL_SOFAConventions=T.GLOBAL_SOFAConventions;
-    Obj.GLOBAL_SOFAConventionsVersion=T.GLOBAL_SOFAConventionsVersion;
-    Obj.GLOBAL_DataType=T.GLOBAL_DataType;
-    Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.SOS;
-    Obj.Data.IR=zeros(Obj.API.M, Obj.API.R, N);
-    for ii=1:Obj.API.M
-      for jj=1:Obj.API.R
-        Obj.Data.IR(ii,jj,:)=sosfilt(reshape(squeeze(Obj.Data.SOS(ii,jj,:)),6,[])',impulse);
-      end
-    end
-    Obj.Data=rmfield(Obj.Data,'SOS');
-    Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
-    Obj=SOFAupdateDimensions(Obj);
-  case {'SimpleFreeFieldTF', 'SimpleFreeFieldHRTF', 'GeneralTF'}
-    if sum(diff(diff(Obj.N)))
-      fs=max(Obj.N)*2;  % irregular grid, find the smallest frequency difference
-      N=fs/min([min(diff(Obj.N)) Obj.N(1)]);
-      N=2*(round(N/2+1)-1);
-      Nidx=Obj.N*N/fs+1;
-      Nsize=floor(N/2+1);
-    else
-      N=2*(length(Obj.N)-1);  % regular grid (from an DFT probably), works for odd length only
-      fs=max(Obj.N)*2;
-      Nidx=1:length(Obj.N);
-      Nsize=length(Obj.N);
-    end
-    T=SOFAgetConventions('SimpleFreeFieldHRIR');
-    Obj.GLOBAL_SOFAConventions=T.GLOBAL_SOFAConventions;
-    Obj.GLOBAL_SOFAConventionsVersion=T.GLOBAL_SOFAConventionsVersion;
-    Obj.GLOBAL_DataType=T.GLOBAL_DataType;
-    Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.Real;
-    Obj.Data.SamplingRate=fs;
-    Obj.Data.SamplingRate_Units='Hertz';
-    Obj.Data.IR_LongName=Obj.Data.Real_LongName;
-    Obj.Data.IR_Units=Obj.Data.Real_Units;
-    Obj.Data.IR=zeros(Obj.API.M, Obj.API.R, N);
-    for ii=1:Obj.API.M
-      for jj=1:Obj.API.R
-        s=zeros(Nsize,1);
-        s(Nidx)=squeeze(Obj.Data.Real(ii,jj,:))+1i*squeeze(Obj.Data.Imag(ii,jj,:));
-        Obj.Data.IR(ii,jj,:)=myifftreal(s,N);
-      end
-      Obj.SourcePosition(ii,:)=SOFAconvertCoordinates(Obj.SourcePosition(ii,:),Obj.SourcePosition_Type,T.SourcePosition_Type,Obj.SourcePosition_Units,T.SourcePosition_Units);
-    end
-    Obj.Data.Delay=zeros(1,Obj.API.R);
-    Obj.SourcePosition_Type=T.SourcePosition_Type;
-    Obj.SourcePosition_Units=T.SourcePosition_Units;
-    Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
-    Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
-    Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
-    Obj=SOFAupdateDimensions(Obj);
-  case {'SimpleFreeFieldHRIR','GeneralFIR'}
-    % check if channel selection is possible
-    if ch > size(Obj.Data.IR,2)
-        error(['Choosen chanel out of range. Only ', num2str(size(Obj.Data.IR,2)), ' channels recorded.'])
-    end
-  case {'SHFreeFieldHRTF', 'GeneralTF-E'}
-    T=SOFAgetConventions('SimpleFreeFieldHRIR');
-    Obj.GLOBAL_SOFAConventions=T.GLOBAL_SOFAConventions;
-    Obj.GLOBAL_SOFAConventionsVersion=T.GLOBAL_SOFAConventionsVersion;
-    Obj.GLOBAL_DataType=T.GLOBAL_DataType;
-    Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.Real;
-    Obj.Data.SamplingRate=max(Obj.N)*2;
-    Obj.Data.SamplingRate_Units='Hertz';
-    Obj.Data.IR_LongName=Obj.Data.Real_LongName;
-    Obj.Data.IR_Units=Obj.Data.Real_Units;
-
-    % convert sperical harmonics
-    if Obj.EmitterPosition_Type == 'Harmonics'
-        azi = linspace(0,360,100);
-        ele = linspace(-90,90,100);
-
-        [ele,azi] = meshgrid(ele,azi);
-        ele = ele(:);
-        azi = azi(:);
-        radius=1.2*ones(size(ele));
-        Obj.SourcePosition=[azi ele radius];
-        S = sph2SH(Obj.SourcePosition(:,1:2), sqrt(Obj.API.E)-1);
-        Obj.API.M=size(S,1);
-        Obj.SourcePosition_Type='spherical';
-        Obj.SourcePosition_Units='degree, degree, metre';    
-
-        Data.Real = zeros(Obj.API.M,2,Obj.API.N);
-        Data.Imag = zeros(Obj.API.M,2,Obj.API.N);
-        for ii=1:Obj.API.R
-          for jj=1:Obj.API.N
-           Data.Real(:,ii,jj)=S*squeeze(Obj.Data.Real(1,ii,jj,:));
-           Data.Imag(:,ii,jj)=S*squeeze(Obj.Data.Imag(1,ii,jj,:));
-          end
-        end
-    else
-        Data.Real = Obj.Data.Real;
-        Data.Imag = Obj.Data.Imag;
-    end
-    
-    if sum(diff(diff(Obj.N)))
-      fs=max(Obj.N)*2;  % irregular grid, find the smallest frequency difference
-      N=fs/min([min(diff(Obj.N)) Obj.N(1)]);
-      N=2*(round(N/2+1)-1);
-      Nidx=Obj.N*N/fs+1;
-      Nsize=floor(N/2+1);
-    else
-      N=2*(length(Obj.N)-1);  % regular grid (from an DFT probably), works for odd length only
-      fs=max(Obj.N)*2;
-      Nidx=1:length(Obj.N);
-      Nsize=length(Obj.N);
-    end
-    
-    Obj.Data.IR=zeros(Obj.API.M, Obj.API.R, N);
-    for ii=1:Obj.API.M
-      for jj=1:Obj.API.R
-        s=zeros(Nsize,1);
-        s(Nidx)=squeeze(Data.Real(ii,jj,:))+1i*squeeze(Data.Imag(ii,jj,:));
-        Obj.Data.IR(ii,jj,:)=myifftreal(s,N);
-      end
-    end
-    
-    Obj.Data.Delay=zeros(Obj.API.M,Obj.API.R,1);
-    Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
-    Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
-    Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
-    Obj=SOFAupdateDimensions(Obj);
-    
-  otherwise
-    error('Conventions not supported');
+    case {'SimpleFreeFieldHRIR'}
+       % no conversion needed
+    case {'SimpleFreeFieldSOS','SimpleFreeFieldTF','SimpleFreeFieldHRTF','SHFreeFieldHRTF','GeneralTF','GeneralTF-E'}
+        Obj=SOFAconvertConventions(Obj);
+    otherwise
+        error('Conventions not supported');
 end
-
 fs=Obj.Data.SamplingRate;
+
+%% check if receiver selection is possible
+if R > size(Obj.Data.IR,2)
+    error(['Choosen receiver out of range. Only ', num2str(size(Obj.Data.IR,2)), ' receivers recorded.'])
+end
+    
 %% Convert to spherical if cartesian
 if strcmp(Obj.SourcePosition_Type,'cartesian')
     for ii=1:Obj.API.M
@@ -222,13 +105,13 @@ switch lower(type)
   case 'etchorizontal'
     noisefloor=-50;
     Obj=SOFAexpand(Obj,'Data.Delay');
-    hM=double(squeeze(Obj.Data.IR(:,ch,:)));
+    hM=double(squeeze(Obj.Data.IR(:,R,:)));
     pos=Obj.SourcePosition;
     pos(pos(:,1)>180,1)=pos(pos(:,1)>180,1)-360;
     idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
-    del=round(Obj.Data.Delay(idx,ch));
+    del=round(Obj.Data.Delay(idx,R));
     M2=noisefloor*ones(size(M)+[0 max(del)]);
     for ii=1:size(M,1)
       M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
@@ -253,12 +136,12 @@ switch lower(type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Azimuth (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
+    title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
 
     % Magnitude spectrum in the horizontal plane
   case 'maghorizontal'
     noisefloor=-50;
-    hM=double(squeeze(Obj.Data.IR(:,ch,:)));
+    hM=double(squeeze(Obj.Data.IR(:,R,:)));
     pos=Obj.SourcePosition;
     pos(pos(:,1)>180,1)=pos(pos(:,1)>180,1)-360;
     idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
@@ -281,13 +164,13 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Azimuth (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
+    title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
 
     % Magnitude spectrum in the median plane
   case 'magmedian'
     noisefloor=-50;
     azi=0;
-    hM=double(squeeze(Obj.Data.IR(:,ch,:)));
+    hM=double(squeeze(Obj.Data.IR(:,R,:)));
     pos=Obj.SourcePosition;
     idx=find(abs(pos(:,1))>90);
     pos(idx,2)=180-pos(idx,2);
@@ -309,12 +192,12 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Elevation (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
+    title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
 
     % Magnitude spectrum in the median plane
   case 'magsagittal'
     noisefloor=-50;
-    hM=double(squeeze(Obj.Data.IR(:,ch,:)));
+    hM=double(squeeze(Obj.Data.IR(:,R,:)));
     [lat,pol]=sph2hor(Obj.SourcePosition(:,1),Obj.SourcePosition(:,2));
     pos=[lat pol];
 %     idx=find(abs(pos(:,1))>90);
@@ -336,7 +219,7 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Polar angle (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch) '; Lateral angle: ' num2str(offset) 'deg'],'Interpreter','none');
+    title([Obj.GLOBAL_Title '; receiver: ' num2str(R) '; Lateral angle: ' num2str(offset) 'deg'],'Interpreter','none');
  
 
     % ETC in the median plane
@@ -344,7 +227,7 @@ switch lower(type)
     noisefloor=-50;
     azi=0;
     Obj=SOFAexpand(Obj,'Data.Delay');
-    hM=double(squeeze(Obj.Data.IR(:,ch,:)));
+    hM=double(squeeze(Obj.Data.IR(:,R,:)));
     pos=Obj.SourcePosition;
     idx=find(abs(pos(:,1))>90);
     pos(idx,2)=180-pos(idx,2);
@@ -352,7 +235,7 @@ switch lower(type)
     idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
-    del=round(Obj.Data.Delay(idx,ch));
+    del=round(Obj.Data.Delay(idx,R));
     M2=zeros(size(M)+[0 max(del)]);
     for ii=1:size(M,1)
       M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
@@ -379,7 +262,7 @@ switch lower(type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Elevation (deg)');
-    title([Obj.GLOBAL_Title '; channel: ' num2str(ch)],'Interpreter','none');
+    title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
 
   case 'magspectrum'
     noisefloor=-50;
@@ -393,7 +276,7 @@ switch lower(type)
             idx=find(pos(:,1)==dir(:,1) & pos(:,2)==dir(:,2) & pos(:,3)==dir(:,3));
     end
     if isempty(idx), error('Position not found'); end
-    IR=squeeze(Obj.Data.IR(idx,ch,:));
+    IR=squeeze(Obj.Data.IR(idx,R,:));
 
     if length(idx) > 1,
         M=20*log10(abs(fft(IR')))';
