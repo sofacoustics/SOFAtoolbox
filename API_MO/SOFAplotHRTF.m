@@ -290,7 +290,7 @@ switch lower(type)
         hM=20*log10(abs(fft(IR)));
         M=hM(1:floor(length(hM)/2));
         hold on;
-        h=plot(0:fs/2/length(hM):(length(M)-1)*fs/2/length(hM),M,color,...
+        h=plot(0:fs/length(hM):(length(M)-1)*fs/length(hM),M,color,...
             'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
         legend;
 %         leg=legend;
