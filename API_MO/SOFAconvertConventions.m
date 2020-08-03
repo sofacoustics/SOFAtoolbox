@@ -9,7 +9,7 @@ function Obj=SOFAconvertConventions(Obj)
 %    some special cases of GeneralTF, GeneralTF-E.
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
-% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% Licensed under the EUPL, Version 1.1 or ï¿½ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,6 +18,8 @@ function Obj=SOFAconvertConventions(Obj)
 
 %% Convert data to SimpleFreeFieldHRIR
 switch Obj.GLOBAL_SOFAConventions
+  case 'SimpleFreeFieldHRIR'
+      % no conversion needed
   case 'SimpleFreeFieldSOS'
     N=512;
     impulse=[1; zeros(N-1,1)];

@@ -34,7 +34,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
-% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% Licensed under the EUPL, Version 1.1 or ï¿½ as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: http://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,14 +72,7 @@ M=[];
 meta=[];
 
 %% Convert data to FIR
-switch Obj.GLOBAL_SOFAConventions
-    case {'SimpleFreeFieldHRIR'}
-       % no conversion needed
-    case {'SimpleFreeFieldSOS','SimpleFreeFieldTF','SimpleFreeFieldHRTF','SHFreeFieldHRTF','GeneralTF','GeneralTF-E'}
-        Obj=SOFAconvertConventions(Obj);
-    otherwise
-        error('Conventions not supported');
-end
+Obj=SOFAconvertConventions(Obj);
 fs=Obj.Data.SamplingRate;
 
 %% check if receiver selection is possible
@@ -267,17 +260,36 @@ switch lower(type)
   case 'magspectrum'
     noisefloor=-50;
     pos=round(Obj.SourcePosition,1);
-    switch length(dir)
+    switch size(dir,2)
         case 1
-            idx=find(pos(:,1)==dir(:,1));
+            aziPos = pos(:,1);
+            aziDir=dir(:,1);
+            aziComp = intersect(aziPos,aziDir,'rows');
+            idx= find(ismember(aziPos,aziComp,'rows'));
         case 2
-            idx=find(pos(:,1)==dir(:,1) & pos(:,2)==dir(:,2));
+            aziPos = pos(:,1);
+            aziDir=dir(:,1);
+            elePos = pos(:,2);
+            eleDir=dir(:,2);
+            aziComp = intersect(aziPos,aziDir,'rows');
+            eleComp = intersect(elePos,eleDir,'rows');
+            idx=find(ismember(aziPos,aziComp,'rows') & ...
+                ismember(elePos,eleComp,'rows'));
         otherwise
-            idx=find(pos(:,1)==dir(:,1) & pos(:,2)==dir(:,2) & pos(:,3)==dir(:,3));
+            aziPos = pos(:,1);
+            aziDir=dir(:,1);
+            elePos = pos(:,2);
+            eleDir=dir(:,2);
+            rPos = pos(:,3);
+            rDir=dir(:,3);
+            aziComp = intersect(aziPos,aziDir,'rows');
+            eleComp = intersect(elePos,eleDir,'rows');
+            rComp = intersect(rPos,rDir,'rows');
+            idx=find(ismember(aziPos,aziComp,'rows') & ...
+                ismember(elePos,eleComp,'rows') & ismember(rPos,rComp,'rows'));
     end
     if isempty(idx), error('Position not found'); end
     IR=squeeze(Obj.Data.IR(idx,R,:));
-
     if length(idx) > 1,
         M=20*log10(abs(fft(IR')))';
         M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
@@ -290,18 +302,9 @@ switch lower(type)
         hM=20*log10(abs(fft(IR)));
         M=hM(1:floor(length(hM)/2));
         hold on;
-        h=plot(0:fs/length(hM):(length(M)-1)*fs/length(hM),M,color,...
+        h=plot(0:fs/2/length(M):(length(M)-1)*fs/2/length(M),M,color,...
             'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
         legend;
-%         leg=legend;
-%         if isempty(leg),
-%             legend(['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
-%         else
-%             leg=leg.String;
-%             leg{end+1}=['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')'];
-%             legend('off');
-%             legend(leg);
-%         end
     end
     ylabel('Magnitude (dB)');
     xlabel('Frequency (Hz)');
