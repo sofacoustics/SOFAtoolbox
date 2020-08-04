@@ -1,7 +1,7 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm		attribute	
-GLOBAL:Version	1.0	rm		attribute	
-GLOBAL:SOFAConventions	FreeFieldDirectivityTF	rm		attribute	This conventions stores directivities of acoustic sources (instruments, loudspeakers, singers, talkers, etc) in the frequency domain for multiple musical notes in free field.
+GLOBAL:Version	1.1	rm		attribute	
+GLOBAL:SOFAConventions	SimpleFreeFieldDirectivityTF	rm		attribute	This conventions stores simple directivities of acoustic sources (instruments, loudspeakers, singers, talkers, etc) in the frequency domain for multiple musical notes in free field. 
 GLOBAL:SOFAConventionsVersion	0.3	rm		attribute	
 GLOBAL:APIName		rm		attribute	
 GLOBAL:APIVersion		rm		attribute	
@@ -19,9 +19,10 @@ GLOBAL:Origin				attribute
 GLOBAL:DateCreated		m		attribute	
 GLOBAL:DateModified		m		attribute	
 GLOBAL:Title		m		attribute	
-GLOBAL:InstrumentType		m		attribute	Narrative description of the acoustic source, e.g., 'Violin' or 'Human'
-GLOBAL:InstrumentManufacturer		m		attribute	Narrative description of the manufacturer of the source, e.g., 'Stradivari, Lady Blunt, 1721'
-GLOBAL:Musician		m		attribute	Narrative description of the musician such as position, behavior, or personal data if not data-protected, e.g., 'Christiane Schmidt sitting on the chair', or 'artificial excitation by R2D2'.
+GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data.
+GLOBAL:SourceType		m		attribute	Narrative description of the acoustic source, e.g., 'Violin' or 'Human'
+GLOBAL:SourceManufacturer		m		attribute	Narrative description of the manufacturer of the source, e.g., 'Stradivari, Lady Blunt, 1721'
+GLOBAL:Musician				attribute	Narrative description of the musician such as position, behavior, or personal data if not data-protected, e.g., 'Christiane Schmidt sitting on the chair', or 'artificial excitation by R2D2'.
 ListenerPosition	[0 0 0] 	m	IC, MC	double	Position of the microphone array during the measurements.
 ListenerPosition:Type	cartesian	m		attribute	
 ListenerPosition:Units	metre	m		attribute	
