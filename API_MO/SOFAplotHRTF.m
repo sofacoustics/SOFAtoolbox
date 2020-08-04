@@ -264,7 +264,7 @@ switch lower(type)
 
   case 'magspectrum'
 %     noisefloor=-50;
-    pos=round(Obj.SourcePosition,1);
+    pos=round(Obj.SourcePosition*10)/10;
     switch size(dir,2)
         case 1
             aziPos = pos(:,1);
