@@ -19,13 +19,15 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %              default: [0,0]
 %     'offset' chooses a plane to be plotted. Default: 0 deg.
 %     'thr'    threshold for selecting positions around a plane. Default: 2 deg.
-%     'color'  color for plotting as used by PLOT
+%     'floor'  lowest amplitude shown (dB). Default: -50 dB.
+%   Additionally, 'b', 'r', 'g', etc. can be used for plotting in color 
+%   as used by PLOT.
 %
 %
 %  Supported conventions: 
 %    SimpleFreeFieldHRIR
-%    SimpleFreeFieldSOS
-%    SimpleFreeFieldTF
+%    SimpleFreeFieldHRSOS
+%    SimpleFreeFieldHRTF
 %    SHFreeFieldHRTF
 %    some special cases of GeneralTF, GeneralTF-E.
 %
@@ -49,23 +51,26 @@ if nargin == 3 && ischar(type) && isscalar(varargin{1})
     color='b';
     thr=2;
     offset=0;
+    noisefloor=-50;
 else
     definput.keyvals.R=1;
     definput.keyvals.dir=[0,0];
     definput.keyvals.thr=2;
     definput.keyvals.offset=0;
+    definput.keyvals.floor=-50;
     definput.flags.color={'b','r','k','y','g','c','m'};
     definput.flags.level={'normalize','absolute'};
     argin=varargin;
     for ii=1:length(argin)
         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
     end
-    [flags,kv] = SOFAarghelper({'R','dir','thr','offset'},definput,argin);
+    [flags,kv] = SOFAarghelper({'R','dir','thr','offset','floor'},definput,argin);
     R = kv.R;
     dir = kv.dir;
     thr=kv.thr;
     color = flags.color;
     offset = kv.offset;
+    noisefloor=kv.floor;
 end
 
 M=[];
@@ -96,7 +101,7 @@ end
 switch lower(type)
     % Energy-time curve (ETC) in the horizontal plane
   case 'etchorizontal'
-    noisefloor=-50;
+%     noisefloor=-50;
     Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,R,:)));
     pos=Obj.SourcePosition;
@@ -133,7 +138,7 @@ switch lower(type)
 
     % Magnitude spectrum in the horizontal plane
   case 'maghorizontal'
-    noisefloor=-50;
+%     noisefloor=-50;
     hM=double(squeeze(Obj.Data.IR(:,R,:)));
     pos=Obj.SourcePosition;
     pos(pos(:,1)>180,1)=pos(pos(:,1)>180,1)-360;
@@ -161,7 +166,7 @@ switch lower(type)
 
     % Magnitude spectrum in the median plane
   case 'magmedian'
-    noisefloor=-50;
+%     noisefloor=-50;
     azi=0;
     hM=double(squeeze(Obj.Data.IR(:,R,:)));
     pos=Obj.SourcePosition;
@@ -189,7 +194,7 @@ switch lower(type)
 
     % Magnitude spectrum in the median plane
   case 'magsagittal'
-    noisefloor=-50;
+%     noisefloor=-50;
     hM=double(squeeze(Obj.Data.IR(:,R,:)));
     [lat,pol]=sph2hor(Obj.SourcePosition(:,1),Obj.SourcePosition(:,2));
     pos=[lat pol];
@@ -217,7 +222,7 @@ switch lower(type)
 
     % ETC in the median plane
   case 'etcmedian'
-    noisefloor=-50;
+%     noisefloor=-50;
     azi=0;
     Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,R,:)));
@@ -258,7 +263,7 @@ switch lower(type)
     title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
 
   case 'magspectrum'
-    noisefloor=-50;
+%     noisefloor=-50;
     pos=round(Obj.SourcePosition,1);
     switch size(dir,2)
         case 1
