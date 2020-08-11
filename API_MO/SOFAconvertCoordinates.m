@@ -1,4 +1,4 @@
-function output = SOFAconvertCoordinates(input,input_type,output_type,input_unit,output_unit)
+ function output = SOFAconvertCoordinates(input,input_type,output_type,input_unit,output_unit)
 %SOFAconvertCoordinates
 %   output = SOFAconvertCoordinates(input,input_type,output_type,input_unit,
 %   output_unit), converts the specified coordinate variable to specified
@@ -48,10 +48,12 @@ if strcmp(output_type,input_type)==0
             [output(:,1),output(:,2),output(:,3)]=cart2sph(temp(:,1),temp(:,2),temp(:,3));
             output(:,1:2)=rad2deg(output(:,1:2));
         case 'horizontal-polar'
-            [output(:,2),output(:,1),output(:,3)]=cart2sph(temp(:,1),temp(:,3),-temp(:,2));
-            output(:,1:2)=rad2deg(output(:,1:2));
-            output(:,1)=-output(:,1);
-            output(:,2)=mod(output(:,2),360);
+%             [output(:,2),output(:,1),output(:,3)]=cart2sph(temp(:,1),temp(:,3),-temp(:,2));
+%             output(:,1:2)=rad2deg(output(:,1:2));
+%             output(:,1)=-output(:,1);
+%             output(:,2)= mod(output(:,2)+90,360)-90;
+        [output(:,1),output(:,2),output(:,3)]=cart2sph(temp(:,1),temp(:,3),-temp(:,2));
+        [output(:,1),output(:,2)]=sph2hor(output(:,1),output(:,2));
     end
 end
 
