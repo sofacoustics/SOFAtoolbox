@@ -17,37 +17,36 @@ Obj=SOFAload(SOFAfile);
 SOFAplotGeometry(Obj);
 
 % % only show every 45th measurement
-% index = 1:45:Obj.API.M;
-% SOFAplotGeometry(Obj,index);
+index = 1:45:Obj.API.M;
+SOFAplotGeometry(Obj,index);
 
 % %% load a SingleRoomDRIR SOFA file 
-% SOFAfile=fullfile(SOFAdbPath,'database','thk', ...
-%     'DRIR_LBS_VSA_1202RS_SBL.sofa');
-% Obj=SOFAload(SOFAfile);
-% 
-% % plot SOFA Object with 1202 Receivers
-% SOFAplotGeometry(Obj);
+Obj=SOFAload(['db://' ...
+  fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
+
+% plot SOFA Object with 1202 Receivers
+SOFAplotGeometry(Obj);
 
 % % remove all but one Receiver
-% Obj.ReceiverPosition = [0 0.09 0];
-% Obj.ReceiverPosition_Type = 'cartesian';
-% Obj.Data.IR = Obj.Data.IR(:,1,:);
-% Obj.Data.Delay = Obj.Data.Delay(:,1,:);
-% Obj = SOFAupdateDimensions(Obj);
-% 
-% SOFAplotGeometry(Obj);
+Obj.ReceiverPosition = [0 0.09 0];
+Obj.ReceiverPosition_Type = 'cartesian';
+Obj.Data.IR = Obj.Data.IR(:,1,:);
+Obj.Data.Delay = Obj.Data.Delay(:,1,:);
+Obj = SOFAupdateDimensions(Obj);
+
+SOFAplotGeometry(Obj);
 
 % %% load a GeneralFIR SOFA file
-% SOFAfile=fullfile(SOFAdbPath,'database', 'tu-berlin','FABIAN_CTF_modeled.sofa');
-% Obj = SOFAload(SOFAfile);
-% 
-% SOFAplotGeometry(Obj);
+SOFAfile=fullfile(SOFAdbPath,'database', 'tu-berlin','FABIAN_CTF_modeled.sofa');
+Obj = SOFAload(SOFAfile);
+
+SOFAplotGeometry(Obj);
 
 % %% load example with room geometry 
-% SOFAfile = fullfile(SOFAdbPath,'sofa_api_mo_test', 'Oldenburg_OfficeII.sofa');
-% Obj = SOFAload(SOFAfile);
-% 
-% SOFAplotGeometry(Obj);
+SOFAfile = fullfile(SOFAdbPath,'sofa_api_mo_test', 'Oldenburg_OfficeII.sofa');
+Obj = SOFAload(SOFAfile);
+
+SOFAplotGeometry(Obj);
 
 % %% if exists try plotting SOFA file containing spherical harmonic emitter
 % if exist(fullfile(SOFAdbPath,'demo_SHforHRTFs_SH.sofa'))

@@ -5,9 +5,9 @@ function SOFAplotGeometry(Obj,varargin)
 % given in the index. 
 %
 % Supported conventions: 
-%    SimpleFreeFieldHRIR'
+%    SimpleFreeFieldHRIR
+%    SimpleFreeFieldHRTF
 %    SingleRoomDRIR
-%    SimpleFreeFieldTF
 %    FreeFieldDirectivityTF
 %    some special cases of GeneralFIR.
 %
@@ -48,7 +48,7 @@ end
 
 switch Obj.GLOBAL_SOFAConventions
 %%
-  case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','SimpleFreeFieldTF','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','SHFreeFieldHRTF','GeneralTF-E'}
+  case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E'}
     % Expand entries to the same number of measurement points
     Obj = SOFAexpand(Obj);
     % See if the room geometry is specified
@@ -73,11 +73,11 @@ switch Obj.GLOBAL_SOFAConventions
     % EmitterPosition
     % NOTE: ListenerPosition is set to [0 0 0] for SimpleFreeFieldHRIR
     LP = SOFAconvertCoordinates(Obj.ListenerPosition(index,:),Obj.ListenerPosition_Type,'cartesian');
-    if ~(strcmpi(Obj.ReceiverPosition_Type,'Harmonics'))
+    if ~(strcmpi(Obj.ReceiverPosition_Type,'Spherical Harmonics'))
         RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,index),Obj.ReceiverPosition_Type,'cartesian');
     end
     SP = SOFAconvertCoordinates(Obj.SourcePosition(index,:),Obj.SourcePosition_Type,'cartesian');
-    if ~(strcmpi(Obj.EmitterPosition_Type,'Harmonics'))
+    if ~(strcmpi(Obj.EmitterPosition_Type,'Spherical Harmonics'))
         EP = SOFAconvertCoordinates(Obj.EmitterPosition(:,:,index),Obj.EmitterPosition_Type,'cartesian');
     end
     if isfield(Obj,'ListenerView')
@@ -175,7 +175,7 @@ switch Obj.GLOBAL_SOFAConventions
 
     % Plot ListenerPosition
     legendEntries(end+1) = plot3(LP(:,1),LP(:,2),LP(:,3),'ro','MarkerFaceColor','r','MarkerSize',5);
-    if strcmpi(Obj.ReceiverPosition_Type,'Harmonics')
+    if strcmpi(Obj.ReceiverPosition_Type,'Spherical Harmonics')
         maxSHorder = sqrt(Obj.API.R)-1;
          % set SHorder to max if user didn't specify it
         if isinf(SHorder)
@@ -253,7 +253,7 @@ switch Obj.GLOBAL_SOFAConventions
     % Plot SourcePosition
     legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'bd','MarkerSize',7);
     % Plot EmitterPositions depending on Type
-    if strcmpi(Obj.EmitterPosition_Type,'Harmonics')
+    if strcmpi(Obj.EmitterPosition_Type,'Spherical Harmonics')
         maxSHorder = sqrt(Obj.API.E)-1;
         % set SHorder to max if user didn't specify it
         if isinf(SHorder)
@@ -335,8 +335,9 @@ switch Obj.GLOBAL_SOFAConventions
             end
         end
     end
-    if exist('LV')
+    if exist('LV','var')
         % Plot ListenerView
+        LV=unique(LV,'rows');
         for ii = 2:size(LV,1)
             % Scale size of ListenerView vector smaller
             if flags.do_normalize
@@ -350,7 +351,8 @@ switch Obj.GLOBAL_SOFAConventions
         end
         legendEntries(end+1) = quiver3(LP(1,1),LP(1,2),LP(1,3),LV(1,1),LV(1,2),LV(1,3),'Color',[1 0 0],'MarkerFaceColor',[1 0 0]);
     end
-    if exist('LU')
+    if exist('LU','var')
+        LU=unique(LU,'rows');
         for ii = 2:size(LU,1)
             if flags.do_normalize
                 LU(ii,:) = LU(ii,:)./norm(LU(ii,:));
@@ -366,7 +368,8 @@ switch Obj.GLOBAL_SOFAConventions
                 'AutoScale','off',...
                 'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
     end
-    if exist('SV')
+    if exist('SV','var')
+        SV=unique(SV,'rows');
         % Plot ListenerView
         for ii = 2:size(SV,1)
             % Scale size of ListenerView vector smaller
@@ -385,7 +388,8 @@ switch Obj.GLOBAL_SOFAConventions
                 'AutoScale','off',...
                 'Color',[0 0 1],'MarkerFaceColor',[0 0 1]);
     end
-    if exist('SU')
+    if exist('SU','var')
+        SU=unique(SU,'rows');
         for ii = 2:size(SU,1)
             if flags.do_normalize
                 SU(ii,:) = SU(ii,:)./norm(SU(ii,:));
@@ -401,28 +405,28 @@ switch Obj.GLOBAL_SOFAConventions
     end
     % create legend
     legendDescription = {'ListenerPosition'};
-    if (strcmpi(Obj.ReceiverPosition_Type,'Harmonics'))
+    if (strcmpi(Obj.ReceiverPosition_Type,'Spherical Harmonics'))
         legendDescription{end+1} = ['Receiver (order: ', num2str(S_R) ,')'];
     else
         legendDescription{end+1} = 'ReceiverPosition';
     end
     legendDescription{end+1} ='SourcePosition';
-    if (strcmpi(Obj.EmitterPosition_Type,'Harmonics'))
+    if (strcmpi(Obj.EmitterPosition_Type,'Spherical Harmonics'))
         legendDescription{end+1} = ['Emitter (order: ', num2str(SHorder),', m: ', num2str(SHm),')'];
     else
         legendDescription{end+1} = 'EmitterPosition';
     end
     
-    if exist('LV')
+    if exist('LV','var')
         legendDescription{end+1} = 'ListenerView';
     end
-    if exist('LU')
+    if exist('LU','var')
         legendDescription{end+1} = 'ListenerUp';
     end
-    if exist('SV')
+    if exist('SV','var')
         legendDescription{end+1} = 'SourceView';
     end
-	if exist('SU')
+	if exist('SU','var')
         legendDescription{end+1} = 'SourceUp';
 	end
     legend(legendEntries,legendDescription,'Location','NorthEastOutside');
