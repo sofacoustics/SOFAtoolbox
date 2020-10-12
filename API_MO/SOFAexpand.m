@@ -112,7 +112,7 @@ function [var,dN]=expand(Obj,f,dims)
 		len=size(Obj.(f),d(jj)); % size of the considered dimension
 		if len>1, continue; end;	% the expandable dimension is already expanded
 		dN=dims{cellfun('isempty',strfind(dims,'I'))==1};
-		var=bsxfun(@times,Obj.(f),ones(getdim(Obj,dN)));
+		var=bsxfun(@times,Obj.(f),ones([getdim(Obj,dN) 1]));
 	end
 	if ~exist('var','var'), var=[]; dN=[]; end;
 %% Get the sizes of the dimension variables according the dimension variables in str
@@ -131,6 +131,6 @@ function [var,dN]=expandData(Obj,f,dims)
 		len=size(Obj.Data.(f),d(jj)); % size of the considered dimension
 		if len>1, continue; end;	% the expandable dimension is already expanded
 		dN=dims{cellfun('isempty',strfind(dims,'I'))==1};
-		var=bsxfun(@times,Obj.Data.(f),ones(getdim(Obj,dN)));
+		var=bsxfun(@times,Obj.Data.(f),ones([getdim(Obj,dN) 1]));
 	end
 	if ~exist('var','var'), var=[]; dN=[]; end;

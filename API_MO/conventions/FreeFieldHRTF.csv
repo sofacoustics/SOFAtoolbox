@@ -29,7 +29,7 @@ ReceiverPosition:Units	metre	m	  	attribute
 SourcePosition	[0 0 0]	m	IC, MC	double	Source position is assumed to be the ListenerPosition in order to reflect Emitters surrounding the Listener
 SourcePosition:Type	spherical	m	  	attribute	
 SourcePosition:Units	degree, degree, metre	m	  	attribute	
-EmitterPosition	[0 0 0]	m	I, E, IM, EM, ECI, ECM	double	Emitter positions are irrelevant because they data is spatially continuous
+EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	Emitter positions are irrelevant because they data is spatially continuous
 EmitterPosition:Type	harmonics	m	  	attribute	Spatially continuous representation by means of harmonics
 EmitterPosition:Units	spherical	m	  	attribute	3D representation
 GLOBAL:DatabaseName		m	  	attribute	Name of the database to which these data belong

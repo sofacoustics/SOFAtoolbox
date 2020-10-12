@@ -17,7 +17,7 @@ IR.GLOBAL_APIVersion=SOFAgetVersion;
 figure;
 SOFAplotHRTF(IR,'magmedian'); title('SimpleFreeFieldHRIR (FIR) for reference');
 
-SOFAsave(fullfile(SOFAdbPath,'demo_SphericalHarmonicsHRTFs_1_IR.sofa'),IR);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_1_IR.sofa'),IR);
 
 %% Convert to TF
 TF=SOFAgetConventions('SimpleFreeFieldHRTF');
@@ -51,7 +51,7 @@ TF.N=(0:fs/2/IR.API.N:fs/2)';
 
 TF=SOFAupdateDimensions(TF);
 
-SOFAsave(fullfile(SOFAdbPath,'demo_SphericalHarmonicsHRTFs_2_TF.sofa'),TF);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_2_TF.sofa'),TF);
 
 %% Plot median plane and horizontal planes for reference
 figure;
@@ -78,7 +78,7 @@ TFE.API.Dimensions.SourcePosition='IC';
 
 TFE=SOFAupdateDimensions(TFE);
 
-SOFAsave(fullfile(SOFAdbPath,'demo_SphericalHarmonicsHRTFs_3_TFE.sofa'),TFE);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_3_TFE.sofa'),TFE);
 
 %% Convert to SH
 SH=TFE;
@@ -98,13 +98,12 @@ for ii=1:TFE.API.R
   end
 end
 
-SH.EmitterPosition=mean(SH.EmitterPosition(:,3));
+SH.EmitterPosition=mean(SH.EmitterPosition);
 SH.EmitterPosition_Type='Spherical Harmonics';
-SH.EmitterPosition_Units='';
 
 SH = SOFAupdateDimensions(SH);
 
-SOFAsave(fullfile(SOFAdbPath,'demo_SphericalHarmonicsHRTFs_4_SH.sofa'),SH);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_4_SH.sofa'),SH);
 
 %% plot median and horitonal planes - spatially continuous
 figure;
@@ -143,10 +142,10 @@ TFEint=SH;
 elemin=-90;
 ele=[elemin:1:90 89:-1:elemin zeros(1,length(1:355))]';
 azi=[zeros(length(elemin:1:90),1); 180*ones(length(89:-1:elemin),1); (1:355)'];
-radius=SH.EmitterPosition*ones(size(ele));
+radius=SH.EmitterPosition(:,3)*ones(size(ele));
 TFEint.EmitterPosition=[azi ele radius];
 TFEint.EmitterPosition_Type='spherical';
-TFEint.EmitterPosition_Units=['degrees, degrees,' SH.EmitterPosition_Units];
+TFEint.EmitterPosition_Units=SH.EmitterPosition_Units;
 Sint = sph2SH(TFEint.EmitterPosition(:,1:2), L);
 TFEint.API.E=size(Sint,1);
 TFEint.Data.Real=zeros(1,2,TFEint.API.N,TFEint.API.E);
@@ -160,7 +159,7 @@ end
 
 TFEint=SOFAupdateDimensions(TFEint);
 
-SOFAsave(fullfile(SOFAdbPath,'demo_SphericalHarmonicsHRTFs_5_TFEint.sofa'),TFEint);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_5_TFEint.sofa'),TFEint);
 
 %% interpolate for the horizontal and median planes to SimpleFreeFieldHRTF (TF)
 TFint=TF;
@@ -181,7 +180,7 @@ end
 
 TFint=SOFAupdateDimensions(TFint);
 
-SOFAsave(fullfile(SOFAdbPath,'demo_SphericalHarmonicsHRTFs_6_TFrec.sofa'),TFint);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_6_TFrec.sofa'),TFint);
 
 %% compare
 figure;
