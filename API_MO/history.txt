@@ -19,7 +19,7 @@
     - TODO: demo_SphericalHarmonicsMic
     - SOFAplotGeometry shows a cloud for spatially continuous emitters and receivers
   - SOFAgetConventions: Versioning of convention files .CSV added
-  - 
+  - Conventions for SOFA 2.0 added
 - SOFAplotGeometry: complete rewrite (thanks to Felix Perchfler) with extensive support
 - SOFAcompileConventions ignores files beginning with '_'
 
