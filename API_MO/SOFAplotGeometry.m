@@ -74,32 +74,41 @@ switch Obj.GLOBAL_SOFAConventions
     % NOTE: ListenerPosition is set to [0 0 0] for SimpleFreeFieldHRIR
     LP = SOFAconvertCoordinates(Obj.ListenerPosition(index,:),Obj.ListenerPosition_Type,'cartesian');
     if ~(strcmpi(Obj.ReceiverPosition_Type,'Spherical Harmonics'))
-        RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,index),Obj.ReceiverPosition_Type,'cartesian');
+        if size(Obj.ReceiverPosition,3)==1, idx=1; else idx=index; end      
+        RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,idx),Obj.ReceiverPosition_Type,'cartesian');
     end
-    SP = SOFAconvertCoordinates(Obj.SourcePosition(index,:),Obj.SourcePosition_Type,'cartesian');
+    if size(Obj.SourcePosition,1)==1, idx=1; else idx=index; end    
+    SP = SOFAconvertCoordinates(Obj.SourcePosition(idx,:),Obj.SourcePosition_Type,'cartesian');
     if ~(strcmpi(Obj.EmitterPosition_Type,'Spherical Harmonics'))
-        EP = SOFAconvertCoordinates(Obj.EmitterPosition(:,:,index),Obj.EmitterPosition_Type,'cartesian');
+        if size(Obj.EmitterPosition,3)==1, idx=1; else idx=index; end
+        EP = SOFAconvertCoordinates(Obj.EmitterPosition(:,:,idx),Obj.EmitterPosition_Type,'cartesian');
     end
     if isfield(Obj,'ListenerView')
-        LV = SOFAconvertCoordinates(Obj.ListenerView(index,:),Obj.ListenerView_Type,'cartesian');
+        if size(Obj.ListenerView,1)==1, idx=1; else idx=index; end      
+        LV = SOFAconvertCoordinates(Obj.ListenerView(idx,:),Obj.ListenerView_Type,'cartesian');
     end
     if isfield(Obj,'ListenerUp')
         try 
-            LU = SOFAconvertCoordinates(Obj.ListenerUp(index,:),Obj.ListenerUp_Type,'cartesian');
+            if size(Obj.ListenerUp,1)==1, idx=1; else idx=index; end          
+            LU = SOFAconvertCoordinates(Obj.ListenerUp(idx,:),Obj.ListenerUp_Type,'cartesian');
         catch
             % if listerUp_type is not definied try using listenerView_type
             % instead
-            LU = SOFAconvertCoordinates(Obj.ListenerUp(index,:),Obj.ListenerView_Type,'cartesian');
+            if size(Obj.ListenerUp,1)==1, idx=1; else idx=index; end        
+            LU = SOFAconvertCoordinates(Obj.ListenerUp(idx,:),Obj.ListenerView_Type,'cartesian');
         end
     end   
     if isfield(Obj,'SourceView')
-    	SV  = SOFAconvertCoordinates(Obj.SourceView(index,:),Obj.SourceView_Type,'cartesian');
+      if size(Obj.SourceView,1)==1, idx=1; else idx=index; end      
+    	SV  = SOFAconvertCoordinates(Obj.SourceView(idx,:),Obj.SourceView_Type,'cartesian');
     end
     if isfield(Obj,'SourceUp')
         try 
-            SU = SOFAconvertCoordinates(Obj.SourceUp(index,:),Obj.SourceUp_Type,'cartesian');
+            if size(Obj.SourceUp,1)==1, idx=1; else idx=index; end
+            SU = SOFAconvertCoordinates(Obj.SourceUp(idx,:),Obj.SourceUp_Type,'cartesian');
         catch
-            SU = SOFAconvertCoordinates(Obj.SourceUp(index,:),Obj.SourceView_Type,'cartesian');
+            if size(Obj.SourceUp,1)==1, idx=1; else idx=index; end      
+            SU = SOFAconvertCoordinates(Obj.SourceUp(idx,:),Obj.SourceView_Type,'cartesian');
         end
     end
     % Use only unique listener and source positons
