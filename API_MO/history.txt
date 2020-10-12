@@ -12,8 +12,16 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v1.2
-- Support for spherical harmonics added.
+*** v2.0
+- Changes related to SOFA 2.0
+  - Support for spherical harmonics added.
+    - demo_SphericalHarmonicsHRTF added
+    - TODO: demo_SphericalHarmonicsMic
+    - SOFAplotGeometry shows a cloud for spatially continuous emitters and receivers
+  - SOFAgetConventions: Versioning of convention files .CSV added
+  - 
+- SOFAplotGeometry: complete rewrite (thanks to Felix Perchfler) with extensive support
+- SOFAcompileConventions ignores files beginning with '_'
 
 *** v1.1.2
 - SOFAplotGeometry: bug fix if no SourceView given

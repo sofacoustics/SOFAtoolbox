@@ -7,8 +7,10 @@ function Obj = SOFAupdateDimensions(Obj,varargin)
 %		The dimension sizes are created as .API.X and updated corresponding to the
 %		conventions
 %   flag is 'nodata' or 'all'; default is 'all'
+%   set 'verbose' to 1 to obtain detailed information on the check.
 
 % 9.8.2014: String support added. 
+% 10.10.2020: Verbose mode added.
 %
 % SOFA API - function SOFAupdateDimensions
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -19,11 +21,14 @@ function Obj = SOFAupdateDimensions(Obj,varargin)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 definput.keyvals.Index=[];
+definput.keyvals.verbose=0;
 definput.flags.type={'data','nodata'};
 [flags,kv]=SOFAarghelper({'Index'},definput,varargin);
+v=kv.verbose;
 
 %% Get conventions with allowed dimensions
 OC = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'a');
+if v, disp(['SOFA Convention: ' Obj.GLOBAL_SOFAConventions]); end
 
 %% Add dimensions if required
 dims=fieldnames(SOFAdefinitions('dimensions'));
@@ -44,6 +49,7 @@ for ii=1:length(dims)
 		if iscell(dim), dim=cell2mat(dim); end;
 		if ~isempty(dim)
 			Obj.API.(upper(dims(ii)))=size(Obj.(f{jj}),dim(1));
+      if (v), disp([upper(dims(ii)) ' set to ' num2str(size(Obj.(f{jj}),dim(1))) ' that is the #' num2str(dim(1)) ' dimension of ' f{jj}]); end
 			break;
 		end
 	end
@@ -57,6 +63,7 @@ if flags.do_data
             if iscell(dim), dim=cell2mat(dim); end;
             if ~isempty(dim)
                 Obj.API.(upper(dims(ii)))=size(Obj.Data.(fd{jj}),dim(1));
+                if (v), disp([upper(dims(ii)) ' set to ' num2str(size(Obj.Data.(fd{jj}),dim(1))) ' that is the #' num2str(dim(1)) ' dimension of Data.' fd{jj}]); end
                 break;
             end
         end
@@ -71,7 +78,6 @@ Xf=fieldnames(X);
 for ii=1:length(Xf)
 	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
 		if isfield(OC.API.Dimensions, Xf{ii}), % is a known variable		
-%       disp(Xf{ii});
 			dim=OC.API.Dimensions.(Xf{ii});
 			if ~iscell(dim), dim={dim}; end;
 			[dim,S]=checkdim(Obj,dim,sizecell(Obj.(Xf{ii})));
@@ -79,15 +85,18 @@ for ii=1:length(Xf)
 				error([Xf{ii} ': dimension could not be matched.']);
 			else
 				Obj.API.Dimensions.(Xf{ii})=dim;
+        if v, disp([Xf{ii} ': convention variable, used dimension: ' dim]); end;
 			end
 		else % is a user-defined variable						
 			if ~isfield(Obj.API.Dimensions,Xf{ii}),
-				error([Xf{ii} ' seems to be a user-defined variable without a dimension.']);
+				error([Xf{ii} ' seems to be a user-defined variable without dimension provided in API.Dimensions.']);
       else
         dim=Obj.API.Dimensions.(Xf{ii});
         [dim,S]=checkdim(Obj,{dim},sizecell(Obj.(Xf{ii})));
         if isempty(dim),
           error([Xf{ii} ': dimension does not match.']);
+        else
+          if v, disp([Xf{ii} ': user-defined variable, used dimension: ' dim]); end;
         end        
 			end
     end
@@ -107,6 +116,7 @@ if flags.do_data
                     error(['Data.' Xf{ii} ': dimension could not be matched.']);
                 else
                     Obj.API.Dimensions.Data.(Xf{ii})=dim;
+                    if v, disp(['Data.' Xf{ii} ': convention variable, used dimension: ' dim]); end;                    
                 end
                 Smax=max(Smax,S);
             else
@@ -117,6 +127,8 @@ if flags.do_data
                 [dim,S]=checkdim(Obj,{dim},sizecell(Obj.Data.(Xf{ii})));
                 if isempty(dim),
                   error(['Data.' Xf{ii} ': dimension does not match.']);
+                else
+                  if v, disp(['Data.' Xf{ii} ': user-defined variable, used dimension: ' dim]); end;
                 end  
               end
             end		
@@ -124,7 +136,12 @@ if flags.do_data
     end
 end
 %% Update the size of the longest string
-if Smax>0, Obj.API.S=Smax; end
+if Smax>0, 
+  Obj.API.S=Smax; 
+  if v, disp(['S set to ' num2str(Obj.API.S)]); end
+else
+  if v, disp('S unused (set to 0)'); end
+end
   
 %% Return the size of x. If x is a cell, return the size of the strings in x.
 function s=sizecell(x,dim)

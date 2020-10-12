@@ -1,6 +1,6 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
-GLOBAL:Version	1.1	rm	 	attribute	
+GLOBAL:Version	2.0	rm	 	attribute	
 GLOBAL:SOFAConventions	SimpleFreeFieldHRTF	rm	  	attribute	This conventions is for HRTFs created under conditions where room information is irrelevant
 GLOBAL:SOFAConventionsVersion	2.0	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	

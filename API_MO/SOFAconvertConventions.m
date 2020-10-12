@@ -5,7 +5,7 @@ function Obj=SOFAconvertConventions(Obj,varargin)
 %    SimpleFreeFieldSOS
 %    SimpleFreeFieldTF
 %    SimpleFreeFieldHRTF
-%    SHFreeFieldHRTF
+%    FreeFieldHRTF
 %    some special cases of GeneralTF, GeneralTF-E.
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
@@ -39,7 +39,7 @@ end
 oldConvention = Obj.GLOBAL_SOFAConventions;
 %% no conversion needed if convention is the same
 if(strcmp(oldConvention,newConvention))
-    warning(['No conversion done, as Obj already conforms to ', newConvention,'.'])
+%     warning(['No conversion done, as Obj already conforms to ', newConvention,'.'])
     return
 end
 
@@ -92,10 +92,6 @@ try
                   end
                 end
                 Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
-                Obj.Data.Real_LongName='frequency';
-                Obj.Data.Imag_LongName='frequency';
-                Obj.Data.Real_Units='Hertz';
-                Obj.Data.Imag_Units='Hertz';
             elseif strcmp(newObj.GLOBAL_DataType,'TF-E')
                 Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;   
                 N=512;
@@ -119,10 +115,6 @@ try
                   end
                 end
                 Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
-                Obj.Data.Real_LongName='frequency';
-                Obj.Data.Imag_LongName='frequency';
-                Obj.Data.Real_Units='Hertz';
-                Obj.Data.Imag_Units='Hertz';
                 Obj=SOFAupdateDimensions(Obj);
 
                 Obj.API.E=Obj.API.M;
@@ -154,9 +146,9 @@ try
                   end
                 end
 
-                Obj.EmitterPosition=zeros(Obj.API.E, Obj.API.C);
-                Obj.EmitterPosition_Type='Harmonics';
-                Obj.EmitterPosition_Units='Spherical';
+                Obj.EmitterPosition=mean(Obj.EmitterPosition(:,3));
+                Obj.EmitterPosition_Type='Spherical Harmonics';
+                Obj.EmitterPosition_Units='Metre';
             end
 
         case 'TF'
@@ -193,7 +185,7 @@ try
                 Obj.SourcePosition_Type=newObj.SourcePosition_Type;
                 Obj.SourcePosition_Units=newObj.SourcePosition_Units;
                 Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
-                Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
+                Obj.Data=rmfield(Obj.Data,{'Real','Imag'});
                 if isfield(Obj.API.Dimensions,'Data')
                     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
                 end    
@@ -230,9 +222,9 @@ try
                   end
                 end
 
-                Obj.EmitterPosition=zeros(Obj.API.E, Obj.API.C);
-                Obj.EmitterPosition_Type='Harmonics';
-                Obj.EmitterPosition_Units='Spherical';
+                Obj.EmitterPosition=mean(Obj.EmitterPosition(:,3));
+                Obj.EmitterPosition_Type='Spherical Harmonics';
+                Obj.EmitterPosition_Units='Metre';
             end
                 
 
@@ -245,12 +237,9 @@ try
                 Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.Real;
                 Obj.Data.SamplingRate=max(Obj.N)*2;
                 Obj.Data.SamplingRate_Units='Hertz';
-                Obj.Data.IR_LongName=Obj.Data.Real_LongName;
-                Obj.Data.IR_Units=Obj.Data.Real_Units;
-
                 % convert sperical harmonics
-                if strcmpi(Obj.EmitterPosition_Type,'harmonics')
-                    [X,Y,Z]=sphere(60); 
+                if strcmpi(Obj.EmitterPosition_Type,'spherical harmonics')
+                    [X,Y,Z]=sphere(60);
                     [azi_rad,ele_rad,radius]=cart2sph(X,Y,Z);
                     azi=azi_rad/pi*180;
                     ele=ele_rad/pi*180;
@@ -260,11 +249,11 @@ try
                     ele=ele(:);
                     radius=radius(:);
 
-                    Obj.SourcePosition=[azi ele radius];
-                    S = sph2SH(Obj.SourcePosition(:,1:2), sqrt(Obj.API.E)-1);
+                    S = sph2SH([azi ele], sqrt(Obj.API.E)-1);
                     Obj.API.M=size(S,1);
+                    Obj.SourcePosition=[azi ele radius];
                     Obj.SourcePosition_Type='spherical';
-                    Obj.SourcePosition_Units='degree, degree, metre';    
+                    Obj.SourcePosition_Units='degrees,degrees,metre';    
 
                     Data.Real = zeros(Obj.API.M,2,Obj.API.N);
                     Data.Imag = zeros(Obj.API.M,2,Obj.API.N);
@@ -275,7 +264,13 @@ try
                       end
                     end
                 else
-                    error('Conventions not supported');
+%                     Obj.EmitterPosition=Obj.SourcePosition;
+%                     Obj.EmitterPosition_Type=Obj.SourcePosition_Type;
+%                     Obj.EmitterPosition_Units=Obj.SourcePosition_Units;
+%                     Data.Real = shiftdim(squeeze(Obj.Data.Real(1,:,:,:)),2);
+%                     Data.Imag = shiftdim(squeeze(Obj.Data.Imag(1,:,:,:)),2);
+%                     Obj.API.M=Obj.API.E;
+                    error(['Converting ' Obj.GLOBAL_SOFAConventions ' to ' newObj.GLOBAL_SOFAConventions ' not supported yet']);
                 end
 
                 if sum(diff(diff(Obj.N)))
@@ -298,12 +293,12 @@ try
                     s(Nidx)=squeeze(Data.Real(ii,jj,:))+1i*squeeze(Data.Imag(ii,jj,:));
                     Obj.Data.IR(ii,jj,:)=myifftreal(s,N);
                   end
-                    Obj.SourcePosition(ii,:)=SOFAconvertCoordinates(Obj.SourcePosition(ii,:),Obj.SourcePosition_Type,newObj.SourcePosition_Type,Obj.SourcePosition_Units,newObj.SourcePosition_Units);
+                  Obj.SourcePosition(ii,:)=SOFAconvertCoordinates(Obj.SourcePosition(ii,:),Obj.SourcePosition_Type,newObj.SourcePosition_Type,Obj.SourcePosition_Units,newObj.SourcePosition_Units);
                 end
                 Obj.Data.Delay=zeros(Obj.API.M,Obj.API.R,1);
                 Obj.Data.SamplingRate=fs;
                 Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
-                Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
+                Obj.Data=rmfield(Obj.Data,{'Real','Imag'});
                 Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});    
             elseif strcmp(newObj.GLOBAL_DataType,'TF')
                 Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
@@ -318,12 +313,12 @@ try
                     azi=azi(:);
                     ele=ele(:);
                     radius=radius(:);
-
-                    Obj.SourcePosition=[azi ele radius];
-                    S = sph2SH(Obj.SourcePosition(:,1:2), sqrt(Obj.API.E)-1);
+                    
+                    S = sph2SH([azi ele], sqrt(Obj.API.E)-1);
                     Obj.API.M=size(S,1);
-                    Obj.SourcePosition_Type='spherical';
-                    Obj.SourcePosition_Units='degree, degree, metre'; 
+                    Obj.SourcePosition=radius;
+                    Obj.SourcePosition_Type='spherical harmonics';
+                    Obj.SourcePosition_Units='metre'; 
                     
                     oldObj.Data.Real = Obj.Data.Real;
                     oldObj.Data.Imag = Obj.Data.Imag;
@@ -368,10 +363,6 @@ try
                         Obj.Data.Imag(ii,jj,:)=imag(TF);
                     end
                 end  
-                Obj.Data.Real_LongName='frequency';
-                Obj.Data.Imag_LongName='frequency';
-                Obj.Data.Real_Units='Hertz';
-                Obj.Data.Imag_Units='Hertz';
             elseif strcmp(newObj.GLOBAL_DataType,'TF-E')
                 Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
                 IR=Obj.Data.IR;
@@ -390,10 +381,6 @@ try
                         Obj.Data.Imag(ii,jj,:)=imag(TF);
                     end
                 end  
-                Obj.Data.Real_LongName='frequency';
-                Obj.Data.Imag_LongName='frequency';
-                Obj.Data.Real_Units='Hertz';
-                Obj.Data.Imag_Units='Hertz';
                 Obj=SOFAupdateDimensions(Obj);
 
                 Obj.API.E=Obj.API.M;
@@ -425,26 +412,27 @@ try
                   end
                 end
 
-                Obj.EmitterPosition=zeros(Obj.API.E, Obj.API.C);
-                Obj.EmitterPosition_Type='Harmonics';
-                Obj.EmitterPosition_Units='Spherical';
+                Obj.EmitterPosition=mean(Obj.EmitterPosition(:,3));
+                Obj.EmitterPosition_Type='Spherical Harmonics';
+                Obj.EmitterPosition_Units='Metre';
             end    
         otherwise
             error(['Turning ',oldConvention,' into ',...
                 newObj.GLOBAL_SOFAConventions,' not supported.']);
     end
-catch
+catch ME
+    rethrow(ME);
     error(['Turning ',oldConvention,' into ',...
     newObj.GLOBAL_SOFAConventions,' not supported.']);
 end
 Obj.SourcePosition=SOFAconvertCoordinates(Obj.SourcePosition,Obj.SourcePosition_Type,newObj.SourcePosition_Type,Obj.SourcePosition_Units,newObj.SourcePosition_Units);
 Obj.SourcePosition_Type=newObj.SourcePosition_Type;
 Obj.SourcePosition_Units=newObj.SourcePosition_Units;
-if strcmpi(Obj.EmitterPosition_Type,'Harmonics') && ~strcmpi(newObj.EmitterPosition_Type,'Harmonics')
+if strcmpi(Obj.EmitterPosition_Type,'Spherical Harmonics') && ~strcmpi(newObj.EmitterPosition_Type,'Spherical Harmonics')
     Obj.EmitterPosition=[0 0 0];
     Obj.EmitterPosition_Type=newObj.EmitterPosition_Type;
     Obj.EmitterPosition_Units=newObj.EmitterPosition_Units;
-elseif ~strcmpi(newObj.EmitterPosition_Type,'Harmonics')
+elseif ~strcmpi(newObj.EmitterPosition_Type,'Spherical Harmonics')
     Obj.EmitterPosition=SOFAconvertCoordinates(Obj.EmitterPosition,Obj.EmitterPosition_Type,newObj.EmitterPosition_Type,Obj.EmitterPosition_Units,newObj.EmitterPosition_Units);
     Obj.EmitterPosition_Type=newObj.EmitterPosition_Type;
     Obj.EmitterPosition_Units=newObj.EmitterPosition_Units;

@@ -2,17 +2,19 @@ function SOFAcompileConventions(conventions)
 %SOFAcompileConventions
 %
 %   Obj = SOFAcompileConventions(sofaconventions) compiles the specified
-%   SOFA conventions. For every convention a CSV file has to exist which
-%   will be compiled to a .mat file used later by SOFAgetConventions().
+%   SOFA conventions. For every convention, a CSV file must exist that
+%   will be compiled to a .mat file and used later by SOFAgetConventions().
 % 
-%   The CSV file must be in the directory conventions and have the same
-%   filename as conventions. SOFAcompileConventions generates 3 files, one
-%   for each flag (r, m, and all). 
+%   The CSV file must be in the directory conventions and can contain 
+%   files for multiple versions of the same conventions. For each version, 
+%   SOFAcompileConventions generates 3 files, one for each flag (r, m, and all)
 %
 %   Before compiling, SOFAcompileConventions checks if the modification
 %   date of the .mat files is older than that of the .csv file. Compiling
 %   is not performed if all .mat files are newer than the .csv file. This
 %   behaviour is required for operation in a read-only directory. 
+%
+%   SOFAcompileConventions ignores all files beginning with '_' (underscore).
 
 % SOFA API 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -28,12 +30,13 @@ if nargin<1
     conventionFiles = dir(fullfile(baseFolder,'conventions','*.csv'));
     conventions={};
     for file = conventionFiles'
-        [~,name,ext] = fileparts(file.name);
+        [~,name,~] = fileparts(file.name);
+        if name(1)=='_', continue; end;
         % Check if mat files exist for every convention flag (r,m,a)
         flagsCounter = 0;
         for flag = 'rma'
             flagFile = dir(fullfile(baseFolder,'conventions', ...
-                             strcat(name,'-',flag,'.mat')));
+                             strcat(name,'_',flag,'_*.mat')));
             if ~isempty(flagFile) && flagFile(1).datenum>file.datenum
                 flagsCounter = flagsCounter+1;
             end
@@ -71,29 +74,30 @@ for convention = conventions
           C{col_nr}{line_nr} = C_elems{line_nr}{col_nr}; 
         end
       end
-    else
-        x=char(fread(fid));
-        xr=strrep(x',char([9 13 10]),char([9 32 32 13 10]));
-        C = textscan(xr,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1,'WhiteSpace','');
-    end	
-    fclose(fid);
+  else
+      x=char(fread(fid));
+      xr=strrep(x',char([9 13 10]),char([9 32 32 13 10]));
+      C = textscan(xr,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1,'WhiteSpace','');
+  end	
+  fclose(fid);
 
     % Convert to mat files for r,m,a cases
     for flag = 'rma'
         % Convert to SOFA object
         Obj = compileConvention(C,flag);
         % Write to mat file
-        if strcmp(Obj.GLOBAL_SOFAConventions,convention{:})
+%         if strcmp(Obj.GLOBAL_SOFAConventions,convention{:})
             if strcmp(flag,'r') % Display message only the very first time
-                disp(['Compiling ',convention{:},' ', ...
+                disp(['Compiling ',convention{:},'.csv: ', ...
+                            Obj.GLOBAL_SOFAConventions, ' ', ...
                             Obj.GLOBAL_SOFAConventionsVersion]);
             end
             save(fullfile(baseFolder,'conventions', ...
-                          strcat(convention{:},'-',flag,'.mat')), ...
+                 strcat(Obj.GLOBAL_SOFAConventions,'_',flag,'_', Obj.GLOBAL_SOFAConventionsVersion,'.mat')), ...
                  'Obj','-v7');
-        else
-            warning([convention{:} '.csv: file name not convention name (' Obj.GLOBAL_SOFAConventions]);
-        end
+%         else
+%             warning([convention{:} '.csv: file name not convention name (' Obj.GLOBAL_SOFAConventions]);
+%         end
     end
 end
 end % of main function
