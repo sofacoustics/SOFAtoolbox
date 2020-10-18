@@ -1,0 +1,61 @@
+Name	Default	Flags	Dimensions	Type	Comment
+GLOBAL:Conventions	SOFA	rm	  	attribute	
+GLOBAL:Version	2.0	rm	 	attribute	
+GLOBAL:SOFAConventions	General	rm	  	attribute	This conventions is for general purposes, i.e., only the mandatory, SOFA general metadata are pre-defined
+GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
+GLOBAL:DataType	FIR	rm	  	attribute	The datatype can be arbitrary
+GLOBAL:RoomType	free field	m	  	attribute	The room information can be arbitrary
+GLOBAL:Title		m		attribute	
+GLOBAL:DateCreated		m	 	attribute	
+GLOBAL:DateModified		m	 	attribute	
+GLOBAL:APIName		rm	  	attribute	
+GLOBAL:APIVersion		rm	  	attribute	
+GLOBAL:AuthorContact		m	  	attribute	
+GLOBAL:Organization		m	  	attribute	
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:ApplicationName			  	attribute	
+GLOBAL:ApplicationVersion			  	attribute	
+GLOBAL:Comment			 	attribute	
+GLOBAL:History			 	attribute	
+GLOBAL:References				attribute	
+GLOBAL:Origin				attribute	
+GLOBAL:ListenerShortName				attribute	
+GLOBAL:ListenerDescription				attribute	
+ListenerPosition	[0 0 0] 	m	IC, MC	double	
+ListenerPosition:Type	cartesian	m	  	attribute	
+ListenerPosition:Units	metre	m	  	attribute	
+ListenerView	[1 0 0]		IC, MC	double	
+ListenerUp	[0 0 1]		IC, MC	double	
+ListenerView:Type	cartesian			attribute	
+ListenerView:Units	metre			attribute	
+GLOBAL:ReceiverShortName				attribute	
+GLOBAL:ReceiverDescription				attribute	
+ReceiverPosition	[0 0 0]	m	IC, RCI, RCM	double	
+ReceiverPosition:Type	cartesian	m	  	attribute	
+ReceiverPosition:Units	metre	m	  	attribute	
+ReceiverView	[1 0 0]		RCI, RCM	double	
+ReceiverUp	[0 0 1]		RCI, RCM	double	
+ReceiverView:Type	cartesian			attribute	
+ReceiverView:Units	metre			attribute	
+GLOBAL:SourceShortName				attribute	
+GLOBAL:SourceDescription				attribute	
+SourcePosition	[0 0 1]	m	IC, MC	double	
+SourcePosition:Type	spherical	m	  	attribute	
+SourcePosition:Units	degree, degree, metre	m	  	attribute	
+SourceView	[1 0 0]		IC, MC	double	
+SourceUp	[0 0 1]		IC, MC	double	
+SourceView:Type	cartesian			attribute	
+SourceView:Units	metre			attribute	
+GLOBAL:EmitterShortName				attribute	
+GLOBAL:EmitterDescription				attribute	
+EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	
+EmitterPosition:Type	cartesian	m	  	attribute	
+EmitterPosition:Units	metre	m	  	attribute	
+EmitterView	[1 0 0]		ECI, ECM	double	
+EmitterUp	[0 0 1]		ECI, ECM	double	
+EmiiterView:Type	cartesian			attribute	
+EmitterView:Units	metre			attribute	
+Data.IR	0	m	mrn	double	Impulse responses
+Data.SamplingRate	48000	m	I	double	Sampling rate of the samples in Data.IR and Data.Delay
+Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
+Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples)
