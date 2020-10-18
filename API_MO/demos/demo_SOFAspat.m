@@ -26,7 +26,10 @@ Obj=SOFAload(fullfn);
 
 %% Create an input signal
 in=randn(5*Obj.Data.SamplingRate,1);	% Five seconds of noise
-
+fade=round(0.02*Obj.Data.SamplingRate); % fade in and out for 20 ms
+win=hanning(fade*2);  
+in(1:fade)=in(1:fade).*win(1:fade);
+in(end-fade+1:end)=in(end-fade+1:end).*win(fade+1:end);
 %% Spatialize
 [out,azi,ele,idx]=SOFAspat(in,Obj,azi,ele);
 disp('Binaural signal rendered');
