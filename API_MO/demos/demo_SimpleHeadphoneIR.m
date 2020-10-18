@@ -1,4 +1,4 @@
-% SOFA API - demo script
+% SOFA API - demo script for the convention SimpleHeadphoneIR.
 % load headphone IRs from a SOFA file from the ARI headphones database
 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
