@@ -1,7 +1,7 @@
 % Demonstrates the usage of spherical harmonics (SH) for HRTF interpolation. 
-% demo_SphericalHarmonicsHRTFs loads an HRTF set, transforms to TF, then to SH, then 
+% demo_FreeFieldHRTF loads an HRTF set, transforms to TF, then to SH, then 
 % samples the horizontal and median plane in steps of 0.5 degrees. Finally, 
-% the files are saved in SOFAdbPath as demo_SphericalHarmonicsHRTFs_{TF, SH, TFrec}.sofa.
+% the files are saved in SOFAdbPath as demo_FreeFieldHRTF_{TF, SH, TFrec}.sofa.
 
 % SOFA API - demo script
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences
@@ -17,7 +17,7 @@ IR.GLOBAL_APIVersion=SOFAgetVersion;
 figure;
 SOFAplotHRTF(IR,'magmedian'); title('SimpleFreeFieldHRIR (FIR) for reference');
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_1_IR.sofa'),IR);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_1_IR.sofa'),IR);
 
 %% Convert to TF
 TF=SOFAgetConventions('SimpleFreeFieldHRTF');
@@ -51,7 +51,7 @@ TF.N=(0:fs/2/IR.API.N:fs/2)';
 
 TF=SOFAupdateDimensions(TF);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_2_TF.sofa'),TF);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_2_TF.sofa'),TF);
 
 %% Plot median plane and horizontal planes for reference
 figure;
@@ -79,7 +79,7 @@ TFE.API.Dimensions.SourcePosition='IC';
 
 TFE=SOFAupdateDimensions(TFE);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_3_TFE.sofa'),TFE);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_3_TFE.sofa'),TFE);
 
 %% Convert to SH
 SH=TFE;
@@ -104,7 +104,7 @@ SH.EmitterPosition_Type='Spherical Harmonics';
 
 SH = SOFAupdateDimensions(SH);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_4_SH.sofa'),SH);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
 
 %% plot median and horitonal planes - spatially continuous
 figure;
@@ -160,7 +160,7 @@ end
 
 TFEint=SOFAupdateDimensions(TFEint);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_5_TFEint.sofa'),TFEint);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_5_TFEint.sofa'),TFEint);
 
 %% interpolate for the horizontal and median planes to SimpleFreeFieldHRTF (TF)
 TFint=TF;
@@ -181,7 +181,7 @@ end
 
 TFint=SOFAupdateDimensions(TFint);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_6_TFint.sofa'),TFint);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_6_TFint.sofa'),TFint);
 
 %% compare
 figure;
