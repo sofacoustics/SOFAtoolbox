@@ -62,7 +62,6 @@ SOFAplotHRTF(TF,'etchorizontal'); title ('SimpleFreeFieldHRTF (TF) for reference
 %% Convert to an emitter-based representation, TFE
 TFE=TF; 
 TFE.GLOBAL_SOFAConventions = 'GeneralTF-E';
-TFE.GLOBAL_Version = '1.1';
 TFE.GLOBAL_DataType = 'TF-E';
 TFE.API.E=TF.API.M;
 TFE.API.M=1;
@@ -72,6 +71,8 @@ TFE.API.Dimensions.Data.Real='MRNE';
 TFE.Data.Imag(1,:,:,:)=shiftdim(TF.Data.Imag,1);
 TFE.API.Dimensions.Data.Imag='MRNE';
 TFE.EmitterPosition=TF.SourcePosition;
+TFE.EmitterPosition_Type=TF.SourcePosition_Type;
+TFE.EmitterPosition_Units=TF.SourcePosition_Units;
 TFE.API.Dimensions.EmitterPosition='ECI';
 TFE.SourcePosition=[0 0 0];
 TFE.API.Dimensions.SourcePosition='IC';
@@ -180,7 +181,7 @@ end
 
 TFint=SOFAupdateDimensions(TFint);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_6_TFrec.sofa'),TFint);
+SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_6_TFint.sofa'),TFint);
 
 %% compare
 figure;

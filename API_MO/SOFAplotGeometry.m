@@ -64,7 +64,7 @@ switch Obj.GLOBAL_SOFAConventions
         % plot the room
         rectangle('Position',[x y w h]);
     else
-        figure; hold on;
+        hold on;
     end
     
     legendEntries = [];
@@ -326,7 +326,7 @@ switch Obj.GLOBAL_SOFAConventions
     else
         % Plot EmitterPosition
         if ndims(EP)>2
-            % If ReceiverPosition has more than two dimensions reduce it to the first
+            % If EmitterPosition has more than two dimensions reduce it to the first
             % ListenerPosition
             EP = shiftdim(EP,2);
             EP = squeeze(EP(1,:,:));

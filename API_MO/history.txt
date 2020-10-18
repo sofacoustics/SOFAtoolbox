@@ -7,7 +7,8 @@
 ***		Harald Ziegelwanger
 ***		Hagen Wierstorf
 ***		Wolfgang Hrauda
-***     Fabian Brinkmann
+***   Fabian Brinkmann
+***   Felix Perchfler
 *************************************************************
 
 *** DEVELOPMENT STATUS ***
@@ -21,7 +22,7 @@
     - SOFAplotGeometry shows a cloud for spatially continuous emitters and receivers
   - SOFAgetConventions: Versioning of convention files .CSV added
   - Conventions for SOFA 2.0 added
-- SOFAplotGeometry: complete rewrite (thanks to Felix Perchfler) with extensive support
+- SOFAplotGeometry: complete rewrite with extensive support
 - SOFAcompileConventions ignores files beginning with '_'
 
 *** v1.1.2

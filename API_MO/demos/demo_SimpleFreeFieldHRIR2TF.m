@@ -26,11 +26,11 @@ disp(['Loading:  ' SOFAfn]);
 IR=SOFAload(SOFAfn);
 
 %% Get a new SimpleFreeFieldTF conventions
-TF=SOFAgetConventions('SimpleFreeFieldTF');
-disp('Converting SimpleFreeFieldHRIR to SimpleFreeFieldTF');
+TF=SOFAgetConventions('SimpleFreeFieldHRTF');
+disp('Converting SimpleFreeFieldHRIR to SimpleFreeFieldHRTF');
 
 %% Copy variables and metadata
-TFempty=rmfield(TF,fieldnames(SOFAgetConventions('SimpleFreeFieldTF','r')));  % skip all read-only metadata
+TFempty=rmfield(TF,fieldnames(SOFAgetConventions('SimpleFreeFieldHRTF','r')));  % skip all read-only metadata
 Xf=fieldnames(rmfield(TFempty,{'API','Data'}));  % skip other internal
 for ii=1:length(Xf)
   if isfield(IR, (Xf{ii})), TF.(Xf{ii})=IR.(Xf{ii}); end % copy if available
@@ -48,7 +48,7 @@ for ii=1:IR.API.M
 end
 
 %% Update dimensions
-Obj=SOFAupdateDimensions(TF);
+TF=SOFAupdateDimensions(TF);
 
 %% Save
 SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['ARI_' ARIfile '_' subjectID '_' num2str(length(bins)) '_freqs.sofa']);
