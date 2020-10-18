@@ -49,12 +49,12 @@ varNames = fieldnames(ObjCheck);
 for ii=1:size(varNames,1);
 	if ischar(Obj.(varNames{ii}))
 		if ~strcmp(Obj.(varNames{ii}), ObjCheck.(varNames{ii}))
-			warning('SOFA:save',[varNames{ii} ' is read-only and was reset to '  ObjCheck.(varNames{ii})],0);
+			warning('SOFA:save',[varNames{ii} ' is read-only and was reset from ' Obj.(varNames{ii}) ' to '  ObjCheck.(varNames{ii})],0);
 			Obj.(varNames{ii})=ObjCheck.(varNames{ii});
 		end
 	else
 		if Obj.(varNames{ii}) ~= ObjCheck.(varNames{ii})
-			warning('SOFA:save',[varNames{ii} ' is read-only and was reset to '  ObjCheck.(varNames{ii})],0);
+			warning('SOFA:save',[varNames{ii} ' is read-only and was reset from ' Obj.(varNames{ii}) ' to '  ObjCheck.(varNames{ii})],0);
 			Obj.(varNames{ii})=ObjCheck.(varNames{ii});
 		end
 	end
