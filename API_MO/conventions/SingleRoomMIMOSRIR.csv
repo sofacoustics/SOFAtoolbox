@@ -16,6 +16,7 @@ GLOBAL:License	No license provided, ask the author for permission	m	  	attribute
 GLOBAL:ApplicationName			  	attribute	
 GLOBAL:ApplicationVersion			  	attribute	
 GLOBAL:Comment			 	attribute	
+GLOBAL:RoomDescription				attribute	narrative description of the room
 GLOBAL:History			 	attribute	
 GLOBAL:References				attribute	
 GLOBAL:Origin				attribute	
