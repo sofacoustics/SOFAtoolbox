@@ -1,7 +1,7 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
 GLOBAL:Version	2.0	rm	 	attribute	
-GLOBAL:SOFAConventions	SingleRoomMIMOIR	rm	  	attribute	Single-room multiple-input multiple-output impulse responses, depending on Emitters
+GLOBAL:SOFAConventions	SingleRoomMIMOSRIR	rm	  	attribute	Single-room multiple-input multiple-output spatial room impulse responses, depending on Emitters
 GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
 GLOBAL:DataType	FIR-E	rm	  	attribute	Shall be FIR-E
 GLOBAL:RoomType	shoebox	m	  	attribute	Shall be ‘shoebox’ or ‘dae’

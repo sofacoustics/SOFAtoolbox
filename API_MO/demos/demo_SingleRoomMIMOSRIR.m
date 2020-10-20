@@ -1,6 +1,6 @@
-% Demonstrates the usage of SingleRoomMIMOIR. 
-% Idea: demo_SingleRoomMIMOIR loads SRIRs from ???, 
-% converts to SH as SingleRoomMIMOIR, does planewave decompositon, and stores
+% Demonstrates the usage of SingleRoomMIMOSRIR. 
+% Idea: demo_SingleRoomMIMOSRIR loads SRIRs from ???, 
+% converts to SH as SingleRoomMIMOSRIR, does planewave decompositon, and stores
 % the data as a ???.sofa file.
 
 % SOFA API - demo script
