@@ -14,9 +14,12 @@
 
 %% Data
 % https://phaidra.kug.ac.at/view/o:104376, LS: 3 oder 5
+% documentation: https://www.mdpi.com/2076-3417/10/11/3747
+%
+% Paper for the algorithms:
+% Park, M. and Rafaely, B. (2005). "Sound-field analysis by plane-wave decomposition using spherical microphone array,"
+% JASA, 118, 3094–3103.  https://doi.org/10.1121/1.2063108
 
-%% Paper:
-% https://www.mdpi.com/2076-3417/10/11/3747
 
 
 %% Story line...
@@ -36,3 +39,5 @@
 % to be saved: p_nm and b_n(kr,ka) or simple a. 
 % 
 
+%% Also this might help: Khaykin, D. and Rafaely, B. (2012). "Acoustic analysis by spherical 
+%  microphone array processing of room impulse responses," JASA, 132, 261–270.
