@@ -4,7 +4,7 @@ GLOBAL:Version	2.0	rm	 	attribute
 GLOBAL:SOFAConventions	SingleRoomMIMOSRIR	rm	  	attribute	Single-room multiple-input multiple-output spatial room impulse responses, depending on Emitters
 GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
 GLOBAL:DataType	FIR-E	rm	  	attribute	Shall be FIR-E
-GLOBAL:RoomType	shoebox	m	  	attribute	Shall be ‘shoebox’ or ‘dae’
+GLOBAL:RoomType	shoebox	m	  	attribute	Shall be 'shoebox' or 'dae'
 GLOBAL:Title		m		attribute	
 GLOBAL:DateCreated		m	 	attribute	
 GLOBAL:DateModified		m	 	attribute	

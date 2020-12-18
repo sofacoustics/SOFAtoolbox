@@ -22,8 +22,8 @@ GLOBAL:Origin				attribute
 GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data
 GLOBAL:Musician				attribute	Narrative description of the musician such as position, behavior, or personal data if not data-protected, e.g., 'Christiane Schmidt sitting on the chair', or 'artificial excitation by R2D2'.
 GLOBAL:Description				attribute	Narrative description of a measurement. For musical instruments/singers, the note (C1, D1, etc) or the dynamic (pp., ff., etc), or the string played, the playing style (pizzicato, legato, etc.), or the type of excitation (e.g., hit location of a cymbal). For loudspeakers, the system and driver units.
-GLOBAL:SourceType		m		attribute	Narrative description of the acoustic source, e.g., 'Violin', 'Female singer', or ‘2-way loudspeaker
-GLOBAL:SourceManufacturer		m		attribute	Narrative description of the manufacturer of the source, e.g., 'Stradivari, Lady Blunt, 1721' or ‘LoudspeakerCompany’
+GLOBAL:SourceType		m		attribute	Narrative description of the acoustic source, e.g., 'Violin', 'Female singer', or '2-way loudspeaker'
+GLOBAL:SourceManufacturer		m		attribute	Narrative description of the manufacturer of the source, e.g., 'Stradivari, Lady Blunt, 1721' or 'LoudspeakerCompany'
 ListenerPosition	[0 0 0] 	m	IC, MC	double	Position of the microphone array during the measurements.
 ListenerPosition:Type	cartesian	m		attribute	
 ListenerPosition:Units	metre	m		attribute	
@@ -39,15 +39,15 @@ ReceiverPosition:Units	degree, degree, metre	m		attribute
 SourcePosition	[0 0 0] 	m	IC, MC	double	Position of the acoustic source (instrument)
 SourcePosition:Type	cartesian	m		attribute	
 SourcePosition:Units	metre	m		attribute	
-SourcePosition:Reference		m		attribute	Narrative description of the spatial reference of the source position, e.g., for the trumpet, ‘The bell’. Mandatory in order to provide a reference across different instruments
+SourcePosition:Reference		m		attribute	Narrative description of the spatial reference of the source position, e.g., for the trumpet, 'The bell'. Mandatory in order to provide a reference across different instruments
 SourceView	[1 0 0]	m	IC, MC	double	Orientation of the acoustic source (instrument)
 SourceView:Type	cartesian	m		attribute	
 SourceView:Units	metre	m		attribute	
-SourceView:Reference		m		attribute	Narrative description of the spatial reference of the source view, e.g., for the trumpet, ‘Viewing direction of the bell’. Mandatory in order to provide a reference across different instruments
+SourceView:Reference		m		attribute	Narrative description of the spatial reference of the source view, e.g., for the trumpet, 'Viewing direction of the bell'. Mandatory in order to provide a reference across different instruments
 SourceUp	[0 0 1]	m	IC, MC	double	Up vector of the acoustic source (instrument)
 SourceUp:Type	cartesian	m		attribute	
 SourceUp:Units	metre	m		attribute	
-SourceUp:Reference		m		attribute	Narrative description of the spatial reference of the source up, e.g., for the trumpet, ‘Along the keys, keys up’. Mandatory in order to provide a reference across different instruments
+SourceUp:Reference		m		attribute	Narrative description of the spatial reference of the source up, e.g., for the trumpet, 'Along the keys, keys up'. Mandatory in order to provide a reference across different instruments
 EmitterPosition	[0 0 0]	m	eCI	double	A more detailed structure of the Source. In a simple settings, a single Emitter is considered that is collocated with the source.
 EmitterPosition:Type	cartesian	m		attribute	
 EmitterPosition:Units	metre	m		attribute	
