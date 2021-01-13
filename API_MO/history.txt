@@ -16,7 +16,7 @@
 *** v2.0
 - Changes related to SOFA 2.0
   - Support for spherical harmonics added.
-    - demo_SphericalHarmonicsHRTF added
+    - demo_FreeFieldHRTF added
     - TODO: add demo_SphericalHarmonicsMic
     - TODO: update demo_SimpleFreeFieldHRIR2TF
     - SOFAplotGeometry shows a cloud for spatially continuous emitters and receivers
