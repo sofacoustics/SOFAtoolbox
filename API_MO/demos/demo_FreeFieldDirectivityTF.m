@@ -12,8 +12,8 @@
 D=SOFAgetConventions('FreeFieldDirectivityTF','m');
   % load some data in TF format
     % run demo_SphericalHarmonicsHRTFs if files not created yet
-if ~exist(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_SphericalHarmonicsHRTFs_2_TF.sofa'),'file'), demo_SphericalHarmonicsHRTFs; end
-Y=SOFAload('db://demo_SphericalHarmonicsHRTFs_2_TF.sofa');
+if ~exist(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_2_TF.sofa'),'file'), demo_FreeFieldHRTFs; end
+Y=SOFAload('db://demo_FreeFieldHRTF_2_TF.sofa');
 
   % copy to have some data - put your own stuff here
 D.Data=Y.Data;
@@ -23,4 +23,4 @@ D.ReceiverPosition=Y.ReceiverPosition;
   % update dimensions to see if it works
 D=SOFAupdateDimensions(D, 'verbose',1);
   % plot the geometry because why not
-SOFAplotGeometry(D2)
+SOFAplotGeometry(D);
