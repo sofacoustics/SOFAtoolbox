@@ -1,8 +1,8 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
-GLOBAL:Version	2.0	rm	 	attribute	
+GLOBAL:Version	2	rm	 	attribute	
 GLOBAL:SOFAConventions	FreeFieldHRTF	rm	  	attribute	This conventions is for HRTFs created under conditions where room information is irrelevant and stored as SH coefficients
-GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
+GLOBAL:SOFAConventionsVersion	1	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	
 GLOBAL:APIVersion		rm	  	attribute	
 GLOBAL:ApplicationName			  	attribute	
@@ -29,9 +29,9 @@ ReceiverPosition:Units	metre	m	  	attribute
 SourcePosition	[0 0 0]	m	IC, MC	double	Source position is assumed to be the ListenerPosition in order to reflect Emitters surrounding the Listener
 SourcePosition:Type	spherical	m	  	attribute	
 SourcePosition:Units	degree, degree, metre	m	  	attribute	
-EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	Emitter positions are irrelevant because they data is spatially continuous
-EmitterPosition:Type	harmonics	m	  	attribute	Spatially continuous representation by means of harmonics
-EmitterPosition:Units	spherical	m	  	attribute	3D representation
+EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	Radius in ‘spherical harmonics’, Position in ‘cartesian’ and ‘spherical’
+EmitterPosition:Type	spherical harmonics	m	  	attribute	Can be ‘spherical harmonics’, ‘cartesian’, or ‘spherical’
+EmitterPosition:Units	degree, degree, metre	m	  	attribute	
 GLOBAL:DatabaseName		m	  	attribute	Name of the database to which these data belong
 ListenerUp	[0 0 1]	m	IC, MC	double	
 ListenerView	[1 0 0]	m	IC, MC	double	
