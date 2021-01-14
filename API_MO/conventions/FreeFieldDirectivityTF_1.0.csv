@@ -30,9 +30,9 @@ ListenerPosition:Units	metre	m		attribute
 ListenerView	[1 0 0]	m	IC, MC	double	Orientation of the microphone array
 ListenerView:Type	cartesian	m		attribute	
 ListenerView:Units	metre	m		attribute	
-ListenerUp	[0 0 1]	m	IC, MC	double	Up vector of the microphone array
-ListenerUp:Type	cartesian	m		attribute	
-ListenerUp:Units	metre	m		attribute	
+ListenerUp	[0 0 1]		IC, MC	double	Up vector of the microphone array
+ListenerUp:Type	cartesian			attribute	
+ListenerUp:Units	metre			attribute	
 ReceiverPosition	[0 0 1]	m	IC, RCI, RCM	double	Positions of the microphones during the measurements (relative to the Listener)
 ReceiverPosition:Type	spherical	m		attribute	
 ReceiverPosition:Units	degree, degree, metre	m		attribute	

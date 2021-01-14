@@ -14,7 +14,7 @@ for jj=1:length(conventions)
   C=textscan(fid,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1); 
   fclose(fid);
   fid=fopen([conventions{jj} '.txt'],'w');
-  fprintf(fid,'{| border="1"\n!Name\n!Default\n!Flags\n!Dimensions\n!Type\n!Comment\n');
+  fprintf(fid,'{| border="1"\n!Name\n!Default\n![[SOFA_conventions#AnchorFlags|Flags]]\n![[SOFA_conventions#AnchorDimensions|Dimensions]]\n!Type\n!Comment\n');
 %   C2=regexprep(C{2},'''', '&rsquo;'); % replace single quota (') by &prime;
   for ii=1:length(C{1})
     fprintf(fid,['|-\n|' C{1}{ii} '||<nowiki>' C{2}{ii} '</nowiki>||' C{3}{ii} '||' C{4}{ii} '||' C{5}{ii} '||' C{6}{ii} '\n']);

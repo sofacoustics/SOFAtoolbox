@@ -7,8 +7,8 @@
 ***		Harald Ziegelwanger
 ***		Hagen Wierstorf
 ***		Wolfgang Hrauda
-***   Fabian Brinkmann
-***   Felix Perchfler
+***		Fabian Brinkmann
+***		Felix Perchfler
 *************************************************************
 
 *** DEVELOPMENT STATUS ***
@@ -26,9 +26,11 @@
 - SOFAcompileConventions ignores files beginning with '_'
 - conventions: csv files renamed to always include SOFAConventionsVersion in file name (created .mat files are unaffected)
 - license updated to EUPL 1.2
-- FreeFieldDirectivityTF_1.0.csv: Global:Comment: Mandatory flag removed
+- FreeFieldDirectivityTF_1.0.csv: Mandatory flag removed for: Global:Comment, ListenerUp, ListenerUp:Type, ListenerUp:Units
 - FreeFieldHRTF_1.0.csv: GLOBAL:SOFAConventionsVersion version number fixed
 - SingleRoomSRIR_1.0.csv: GLOBAL:SOFAConventionsVersion version number fixed, RoomCornerA, RoomCornerB, RoomCorners:Type, RoomCorners:Units: Mandatory flag removed
+- Conventions2Wiki.m: Column headers flags and dimensions changed to a hyperlink linking to that corresponding part on the website
+
 
 
 *** v1.1.2
