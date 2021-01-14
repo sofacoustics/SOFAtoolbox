@@ -24,6 +24,8 @@
   - Conventions for SOFA 2.0 added
 - SOFAplotGeometry: complete rewrite with extensive support
 - SOFAcompileConventions ignores files beginning with '_'
+- conventions: csv files renamed to always include SOFAConventionsVersion in file name (created .mat files are unaffected)
+- license updated to EUPL 1.2
 
 *** v1.1.2
 - SOFAplotGeometry: bug fix if no SourceView given
