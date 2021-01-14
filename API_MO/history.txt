@@ -26,6 +26,10 @@
 - SOFAcompileConventions ignores files beginning with '_'
 - conventions: csv files renamed to always include SOFAConventionsVersion in file name (created .mat files are unaffected)
 - license updated to EUPL 1.2
+- FreeFieldDirectivityTF_1.0.csv: Global:Comment: Mandatory flag removed
+- FreeFieldHRTF_1.0.csv: GLOBAL:SOFAConventionsVersion version number fixed
+- SingleRoomSRIR_1.0.csv: GLOBAL:SOFAConventionsVersion version number fixed, RoomCornerA, RoomCornerB, RoomCorners:Type, RoomCorners:Units: Mandatory flag removed
+
 
 *** v1.1.2
 - SOFAplotGeometry: bug fix if no SourceView given

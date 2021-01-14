@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
 GLOBAL:Version	2	rm	 	attribute	
 GLOBAL:SOFAConventions	SingleRoomSRIR	rm	  	attribute	For measuring SRIRs in a single room with a single excitation source (e.g., a loudspeaker) and a listener containing an arbitrary number of omnidirectional receivers (e.g., a microphone array). 
-GLOBAL:SOFAConventionsVersion	1	rm	  	attribute	
+GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
 GLOBAL:DataType	FIR	rm	  	attribute	Shall be FIR
 GLOBAL:RoomType	shoebox	m	  	attribute	Shall be ‘shoebox’ or ‘dae’
 GLOBAL:Title		m		attribute	
@@ -60,8 +60,8 @@ Data.IR	0	m	mrn	double	Impulse responses
 Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay
 Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
 Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples)
-RoomCornerA	[0 0 0]	m	IC, MC	double	
-RoomCornerB	[1 2 3]	m	IC, MC	double	
-RoomCorners:Type	cartesian	m		attribute	
-RoomCorners:Units	metre	m		attribute	
+RoomCornerA	[0 0 0]		IC, MC	double	
+RoomCornerB	[1 2 3]		IC, MC	double	
+RoomCorners:Type	cartesian			attribute	
+RoomCorners:Units	metre			attribute	
 GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data.
