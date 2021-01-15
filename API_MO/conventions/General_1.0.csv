@@ -56,6 +56,6 @@ EmitterUp	[0 0 1]		ECI, ECM	double
 EmiiterView:Type	cartesian			attribute	
 EmitterView:Units	metre			attribute	
 Data.IR	0	m	mrn	double	Impulse responses
-Data.SamplingRate	48000	m	I	double	Sampling rate of the samples in Data.IR and Data.Delay
+Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay
 Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
 Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples)

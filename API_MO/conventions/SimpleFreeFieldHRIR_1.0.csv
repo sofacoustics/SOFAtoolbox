@@ -38,7 +38,7 @@ ListenerView	[1 0 0]	m	IC, MC	double
 ListenerView:Type	cartesian	m		attribute	
 ListenerView:Units	metre	m		attribute	
 Data.IR	[0 0]	m	mRn	double	
-Data.SamplingRate	48000	m	I	double	
+Data.SamplingRate	48000	m	I, M	double	
 Data.SamplingRate:Units	hertz	m		attribute	
 Data.Delay	[0 0]	m	IR, MR	double	
 SourceUp	[0 0 1]		IC, MC	double	
