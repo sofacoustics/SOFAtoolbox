@@ -12,7 +12,7 @@
 D=SOFAgetConventions('FreeFieldDirectivityTF','m');
   % load some data in TF format
     % run demo_SphericalHarmonicsHRTFs if files not created yet
-if ~exist(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_2_TF.sofa'),'file'), demo_FreeFieldHRTFs; end
+if ~exist(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_2_TF.sofa'),'file'), demo_FreeFieldHRTF; end
 Y=SOFAload('db://demo_FreeFieldHRTF_2_TF.sofa');
 
   % copy to have some data - put your own stuff here
