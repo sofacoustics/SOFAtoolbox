@@ -7,10 +7,15 @@
 ***		Harald Ziegelwanger
 ***		Hagen Wierstorf
 ***		Wolfgang Hrauda
-***     Fabian Brinkmann
+***		Fabian Brinkmann
 *************************************************************
 
 *** DEVELOPMENT STATUS ***
+
+*** v1.1.2
+- v1.1.2 is the first version of SOFA branch v1; major updates are implemented in master branch (v2)
+- SOFAconvertConventions: bug fixed when converting from SimpleFreeFieldTF/GeneralTF or from SimpleFreeFieldSOS 
+	to SimpleFreeFieldHRIR: N has not been removed from the API.Dimensions structure
 
 *** v1.1.1
 - SOFAstart: bug fix when starting for the first time

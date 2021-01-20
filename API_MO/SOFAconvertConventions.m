@@ -32,6 +32,7 @@ switch Obj.GLOBAL_SOFAConventions
     end
     Obj.Data=rmfield(Obj.Data,'SOS');
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
+    Obj.API.Dimensions=rmfield(Obj.API.Dimensions,'N');
     Obj=SOFAupdateDimensions(Obj);
   case {'SimpleFreeFieldTF' 'GeneralTF'}
     fs=48000; %max(Obj.N)*2;
@@ -61,6 +62,7 @@ switch Obj.GLOBAL_SOFAConventions
     Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
     Obj.Data=rmfield(Obj.Data,{'Real','Imag','Real_LongName','Imag_LongName','Real_Units','Imag_Units'});
     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
+    Obj.API.Dimensions=rmfield(Obj.API.Dimensions,'N');
     Obj=SOFAupdateDimensions(Obj);    
   otherwise
     error('Conventions not supported');
