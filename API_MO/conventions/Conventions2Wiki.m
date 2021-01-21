@@ -2,7 +2,7 @@
 % Piotr Majdak (2013), EUPL
 clear all;
 p=mfilename('fullpath');
-d=dir(['*.csv']);
+d=dir('*.csv');
 conventions={};
 for ii=1:length(d)
   dn=d(ii).name;
@@ -22,3 +22,4 @@ for jj=1:length(conventions)
   fprintf(fid,'|}');
   fclose(fid);
 end
+disp ('   ** done **');
