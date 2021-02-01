@@ -14,10 +14,13 @@ function newfn=SOFAcheckFilename(fn)
 if ~ischar(fn)
 	error('Filename must be a string.');
 end
-fn=strrep(fn,'/',filesep);
-fn=strrep(fn,'\',filesep);
-if length(fn)>4 
-    if strcmpi(fn(1:4),['db:' filesep]), fn=[SOFAdbPath fn(5:end)]; end
+if strcmp(fn(1:7),'http://')
+  newfn=fn; % remote file
+else
+  fn=strrep(fn,'/',filesep);
+  fn=strrep(fn,'\',filesep);
+  if length(fn)>4 
+      if strcmpi(fn(1:4),['db:' filesep]), fn=[SOFAdbPath fn(5:end)]; end
+  end
+  newfn=fn;
 end
-newfn=fn;
-

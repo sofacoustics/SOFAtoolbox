@@ -8,9 +8,18 @@
 ***		Hagen Wierstorf
 ***		Wolfgang Hrauda
 ***		Fabian Brinkmann
+***		Felix Perchfler
 *************************************************************
 
 *** DEVELOPMENT STATUS ***
+
+*** v1.1.3
+- bug fixes from unreleased SOFA API v1.1.2 merged to latest version of branch v1:
+- SOFAplotGeometry: bug fix if no SourceView given
+- FreeFieldDirectivityTF: missing eCM in EmitterPosition fixed
+- SOFAcheckFilename: do not convert if filename is http://
+- SOFAplotHRTF: plot TF with regular frequency grid. Not tested for irregular grids, though...
+
 
 *** v1.1.2
 - v1.1.2 is the first version of SOFA branch v1; major updates are implemented in master branch (v2)
