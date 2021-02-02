@@ -8,19 +8,30 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-  % get the mandatory metadata
-D=SOFAgetConventions('FreeFieldDirectivityTF','m');
-  % load some data in TF format
-    % run demo_SphericalHarmonicsHRTFs if files not created yet
-if ~exist(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_2_TF.sofa'),'file'), demo_FreeFieldHRTF; end
-Y=SOFAload('db://demo_FreeFieldHRTF_2_TF.sofa');
+% close all; 
+clear fn;
+fn{1}='ITA_Dodecahedron.sofa';
+fn{2}='Trumpet_modern_et_ff_all_tensorData.sofa'; 
+% fn{3}='Trumpet_modern_et_ff_a4_rawData.sofa';  % (21 MB!!! uncomment if you don't mind, or have downloaded it already)
 
-  % copy to have some data - put your own stuff here
-D.Data=Y.Data;
-D.N=Y.N;
-D.ReceiverPosition=Y.ReceiverPosition;
 
-  % update dimensions to see if it works
-D=SOFAupdateDimensions(D, 'verbose',1);
-  % plot the geometry because why not
-SOFAplotGeometry(D);
+for ii=1:length(fn)
+    Obj=SOFAload(['db://database/tu-berlin (directivity)/' fn{ii}]);
+
+    %   % update dimensions to see if it works
+    % D=SOFAupdateDimensions(D, 'verbose',1);
+
+    % plot the geometry because why not
+    SOFAplotGeometry(Obj);
+    
+    % move every figure a little to the right from previous one
+    H=gcf;
+    if ii>1; movegui(H,[(H.Position(1)+(ii-1)*300) H.Position(2)]); end 
+   
+    % set title
+    title(strrep(char(fn(ii)),'_',' '));
+    disp(string([' Figure ' num2str(ii) ' of ' num2str(length(fn)) ' plotted: ' strrep(char(fn(ii)),'_',' ')]));
+end
+
+disp('    ');
+disp('###   demo_FreeFieldDirectivityTF: done   ###');
