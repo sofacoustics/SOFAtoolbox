@@ -39,6 +39,9 @@ Obj.SourceView = [-1 0 0];%The source and the listener are facing each other
 
 addpath('./LigetiHall_CubeletToSt450/');
 IR_list = dir('./LigetiHall_CubeletToSt450/*.wav');
+if isempty(IR_list)
+    error([' Folder does not exist or is empty: ' mfilename('fullpath') filesep 'LigetiHall_CubeletToSt450'])
+end
 IR_INFO = audioinfo(IR_list(1).name);
 
 C = 3;
@@ -64,7 +67,7 @@ Obj.EmitterUp = zeros(E,C,I);
 
 Obj = SOFAupdateDimensions(Obj);
 SOFAsave('LigetiHall_CubeletToSt450_IRs.sofa',Obj,0);
-
+disp(['SOFA file saved to: ' pwd filesep 'LigetiHall_CubeletToSt450_IRs.sofa']);
 
 %
 % Paper for the algorithms:

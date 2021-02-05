@@ -21,8 +21,13 @@ X=SOFAload(SOFAfn);
 %% Plot amplitude spectra
 figure;
 hold on; box on;
-cols=['bgrmky'];
-meastime=[0; diff(X.MeasurementDate)];
+cols='bgrmky';
+if isfield(X, 'MeasurementDate')
+    meastime=[0; diff(X.MeasurementDate)];
+else
+    meastime=diff(X.GLOBAL_DateCreated);
+end
+
 for ii=1:X.API.M
   plot(20*log10(abs(fft(squeeze(X.Data.IR(ii,1,:)),X.Data.SamplingRate))),cols(ii));
   if ii>1, leg{ii}=['#' num2str(ii) ':' num2str(meastime(ii)) ' seconds later']; end

@@ -22,8 +22,15 @@ compression=1; % results in a nice compression within a reasonable processing ti
 for ii=1:length(radius)
 		% load
 	TUBfn=fullfile(fileparts(SOFAdbPath), 'TU-Berlin KEMAR', [TUBfile num2str(radius(ii)) 'm.mat']);
-	disp(['Loading: ' TUBfn]);
-	TUB=load(TUBfn);
+    
+    if isfile(TUBfn)
+        disp(['Loading: ' TUBfn]);
+        TUB=load(TUBfn);
+    else
+        warning(['File not existing: ' TUBfn '  -->  Please download it to: ' fullfile(fileparts(SOFAdbPath), 'TU-Berlin KEMAR')]);
+        error(['Sorry.... ' mfilename ' cannot complete!']);
+    end
+
 		% convert and add application specific metadata
 	Obj=SOFAconvertTUBerlin2SOFA(TUB.irs);
 	Obj.GLOBAL_DatabaseName = 'TU-Berlin'; % maybe setting the name by function parameter

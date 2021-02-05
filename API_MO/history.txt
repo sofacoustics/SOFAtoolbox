@@ -33,6 +33,21 @@
 - Dimension of Data.SamplingRate fixed to "I, M" for: GeneralFIR-E_2.0.csv, GeneralFIR_2.0.csv, General_1.0.csv, SimpleFreeFieldHRIR_1.0.csv, SimpleFreeFieldHRSOS_1.0.csv, SimpleHeadphoneIR_1.0.csv, SingleRoomSRIR_1.0.csv
 - demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now
 - FreeFieldDirectivityTF_1.0.csv: updated by David Ackermann (not sure if ReceiverPosition and EmitterPosition still need to be updated)
+- test_SOFAall.m: 
+	- structured (first *->SOFA, then SOFA->*), and sorted (alphabetically)
+	- missing demos added
+	- disp messages improved
+	- some bugs fixed
+- Demos:
+	- SOFAconvertMIT2SOFA.m, demo_FHK2SOFA.m, demo_SingleRoomDRIROldenburg.m, demo_SingleRoomMIMOSRIR.m, demo_TUBerlin2SOFA.m: error message if source files are not available
+	- demo_ARI2SOFA.m, demo_LISTEN2SOFA.m: bug fixed: subject_ID was always overwritten; error message if source files are not available
+	- demo_SimpleFreeFieldHRIR2TF.m: bug fixed: Object to be saved was wrong; error message if source files are not available
+	- demo_SimpleHeadphoneIR.m: if .MeasurementDate is not existing use .GLOBAL_DateCreated as measurement time (legend in figure)
+- Download links updated for:
+	- HRTFs\ARI\readme.txt
+	- HRTFs\CIPIC\readme.txt
+	- HRTFs\TU-Berlin KEMAR\readme.txt
+
 
 
 *** v1.1.2

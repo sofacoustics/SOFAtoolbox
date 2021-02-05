@@ -38,15 +38,34 @@ compression=1; % results in a nice compression within a reasonable processing ti
 
 %% --- loading Uni Oldenburg data ----
 PathO=fullfile(fileparts(SOFAdbPath), 'Oldenburg','HRIR_database_mat','hrir','office_II');
-disp(['Loading: ' PathO]);
-A1 = load([PathO filesep 'office_II_1_A.mat']); % has dimension: N x R
-B1 = load([PathO filesep 'office_II_1_B.mat']);
-C1 = load([PathO filesep 'office_II_1_C.mat']);
-D1 = load([PathO filesep 'office_II_1_D.mat']);
-A2 = load([PathO filesep 'office_II_2_A.mat']);
-B2 = load([PathO filesep 'office_II_2_B.mat']);
-C2 = load([PathO filesep 'office_II_2_C.mat']);
-D2 = load([PathO filesep 'office_II_2_D.mat']);
+disp(['Loading from: ' PathO filesep]);
+
+A1fn = [PathO filesep 'office_II_1_A.mat'];
+B1fn = [PathO filesep 'office_II_1_B.mat'];
+C1fn = [PathO filesep 'office_II_1_C.mat'];
+D1fn = [PathO filesep 'office_II_1_D.mat'];
+A2fn = [PathO filesep 'office_II_2_A.mat'];
+B2fn = [PathO filesep 'office_II_2_B.mat'];
+C2fn = [PathO filesep 'office_II_2_C.mat'];
+D2fn = [PathO filesep 'office_II_2_D.mat'];
+
+% has dimension: N x R 
+if isfile(A1fn);     A1 = load(A1fn); else, error(['File not existing: ' A1fn '  -->  Please download it to: ' PathO filesep]); end
+if isfile(A1fn);     B1 = load(B1fn); else, error(['File not existing: ' B1fn '  -->  Please download it to: ' PathO filesep]); end
+if isfile(A1fn);     C1 = load(C1fn); else, error(['File not existing: ' C1fn '  -->  Please download it to: ' PathO filesep]); end
+if isfile(A1fn);     D1 = load(D1fn); else, error(['File not existing: ' D1fn '  -->  Please download it to: ' PathO filesep]); end
+if isfile(A1fn);     A2 = load(A2fn); else, error(['File not existing: ' A2fn '  -->  Please download it to: ' PathO filesep]); end
+if isfile(A1fn);     B2 = load(B2fn); else, error(['File not existing: ' B2fn '  -->  Please download it to: ' PathO filesep]); end
+if isfile(A1fn);     C2 = load(C2fn); else, error(['File not existing: ' C2fn '  -->  Please download it to: ' PathO filesep]); end
+if isfile(A1fn);     D2 = load(D2fn); else, error(['File not existing: ' D2fn '  -->  Please download it to: ' PathO filesep]); end
+% 
+% B1 = load([PathO filesep 'office_II_1_B.mat']);
+% C1 = load([PathO filesep 'office_II_1_C.mat']);
+% D1 = load([PathO filesep 'office_II_1_D.mat']);
+% A2 = load([PathO filesep 'office_II_2_A.mat']);
+% B2 = load([PathO filesep 'office_II_2_B.mat']);
+% C2 = load([PathO filesep 'office_II_2_C.mat']);
+% D2 = load([PathO filesep 'office_II_2_D.mat']);
 
 %% Get an empy conventions structure
 Obj = SOFAgetConventions('SingleRoomDRIR');

@@ -35,7 +35,13 @@ elecnt=[ 56  60  72  72 72 72 72 60 56 45 36 24 12  1];
 %% Determine data size
 M=sum(elecnt);
 Obj.SourcePosition=zeros(M,3);
-Obj.Data.IR=zeros(M,2,length(audioread([root filesep prefix filesep 'elev0' filesep postfix '0e000a.wav'])));
+if isfile([root filesep prefix filesep 'elev0' filesep postfix '0e000a.wav'])
+    Obj.Data.IR=zeros(M,2,length(audioread([root filesep prefix filesep 'elev0' filesep postfix '0e000a.wav'])));
+else
+    warning(['File not existing: ' root filesep prefix filesep 'elev0' filesep postfix '0e000a.wav' '  -->  Please download it to: ' root filesep prefix filesep 'elev0' filesep]);
+    error(['Sorry.... ' mfilename ' cannot complete!']);
+end
+
 
 %% Fill with data 
 Obj.Data.SamplingRate = 44100;

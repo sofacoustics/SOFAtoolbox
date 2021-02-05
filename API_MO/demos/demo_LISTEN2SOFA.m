@@ -10,7 +10,7 @@
 
 %% Define parameters
 % Subject index of the file to convert
-subjectID='1002'
+if ~exist('subjectID','var'); subjectID='1002'; end
 % File name of the LISTEN file
 LISTENfile=['IRC_' subjectID '_C_HRIR'];
 % Data compression (0..uncompressed, 9..most compressed)
@@ -19,8 +19,13 @@ compression=1; % results in a nice compression within a reasonable processing ti
 
 %% Load LISTEN file
 LISTENfn=fullfile(fileparts(SOFAdbPath),'LISTEN',['IRC_' subjectID],'COMPENSATED','MAT','HRIR',[LISTENfile '.mat']);
-disp(['Loading: ' LISTENfn]);
-LISTEN=load(LISTENfn);
+if isfile(LISTENfn)
+    disp(['Loading: ' LISTENfn]);
+    LISTEN=load(LISTENfn);
+else
+    warning(['File not existing: ' LISTENfn '  -->  Please download it to: ' fullfile(fileparts(SOFAdbPath),'LISTEN',['IRC_' subjectID],'COMPENSATED','MAT','HRIR')]);
+    error(['Sorry.... ' mfilename ' cannot complete!']);
+end
 
 %% convert
 Obj=SOFAconvertLISTEN2SOFA(LISTEN,subjectID);

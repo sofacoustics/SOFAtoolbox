@@ -9,8 +9,8 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 %% Define parameters
-% Subject index of the file to convert
-subjectID='NH4';
+% Subject index of the file to convert (use default if not defined)
+if ~exist('subjectID','var'); subjectID='NH4'; end
 % File name of the ARI file
 ARIfile='hrtf_M_dtf 256';
 % Data compression (0..uncompressed, 9..most compressed)
@@ -19,8 +19,15 @@ compression=1; % results in a nice compression within a reasonable processing ti
 
 %% Load ARI file
 ARIfn=fullfile(fileparts(SOFAdbPath), 'ARI', subjectID, [ARIfile '.mat']);
-disp(['Loading: ' ARIfn]);
-ARI=load(ARIfn);
+
+if isfile(ARIfn)
+    disp(['Loading: ' ARIfn]);
+    ARI=load(ARIfn);
+else
+    warning(['File not existing: ' ARIfn '  -->  Please download it from http://www.oeaw.ac.at/isf/hrtf and save it to: ' fullfile(fileparts(SOFAdbPath), 'ARI', subjectID)]);
+    error(['Sorry.... ' mfilename ' cannot complete!']);
+end
+
 
 %% convert
 Obj=SOFAconvertARI2SOFA(ARI.hM,ARI.meta,ARI.stimPar);

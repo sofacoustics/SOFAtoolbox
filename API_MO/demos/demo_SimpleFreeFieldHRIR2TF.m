@@ -22,8 +22,14 @@ compression=1; % results in a nice compression within a reasonable processing ti
 %% Load file in SimpleFreeFieldHRIR Conventions
 f=filesep;
 SOFAfn=fullfile(SOFAdbPath,'database','ari', [ARIfile '_' lower(subjectID) '.sofa']);
-disp(['Loading:  ' SOFAfn]);
-IR=SOFAload(SOFAfn);
+
+if isfile(SOFAfn)
+    disp(['Loading:  ' SOFAfn]);
+    IR=SOFAload(SOFAfn);
+else
+    warning(['File not existing: ' SOFAfn '  -->  Please download it from http://www.oeaw.ac.at/isf/hrtf and save it to: ' fullfile(SOFAdbPath,'database','ari', [ARIfile '_' lower(subjectID) '.sofa'])]);
+    error(['Sorry.... ' mfilename ' cannot complete!']);
+end
 
 %% Get a new SimpleFreeFieldTF conventions
 TF=SOFAgetConventions('SimpleFreeFieldHRTF');
@@ -53,4 +59,4 @@ TF=SOFAupdateDimensions(TF);
 %% Save
 SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['ARI_' ARIfile '_' subjectID '_' num2str(length(bins)) '_freqs.sofa']);
 disp(['Saving:   ' SOFAfn]);
-SOFAsave(SOFAfn,Obj,compression);
+SOFAsave(SOFAfn,IR,compression);

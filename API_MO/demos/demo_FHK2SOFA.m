@@ -16,6 +16,9 @@ end
 %% Define parameters
 % Get a file name of the FHK directory
 d=dir(fullfile(fileparts(SOFAdbPath),'FHK','HRIR_*.mat'));
+if isempty(d)
+    error(['No HRTF files available: ' fullfile(fileparts(SOFAdbPath),'FHK','HRIR_*.mat')]);
+end
 fn=d(1).name;
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
