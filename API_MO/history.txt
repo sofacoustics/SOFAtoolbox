@@ -43,11 +43,12 @@
 	- demo_ARI2SOFA.m, demo_LISTEN2SOFA.m: bug fixed: subject_ID was always overwritten; error message if source files are not available
 	- demo_SimpleFreeFieldHRIR2TF.m: bug fixed: Object to be saved was wrong; error message if source files are not available
 	- demo_SimpleHeadphoneIR.m: if .MeasurementDate is not existing use .GLOBAL_DateCreated as measurement time (legend in figure)
+	- SOFAconvertSCUT2SOFA.m: bug fixed when source files are not available -> error message; added to test_SOFAall.m
 - Download links updated for:
 	- HRTFs\ARI\readme.txt
 	- HRTFs\CIPIC\readme.txt
 	- HRTFs\TU-Berlin KEMAR\readme.txt
-
+- FreeFieldDirectivityTF_1.0.csv: Dimension of ReceiverPosition and EmitterDescription fixed
 
 
 *** v1.1.2

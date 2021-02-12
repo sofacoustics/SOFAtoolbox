@@ -32,6 +32,9 @@ for jj=1:length(r)
       azi = 360/elecnt(ei)*ai;
       fn=fullfile(root, ['r' num2str(r(jj)*100)], ['ele' num2str(ele)], ['H' num2str(azi) 'c.pcm']);
       dirfn=dir(fn);
+      if isempty(dirfn) % check if HRTF sources are available
+          error(['HRTF files not available in: ' fullfile(root, ['r' num2str(r(jj)*100)], ['ele' num2str(ele)])]);
+      end
       fid = fopen(fn, 'r');
       H = fread(fid,'float');
       fclose(fid);

@@ -77,10 +77,9 @@ disp('*** Finished: demo_MIT2SOFA'); disp('      ');
 
 %% demo_SCUT2SOFA
 disp('**************  demo_SCUT2SOFA  **************');
-warning('!!!!!  demo_SCUT2SOFA  needs a fix  !!!!!');
-% clear all;
-% demo_SCUT2SOFA;
-% disp('*** Finished: demo_SCUT2SOFA'); disp('      ');
+clear all;
+demo_SCUT2SOFA;
+disp('*** Finished: demo_SCUT2SOFA'); disp('      ');
 
 %% demo_SimpleFreeFieldHRIR2TF
 % Test convertions from SimpleFreeFieldHRIR to SimpleFreeFieldTF
@@ -196,6 +195,6 @@ disp('*** Finished: demo_SOFAvariables'); disp('      ');
 
 
 %% Prologue
-disp('############################################');
-disp('#########   COMPLETED ALL DEMOS   ##########');
-disp('############################################');
+disp('##############################################');
+disp('####   COMPLETED ALL DEMOS SUCCESSFULLY   ####');
+disp('##############################################');
