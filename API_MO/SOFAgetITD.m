@@ -1,4 +1,4 @@
-function itd = SOFAgetITD(Obj, varargin)
+function [itd, Obj] = SOFAgetITD(Obj, varargin)
 % Calculates Interaural Time Difference (ITD) via the threshold method 
 %   Usage:           itd = sofaGetITD(Obj, 'time', 'threshold', 10)
 %
@@ -7,9 +7,9 @@ function itd = SOFAgetITD(Obj, varargin)
 %
 %   Output arguments:
 %     itd:           Interaural time difference.
-
+%     Obj:           Input object with Obj.Data.Delay filled
 %   `SOFAgetITD` accepts the following key-value pairs:
-%     'threshold',t  Threshold value bellow the IR peak that defines 
+%     'thr',t        Threshold value bellow the IR peak that defines 
 %                    the IR onset. (ISO 3382) -- (Default: -10dB).
 
 %   `SOFAgetITD` accepts the following flags:
@@ -24,29 +24,35 @@ function itd = SOFAgetITD(Obj, varargin)
 
 % Author: Davi R. Carvalho, 2021/02/07
 
-%% Check Input
-definput.keyvals.threshold = 10;  % dB
-definput.flags.units = {'samples','time'};
-[flags,kv]=SOFAarghelper({'threshold'},definput,varargin);
+%% Parameters
+definput.keyvals.thr = 20;  % dB
+definput.flags.units = {'time', 'samples'};
+[flags,kv]=SOFAarghelper({'thr'},definput,varargin);
+
 
 %% Get ITD 
 itd = zeros(length(Obj.SourcePosition), 1);
+delay = zeros(length(Obj.SourcePosition), 2);
 IR = shiftdim(Obj.Data.IR, 2);
+
 for k = 1:size(IR, 2)
     A = IR(:,k,1); % L
     B = IR(:,k,2); % R    
      % Get onset 
-    OnSetL = IR_start(A, kv.threshold);
-    OnSetR = IR_start(B, kv.threshold);        
+    OnSetL = IR_start(A, kv.thr);
+    OnSetR = IR_start(B, kv.thr);        
      % Onset difference
     itd(k) = abs(OnSetL - OnSetR);
+    delay(k,:) = [OnSetL, OnSetR];
 end
 
-%% Output Units
+%% Output 
 switch flags.units
     case 'time'
-        itd = (itd./Obj.Data.SamplingRate);
+        itd = itd./Obj.Data.SamplingRate;
+        delay = delay./Obj.Data.SamplingRate;
 end
+Obj = SOFAaddVariable(Obj,'Data.Delay','MR',delay);
 end
 
 function sampleStart = IR_start(IR,threshold)
