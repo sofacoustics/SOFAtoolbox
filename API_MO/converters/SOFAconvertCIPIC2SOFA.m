@@ -31,7 +31,7 @@ for aa=1:length(lat1)
 	for ee=1:length(pol1)
 		Obj.Data.IR(ii,1,:)=CIPIC.hrir_l(aa,ee,:);
 		Obj.Data.IR(ii,2,:)=CIPIC.hrir_r(aa,ee,:);
-		[azi,ele]=hor2sph(lat(ii),pol(ii));
+		[azi,ele]=hor2sph(-lat(ii),pol(ii));
       % SimpleFreeFieldHRIR 0.2
         % 		Obj.ListenerRotation(ii,:)=[azi ele 0];
       % SimpleFreeFieldHRIR 0.3
