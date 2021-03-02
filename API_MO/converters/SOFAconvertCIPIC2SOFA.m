@@ -3,10 +3,10 @@ function Obj=SOFAconvertCIPIC2SOFA(CIPIC)
 % (see CIPIC HRTF format) to a SOFA object.
 %
 
-% Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
-% Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences;
+% Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
-% You may obtain a copy of the License at: http://joinup.ec.europa.eu/software/page/eupl
+% You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
@@ -31,7 +31,7 @@ for aa=1:length(lat1)
 	for ee=1:length(pol1)
 		Obj.Data.IR(ii,1,:)=CIPIC.hrir_l(aa,ee,:);
 		Obj.Data.IR(ii,2,:)=CIPIC.hrir_r(aa,ee,:);
-		[azi,ele]=hor2sph(lat(ii),pol(ii));
+		[azi,ele]=hor2sph(-lat(ii),pol(ii));
       % SimpleFreeFieldHRIR 0.2
         % 		Obj.ListenerRotation(ii,:)=[azi ele 0];
       % SimpleFreeFieldHRIR 0.3
