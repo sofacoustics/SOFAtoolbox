@@ -3,6 +3,10 @@
 %   output = SOFAconvertCoordinates(input,input_type,output_type,input_unit,
 %   output_unit), converts the specified coordinate variable to specified
 %   output_type and returns the results.
+% 
+% last update: 08.03.2021 by miho: type horizontal-polar removed (not
+% defined in SOFA)
+% 
 
 % SOFA API - function SOFAconvertCoordinates
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
@@ -15,14 +19,14 @@
 %% check input
 if strcmp(input_type,'cartesian')==0 && ...
         strcmp(input_type,'spherical')==0 && ...
-        strcmp(input_type,'geodesic')==0 && ...
-        strcmp(input_type,'horizontal-polar')==0
+        strcmp(input_type,'geodesic')==0 % && ...
+%         strcmp(input_type,'horizontal-polar')==0
     error('Specified "input_type" is not supported');
 end
 if strcmp(output_type,'cartesian')==0 && ...
         strcmp(output_type,'spherical')==0 && ...
-        strcmp(output_type,'geodesic')==0 && ...
-        strcmp(output_type,'horizontal-polar')==0
+        strcmp(output_type,'geodesic')==0 % && ...
+%         strcmp(output_type,'horizontal-polar')==0
     error('Specified "output_type" is not supported');
 end
 
@@ -35,9 +39,9 @@ if strcmp(output_type,input_type)==0
             %do nothing
         case {'spherical','geodesic'}
             [temp(:,1),temp(:,2),temp(:,3)]=sph2cart(deg2rad(input(:,1)),deg2rad(input(:,2)),input(:,3));
-        case 'horizontal-polar'
-            [temp(:,1),temp(:,3),temp(:,2)]=sph2cart(deg2rad(input(:,2)),deg2rad(input(:,1)),input(:,3));
-            temp(:,2)=-temp(:,2);
+%         case 'horizontal-polar'
+%             [temp(:,1),temp(:,3),temp(:,2)]=sph2cart(deg2rad(input(:,2)),deg2rad(input(:,1)),input(:,3));
+%             temp(:,2)=-temp(:,2);
     end
 
     output=temp;
@@ -47,13 +51,13 @@ if strcmp(output_type,input_type)==0
         case {'spherical','geodesic'}
             [output(:,1),output(:,2),output(:,3)]=cart2sph(temp(:,1),temp(:,2),temp(:,3));
             output(:,1:2)=rad2deg(output(:,1:2));
-        case 'horizontal-polar'
-%             [output(:,2),output(:,1),output(:,3)]=cart2sph(temp(:,1),temp(:,3),-temp(:,2));
-%             output(:,1:2)=rad2deg(output(:,1:2));
-%             output(:,1)=-output(:,1);
-%             output(:,2)= mod(output(:,2)+90,360)-90;
-        [output(:,1),output(:,2),output(:,3)]=cart2sph(temp(:,1),temp(:,3),-temp(:,2));
-        [output(:,1),output(:,2)]=sph2hor(output(:,1),output(:,2));
+%         case 'horizontal-polar'
+% %             [output(:,2),output(:,1),output(:,3)]=cart2sph(temp(:,1),temp(:,3),-temp(:,2));
+% %             output(:,1:2)=rad2deg(output(:,1:2));
+% %             output(:,1)=-output(:,1);
+% %             output(:,2)= mod(output(:,2)+90,360)-90;
+%         [output(:,1),output(:,2),output(:,3)]=cart2sph(temp(:,1),temp(:,3),-temp(:,2));
+%         [output(:,1),output(:,2)]=sph2hor(output(:,1),output(:,2));
     end
 end
 
