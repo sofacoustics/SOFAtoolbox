@@ -119,8 +119,8 @@ elseif flags.do_data
         else
             Obj = NETCDFload(newfn,pDimRange,pDims);
         end
-    catch 
-        error(['Error loading the file: ' newfn]);
+    catch me
+        error(['Error loading the file: ' newfn 13 me.message]);
     end
 end
 
