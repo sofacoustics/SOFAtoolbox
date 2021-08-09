@@ -16,7 +16,7 @@ Obj=SOFAload(SOFAfile);
 
 %% Low frequency extension 
 fmin = 15;
-fmax = 400;
+fmax = 500;
 Obj_lfe = SOFAlfe(Obj, fmin, fmax);
 
 
@@ -38,7 +38,7 @@ freq_lfe = (0:N_lfe/2-1)*fs/N_lfe;
 
 %% PLOTS
 ch = 1; % ear
-pos = 10;   % position index
+pos = 100;   % position index
 
 %%% Plot time 
 figure()

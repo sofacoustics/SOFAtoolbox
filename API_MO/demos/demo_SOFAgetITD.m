@@ -17,7 +17,7 @@ SOFAfn=fullfile(SOFAdbPath, 'database', 'cipic', ['subject_' sprintf('%03d',subj
 Obj=SOFAload(SOFAfn, 'nochecks');
 
 %% Calculate Interaural time delay
-[itd_time, Obj_time] = SOFAgetITD(Obj, 'time', 'thr', 20);
+[itd_time, Obj_time] = SOFAgetITD(Obj, 'time', 'thr', 20, 'upsample', 16);
 [itd_samples, Obj_samples] = SOFAgetITD(Obj, 'samples', 'thr', 20);
 
 %% Plot results
