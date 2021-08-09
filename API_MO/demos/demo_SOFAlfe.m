@@ -68,7 +68,11 @@ axis tight
 % semilogx(angle(fft(y)))
 % title('phase')
 
-
+%% 
+figure
+SOFAplotHRTF(Obj,'maghorizontal');
+figure
+SOFAplotHRTF(Obj_lfe,'maghorizontal');
 
 
 
