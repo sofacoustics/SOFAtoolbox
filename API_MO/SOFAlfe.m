@@ -54,30 +54,47 @@ else
 end
 f500Hz = dsearchn(freq_vec_ext.', fmax); % idx at defined linear part of HRTFs
 
+[~, Obj] = SOFAgetITD(Obj, 'samples');
 
 %% extrap low frequency
 ir_interp = zeros(size(IR, 2), size(IR, 3), N_ext);
 for k = 1:size(IR, 2)
     for l = 1:size(IR, 3)
         time = [IR(:,k,l); zeros(ceil(N_ext - N), 1)];
-        mag = fft(time);
+        mag = db(abs(fft(time)));
         mag_interp = mag;
         
         % interp 
-        x = [freq_vec_ext(2),    freq_vec_ext(f500Hz:f500Hz+1)];
+        x = [freq_vec_ext(2),    freq_vec_ext(f500Hz)];
         xq = freq_vec_ext(2:f500Hz);
-        y_mag = [mag(f500Hz); mag(f500Hz:f500Hz+1)];
+        y_mag = [mag(f500Hz); mag(f500Hz)];
         mag_interp(2:f500Hz) = interp1(x, y_mag, xq, 'makima');
-
+        mag_interp = 10.^(mag_interp./20);
+        H = mag_interp(1:round(N_ext/2));
+        
         % back to time domain
-        ir_interp(k,l,:) = real(ifft(mag_interp, N_ext, 'symmetric'));
+        ir_interp(k,l,:) = circshift(real(ifft(get_min_phase(abs(H)))),...
+                                                      Obj.Data.Delay(k,l));
     end
 end
 
 
 %% OUTPUT
 Obj_lfe = Obj;
-% "Normalize"
-ir_interp = ir_interp./max(abs(ir_interp(:))) .* max(abs(IR(:)));
+% ir_interp = ir_interp./max(abs(ir_interp(:))) .* max(abs(IR(:)));
 Obj_lfe.Data.IR = ir_interp;
+end
+
+
+
+
+function Hmin = get_min_phase(H, varargin)
+% Calculate minimum-phase spectrum from magnitude via the Hilbert Transform
+%% Preprocess
+H = [H; flip(H)]; % back to double sided spectrum
+
+%% Get minimum_phase
+phi_min = imag(hilbert(-(log(abs(H)+eps)))); % eps makes avoids log(0) = -inf
+% Filtro inverso complexo (cria fase)
+Hmin = abs(H).*exp(1i*(phi_min));
 end
