@@ -11,6 +11,8 @@ function [itd, Obj] = SOFAgetITD(Obj, varargin)
 %   `SOFAgetITD` accepts the following key-value pairs:
 %     'thr',t        Threshold value bellow the IR peak that defines 
 %                    the IR onset. (ISO 3382) -- (Default: -10dB).
+%     'upsample',v   For output in seconds, the HRIRs are resampled to 
+%                    (v) times the original Fs (Default: 16x).
 
 %   `SOFAgetITD` accepts the following flags:
 %     'time'         Output is given in with time as unit. (Default).
@@ -26,15 +28,24 @@ function [itd, Obj] = SOFAgetITD(Obj, varargin)
 
 %% Parameters
 definput.keyvals.thr = 20;  % dB
+definput.keyvals.upsample = 16;  % dB
 definput.flags.units = {'time', 'samples'};
-[flags,kv]=SOFAarghelper({'thr'},definput,varargin);
+[flags,kv]=SOFAarghelper({'thr', 'upsample'},definput,varargin);
 
-
-%% Get ITD 
+%% pre-config
 itd = zeros(length(Obj.SourcePosition), 1);
 delay = zeros(length(Obj.SourcePosition), 2);
 IR = shiftdim(Obj.Data.IR, 2);
 
+%% Upsample
+if strcmpi(flags.units, 'time')
+    fs = Obj.Data.SamplingRate;
+    fs_up = fs*kv.upsample;
+    Obj_upsample = sofaResample(Obj, fs_up);
+    IR = shiftdim(Obj_upsample.Data.IR, 2);
+end
+
+%% get ITD
 for k = 1:size(IR, 2)
     A = IR(:,k,1); % L
     B = IR(:,k,2); % R    
@@ -49,12 +60,13 @@ end
 %% Output 
 switch flags.units
     case 'time'
-        itd = itd./Obj.Data.SamplingRate;
-        delay = delay./Obj.Data.SamplingRate;
+        itd = itd./fs_up;
+        delay = delay./fs_up;
 end
 Obj = SOFAaddVariable(Obj,'Data.Delay','MR',delay);
 end
 
+%% INTERNAL FUNCTIONS -----------------------------------------------------
 function sampleStart = IR_start(IR,threshold)
     % 20210207 - Davi Carvalho, adapted from ita_start_IR.m from https://git.rwth-aachen.de/ita/toolbox/-/blob/master/kernel/DSP/ita_start_IR.m
     threshold = -abs(threshold);
@@ -79,5 +91,60 @@ function sampleStart = IR_start(IR,threshold)
         else
             sampleStart = tmp;
          end
+    end
+end
+
+
+
+function Obj = sofaResample(Obj, Fs)
+% Change apparent resolution of HRIR in the SOFA object
+% Davi R. Carvalho @UFSM - Engenharia Acustica - Junho/2021
+%   Input Parameters:
+%    Obj:        SimpleFreeFieldHRIR
+%    Fs:         Target sample rate
+%   Output Parameters:
+%     Obj:   SOFA object with the target sampling frequency.
+% 
+% Matlab R2021a
+%% Check if upsampling is necessary first
+Fs_sofa = Obj.Data.SamplingRate;
+IR = resample_this(Obj.Data.IR, Fs_sofa, Fs);
+
+%% Output
+Obj.Data.IR = IR;
+% update sampling rate
+Obj.Data.SamplingRate = Fs;
+Obj = SOFAupdateDimensions(Obj);
+end
+
+%--------------------------------------------------------------------------
+function IR = resample_this(X, Fs_in, Fs_out)
+    [p,q] = rat(Fs_out / Fs_in, 0.0001);
+    normFc = .965 / max(p,q);
+    order = 256 * max(p,q);
+    beta = 12;
+    %%% Cria um filtro via Least-square linear-phase FIR filter design
+    lpFilt = firls(order, [0 normFc normFc 1],[1 1 0 0]);
+    lpFilt = lpFilt .* kaiser(order+1,beta)';
+    lpFilt = lpFilt / sum(lpFilt);
+    lpFilt = p * lpFilt;
+
+    % Initializar matriz
+    N_pos = size(X, 1);
+    N_ch = size(X, 2);
+    N_samples = ceil((Fs_out/Fs_in) * size(X, 3)); % length after resample
+    IR=zeros(N_pos, N_ch, N_samples);
+
+    % Actual Resample
+    for k = 1:N_pos
+        for l = 1:N_ch
+            IR(k, l, :) = resample(X(k,l,:), p, q, lpFilt);
+        end 
+    end
+    IR = IR.* q/p; % check scaling
+
+    % make sure signal length is not odd
+    if rem(size(IR,3), 2) ~= 0
+       IR(:,:,end) = []; 
     end
 end
