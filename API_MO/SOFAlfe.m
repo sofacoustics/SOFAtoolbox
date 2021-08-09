@@ -16,13 +16,7 @@ function Obj_lfe = SOFAlfe(Obj, fmin, fmax)
 %   Output arguments:
 %     Obj:           SOFA object with 
 
-%   `SOFAgetITD` accepts the following flags:
-%     'time'         Output is given in with time as unit. (Default).
-%     'samples'      Output is given in samples.
-
-
 % Author: Davi R. Carvalho, 2021/04/07 @UFSM - Acoustical Engineering
-
 
 %% parse inputs
 if nargin < 3
