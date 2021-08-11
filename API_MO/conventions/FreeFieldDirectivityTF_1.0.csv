@@ -51,9 +51,9 @@ SourceUp:Reference		m		attribute	Narrative description of the spatial reference 
 EmitterPosition	[0 0 0]	m	IC, MC	double	A more detailed structure of the Source. In a simple settings, a single Emitter is considered that is collocated with the source.
 EmitterPosition:Type	cartesian	m		attribute
 EmitterPosition:Units	metre	m		attribute
-EmitterDescription			IS, MS	attribute	A more detailed structure of the source. In a simple setting, a single Emitter is considered that is collocated with the source. In a more complicated setting, this may be the strings of a violin or the units of a loudspeaker.
+EmitterDescription			IS, MS	string	A more detailed structure of the source. In a simple setting, a single Emitter is considered that is collocated with the source. In a more complicated setting, this may be the strings of a violin or the units of a loudspeaker.
 MIDINote	0		I, M	double	Defines the note played by the source during the measurement. The note is specified a MIDI note by the [https://www.midi.org/specifications-old/item/the-midi-1-0-specification MIDI specifications, version 1.0]. Not mandatory, but recommended for tonal instruments.
-Description			MS	attribute	This variable is used when the description varies with M.
+Description			MS	string	This variable is used when the description varies with M.
 SourceTuningFrequency	440		I, M	double	Frequency (in Hertz) to which a musical instrument is tuned to corresponding to the note A4 (MIDINote=69). Recommended for tonal instruments.
 Data.Real	0	m	mrn	double	Real part of the complex spectrum. The default value 0 indicates that all data fields are initialized with zero values.
 Data.Imag	0	m	MRN	double	Imaginary part of the complex spectrum
