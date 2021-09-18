@@ -59,4 +59,4 @@ Data.Real	0	m	mrn	double	Real part of the complex spectrum. The default value 0 
 Data.Imag	0	m	MRN	double	Imaginary part of the complex spectrum
 N	0	m	N	double	Frequency values
 N:LongName	frequency	m		attribute
-N:Units	Hertz	m		attribute	Units used for N
+N:Units	hertz	m		attribute	Units used for N
