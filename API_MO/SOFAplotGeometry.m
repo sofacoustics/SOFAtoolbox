@@ -80,6 +80,7 @@ switch Obj.GLOBAL_SOFAConventions
         % ListenerPosition
         RP = shiftdim(RP,2);
         RP = squeeze(RP(1,:,:));
+        RP = reshape(RP,[size(Obj.ReceiverPosition,1), Obj.API.C]); % if only one receiver used
     end
     legendEntries(end+1) = plot3(LP(1,1)+RP(1,1), LP(1,2)+RP(1,2), LP(1,3)+RP(1,3),'rx');
     for ii=2:size(RP,1)
