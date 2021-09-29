@@ -183,7 +183,7 @@ switch lower(type)
         if flags.do_normalize
           M=M-max(max(M)); % normalize
         end
-
+        M(M<noisefloor)=noisefloor;
         [azi,i]=sort(pos(:,1));
         M=M(i,:);
 %         figure; 
@@ -227,7 +227,7 @@ switch lower(type)
         if flags.do_normalize
           M=M-max(max(M)); % normalize
         end
-
+        M(M<noisefloor)=noisefloor;
         [ele,i]=sort(pos(:,2));
         M=M(i,:);
 %         figure; 
@@ -266,7 +266,7 @@ switch lower(type)
         if flags.do_normalize
           M=M-max(max(M)); % normalize
         end
-
+        M(M<noisefloor)=noisefloor;
         [ele,i]=sort(pos(:,2));
         M=M(i,:);
         h=surface(Obj.N',ele,M(:,:));
