@@ -50,6 +50,8 @@
 	- HRTFs\TU-Berlin KEMAR\readme.txt
 - FreeFieldDirectivityTF_1.0.csv: Dimension of ReceiverPosition and EmitterDescription fixed
 - SOFAconvertCoordinates.m: type horizontal-polar removed (not (properly) defined in SOFA)
+- SOFAplotHRTF: 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain. Default: 1.
+- SOFAarghelper: minor bugs fixed
 
 
 *** v1.1.2
