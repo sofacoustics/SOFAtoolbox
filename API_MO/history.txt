@@ -54,6 +54,7 @@
 - SOFAarghelper: minor bugs fixed (changes FB)
 - Conventions: several bugs fixed; non-ASCII quotes replaced by ' (changes FB)
 - .gitignore added (changes FB)
+- Conventions FreeFieldHRIR_1.0.csv added
 
 
 *** v1.1.2
