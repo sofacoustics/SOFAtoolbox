@@ -61,16 +61,21 @@ for convention = conventions
       C_lines = textscan(fid,'%s','Delimiter','\n','Headerlines',1);
       C_line = C_lines{1}{1};
       C_elems = cell(length(C_lines{1}),1);
+      C_maxcols = 2;
       for line_nr = 1:length(C_lines{1})
         C_line = C_lines{1}{line_nr};
         C_elems{line_nr} = strsplit(C_line, '\t', 'collapsedelimiters', false); 
+        C_maxcols = max(C_maxcols, length(C_elems{line_nr}));
       end
-      C = cell(1,length(C_elems{1}));
-      for col_nr = 1:length(C_elems{1})
+      % C = cell(1,length(C_elems{1}));
+      C = cell(1,C_maxcols);
+      for col_nr = 1:C_maxcols
+      % for col_nr = 1:length(C_elems{1})        
         C{col_nr} = cell(length(C_lines{1}),1); 
       end
       for line_nr = 1:length(C_lines{1})
-        for col_nr = 1:length(C_elems{1})
+        for col_nr = 1:length(C_elems{line_nr}) 
+        % for col_nr = 1:length(C_elems{1})  
           C{col_nr}{line_nr} = C_elems{line_nr}{col_nr}; 
         end
       end

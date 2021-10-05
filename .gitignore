@@ -1,3 +1,8 @@
 # compiled convention files
-API_MO/conventions/*.mat
-API_MO/conventions/*.txt
+/API_MO/conventions/*.mat
+/API_MO/conventions/*.txt
+# test files for demos
+/HRTFs/ARI/*/*.mat
+/HRTFs/BTDEI/*/*/*/*/*/*.mat
+/HRTFs/BTDEI/*/headphones_info.mat
+/HRTFs/SOFA/sofa_api_mo_test/*.sofa
