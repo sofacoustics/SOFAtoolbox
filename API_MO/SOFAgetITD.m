@@ -138,7 +138,7 @@ function IR = resample_this(X, Fs_in, Fs_out)
     % Actual Resample
     for k = 1:N_pos
         for l = 1:N_ch
-            IR(k, l, :) = resample(X(k,l,:), p, q, lpFilt);
+            IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q, lpFilt);
         end 
     end
     IR = IR.* q/p; % check scaling
