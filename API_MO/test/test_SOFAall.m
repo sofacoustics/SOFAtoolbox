@@ -115,6 +115,17 @@ radius=[0.5 1 2 3];
 demo_TUBerlin2SOFA;
 disp('*** Finished: demo_TUBerlin2SOFA'); disp('      ');
 
+%% demo_SOFAcalculateITD
+disp('**************  demo_SOFAcalculateITD  **************');
+clear all;
+demo_SOFAcalculateITD;
+disp('*** Finished: demo_SOFAcalculateITD'); disp('      ');
+
+%% demo_SOFAcalculateLFE
+disp('**************  demo_SOFAcalculateLFE  **************');
+clear all;
+demo_SOFAcalculateLFE;
+disp('*** Finished: demo_SOFAcalculateLFE'); disp('      ');
 
 %% Test converters FROM SOFA
 disp('############################################');
