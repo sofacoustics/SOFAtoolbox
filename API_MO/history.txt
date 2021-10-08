@@ -51,9 +51,17 @@
 - FreeFieldDirectivityTF_1.0.csv: Dimension of ReceiverPosition and EmitterDescription fixed
 - SOFAconvertCoordinates.m: type horizontal-polar removed (not (properly) defined in SOFA)
 - SOFAplotHRTF: 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain. Default: 1.
+- SOFAplotHRTF: type 'ITDhorizontal' added (changes DC)
 - SOFAarghelper: minor bugs fixed (changes FB)
 - Conventions: several bugs fixed; non-ASCII quotes replaced by ' (changes FB)
-- .gitignore added (changes FB)
+- .gitignore added
+- Conventions FreeFieldHRIR_1.0.csv added
+- SOFAcompileConventions: Bug fixed when running in Octave
+- demo_BTDEI2SOFA.m: Minor bug fixed in error message text
+- SOFAcalculateITD.m added (adapted from AMT)
+- SOFAcalculateLFE.m added (by DC)
+- demo_SOFAcalculateITD.m, demo_SOFAcalculateLFE.m added (by DC)
+- test_SOFAall.m adapted by adding: demo_SOFAcalculateITD, demo_SOFAcalculateLFE
 
 
 *** v1.1.2

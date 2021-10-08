@@ -46,7 +46,7 @@ try
     BTDEI.specs = container.specs; 
     BTDEI.data  = container.data; 
 catch e
-	error(['Convertion - Error message: ' e.message]);
+	error(['Load BTDEI file - Error message: ' e.message]);
 end
 
 BTDEI.type    = BTDEIfold;
