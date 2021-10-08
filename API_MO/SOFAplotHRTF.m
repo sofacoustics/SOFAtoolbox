@@ -7,6 +7,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %  'MagMedian'      magnitude spectra in the median plane (+/- THR)
 %  'MagSpectrum'    single magnitude spectrum for direction(s) DIR in COLOR
 %  'MagSagittal'    magnitude spectra in a sagittal plane specified by OFFSET +/- THR
+%  'ITDhorizontal'  interaural time delay in the horizontal plane
 %
 %  More options are available by SOFAplotHRTF(Obj,type,parameter,value)
 %
@@ -393,6 +394,28 @@ switch lower(type)
     xlabel('Frequency (Hz)');
     ylim([max(max(M))+noisefloor-10 max(max(M))+10]);
     
+    % Interaural time delay in the horizontal plane
+    case 'itdhorizontal'
+      [itd, ~] = SOFAgetITD(Obj, 'time');
+      pos = Obj.SourcePosition;
+      idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
+      itd = itd(idx);
+      [pos, idx_sort] = sort(pos(idx,1));
+      itd = itd(idx_sort);
+      angles = deg2rad(pos);   
+      %figure('Renderer', 'painters', 'Position', [10 10 700 450]);     
+      polarplot(angles, itd, 'linewidth', 1.2);
+      ax = gca;
+      ax.ThetaDir = 'counterclockwise'; 
+      ax.ThetaZeroLocation = 'top';
+      rticks([max(itd)*2/3, max(itd)]); 
+      rticklabels({[num2str(round(max(itd)*2/3*1e6,1)) ' ' char(181) 's'],...
+                     [num2str(round(max(itd)*1e6,1)) ' ' char(181) 's']});
+      thetaticks(0:30:330)
+      thetaticklabels({'0°', '30°', '60°', '90°', '120°', '150°', '180°', ...
+                      '210°', '240°','270°', '300°', '330°'});
+      grid on;
+      
   otherwise
     error([type , ' no supported plotting type.'])
 end
