@@ -41,4 +41,3 @@ Data.SOS	permute([0 0 0 1 0 0; 0 0 0 1 0 0], [3 1 2]);	m	mRn	double	Filter coeff
 Data.SamplingRate	48000	m	I	double	Sampling rate of the coefficients in Data.SOS and the delay in Data.Delay
 Data.SamplingRate:Units	hertz	m		attribute
 Data.Delay	[0 0]	m	IR, MR	double	Broadband delay (in samples resulting from SamplingRate)
-N	6	m	I	double	Total number of SOS coefficients. Shall be greater or equal six and in integer multiple of 6
