@@ -62,6 +62,9 @@
 - SOFAcalculateLFE.m added (by DC)
 - demo_SOFAcalculateITD.m, demo_SOFAcalculateLFE.m added (by DC)
 - test_SOFAall.m adapted by adding: demo_SOFAcalculateITD, demo_SOFAcalculateLFE
+- SOFAinfo: showing all global mandatory fields now, plus some more for SimpleFreeFieldHRIR
+- demoPlaySound.m added
+- Readme.md: Example fixed (demoPlaySound.m)
 
 
 *** v1.1.2

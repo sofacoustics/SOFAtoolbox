@@ -1,5 +1,6 @@
 function SOFAinfo(Obj)
-% SOFAinfo(Obj) gathers information about the SOFA object and display it.
+% SOFAinfo(Obj) gathers (mandatory) information about the SOFA object and
+% display it. For SimpleFreeFieldHRIR some more details are displayed.
 
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -9,80 +10,75 @@ function SOFAinfo(Obj)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 
-% Gather information about the SOFA file and display them
+%% Global fields
+
+disp('### SOFAinfo: ###')
+disp([Obj.GLOBAL_Conventions ' ' Obj.GLOBAL_Version])
+disp(['Conventions: ' Obj.GLOBAL_SOFAConventions ' ' Obj.GLOBAL_SOFAConventionsVersion])
+disp(['API:         ' Obj.GLOBAL_APIName ' ' Obj.GLOBAL_APIVersion])
+disp(['Data Type:   ' Obj.GLOBAL_DataType])
+disp(['Room Type:   ' Obj.GLOBAL_RoomType])
+disp(['Date Created:   ' Obj.GLOBAL_DateCreated])
+disp(['Date Modified:  ' Obj.GLOBAL_DateModified])
+disp(['Author Contact: ' Obj.GLOBAL_AuthorContact])
+disp(['Organization:   ' Obj.GLOBAL_Organization])
+disp(['License:     ' Obj.GLOBAL_License])
+disp(['Title:       ' Obj.GLOBAL_Title])
 
 
+%% Conventions dependant fields
 
 switch Obj.GLOBAL_SOFAConventions
-%%
+
   case 'SimpleFreeFieldHRIR'
-    fprintf('\n');
-    fprintf('%s\n',Obj.GLOBAL_Title);
-    fprintf('%s\n',repmat('=',1,length(Obj.GLOBAL_Title)));
-    fprintf('\n');
-    fprintf('Anechoic HRTF mesurement done by %s.\n',Obj.GLOBAL_Organization);
-    fprintf('\n');
-    fprintf('Contact: %s\n',Obj.GLOBAL_AuthorContact);
-    fprintf('License: %s\n',Obj.GLOBAL_License);
-    fprintf('URL: %s\n',Obj.GLOBAL_Origin);
-    fprintf('Reference: %s\n',Obj.GLOBAL_References);
-    fprintf('\n');
-    fprintf('Measurement details:\n');
-    fprintf('--------------------\n');
-    fprintf('Number of azimuth angles:   % 5.0f\n',length(unique(Obj.SourcePosition(:,1))));
-    fprintf('Number of elevation angles: % 5.0f\n',length(unique(Obj.SourcePosition(:,2))));
-    fprintf('Number of radii:            % 5.0f\n',length(unique(Obj.SourcePosition(:,3))));
-    if isfield(Obj.Data,'SamplingRate')
-        fprintf('Sampling Rate: %.0f %s\n',Obj.Data.SamplingRate,Obj.Data.SamplingRate_Units);
-    end
-    fprintf('Dummy head: %s\n',Obj.GLOBAL_ListenerShortName);
-    fprintf('Loudspeaker: %s\n',Obj.GLOBAL_SourceDescription);
+disp(['Datebase Name:  ' Obj.GLOBAL_DatabaseName])
+      disp(' ')
+      disp(['Measurement details (' Obj.GLOBAL_SOFAConventions '):']);
+      disp('--------------------');
+      disp(['Number of azimuth angles:   ' num2str(length(unique(Obj.SourcePosition(:,1))))]);
+      disp(['Number of elevation angles: ' num2str(length(unique(Obj.SourcePosition(:,2))))]);
+      disp(['Number of radii:            ' num2str(length(unique(Obj.SourcePosition(:,3))))]);
+      if isfield(Obj.Data,'SamplingRate')
+          disp(['Sampling Rate: ' num2str(Obj.Data.SamplingRate) ' ' Obj.Data.SamplingRate_Units])
+        
+      end
+      disp(['Listener Short Name: ' Obj.GLOBAL_ListenerShortName])
+
     if size(Obj.ListenerPosition,1)==1
-        fprintf('Listener at (%.1f,%.1f,%.1f) %s\n', ...
-            Obj.ListenerPosition,Obj.ListenerPosition_Units);
+        disp(['Listener Position: ', num2str(Obj.ListenerPosition) ' ' Obj.ListenerPosition_Units]);
     else
-        fprintf(['%.0f listener positions from (%.1f,%.1f,%.1f) %s ', ...
-            'to (%.1f,%.1f,%.1f) %s\n'],size(Obj.ListenerPosition,1), ...
-            Obj.ListenerPosition(1,:),Obj.ListenerPosition_Units, ...
-            Obj.ListenerPosition(end,:),Obj.ListenerPosition_Units);
+        disp([num2str(size(Obj.ListenerPosition,1)) ' Listener Positions']); 
+        disp(['   from ' num2str(Obj.ListenerPosition(1,:)) ' [' Obj.ListenerPosition_Units ']']); 
+        disp(['   to   ' num2str(Obj.ListenerPosition(end,:)) ' [' Obj.ListenerPosition_Units ']']);
     end
+
+    if size(Obj.ListenerView,1)==1
+        disp(['Listener View:     ', num2str(Obj.ListenerView) ' ' Obj.ListenerView_Units]);
+    else
+        disp([num2str(size(Obj.ListenerPosition,1)) ' Listener Views']); 
+        disp(['   from ' num2str(Obj.ListenerView(1,:)) ' [' Obj.ListenerView_Units ']']); 
+        disp(['   to   ' num2str(Obj.ListenerView(end,:)) ' [' Obj.ListenerView_Units ']']);
+    end    
+
+    if size(Obj.ReceiverPosition,1)==1
+        disp(['Receiver Position: ', num2str(Obj.ReceiverPosition) ' ' Obj.ReceiverPosition_Units]);
+    else
+        disp([num2str(size(Obj.ReceiverPosition,1)) ' Receiver Positions']); 
+        disp(['   from ' num2str(Obj.ReceiverPosition(1,:)) ' [' Obj.ReceiverPosition_Units ']']); 
+        disp(['   to   ' num2str(Obj.ReceiverPosition(end,:)) ' [' Obj.ReceiverPosition_Units ']']);
+    end
+    disp(['Receiver Position Type: ' Obj.ReceiverPosition_Type])
+
     if size(Obj.SourcePosition,1)==1
-        fprintf('Source at (%.1f,%.1f,%.1f) %s\n', ...
-            Obj.SourcePosition,Obj.SourcePosition_Units);
+        disp(['Source Position:   ', num2str(Obj.SourcePosition) ' ' Obj.SourcePosition_Units]);
     else
-        fprintf(['%.0f source positions from (%.1f,%.1f,%.1f) %s ', ...
-            'to (%.1f,%.1f,%.1f) %s\n'],size(Obj.SourcePosition,1), ...
-            Obj.SourcePosition(1,:),Obj.SourcePosition_Units, ...
-            Obj.SourcePosition(end,:),Obj.SourcePosition_Units);
+        disp([num2str(size(Obj.SourcePosition,1)) ' Source Positions']); 
+        disp(['   from ' num2str(Obj.SourcePosition(1,:)) ' [' Obj.SourcePosition_Units ']']); 
+        disp(['   to   ' num2str(Obj.SourcePosition(end,:)) ' [' Obj.SourcePosition_Units ']']);
     end
-    fprintf('\n');
-   
-%%    
+    disp(['Source Position Type: '   Obj.SourcePosition_Type])
   otherwise
-    fprintf('\n');
-    fprintf('%s\n',Obj.GLOBAL_Title);
-    fprintf('%s\n',repmat('=',1,length(Obj.GLOBAL_Title)));
-    fprintf('\n');
-    fprintf('Mesurement done by %s.\n',Obj.GLOBAL_Organization);
-    fprintf('\n');
-    fprintf('Contact: %s\n',Obj.GLOBAL_AuthorContact);
-    fprintf('License: %s\n',Obj.GLOBAL_License);
-    fprintf('URL: %s\n',Obj.GLOBAL_Origin);
-    fprintf('Reference: %s\n',Obj.GLOBAL_References);
-    fprintf('\n');
-    fprintf('Measurement details:\n');
-    fprintf('--------------------\n');
-    fprintf('SOFA Convention: %s\n',Obj.GLOBAL_SOFAConventions);
-    fprintf('Listener: %s\n',Obj.GLOBAL_ListenerShortName);
-    fprintf('Source: %s\n',Obj.GLOBAL_SourceDescription);
-    fprintf('Number of source positions:   % 7.0f\n',size(unique(Obj.SourcePosition,'rows'),1));
-    fprintf('Number of source views:       % 7.0f\n',size(unique(Obj.SourceView,'rows'),1));
-    fprintf('Number of emitters:           % 7.0f\n',size(unique(Obj.EmitterPosition,'rows'),1));
-    fprintf('Number of listener positions: % 7.0f\n',size(unique(Obj.ListenerPosition,'rows'),1));
-    fprintf('Number of listener views:     % 7.0f\n',size(unique(Obj.ListenerView,'rows'),1));
-    fprintf('Number of receivers:          % 7.0f\n',size(unique(Obj.ReceiverPosition,'rows'),1));
-    if isfield(Obj.Data,'SamplingRate')
-        fprintf('Sampling Rate: %.0f %s\n',Obj.Data.SamplingRate,Obj.Data.SamplingRate_Units);
-    end
-    fprintf('\n');
- end
+    % fill with conventions and disp commands if you feel motivated
+end
+
+disp('###    end    ###')
