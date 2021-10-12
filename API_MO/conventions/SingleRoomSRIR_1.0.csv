@@ -62,6 +62,7 @@ Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
 Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples)
 RoomCornerA	[0 0 0]		IC, MC	double
 RoomCornerB	[1 2 3]		IC, MC	double
-RoomCorners:Type	cartesian			attribute
-RoomCorners:Units	metre			attribute
+RoomCorners	0		II	double	The value of this attribute is to be ignored. It only exist to for RoomCorners:Type and RoomCorners:Units
+RoomCorners:Type	cartesian			attribute	Type of coordinate system for RoomCornerA and RoomCornerB
+RoomCorners:Units	metre			attribute	Unit of coordinate system for RoomCornerA and RoomCornerB
 GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data.
