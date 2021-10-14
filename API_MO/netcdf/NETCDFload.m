@@ -15,6 +15,7 @@ function [Obj,Dims] = NETCDFload(filename,flags,varargin)
 %   the file as a string.
 
 % 10.8.2014: string array support. Works for 1D and 2D strings only.
+% 14.10.2021 by miho: 'deblank' command added when loading strings to avoid trailing empty spaces in size of array dimension
 % 
 % SOFA API - function netcdf/NETCDFload
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences

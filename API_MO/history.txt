@@ -67,6 +67,7 @@
 - Readme.md: Example fixed (demoPlaySound.m)
 - SOFAcompileConventions: '10' replaced by 'newline' in strings to avoid warnings in Octave
 - NETCDFload: 'deblank' command added when loading strings to avoid trailing empty spaces in size of array dimension
+
 *** v1.1.2
 - SOFAplotGeometry: bug fix if no SourceView given
 - FreeFieldDirectivityTF: missing eCM in EmitterPosition fixed
