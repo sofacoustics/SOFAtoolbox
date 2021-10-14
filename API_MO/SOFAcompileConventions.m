@@ -126,7 +126,7 @@ function Obj = compileConvention(convention,flag)
     for ii=1:length(convName)
         % Append 'a' to Flags entry as it only contains 'm' or 'r' in the csv file
         convFlags{ii} = strcat(convFlags{ii},'a');
-        if ~isempty(regexp(convFlags{ii},flag))
+        if ~isempty(regexp(convFlags{ii},flag, 'once'))
             var = regexprep(convName{ii},':','_');
             switch lower(convType{ii})
             case 'double'
@@ -139,14 +139,14 @@ function Obj = compileConvention(convention,flag)
                 Obj.(var) = convDefault{ii};
                 if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
                     x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
-                    y = regexprep(x2,',',['''' 10 '''']); % enclose in quotations and insert line breaks
+                    y = regexprep(x2,',',['''' newline '''']); % enclose in quotations and insert line breaks
                     Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
                 end
             else      
                 Obj.Data.(var(6:end)) = convDefault{ii};
                 if isempty(strfind(var(6:end),'_')) 
                     x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
-                    y = regexprep(x2,',',['''' 10 '''']); % enclose in quatations and insert line breaks
+                    y = regexprep(x2,',',['''' newline '''']); % enclose in quatations and insert line breaks
                     Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
                 end      
             end

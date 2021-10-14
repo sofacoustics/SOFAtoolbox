@@ -98,7 +98,7 @@ try
                         end
                     else % 1D string array
                         data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
-                        Obj.Data.(var(6:end))=cellstr(reshape(reshape(data,1,[]),size(data,2),[]));
+                        Obj.Data.(var(6:end))=deblank(cellstr(reshape(reshape(data,1,[]),size(data,2),[])));
                     end
                 elseif length(dim)>1
                     Obj.Data.(var(6:end))=permute(netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1)), length(dim):-1:1); 
@@ -124,7 +124,7 @@ try
                     end
                 else % 1D string array
                     data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
-                    Obj.(var)=cellstr(reshape(reshape(data,1,[]),size(data,2),[]));
+                    Obj.(var)=deblank(cellstr(reshape(reshape(data,1,[]),size(data,2),[])));
                 end
             elseif length(dim)>1
                 Obj.(var)=permute(data, length(dim):-1:1); 

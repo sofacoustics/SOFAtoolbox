@@ -114,7 +114,7 @@ fv=fieldnames(Dimensions);
         if iscell(Obj.(var))
           c=char(permute(Obj.(var),length(ids):-1:1));
           s=size(c);
-          ext=zeros([s(1:end-1) Obj.API.S-s(end)]);
+          ext=zeros([s(1:end-1) Obj.API.S-s(end)]); % array 'ext' causes warnings in Octave in next row; 'strings' command would work better than 'zeros' but it is not supported in Octave
           netcdf.putVar(ncid,varId(ii),[c ext]);
         else  
           netcdf.putVar(ncid,varId(ii),permute(Obj.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
@@ -144,7 +144,7 @@ fod=fieldnames(Obj.Data);
         if iscell(Obj.Data.(var))
           c=char(permute(Obj.Data.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
           s=size(c);
-          ext=zeros([s(1:end-1) Obj.API.S-s(end)]);
+          ext=zeros([s(1:end-1) Obj.API.S-s(end)]); % array 'ext' causes warnings in Octave in next row; 'strings' command would work better than 'zeros' but it is not supported in Octave
           netcdf.putVar(ncid,varIdD(ii),[c ext]); 
         else
           netcdf.putVar(ncid,varIdD(ii),permute(Obj.Data.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
