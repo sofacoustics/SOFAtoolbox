@@ -9,8 +9,10 @@
 % load HRTF in MIT format and save as SOFA format
 
 %% Define parameters
-% Two ears are available: normal and large. Select one.
-pinna='normal'; 
+% Two ears are available: normal and large. Select one or define before running this script.
+if ~exist('pinna','var')
+    pinna='normal'; 
+end
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time

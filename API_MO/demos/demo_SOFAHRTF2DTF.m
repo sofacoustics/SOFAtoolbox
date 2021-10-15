@@ -18,6 +18,12 @@ compression=1; % results in a nice compression within a reasonable processing ti
 %% load SOFA file
 SOFAfn=fullfile(SOFAdbPath, 'database', 'cipic', ['subject_' sprintf('%03d',subject) '.sofa']);
 X=SOFAload(SOFAfn);
+
+if exist('OCTAVE_VERSION','builtin')
+   % We're in Octave
+   pkg load signal; % for 'shiftdata' compatibility
+end
+
 [D,C]=SOFAhrtf2dtf(X);
 
 % close all;

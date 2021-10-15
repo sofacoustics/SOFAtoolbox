@@ -30,7 +30,7 @@ for ii=1:length(fn)
    
     % set title
     title(strrep(char(fn(ii)),'_',' '));
-    disp(string([' Figure ' num2str(ii) ' of ' num2str(length(fn)) ' plotted: ' strrep(char(fn(ii)),'_',' ')]));
+    disp([' Figure ' num2str(ii) ' of ' num2str(length(fn)) ' plotted: ' strrep(char(fn(ii)),'_',' ')]);
 end
 
 disp('    ');

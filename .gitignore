@@ -2,10 +2,21 @@
 /API_MO/conventions/*.mat
 /API_MO/conventions/*.txt
 # test files for demos
+/API_MO/test/*.sofa
+/API_MO/test/*/*.wav
+/API_MO/test/LigetiHall_CubeletToSt450/
 /HRTFs/ARI/*/*.mat
 /HRTFs/BTDEI/*/*/*/*/*/*.mat
 /HRTFs/BTDEI/*/headphones_info.mat
 /HRTFs/CIPIC/*/*.mat
 /HRTFs/CIPIC/show_data/
+/HRTFs/CIPIC/CIPIC_hrtf_database/
+/HRTFs/FHK/*.mat
+/HRTFs/LISTEN/IRC_1002/
+/HRTFs/MIT KEMAR/full/*/*.wav
+/HRTFs/Oldenburg/HRIR_database_mat/
+/HRTFs/SCUT/nearfield/
 /HRTFs/SOFA/sofa_api_mo_test/*.sofa
 /HRTFs/SOFA/database/*/*.sofa
+/HRTFs/SOFA/headphones/*/*.sofa
+/HRTFs/TU-Berlin KEMAR/*.mat

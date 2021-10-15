@@ -11,6 +11,7 @@
 %% load a SOFA file in SimpleFreeFieldHRIR
 
 SOFAfile=fullfile(SOFAdbPath,'database','widespread','ICO1m_00139.sofa');
+disp(['Loading: ' SOFAfile]);
 Obj=SOFAload(SOFAfile);
 
 % plot all measurements
@@ -21,6 +22,7 @@ index = 1:45:Obj.API.M;
 SOFAplotGeometry(Obj,index);
 
 % %% load a SingleRoomDRIR SOFA file 
+disp(['Loading: ' 'db://' fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
 Obj=SOFAload(['db://' ...
   fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
 
@@ -43,6 +45,7 @@ Obj = SOFAload(SOFAfile);
 SOFAplotGeometry(Obj);
 
 % %% load example with room geometry 
+disp(['Loading: ' SOFAfile]);
 SOFAfile = fullfile(SOFAdbPath,'sofa_api_mo_test', 'Oldenburg_OfficeII.sofa');
 Obj = SOFAload(SOFAfile);
 

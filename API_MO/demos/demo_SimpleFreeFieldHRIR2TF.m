@@ -6,7 +6,7 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-% Convert data from SingleFreeFieldHRIR to SingleFreeFieldTF, extract a few
+% Convert data from SingleFreeFieldHRIR to SingleFreeFieldHRTF, extract a few
 % frequency bins and save.
 
 %% Define parameters

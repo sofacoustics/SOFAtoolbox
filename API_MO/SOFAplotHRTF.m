@@ -77,12 +77,24 @@ else
     offset = kv.offset;
     noisefloor=kv.floor;         
     
-    if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
-        % frequency domain input data only 
-        convert=kv.convert;
-        else
-        convert = 1;
+    if exist('OCTAVE_VERSION','builtin')
+      % We're in Octave
+       if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
+          % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
+          convert=kv.convert;
+      else
+          convert = 1;
+      end       
+    else
+      % We're in Matlab
+      if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
+          % frequency domain input data only 
+          convert=kv.convert;
+      else
+          convert = 1;
+      end    
     end
+    
 end
 
 meta=[];
@@ -396,25 +408,30 @@ switch lower(type)
     
     % Interaural time delay in the horizontal plane
     case 'itdhorizontal'
-      [itd, ~] = SOFAgetITD(Obj, 'time');
-      pos = Obj.SourcePosition;
-      idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
-      itd = itd(idx);
-      [pos, idx_sort] = sort(pos(idx,1));
-      itd = itd(idx_sort);
-      angles = deg2rad(pos);   
-      %figure('Renderer', 'painters', 'Position', [10 10 700 450]);     
-      polarplot(angles, itd, 'linewidth', 1.2);
-      ax = gca;
-      ax.ThetaDir = 'counterclockwise'; 
-      ax.ThetaZeroLocation = 'top';
-      rticks([max(itd)*2/3, max(itd)]); 
-      rticklabels({[num2str(round(max(itd)*2/3*1e6,1)) ' ' char(181) 's'],...
-                     [num2str(round(max(itd)*1e6,1)) ' ' char(181) 's']});
-      thetaticks(0:30:330)
-      thetaticklabels({'0°', '30°', '60°', '90°', '120°', '150°', '180°', ...
-                      '210°', '240°','270°', '300°', '330°'});
-      grid on;
+ 
+      if exist('OCTAVE_VERSION','builtin')
+        warning("Command 'polarplot' not supported by Octave (yet)!")
+      else
+        [itd, ~] = SOFAcalculateITD(Obj, 'time');
+        pos = Obj.SourcePosition;
+        idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
+        itd = itd(idx);
+        [pos, idx_sort] = sort(pos(idx,1));
+        itd = itd(idx_sort);
+        angles = deg2rad(pos);   
+        %figure('Renderer', 'painters', 'Position', [10 10 700 450]); 
+        polarplot(angles, itd, 'linewidth', 1.2);
+        ax = gca;
+        ax.ThetaDir = 'counterclockwise'; 
+        ax.ThetaZeroLocation = 'top';
+        rticks([max(itd)*2/3, max(itd)]); 
+        rticklabels({[num2str(round(max(itd)*2/3*1e6,1)) ' ' char(181) 's'],...
+                       [num2str(round(max(itd)*1e6,1)) ' ' char(181) 's']});
+        thetaticks(0:30:330)
+        thetaticklabels({'0°', '30°', '60°', '90°', '120°', '150°', '180°', ...
+                        '210°', '240°','270°', '300°', '330°'});
+        grid on;        
+      endif
       
   otherwise
     error([type , ' no supported plotting type.'])

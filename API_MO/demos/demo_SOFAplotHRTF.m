@@ -8,6 +8,7 @@
 
 %% load a SOFA file in SimpleFreeFieldHRIR
 SOFAfile=fullfile(SOFAdbPath,'database','ari','dtf_nh2.sofa');
+disp(['Loading: ' SOFAfile]);
 Obj=SOFAload(SOFAfile);
 
 % plot ETC horizontal plane

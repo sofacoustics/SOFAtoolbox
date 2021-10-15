@@ -67,6 +67,9 @@
 - Readme.md: Example fixed (demoPlaySound.m)
 - SOFAcompileConventions: '10' replaced by 'newline' in strings to avoid warnings in Octave
 - NETCDFload: 'deblank' command added when loading strings to avoid trailing empty spaces in size of array dimension
+- demos, test_SOFAall.m: demos updated, some bugs fixed; all conventions are included in at least one demo file; all demos are tested with Matlab & Octave (run test_SOFAall.m)
+- SOFAcalculateLFE: db changed to mag2db (Octave support)
+- SOFAplotHRTF: Octave support (except for type itdhorizontal)
 
 *** v1.1.2
 - SOFAplotGeometry: bug fix if no SourceView given

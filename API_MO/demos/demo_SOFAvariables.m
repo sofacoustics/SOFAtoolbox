@@ -8,6 +8,7 @@
 
 %% load a SOFA file
 SOFAfile=fullfile(SOFAdbPath,'database','ari','hrtf_nh5.sofa');
+disp(['Loading: ' SOFAfile]);
 Obj=SOFAload(SOFAfile);
 
 %% read an API internal variable

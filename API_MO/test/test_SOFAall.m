@@ -9,6 +9,7 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 clc; close all;
+SOFAstart;
 warning('off','SOFA:upgrade');
 
 %% Test converters TO SOFA
@@ -18,114 +19,64 @@ disp('############################################');
 
 %% demo_ARI2SOFA
 disp('**************  demo_ARI2SOFA  **************');
-clear all;
-subjectID='NH4';
+clear;
+% subjectID='NH4'; % default
 demo_ARI2SOFA
 subjectID='NH2';
 demo_ARI2SOFA
-disp('*** Finished: demo_ARI2SOFA'); disp('      ');
+disp('*** Finished: demo_ARI2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_BTDEI2SOFA
 disp('**************  demo_BTDEI2SOFA  **************');
-clear all;
+clear;
 demo_BTDEI2SOFA;
-disp('*** Finished: demo_BTDEI2SOFA'); disp('      ');
+disp('*** Finished: demo_BTDEI2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_CIPIC2SOFA
 disp('**************  demo_CIPIC2SOFA  **************');
-clear all;
+clear;
 demo_CIPIC2SOFA;
-disp('*** Finished: demo_CIPIC2SOFA'); disp('      ');
+disp('*** Finished: demo_CIPIC2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_FHK2SOFA
-clear all;
+clear;
 if ~exist('OCTAVE_VERSION','builtin')
     disp('**************  demo_FHK2SOFA  **************');
     demo_FHK2SOFA;
-    disp('*** Finished: demo_FHK2SOFA'); disp('      ');
+    disp('*** Finished: demo_FHK2SOFA (Output: SOFA-file(s))'); disp('      ');
 else
     disp('Skipped: demo_CIPIC2SOFA'); disp('      ');
 end
 
-%% demo_FreeFieldDirectivityTF
-disp('**************  demo_FreeFieldDirectivityTF  **************');
-clear all;
-demo_FreeFieldDirectivityTF;
-disp('*** Finished: demo_FreeFieldDirectivityTF'); disp('      ');
-
-%% demo_FreeFieldHRTF
-disp('**************  demo_FreeFieldHRTF  **************');
-clear all;
-demo_FreeFieldHRTF;
-disp('*** Finished: demo_FreeFieldHRTF'); disp('      ');
-
 %% demo_LISTEN2SOFA
 disp('**************  demo_LISTEN2SOFA  **************');
-clear all;
+clear;
 subjectID='1002';
 demo_LISTEN2SOFA;
-disp('*** Finished: demo_LISTEN2SOFA'); disp('      ');
+disp('*** Finished: demo_LISTEN2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_MIT2SOFA
 disp('**************  demo_MIT2SOFA  **************');
-clear all;
-pinna='normal';
+clear;
+% pinna='normal'; % default value
 demo_MIT2SOFA;
 pinna='large';
 demo_MIT2SOFA;
-disp('*** Finished: demo_MIT2SOFA'); disp('      ');
+disp('*** Finished: demo_MIT2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_SCUT2SOFA
 disp('**************  demo_SCUT2SOFA  **************');
-clear all;
+clear;
 demo_SCUT2SOFA;
-disp('*** Finished: demo_SCUT2SOFA'); disp('      ');
-
-%% demo_SimpleFreeFieldHRIR2TF
-% Test convertions from SimpleFreeFieldHRIR to SimpleFreeFieldTF
-disp('**************  demo_SimpleFreeFieldHRIR2TF  **************');
-clear all;
-demo_SimpleFreeFieldHRIR2TF;
-disp('*** Finished: demo_SimpleFreeFieldHRIR2TF'); disp('      ');
-
-%% demo_SimpleHeadphoneIR
-% old name: demo_HpIR
-disp('**************  demo_SimpleHeadphoneIR  **************');
-clear all;
-demo_SimpleHeadphoneIR;
-disp('*** Finished: demo_SimpleHeadphoneIR'); disp('      ');
-
-%% demo_SingleRoomDRIROlcldenburg
-% Test SingleRoomDRIR
-disp('**************  demo_SingleRoomDRIROldenburg  **************');
-clear all
-demo_SingleRoomDRIROldenburg;
-disp('*** Finished: demo_SingleRoomDRIROldenburg'); disp('      ');
-
-%% demo_SingleRoomMIMOSRIR
-disp('**************  demo_SingleRoomMIMOSRIR  **************');
-clear all
-demo_SingleRoomMIMOSRIR;
-disp('*** Finished: demo_SingleRoomMIMOSRIR'); disp('      ');
+disp('*** Finished: demo_SCUT2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_TUBerlin2SOFA
 disp('**************  demo_TUBerlin2SOFA  **************');
-clear all; 
+clear; 
 radius=[0.5 1 2 3];
 demo_TUBerlin2SOFA;
-disp('*** Finished: demo_TUBerlin2SOFA'); disp('      ');
+disp('*** Finished: demo_TUBerlin2SOFA (Output: SOFA-file(s))'); disp('      ');
 
-%% demo_SOFAcalculateITD
-disp('**************  demo_SOFAcalculateITD  **************');
-clear all;
-demo_SOFAcalculateITD;
-disp('*** Finished: demo_SOFAcalculateITD'); disp('      ');
-
-%% demo_SOFAcalculateLFE
-disp('**************  demo_SOFAcalculateLFE  **************');
-clear all;
-demo_SOFAcalculateLFE;
-disp('*** Finished: demo_SOFAcalculateLFE'); disp('      ');
 
 %% Test converters FROM SOFA
 disp('############################################');
@@ -134,78 +85,213 @@ disp('############################################');
 
 %% demo_SOFA2ARI
 disp('**************  demo_SOFA2ARI  **************');
-clear all;
+clear;
 demo_SOFA2ARI;
 % SOFAplotGeometry(Obj);
 disp('*** Finished: demo_SOFA2ARI'); disp('      ');
 
-%% demo_SOFAexpandcompact
-% Test SOFAexpand and SOFAcompact
-disp('**************  demo_SOFAexpandcompact  **************');
-clear all;
-demo_SOFAexpandcompact;
-disp('*** Finished: demo_SOFAexpandcompact'); disp('      ');
-
 %% demo_SOFAHRTF2DTF
 disp('**************  demo_SOFAHRTF2DTF  **************');
-clear all;
+clear;
 demo_SOFAHRTF2DTF;
-disp('*** Finished: demo_SOFAHRTF2DTF'); disp('      ');
+disp('*** Finished: demo_SOFAHRTF2DTF (Output: Figure(s))'); disp('      ');
+
+
+%% Test SOFA functions
+disp('############################################');
+disp('######      TEST SOFA FUNCTIONS      #######');
+disp('############################################');
 
 %% demo_SOFAload
 % Test SOFAload
 disp('**************  demo_SOFAload  **************');
-clear all;
+clear;
 demo_SOFAload;
 disp('*** Finished: demo_SOFAload'); disp('      ');
 
 %% demo_SOFAmerge
 % Test SOFAmerge and create TU-Berlin KEMAR file with multiple radii
 disp('**************  demo_SOFAmerge  **************');
-clear all;
+clear;
 demo_SOFAmerge;
-disp('*** Finished: demo_SOFAmerge'); disp('      ');
+disp('*** Finished: demo_SOFAmerge (Output: SOFA-file(s), Figure(s))'); disp('      ');
 
 %% demo_SOFAplotGeometry
 disp('**************  demo_SOFAplotGeometry  **************');
-clear all;
+clear;
 demo_SOFAplotGeometry;
-disp('*** Finished: demo_SOFAplotGeometry'); disp('      ');
+disp('*** Finished: demo_SOFAplotGeometry (Output: Figure(s))'); disp('      ');
 
 %% demo_SOFAplotHRTF
 % Test plotting HRTFs
 disp('**************  demo_SOFAplotHRTF  **************');
 demo_SOFAplotHRTF
-disp('*** Finished: demo_SOFAplotHRTF'); disp('      ');
+disp('*** Finished: demo_SOFAplotHRTF (Output: Figure(s))'); disp('      ');
 
 %% demo_SOFAsave
 disp('**************  SOFAsave  **************');
-clear all;
+clear;
 demo_SOFAsave;
-disp('*** Finished: SOFAsave'); disp('      ');
+disp('*** Finished: SOFAsave (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_SOFAspat
 % Test SOFAspat, but do not play
 disp('**************  demo_SOFAspat  **************');
-clear all;
+clear;
 dontplay=1;
 demo_SOFAspat;
-disp('*** Finished: demo_SOFAspat'); disp('      ');
+disp('*** Finished: demo_SOFAspat (Output: Figure(s))'); disp('      ');
 
 %% demo_SOFAstrings
 % Test using string arrays
 disp('**************  demo_SOFAstrings  **************');
 demo_SOFAstrings
-disp('*** Finished: demo_SOFAstrings'); disp('      ');
+disp('*** Finished: demo_SOFAstrings (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_SOFAvariables
 % Test variables handling
 disp('**************  demo_SOFAvariables  **************');
 demo_SOFAvariables
-disp('*** Finished: demo_SOFAvariables'); disp('      ');
+disp('*** Finished: demo_SOFAvariables (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_SOFAexpandcompact
+% Test SOFAexpand and SOFAcompact
+disp('**************  demo_SOFAexpandcompact  **************');
+clear;
+demo_SOFAexpandcompact;
+disp('*** Finished: demo_SOFAexpandcompact'); disp('      ');
+
+%% demo_SOFAcalculateITD
+disp('**************  demo_SOFAcalculateITD  **************');
+clear;
+demo_SOFAcalculateITD;
+disp('*** Finished: demo_SOFAcalculateITD (Output: Figure(s))'); disp('      ');
+
+%% demo_SOFAcalculateLFE
+disp('**************  demo_SOFAcalculateLFE  **************');
+clear;
+demo_SOFAcalculateLFE;
+disp('*** Finished: demo_SOFAcalculateLFE (Output: Figure(s))'); disp('      ');
 
 
-%% Prologue
+%% Test SOFA conventions
+disp('############################################');
+disp('######     TEST SOFA CONVENTIONS     #######');
+disp('############################################');
+
+%% demo_FreeFieldDirectivityTF
+if ~exist('OCTAVE_VERSION','builtin')
+  disp('**************  demo_FreeFieldDirectivityTF  **************');
+  clear;
+  demo_FreeFieldDirectivityTF;
+  disp('*** Finished: demo_FreeFieldDirectivityTF (Output: Figure(s))'); disp('      ');
+else
+    disp('Skipped: demo_FreeFieldDirectivityTF'); disp('      ');
+end
+
+%% demo_FreeFieldHRIR
+disp('**************  demo_FreeFieldHRIR  **************');
+clear
+demo_FreeFieldHRIR;
+disp('*** Finished: demo_FreeFieldHRIR (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_FreeFieldHRTF
+disp('**************  demo_FreeFieldHRTF  **************');
+clear;
+demo_FreeFieldHRTF;
+disp('*** Finished: demo_FreeFieldHRTF (Output: SOFA-file(s), Figure(s))'); disp('      ');
+
+%% demo_General
+disp('**************  demo_General  **************');
+clear
+demo_General;
+disp('*** Finished: General (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_GeneralFIR
+disp('**************  demo_GeneralFIR  **************');
+clear
+demo_GeneralFIR;
+disp('*** Finished: demo_GeneralFIR (Output: SOFA-file(s))'); disp('      ');
+
+%% GeneralFIRE: outdated, use GeneralFIR-E instead 
+
+%% demo_GeneralFIR-E
+% replacing GeneralFIR
+disp('**************  demo_GeneralFIR_E  **************');
+clear
+demo_GeneralFIR_E;
+disp('*** Finished: GeneralFIR_E (Output: SOFA-file(s))'); disp('      ');
+
+%% GeneralString: used in demo_SOFAstrings
+
+%% demo_GeneralTF
+disp('**************  demo_GeneralTF  **************');
+clear
+demo_GeneralTF;
+disp('*** Finished: GeneralTF (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_GeneralTF-E
+disp('**************  demo_GeneralTF_E  **************');
+clear
+demo_GeneralTF_E;
+disp('*** Finished: GeneralTF-E (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_MultiSpeakerBRIR
+disp('**************  demo_MultiSpeakerBRIR  **************');
+clear
+demo_MultiSpeakerBRIR;
+disp('*** Finished: MultiSpeakerBRIR (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_SimpleFreeFieldHRIR2TF
+% Test conversions from SimpleFreeFieldHRIR to SimpleFreeFieldHRTF
+disp('**************  demo_SimpleFreeFieldHRIR2TF  **************');
+clear;
+demo_SimpleFreeFieldHRIR2TF;
+disp('*** Finished: demo_SimpleFreeFieldHRIR2TF (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_SimpleFreeFieldHRSOS
+disp('**************  demo_SimpleFreeFieldHRSOS  **************');
+clear
+demo_SimpleFreeFieldHRSOS;
+disp('*** Finished: SimpleFreeFieldHRSOS (Output: SOFA-file(s))'); disp('      ');
+
+%% SimpleFreeFieldHRTF
+% used in function demo_SimpleFreeFieldHRIR2TF
+
+%% demo_SimpleFreeFieldSOS
+disp('**************  SimpleFreeFieldSOS  **************');
+clear
+demo_SimpleFreeFieldSOS;
+disp('*** Finished: SimpleFreeFieldSOS (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_SimpleHeadphoneIR
+% old name: demo_HpIR
+disp('**************  demo_SimpleHeadphoneIR  **************');
+clear;
+demo_SimpleHeadphoneIR;
+disp('*** Finished: demo_SimpleHeadphoneIR (Output: Figure(s))'); disp('      ');
+
+%% demo_SingleRoomDRIROlcldenburg
+% Test SingleRoomDRIR
+disp('**************  demo_SingleRoomDRIROldenburg  **************');
+clear
+demo_SingleRoomDRIROldenburg;
+disp('*** Finished: demo_SingleRoomDRIROldenburg (Output: SOFA-file(s), Figure(s))'); disp('      ');
+
+%% demo_SingleRoomMIMOSRIR
+% not working in Octave yet
+disp('**************  demo_SingleRoomMIMOSRIR  **************');
+clear
+demo_SingleRoomMIMOSRIR;
+disp('*** Finished: demo_SingleRoomMIMOSRIR (Output: SOFA-file(s))'); disp('      ');
+
+%% demo_SingleRoomSRIR
+disp('**************  SingleRoomSRIR  **************');
+clear
+demo_SingleRoomSRIR;
+disp('*** Finished: SingleRoomSRIR (Output: SOFA-file(s))'); disp('      ');
+
+%% Epilogue
 disp('##############################################');
 disp('####   COMPLETED ALL DEMOS SUCCESSFULLY   ####');
 disp('##############################################');

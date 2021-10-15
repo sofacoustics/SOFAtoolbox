@@ -40,7 +40,8 @@ Obj.SourceView = [-1 0 0];%The source and the listener are facing each other
 addpath('./LigetiHall_CubeletToSt450/');
 IR_list = dir('./LigetiHall_CubeletToSt450/*.wav');
 if isempty(IR_list)
-    error([' Folder does not exist or is empty: ' mfilename('fullpath') filesep 'LigetiHall_CubeletToSt450'])
+    error([' Folder does not exist or is empty: ' cd filesep 'LigetiHall_CubeletToSt450.' newline ' Download IR dataset from https://phaidra.kug.ac.at/view/o:104376 and copy the folder ''LigetiHall_CubeletToSt450'' to your current working directory.'])
+%     error([' Folder does not exist or is empty: ' mfilename('fullpath') filesep 'LigetiHall_CubeletToSt450. Download IR dataset from https://phaidra.kug.ac.at/view/o:104376 and copy the folder ''LigetiHall_CubeletToSt450'' to your current working directory.'])
 end
 IR_INFO = audioinfo(IR_list(1).name);
 

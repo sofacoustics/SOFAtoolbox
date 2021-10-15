@@ -8,7 +8,7 @@
 % 
 % load HRTF and extends low frequency content
 % 
-clear all; clc; close all;
+clear; % clc; close all;
 
 SOFAfile=fullfile(SOFAdbPath,'database','cipic','subject_003.sofa');
 Obj=SOFAload(SOFAfile);
@@ -50,8 +50,8 @@ axis tight
 
 %%% Plot freq
 figure()
-ori  = db(abs(fft(IR(:,pos,ch), N_lfe)));
-lfe = db(abs(fft(IR_lfe(:,pos,ch))));
+ori  = mag2db(abs(fft(IR(:,pos,ch), N_lfe)));
+lfe = mag2db(abs(fft(IR_lfe(:,pos,ch))));
 semilogx(freq_lfe, ori(1:N_lfe/2)); hold on
 semilogx(freq_lfe, lfe(1:N_lfe/2), '--','linewidth', 1.3); hold off
 legend('original', 'LFE', 'location', 'best')

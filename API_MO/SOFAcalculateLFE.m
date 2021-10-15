@@ -56,14 +56,19 @@ ir_interp = zeros(size(IR, 2), size(IR, 3), N_ext);
 for k = 1:size(IR, 2)
     for l = 1:size(IR, 3)
         time = [IR(:,k,l); zeros(ceil(N_ext - N), 1)];
-        mag = db(abs(fft(time)));
+        mag = mag2db(abs(fft(time)));
         mag_interp = mag;
         
         % interp 
         x = [freq_vec_ext(2),    freq_vec_ext(f500Hz)];
         xq = freq_vec_ext(2:f500Hz);
         y_mag = [mag(f500Hz); mag(f500Hz)];
-        mag_interp(2:f500Hz) = interp1(x, y_mag, xq, 'makima');
+        if exist('OCTAVE_VERSION','builtin')
+          mag_interp(2:f500Hz) = interp1(x, y_mag, xq);
+        else
+          mag_interp(2:f500Hz) = interp1(x, y_mag, xq, 'makima');
+        endif
+        
         mag_interp = 10.^(mag_interp./20);
         H = mag_interp(1:round(N_ext/2));
         
