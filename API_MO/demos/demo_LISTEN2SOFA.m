@@ -24,7 +24,7 @@ if isfile(LISTENfn)
     LISTEN=load(LISTENfn);
 else
     warning(['File not existing: ' LISTENfn '  -->  Please download it to: ' fullfile(fileparts(SOFAdbPath),'LISTEN',['IRC_' subjectID],'COMPENSATED','MAT','HRIR')]);
-    error(['Sorry.... ' mfilename ' cannot complete!']);
+    error(['Sorry.... ' mfilename ' cannot complete! The following file is missing: ' LISTENfile '.mat']);
 end
 
 %% convert

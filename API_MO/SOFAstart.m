@@ -9,7 +9,7 @@ function SOFAstart(flags)
 %
 %   SOFAstart checks if SOFA has been started within the MATLAB session. If
 %   it is the case, SOFAstart skips all the initialization. If the initialization
-%   is required, SOFA('restart') performs the initialization in any case. 
+%   is required, SOFAstart('restart') performs the initialization in any case. 
 %
 
 % SOFA API - function SOFAstart
@@ -92,8 +92,14 @@ if verbose
 					text=[text ', ' convs{ii}];
 			end
 			disp(text);
-			disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
-			disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
+%             if restart==1
+                disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath('reset') ]);
+			    disp(['SOFAdbURL (internet repository): ' SOFAdbURL('reset')]);
+%             else
+%                 disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
+% 			    disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
+%             end
+			
 		end
 end
 

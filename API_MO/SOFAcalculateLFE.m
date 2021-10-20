@@ -67,7 +67,7 @@ for k = 1:size(IR, 2)
           mag_interp(2:f500Hz) = interp1(x, y_mag, xq);
         else
           mag_interp(2:f500Hz) = interp1(x, y_mag, xq, 'makima');
-        endif
+        end
         
         mag_interp = 10.^(mag_interp./20);
         H = mag_interp(1:round(N_ext/2));
@@ -83,8 +83,6 @@ Obj_lfe = Obj;
 % ir_interp = ir_interp./max(abs(ir_interp(:))) .* max(abs(IR(:)));
 Obj_lfe.Data.IR = ir_interp;
 end
-
-
 
 
 function Hmin = get_min_phase(H, varargin)

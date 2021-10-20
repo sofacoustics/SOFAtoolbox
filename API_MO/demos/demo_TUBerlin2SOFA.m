@@ -21,14 +21,26 @@ compression=1; % results in a nice compression within a reasonable processing ti
 %% Load, convert, and save the requested TU-Berlin files
 for ii=1:length(radius)
 		% load
+
 	TUBfn=fullfile(fileparts(SOFAdbPath), 'TU-Berlin KEMAR', [TUBfile num2str(radius(ii)) 'm.mat']);
     
     if isfile(TUBfn)
         disp(['Loading: ' TUBfn]);
         TUB=load(TUBfn);
     else
-        warning(['File not existing: ' TUBfn '  -->  Please download it to: ' fullfile(fileparts(SOFAdbPath), 'TU-Berlin KEMAR')]);
-        error(['Sorry.... ' mfilename ' cannot complete!']);
+        if radius(ii) == 0.5 % catch if file name ends with "05m.mat" instead of "0.5m.mat"
+            TUBfn2=fullfile(fileparts(SOFAdbPath), 'TU-Berlin KEMAR', [TUBfile '05m.mat']);
+            if isfile(TUBfn2)
+                disp(['Loading: ' TUBfn2]);
+                TUB=load(TUBfn2);
+            else
+                warning(['File not existing: ' TUBfn '  -->  Please download it to: ' fullfile(fileparts(SOFAdbPath), 'TU-Berlin KEMAR')]);
+                error(['Sorry.... ' mfilename ' cannot complete!']);
+            end
+        else
+            warning(['File not existing: ' TUBfn '  -->  Please download it to: ' fullfile(fileparts(SOFAdbPath), 'TU-Berlin KEMAR')]);
+            error(['Sorry.... ' mfilename ' cannot complete!']);
+        end
     end
 
 		% convert and add application specific metadata

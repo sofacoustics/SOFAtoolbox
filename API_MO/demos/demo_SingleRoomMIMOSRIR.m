@@ -21,7 +21,7 @@
 
 Obj = SOFAgetConventions('SingleRoomMIMOSRIR');
 Obj.GLOBAL_Title = 'LigetiHall_CubeletToSt450';
-Obj.GLOBAL_Organization = 'Institut für elektronische musik und akustik, Graz, Austria';
+Obj.GLOBAL_Organization = 'Institut f�r elektronische musik und akustik, Graz, Austria';
 Obj.GLOBAL_AuthorContact = 'julien.demuynke@eurecat.org, markus.zaunschirm@atmoky.com, zotter@iem.at';
 Obj.GLOBAL_References = 'Auralization of High-Order Directional Sources from First-Order RIR Measurements (2020)';
 Obj.GLOBAL_Comment = '1rst order RIR measurements with Cubelet loudspeaker array protoype (6 loudspeakers) and TSL ST450 microphone (4 channels) in the György Ligeti Saal, Graz, Austria. The source was surrounded by 4 reflecting baffles (0.9 x 1.8 m) in its rear halfspace.';
@@ -43,7 +43,7 @@ if isempty(IR_list)
     error([' Folder does not exist or is empty: ' cd filesep 'LigetiHall_CubeletToSt450.' newline ' Download IR dataset from https://phaidra.kug.ac.at/view/o:104376 and copy the folder ''LigetiHall_CubeletToSt450'' to your current working directory.'])
 %     error([' Folder does not exist or is empty: ' mfilename('fullpath') filesep 'LigetiHall_CubeletToSt450. Download IR dataset from https://phaidra.kug.ac.at/view/o:104376 and copy the folder ''LigetiHall_CubeletToSt450'' to your current working directory.'])
 end
-IR_INFO = audioinfo(IR_list(1).name);
+IR_INFO = audioinfo([IR_list(1).folder filesep IR_list(1).name]);
 
 C = 3;
 I = 1;
@@ -55,7 +55,7 @@ E = length(IR_list);
 fs = IR_INFO.SampleRate;
 Obj.Data.IR = zeros(M,R,N,E);
 for i = 1:6
-    IR = audioread(IR_list(i).name);
+    IR = audioread([IR_list(i).folder filesep IR_list(i).name]);
     Obj.Data.IR(1,:,:,i) = transpose(IR);
 end
 Obj.Data.SamplingRate = fs;

@@ -8,11 +8,15 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-clc; close all;
+clc; close all; % clean-up first
+tic; % timer
 SOFAstart;
 warning('off','SOFA:upgrade');
+warning('off','SOFA:load');
+warning('off','SOFA:save');
 
 %% Test converters TO SOFA
+disp('      ');
 disp('############################################');
 disp('#######   TEST CONVERTERS TO SOFA   ########');
 disp('############################################');
@@ -40,13 +44,13 @@ disp('*** Finished: demo_CIPIC2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_FHK2SOFA
 clear;
-if ~exist('OCTAVE_VERSION','builtin')
-    disp('**************  demo_FHK2SOFA  **************');
-    demo_FHK2SOFA;
-    disp('*** Finished: demo_FHK2SOFA (Output: SOFA-file(s))'); disp('      ');
-else
-    disp('Skipped: demo_CIPIC2SOFA'); disp('      ');
-end
+% if ~exist('OCTAVE_VERSION','builtin')
+disp('**************  demo_FHK2SOFA  **************');
+demo_FHK2SOFA;
+disp('*** Finished: demo_FHK2SOFA (Output: SOFA-file(s))'); disp('      ');
+% else
+%     disp('Skipped: demo_CIPIC2SOFA'); disp('      ');
+% end
 
 %% demo_LISTEN2SOFA
 disp('**************  demo_LISTEN2SOFA  **************');
@@ -180,14 +184,10 @@ disp('######     TEST SOFA CONVENTIONS     #######');
 disp('############################################');
 
 %% demo_FreeFieldDirectivityTF
-if ~exist('OCTAVE_VERSION','builtin')
-  disp('**************  demo_FreeFieldDirectivityTF  **************');
-  clear;
-  demo_FreeFieldDirectivityTF;
-  disp('*** Finished: demo_FreeFieldDirectivityTF (Output: Figure(s))'); disp('      ');
-else
-    disp('Skipped: demo_FreeFieldDirectivityTF'); disp('      ');
-end
+disp('**************  demo_FreeFieldDirectivityTF  **************');
+clear;
+demo_FreeFieldDirectivityTF;
+disp('*** Finished: demo_FreeFieldDirectivityTF (Output: Figure(s))'); disp('      ');
 
 %% demo_FreeFieldHRIR
 disp('**************  demo_FreeFieldHRIR  **************');
@@ -279,7 +279,6 @@ demo_SingleRoomDRIROldenburg;
 disp('*** Finished: demo_SingleRoomDRIROldenburg (Output: SOFA-file(s), Figure(s))'); disp('      ');
 
 %% demo_SingleRoomMIMOSRIR
-% not working in Octave yet
 disp('**************  demo_SingleRoomMIMOSRIR  **************');
 clear
 demo_SingleRoomMIMOSRIR;
@@ -295,3 +294,4 @@ disp('*** Finished: SingleRoomSRIR (Output: SOFA-file(s))'); disp('      ');
 disp('##############################################');
 disp('####   COMPLETED ALL DEMOS SUCCESSFULLY   ####');
 disp('##############################################');
+toc; % timer

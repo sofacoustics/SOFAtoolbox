@@ -22,16 +22,28 @@ X=SOFAload(SOFAfn);
 figure;
 hold on; box on;
 cols='bgrmky';
-if isfield(X, 'MeasurementDate')
-    meastime=[0; diff(X.MeasurementDate)];
-else
-    meastime=diff(X.GLOBAL_DateCreated);
+
+if ~isoctave
+  if isfield(X, 'MeasurementDate')
+      meastime=[0; diff(X.MeasurementDate)]; % diff not working in Octave
+  else
+      meastime=diff(X.GLOBAL_DateCreated); % diff not working in Octave
+  end
 end
 
 for ii=1:X.API.M
   plot(20*log10(abs(fft(squeeze(X.Data.IR(ii,1,:)),X.Data.SamplingRate))),cols(ii));
-  if ii>1, leg{ii}=['#' num2str(ii) ':' num2str(meastime(ii)) ' seconds later']; end
+  if ii>1
+    if ~isoctave; 
+      leg{ii}=['#' num2str(ii) ':' num2str(meastime(ii)) ' seconds later']; 
+    else
+      leg{ii}=['#' num2str(ii)]; 
+    end
+  end
 end
+
+
+
 axis([0 X.Data.SamplingRate/2 -80 20]);
 leg{1}='#1, first measurement';
 legend(leg);

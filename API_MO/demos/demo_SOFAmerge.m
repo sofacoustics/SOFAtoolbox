@@ -39,6 +39,7 @@ x=whos('ObjFull');
 disp(['  Memory requirements: ' num2str(round(x.bytes/1024)) ' kb']);
 
 %% save the object as a single SOFA file
+warning('off','SOFA:save');
 SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',[TUBfile 'radius_' sprintf('%g_',radius) 'm.sofa']);
 disp(['Saving:  ' SOFAfn]);
 tic;

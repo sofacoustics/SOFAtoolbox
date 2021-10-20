@@ -54,7 +54,7 @@
 - SOFAplotHRTF: type 'ITDhorizontal' added (changes DC)
 - SOFAarghelper: minor bugs fixed (changes FB)
 - Conventions: several bugs fixed; non-ASCII quotes replaced by ' (changes FB)
-- .gitignore added
+- .gitignore added and updated several times
 - Conventions FreeFieldHRIR_1.0.csv added
 - SOFAcompileConventions: Bug fixed when running in Octave
 - demo_BTDEI2SOFA.m: Minor bug fixed in error message text
@@ -70,6 +70,12 @@
 - demos, test_SOFAall.m: demos updated, some bugs fixed; all conventions are included in at least one demo file; all demos are tested with Matlab & Octave (run test_SOFAall.m)
 - SOFAcalculateLFE: db changed to mag2db (Octave support)
 - SOFAplotHRTF: Octave support (except for type itdhorizontal)
+- SOFAstart: Bug fixed when using 'restart' option: SOFAdbPath and SOFAdbURL were not reset
+- SOFAstart: Bug in help comment fixed
+- test_SOFAall.m and demos updated: test_SOFAall.m runs without errors.
+	- Matlab: all demos are working in Matlab, without any visible warnings
+	- Octave: all demos are working without any errors except for FHK2SOFA (not working at all; skipped in Octave), and some minor restrictions cause by unsupported commands, see warning messages during process for details
+
 
 *** v1.1.2
 - SOFAplotGeometry: bug fix if no SourceView given

@@ -9,6 +9,7 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 % close all; 
+
 clear fn;
 fn{1}='ITA_Dodecahedron.sofa';
 fn{2}='Trumpet_modern_et_ff_all_tensorData.sofa'; 
@@ -26,7 +27,7 @@ for ii=1:length(fn)
     
     % move every figure a little to the right from previous one
     H=gcf;
-    if ii>1; movegui(H,[(H.Position(1)+(ii-1)*300) H.Position(2)]); end 
+    if ~isoctave; if ii>1; movegui(H,[(H.Position(1)+(ii-1)*300) H.Position(2)]); end; end
    
     % set title
     title(strrep(char(fn(ii)),'_',' '));

@@ -34,6 +34,5 @@ xlabel('Position')
 ylabel(['Samples (Fs:' num2str(Obj.Data.SamplingRate), 'Hz)'])       
 axis tight
 
-%%% Polar plot 
-figure()
+%% Polar plot (not working in Octave)
 SOFAplotHRTF(Obj, 'itdhorizontal');
