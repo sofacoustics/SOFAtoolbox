@@ -52,10 +52,10 @@ function [dtf,ctf]=SOFAhrtf2dtf(hrtf,varargin)
 % Moller, H., Hammershoi, D., Jensen, C. B., S?rensen, M. F. (1995).
 %  Design criteria for headphones. J. Audio Eng. Soc., 43(4), 218-232. 
 
-
-% Author: Robert Baumgartner, 2014/01/16
-%         Fabian Brinkmann, 2016/09/08 - added rms, and weighted averaging
-%         Piotr Majdak, 2018/02/23 - Octave ifft compatibility
+% #Author: Robert Baumgartner (16.01.2014)
+% #Author: Fabian Brinkmann: added rms, and weighted averaging (08.09.2016)
+% #Author: Piotr Majdak: Octave ifft compatibility (23.02.2018)
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
 
 %% Check Input
 definput.keyvals.f1 = 50;     % Hz

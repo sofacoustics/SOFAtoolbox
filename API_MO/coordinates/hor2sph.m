@@ -12,7 +12,8 @@ function [azi,ele]=hor2sph(lat,pol)
 %
 %   See also SPH2HOR, SPH2NAV, SPH2VERT, VERT2SPH, NAV2SPH
 
-% AUTHOR: Robert Baumgartner
+% #Author: Robert Baumgartner
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
 
 % SOFA API - function hor2sph
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda

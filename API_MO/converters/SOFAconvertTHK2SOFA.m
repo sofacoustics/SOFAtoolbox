@@ -6,6 +6,10 @@ function Obj = SOFAconvertTHK2SOFA(miroObj)
 % Reference to the source coordinate system: [1] http://www.audiogroup.web.th-koeln.de/SOFiA_wiki/COORDINATES.html
 % SOFAconvertTHK2SOFA written by Tim Lübeck, TH Köln, 2018
 %
+
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+%
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.

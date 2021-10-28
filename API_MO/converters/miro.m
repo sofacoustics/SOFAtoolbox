@@ -2,23 +2,20 @@
 %
 % miro Class Definition
 %
-% 2012-2014 Benjamin Bernschütz 
-% 2014-2017 Johannes M. Arend
-% 2012-2017 Christoph Pörschmann
-%           TH Köln
-%           University of Applied Sciences
-%           Institute of Communications Engineering
-%           Mail  christoph.poerschmann@th-koeln.de
-%           Phone +49 221 8275 2495
-%
 % MIRO V1, Release 1.04 - 07/Feb/2014
 % MIRO V1, Release 1.05 - 25/Dez/2016
 % MIRO V1, Release 1.06 - 20/Sep/2017
-%
-% Modified Feb/2014 by Chris Pike, BBC R&D
-% Modified Dez/2016 by Johannes M. Arend, TH Köln
-% Modified Sep/2017 by Johannes M. Arend & Christoph Pörschmann, TH Köln
 
+% #Author: Benjamin Bernschütz (2012-2014)
+% #Author: Johannes M. Arend (2014-2017)
+% #Author: Christoph Pörschmann (TH Köln, University of Applied Sciences,
+%   Institute of Communications Engineering, 
+%   Mail christoph.poerschmann@th-koeln.de, Phone +49 221 8275 2495) (2012-2017)
+
+% #Author: Chris Pike, BBC R&D (02.2014)
+% #Author: Johannes M. Arend, TH Köln (12.2016)
+% #Author: Johannes M. Arend & Christoph Pörschmann, TH Köln (09.2017)
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
 
 classdef miro
     

@@ -13,6 +13,9 @@ function [azi,ele] = sph2nav(azi,ele)
 %
 %   See also SPH2HOR, SPH2VERT, VERT2SPH, NAV2SPH, HOR2SPH
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+%
 % SOFA API - function sph2nav
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

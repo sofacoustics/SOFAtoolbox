@@ -1,5 +1,7 @@
 % Script for testing the string array feature of SOFA
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
 
 %% Test Strings as application-specific variable
 % Load some arbritrary HRTFs

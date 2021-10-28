@@ -33,10 +33,8 @@ function bool = isoctave()
 % http://dev.qu.tu-berlin.de/projects/sfs-toolbox       sfstoolbox@gmail.com *
 %*****************************************************************************
 
-% AUTHOR: Hagen Wierstorf
-% $LastChangedDate: $
-% $LastChangedRevision: $
-% $LastChangedBy: $
+% #Author: Hagen Wierstorf
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
 
 
 %% ===== Main ============================================================

@@ -4,7 +4,11 @@ function [S, N_SH] = sph2SH(dirs, L)
 %  for directions dirs = [azi ele] (in degrees) up to order L. 
 %  [S, N_SH] = sph2SH(dirs, N); returns the number of SH coefficients.
 % 
-% 20200724 - Piotr Majdak, adapted from getSH.m from https://github.com/polarch/Spherical-Harmonic-Transform
+
+% #Author: Piotr Majdak: adapted from getSH.m from
+%   https://github.com/polarch/Spherical-Harmonic-Transform (24.07.2020)
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+
 
   N_dirs = size(dirs, 1); % number of discrete positions
   N_SH = (L+1)^2;         % number of SH coefficients

@@ -38,10 +38,9 @@ function isargchar(varargin)
 % http://dev.qu.tu-berlin.de/projects/sfs-toolbox       sfstoolbox@gmail.com *
 %*****************************************************************************
 
-% AUTHOR: Hagen Wierstorf
-% $LastChangedDate: 2012-04-26 10:12:51 +0200 (Thu, 26 Apr 2012) $
-% $LastChangedRevision: 710 $
-% $LastChangedBy: wierstorf.hagen $
+% #Author: Hagen Wierstorf (26.04.2012)
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+
 
 
 %% ===== Checking for struct =============================================

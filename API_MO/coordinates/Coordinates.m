@@ -36,7 +36,9 @@
 %   Load coordinates from SOFA object and convert them into the
 %   horizontal-polar system. The output is organized as in the SOFA object.
 %
-% AUTHOR: Roberto Barumerli
+
+% #Author: Roberto Barumerli
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
 
 classdef Coordinates < handle
     properties (SetAccess = private)

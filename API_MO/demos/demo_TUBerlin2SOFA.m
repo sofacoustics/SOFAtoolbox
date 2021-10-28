@@ -8,6 +8,10 @@
 
 % load HRTF in TU Berlin format and save as SOFA format
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: bugs fixed (10.2021)
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+
 %% Define parameters
 % Prefix to the files 
 TUBfile = 'QU_KEMAR_anechoic_';
