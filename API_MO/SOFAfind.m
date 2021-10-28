@@ -1,6 +1,6 @@
 function [idx, azinew, elenew, rnew] = SOFAfind(Obj,azi,ele,r)
 % SOFAfind
-% [idx, azi, ele, r] = SOFAfind(Obj,azi,ele,r) finds the indecies to 
+% [idx, azi, ele, r] = SOFAfind(Obj, azi, ele, r) finds the indecies to 
 % the HRTFs from OBJ according to the trajectory given in AZI, ELE, R.
 % Input: 
 %		Obj: SOFA object containing HRTFs
@@ -12,10 +12,10 @@ function [idx, azinew, elenew, rnew] = SOFAfind(Obj,azi,ele,r)
 %		azi, ele: azimuth and elevation of the actual position (degrees)
 %       r: actual radius
 %
-% 
-%
-% Piotr Majdak, 2019
 
+% #Author: Piotr Majdak (2019)
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+%
 % SOFA API - SOFAfind
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

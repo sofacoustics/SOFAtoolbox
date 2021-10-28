@@ -1,16 +1,18 @@
 function Obj = SOFAupdateDimensions(Obj,varargin)
 %SOFAupdateDimensions
-%   Obj = SOFAupdateDimensions(Obj) updates the dimensions in the SOFA
+%   Obj = SOFAupdateDimensions(Obj, varargin) updates the dimensions in the SOFA
 %   structure
 %
 %   Obj is a struct containing the data and meta.
 %		The dimension sizes are created as .API.X and updated corresponding to the
 %		conventions
-%   flag is 'nodata' or 'all'; default is 'all'
+%   flag is 'nodata', 'all', or 'verbose'; default is 'all'
 %   set 'verbose' to 1 to obtain detailed information on the check.
 
-% 9.8.2014: String support added. 
-% 10.10.2020: Verbose mode added.
+% #Author: Piotr Majdak
+% #Author: Piotr Majdak: String support added (09.08.2014)
+% #Author: Piotr Majdak: Verbose mode added (10.10.2020)
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
 %
 % SOFA API - function SOFAupdateDimensions
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences

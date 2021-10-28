@@ -1,13 +1,20 @@
 function Obj=SOFAconvertConventions(Obj,varargin)
-% SOFAconvertConventions(OBJ) converts an object to SimpleFreeFieldHRIR
-%
+% Obj = SOFAconvertConventions(Obj) converts a SOFA object to SimpleFreeFieldHRIR
+%   
 %  Supported conventions: 
 %    SimpleFreeFieldSOS
 %    SimpleFreeFieldTF
 %    SimpleFreeFieldHRTF
 %    FreeFieldHRTF
 %    some special cases of GeneralTF, GeneralTF-E.
+% 
+% When using optional input values, they are transferred to and must be supported by SOFAarghelper function:
+%   Obj=SOFAconvertConventions(Obj,varargin)
+% 
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+%
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.

@@ -16,7 +16,10 @@ function Obj_lfe = SOFAcalculateLFE(Obj, fmin, fmax)
 %   Output arguments:
 %     Obj:           SOFA object with 
 
-% Author: Davi R. Carvalho, 2021/04/07 @UFSM - Acoustical Engineering
+
+% #Author: Davi R. Carvalho, 2021/04/07 @UFSM - Acoustical Engineering
+% #Author: Michael Mihocic: adapted for SOFA 2.0 release; header documentation updated (20.10.2021)
+% 
 
 %% parse inputs
 if nargin < 3

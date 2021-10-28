@@ -1,6 +1,6 @@
 function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
 % SOFAspat
-% [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele) spatializes the sound IN using
+% [out, azi, ele, idx] = SOFAspat(in, Obj, azi, ele) spatializes the sound IN using
 % the HRTFs from OBJ according to the trajectory given in AZI and ELE.
 % Input: 
 %		in: vector with the sound
@@ -14,10 +14,12 @@ function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
 %		idx: index of the filters (corresponds to AZI and ELE)
 %
 % This is an example of how to use SOFA.
-%
-% Piotr Majdak, 2013
-% adapted by Robert Baumgartner, 2016
+% 
 
+% #Author: Piotr Majdak (2013)
+% #Author: Robert Baumgartner: adaptions (2016)
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+%
 % SOFA API - demo script
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

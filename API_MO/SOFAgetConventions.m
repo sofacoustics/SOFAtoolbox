@@ -7,18 +7,21 @@ function Obj = SOFAgetConventions(sofaconventions,flags,version)
 %    with all metadata and data for the corresponding sofaconvention. Obj
 %    will be empty if sofaconventions is not supported.
 % 
-%    Obj = SOFAgetConventions(sofaconvention,flags) returns only selected
+%    Obj = SOFAgetConventions(sofaconvention, flags) returns only selected
 %    metadata for the corresponding sofaconvention with the following encoding:
 %        m: mandatory
 %        r: readonly
 %        a: all (default)
 %
-%    Obj = SOFAgetConventions(sofaconvention,version) returns only the selected
+%    Obj = SOFAgetConventions(sofaconvention, version) returns only the selected
 %    version of the convention. 
 %
-%    Obj = SOFAgetConventions(sofaconvention,flag, version) returns only the selected
+%    Obj = SOFAgetConventions(sofaconvention, flag, version) returns only the selected
 %    version and metadata. 
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: doc & header documentation updated (28.10.2021)
+%
 % SOFA API - function SOFAgetConventions
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

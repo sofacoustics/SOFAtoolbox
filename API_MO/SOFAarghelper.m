@@ -65,8 +65,9 @@ function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist
 %   'freqinv'. This allows for easy checking of selected flags.
 %
 
-% Copyright (C) 2005-2012 Peter L. Soendergaard.
-% Modified from the LTFAT 1.1.2 for SOFA by Piotr Majdak.
+% #Author: Peter L. Soendergaard, Copyright (C) 2005-2012 
+% #Author: Piotr Majdak: Modified from the LTFAT 1.1.2 for SOFA by Piotr Majdak.
+% #Author: Michael Mihocic: header documentation updated (20.10.2021)
 %
 % This program is free software: you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

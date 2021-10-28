@@ -20,7 +20,9 @@ function Obj = SOFAaddVariable(Obj,Name,Dim,Value)
 %		Consider adding a variable at the global level instead, which would be more
 %		clear for others.
 
-% 9.8.2014: dimension is added if not previously found.
+% #Author: Piotr Majdak
+% #Author: Piotr Majdak, 9.8.2014: dimension is added if not previously found.
+% #Author: Michael Mihocic: header documentation updated (20.10.2021)
 %
 % SOFA API - function SOFAaddVariable
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences

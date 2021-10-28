@@ -76,7 +76,10 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %
 %   Url: https://amtoolbox.org/amt-1.0.0/doc/common/itdestimator_code.php
 
-% Copyright (C) 2009-2021 Piotr Majdak and the AMT team.
+
+% #Author: Piotr Majdak: Copyright (C) 2009-2021 Piotr Majdak and the AMT team.
+% #Author: Michael Mihocic: header documentation updated (20.10.2021)
+% 
 % This file is part of the SOFA_MO 2.0, 
 % basing on the function itdestimator in Auditory Modeling Toolbox (AMT) version 1.0.0
 %

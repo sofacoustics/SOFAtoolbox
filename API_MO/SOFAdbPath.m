@@ -1,12 +1,15 @@
 function dbPath=SOFAdbPath(newPath)
-% dbPath=SOFAdbPath 
+% dbPath=SOFAdbPath(newPath)
 %
 %   dbPath=SOFAdbPath returns the path to the directory containing
 %   HRTFs for demos and applications. The default path is: this_directory/../HRTFs/SOFA
 % 
-%   [...]=SOFAdbPath(Path) sets the path to the directory for further calls
+%   [...]=SOFAdbPath(newPath) sets the path to the directory for further calls
 %   of SOFAdbPath.
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: doc & header documentation updated (28.10.2021)
+%
 % SOFA API - function SOFAstart
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

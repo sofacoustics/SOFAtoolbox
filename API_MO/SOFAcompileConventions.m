@@ -1,7 +1,7 @@
 function SOFAcompileConventions(conventions)
 %SOFAcompileConventions
 %
-%   Obj = SOFAcompileConventions(sofaconventions) compiles the specified
+%   SOFAcompileConventions(sofaconventions) compiles the specified
 %   SOFA conventions. For every convention, a CSV file must exist that
 %   will be compiled to a .mat file and used later by SOFAgetConventions().
 % 
@@ -16,6 +16,9 @@ function SOFAcompileConventions(conventions)
 %
 %   SOFAcompileConventions ignores all files beginning with '_' (underscore).
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: doc fixed, header documentation updated (20.10.2021)
+%
 % SOFA API 
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

@@ -1,5 +1,5 @@
 function output = SOFAdefinitions(varargin)
-% SOFAdefinitions
+% output = SOFAdefinitions(varargin)
 %
 %   SOFAdefinitions returns a struct containing definitions like the time
 %   format used in the API.
@@ -18,6 +18,9 @@ function output = SOFAdefinitions(varargin)
 %   SOFAdefinitions('units') returns the units and their corresponding aliases
 %
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: doc & header documentation updated (28.10.2021)
+%
 % SOFA API - function SOFAdefinitions
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

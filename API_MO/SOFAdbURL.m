@@ -7,6 +7,9 @@ function dbURL=SOFAdbURL(dbURL)
 %   dbURL=SOFAdbURL(newURL) sets the internet URL to the newURL for further calls
 %   of SOFAdbURL.
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+%
 % SOFA API - function SOFAdbURL
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

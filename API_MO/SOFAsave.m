@@ -1,6 +1,6 @@
 function [Obj] = SOFAsave(filename,Obj,varargin)
 %SOFASAVE 
-%   [] = SOFAsave(filename,Obj,Compression) creates a new SOFA file and
+%   [Obj] = SOFAsave(filename,Obj,Compression) creates a new SOFA file and
 %   writes an entire data set to it.
 %
 %   filename specifies the name of the SOFA file to which the data is written.
@@ -13,6 +13,9 @@ function [Obj] = SOFAsave(filename,Obj,varargin)
 %   The existence of mandatory variables will be checked. The dimensions
 %   will be updated.
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: doc and header documentation updated (28.10.2021)
+%
 % SOFA API - function SOFAsave
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

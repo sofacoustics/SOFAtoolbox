@@ -1,13 +1,13 @@
- function output = SOFAconvertCoordinates(input,input_type,output_type,input_unit,output_unit)
+ function output = SOFAconvertCoordinates(input,input_type,output_type,~,~)
 %SOFAconvertCoordinates
-%   output = SOFAconvertCoordinates(input,input_type,output_type,input_unit,
-%   output_unit), converts the specified coordinate variable to specified
+%   output = SOFAconvertCoordinates(input,input_type,output_type), converts the specified coordinate variable to specified
 %   output_type and returns the results.
 % 
-% last update: 08.03.2021 by miho: type horizontal-polar removed (not
-% defined in SOFA)
-% 
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: type horizontal-polar removed (not defined in SOFA) (08.03.2021)
+% #Author: Michael Mihocic: doc fixed, header documentation updated (28.10.2021)
+% 
 % SOFA API - function SOFAconvertCoordinates
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

@@ -10,6 +10,10 @@ function newfn=SOFAcheckFilename(fn)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: header documentation updated (20.10.2021)
+%
+
 % filename = string?
 if ~ischar(fn)
 	error('Filename must be a string.');

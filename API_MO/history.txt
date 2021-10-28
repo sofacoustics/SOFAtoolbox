@@ -75,6 +75,7 @@
 - test_SOFAall.m and demos updated: test_SOFAall.m runs without errors.
 	- Matlab: all demos are working in Matlab, without any visible warnings
 	- Octave: all demos are working without any errors except for FHK2SOFA (not working at all; skipped in Octave), and some minor restrictions cause by unsupported commands, see warning messages during process for details
+- headers of some functions checked, updated, author format changed to machine-readable format (#author) (tbc)
 
 
 *** v1.1.2
