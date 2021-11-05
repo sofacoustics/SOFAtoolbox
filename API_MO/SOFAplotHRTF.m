@@ -92,7 +92,7 @@ else
       end       
     else
       % We're in Matlab
-      if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
+      if ~isempty(strfind(lower(type),'mag')) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
           % frequency domain input data only 
           convert=kv.convert;
       else
@@ -415,7 +415,7 @@ switch lower(type)
     case 'itdhorizontal'
  
       if exist('OCTAVE_VERSION','builtin')
-        warning("Command 'polarplot' not supported by Octave (yet)!")
+        warning('Command ''polarplot'' not supported by Octave (yet)!')
       else
         [itd, ~] = SOFAcalculateITD(Obj, 'time');
         pos = Obj.SourcePosition;
