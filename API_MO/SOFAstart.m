@@ -87,7 +87,7 @@ convs=SOFAgetConventions;
 
 %% Display general informations
 if verbose
-    disp(['SOFA Matlab/Octave API version ' SOFAgetVersion '. Copyright 2013 Acoustics Research Institute (piotr@majdak.com).']);
+    disp(['SOFA Matlab/Octave API, version ' SOFAgetVersion '. Copyright 2013-21 Acoustics Research Institute (piotr@majdak.com).']);
 		if verbose==2,
 			disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
 			text=['Available SOFA Conventions: ' convs{1}];
