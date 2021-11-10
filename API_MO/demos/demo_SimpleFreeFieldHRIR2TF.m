@@ -3,6 +3,7 @@
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: plot figures as optional parameter added, figures are saved with titles (10.11.2021)
 % 
 % SOFA API - demo script
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
@@ -21,6 +22,7 @@ ARIfile='hrtf';
 bins=[10, 20, 50, 70];
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time
+plotfigures=0; % 0: no figures; 1 show & save figures (and close others first)
 
 %% Load file in SimpleFreeFieldHRIR Conventions
 f=filesep;
@@ -32,6 +34,12 @@ if isfile(SOFAfn)
 else
     warning(['File not existing: ' SOFAfn '  -->  Please download it from http://www.oeaw.ac.at/isf/hrtf and save it to: ' fullfile(SOFAdbPath,'database','ari', [ARIfile '_' lower(subjectID) '.sofa'])]);
     error(['Sorry.... ' mfilename ' cannot complete!']);
+end
+
+%% Plot figures
+if plotfigures==1
+    close all;
+    PlotFigures(IR, 'HRIR', '')
 end
 
 %% Get a new SimpleFreeFieldTF conventions
@@ -58,8 +66,43 @@ end
 
 %% Update dimensions
 TF=SOFAupdateDimensions(TF);
+%% Plot figures
+if plotfigures==1
+    PlotFigures(TF, 'HRTF', [', bins ' num2str(bins)])
+end
 
 %% Save
 SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['ARI_' ARIfile '_' subjectID '_' num2str(length(bins)) '_freqs.sofa']);
 disp(['Saving:   ' SOFAfn]);
 SOFAsave(SOFAfn,IR,compression);
+
+function PlotFigures(data, type, bins)
+    figure; SOFAplotHRTF(data,'EtcHorizontal'); % energy-time curve in the horizontal plane (+/- THR)
+        tit=[type ' ETC Horizontal' bins]; % title
+        title(tit);
+        saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
+    figure; SOFAplotHRTF(data,'EtcMedian'); % energy-time curve in the median plane (+/- THR)
+        tit=[type ' ETC Median' bins]; % title
+        title(tit);
+        saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
+    figure; SOFAplotHRTF(data,'MagHorizontal'); % magnitude spectra in the horizontal plane (+/- THR)
+        tit=[type ' Magnitude Horizontal' bins]; % title
+        title(tit);
+        saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
+    figure; SOFAplotHRTF(data,'MagMedian'); % magnitude spectra in the median plane (+/- THR)
+        tit=[type ' Magnitude Median' bins]; % title
+        title(tit);
+        saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
+%     figure; SOFAplotHRTF(data,'MagSpectrum'); % single magnitude spectrum for direction(s) DIR in COLOR
+%         tit=[type ' Magnitude Spectrum' bins]; % title
+%         title(tit);
+%         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
+%     figure; SOFAplotHRTF(data,'MagSagittal'); % magnitude spectra in a sagittal plane specified by OFFSET +/- THR
+%         tit=[type ' Magnitude Sagittal' bins]; % title
+%         title(tit);
+%         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
+%     figure; SOFAplotHRTF(data,'ITDhorizontal'); % ITD horizontal
+%         tit=[type ' ITD Horizontal' bins]; % title
+%         title(tit);
+%         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
+end

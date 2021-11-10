@@ -53,11 +53,11 @@
 		- Bug fixed when running in Octave
 		- '10' replaced by 'newline' in strings to avoid warnings in Octave
 - Demos:	
-	- demo_FreeFieldHRTF added
+	- demo_FreeFieldHRTF.m added; updated several times, allows saving figures as fig & png (see parameter 'savefigures')
 	- demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now
 	- SOFAconvertMIT2SOFA.m, demo_FHK2SOFA.m, demo_SingleRoomDRIROldenburg.m, demo_SingleRoomMIMOSRIR.m, demo_TUBerlin2SOFA.m: error message if source files are not available
 	- demo_ARI2SOFA.m, demo_LISTEN2SOFA.m: bug fixed: subject_ID was always overwritten; error message if source files are not available
-	- demo_SimpleFreeFieldHRIR2TF.m: bug fixed: Object to be saved was wrong; error message if source files are not available; updated
+	- demo_SimpleFreeFieldHRIR2TF.m: bug fixed: Object to be saved was wrong; error message if source files are not available; updated several times; parameter 'plotfigures' causes plotting all figures, and saving them (fig, png) if set to 1
 	- demo_SimpleHeadphoneIR.m: if .MeasurementDate is not existing use .GLOBAL_DateCreated as measurement time (legend in figure)
 	- SOFAconvertSCUT2SOFA.m: bug fixed when source files are not available -> error message
 	- demo_BTDEI2SOFA.m: Minor bug fixed in error message text

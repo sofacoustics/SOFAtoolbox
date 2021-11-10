@@ -5,6 +5,7 @@
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: save figures as optional parameter added, figures are saved with respective titles as names (10.11.2021)
 % 
 % SOFA API - demo script
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
@@ -14,13 +15,23 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-
+savefigures=0; % save all created figures as fig and png (0: no, 1: yes)
+if savefigures==1
+    close all; % clean-up first
+    mkdir (mfilename('fullpath')); % output folder for figures
+    folder=[mfilename('fullpath') filesep];
+end
 
 IR=SOFAload('db://database/thk/HRIR_L2354.sofa');
 fs=IR.Data.SamplingRate;
 IR.GLOBAL_APIVersion=SOFAgetVersion;
 figure;
-SOFAplotHRTF(IR,'magmedian'); title('SimpleFreeFieldHRIR (FIR) for reference');
+SOFAplotHRTF(IR,'magmedian'); 
+tit='SimpleFreeFieldHRIR (FIR, mag), for reference'; % title
+title(tit);
+if savefigures==1
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end
 
 SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_1_IR.sofa'),IR);
 
@@ -60,9 +71,20 @@ SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_2_TF.sofa'),
 
 %% Plot median plane and horizontal planes for reference
 figure;
-SOFAplotHRTF(TF,'magmedian'); title('SimpleFreeFieldHRTF (TF) for reference');
+SOFAplotHRTF(TF,'magmedian');
+tit='SimpleFreeFieldHRTF (TF, mag), for reference'; % title
+title(tit);
+if savefigures==1
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end    
+    
 figure;
-SOFAplotHRTF(TF,'etchorizontal'); title ('SimpleFreeFieldHRTF (TF) for reference');
+SOFAplotHRTF(TF,'etchorizontal'); 
+tit='SimpleFreeFieldHRTF (TF, etc), for reference'; % title
+title(tit);
+if savefigures==1
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end    
 
 %% Convert to an emitter-based representation, TFE
 TFE=TF; 
@@ -113,13 +135,30 @@ SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_4_SH.sofa'),
 
 %% plot median and horitonal planes - spatially continuous
 figure;
-SOFAplotHRTF(SH,'magmedian'); title('FreeFieldHRTF (TFE) in Spherical Harmonics');
+SOFAplotHRTF(SH,'magmedian'); %title('');
+tit='FreeFieldHRTF (TFE, mag) in Spherical Harmonics'; % title
+title(tit);
+if savefigures==1
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end
+
 figure;
-SOFAplotHRTF(SH,'etchorizontal'); title ('FreeFieldHRTF (TFE) in Spherical Harmonics');
+SOFAplotHRTF(SH,'etchorizontal'); %title ('');
+tit='FreeFieldHRTF (TFE, etc) in Spherical Harmonics'; % title
+title(tit);
+if savefigures==1
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end
 
 %% plot spatially continuous geometry
 SOFAplotGeometry(SH);
-title ('FreeFieldHRTF (TFE) in Spherical Harmonics');
+tit='FreeFieldHRTF (TFE, geometry) in Spherical Harmonics'; % title
+fig=gcf;
+fig.Position(3:4)=[600,400];
+title(tit);
+if savefigures==1
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end
 
 %% plot spatial spectra
 figure;
@@ -128,11 +167,16 @@ for y=1:4
   fax=0:fs/(2*SH.API.N):(fs-(fs/(2*SH.API.N)))/2;
   r=1; plot(fax,20*log10(squeeze(abs(SH.Data.Real(1,r,:,y)+1i*SH.Data.Imag(1,r,:,y)))));
   r=2; plot(fax,20*log10(squeeze(abs(SH.Data.Real(1,r,:,y)+1i*SH.Data.Imag(1,r,:,y)))),'r');
-  title(['SH spectra, coefficient index (ACN): ' num2str(y)]);
   xlabel('Frequency (Hz)');
   ylabel('Magnitude (dB)');
+  tit=['SH spectra, coefficient index (ACN)= ' num2str(y)];
+  title(tit);
 end
 subplot(2,2,1);legend('First receiver','Second receiver');
+if savefigures==1
+    tit='SH spectra';
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end
 
 %% plot all coefficients for a given frequency
 figure; hold on;
@@ -140,10 +184,18 @@ f=10000; k=round(f/fs*2*SH.API.N);
 plot(squeeze(20*log10(abs(SH.Data.Real(1,1,k,:)+1i*SH.Data.Imag(1,1,k,:)))),'ob');
 hold on;
 plot(squeeze(20*log10(abs(SH.Data.Real(1,2,k,:)+1i*SH.Data.Imag(1,2,k,:)))),'xr');
-title(['SH representation, frequency: ' num2str(f) ' Hz']);
+% title();
 xlabel('Coefficients (ACN index)');
 ylabel('Magnitude (dB)');
 legend('First receiver','Second receiver');
+
+tit=['SH representation, frequency = ' num2str(f) ' Hz']; % title
+title(tit);
+if savefigures==1
+    tit='SH representations'; % title
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end
+
 
 %% interpolate for the horizontal and median planes to FreeFieldHRTF (TFE)
 TFEint=SH;
@@ -192,9 +244,17 @@ SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_6_TFint.sofa
 
 %% compare
 figure;
-SOFAplotHRTF(TFint,'magmedian'); title('SimpleFreeFieldHRTF (TF): Interpolated');
+SOFAplotHRTF(TFint,'magmedian'); %title('');
+tit='SimpleFreeFieldHRTF (TF, mag), interpolated'; % title
+title(tit);
+if savefigures==1
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end
+
 figure;
-SOFAplotHRTF(TFint,'etchorizontal'); title('SimpleFreeFieldHRTF (TF): Interpolated');
-
-
-
+SOFAplotHRTF(TFint,'etchorizontal'); % title('');
+tit='SimpleFreeFieldHRTF (TF, etc), interpolated'; % title
+title(tit);
+if savefigures==1
+    saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+end
