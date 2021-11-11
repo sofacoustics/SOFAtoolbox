@@ -6,6 +6,8 @@ function SOFAstart(flags)
 %
 %   SOFAstart(0) or SOFAstart('silent') will suppress any message during the start.
 %   SOFAstart ('short') will show a short header only during the start.
+%   SOFAstart ('full') will show all information, including all compiled
+%   conventions & versions.
 %
 %   SOFAstart checks if SOFA has been started within the MATLAB session. If
 %   it is the case, SOFAstart skips all the initialization. If the initialization
@@ -14,6 +16,7 @@ function SOFAstart(flags)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: 'full' flag added, changed order of display output messages (11.11.2021)
 %
 % SOFA API - function SOFAstart
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
@@ -27,15 +30,16 @@ function SOFAstart(flags)
 verbose = 2; 
 restart = 0;
 if nargin>0
-	if strcmp(lower(flags),'silent'), verbose=0; end;
-	if strcmp(lower(flags),'short'), verbose=1; end;
-	if isnumeric(flags), if flags==0, verbose=0; end; end;
-    if strcmp(lower(flags),'restart'), restart=1; end
+	if strcmpi(flags,'silent'), verbose=0; end
+	if strcmpi(flags,'short'), verbose=1; end
+    if strcmpi(flags,'full'), verbose=3; end
+	if isnumeric(flags), if flags==0, verbose=0; end; end
+    if strcmpi(flags,'restart'), restart=1; end
 end
 
 %% do not start when already started but not forced to restart
 persistent started
-if ~isempty(started) && ~restart, 
+if ~isempty(started) && ~restart 
     return; 
 end
 started=1;
@@ -81,30 +85,31 @@ else
   path(path,[basepath f 'netcdf']);
 end
 
-% Provide SOFA conventions
-SOFAcompileConventions;
-convs=SOFAgetConventions;
+
+%% Provide SOFA conventions
+dispOutput = SOFAcompileConventions;
+convs = SOFAgetConventions;
 
 %% Display general informations
+
 if verbose
     disp(['SOFA Matlab/Octave API, version ' SOFAgetVersion '. Copyright 2013-21 Acoustics Research Institute (piotr@majdak.com).']);
-		if verbose==2,
-			disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
-			text=['Available SOFA Conventions: ' convs{1}];
-			for ii=2:length(convs)
-					text=[text ', ' convs{ii}];
-			end
-			disp(text);
-%             if restart==1
-                disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath('reset') ]);
-			    disp(['SOFAdbURL (internet repository): ' SOFAdbURL('reset')]);
-%             else
-%                 disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath ]);
-% 			    disp(['SOFAdbURL (internet repository): ' SOFAdbURL]);
-%             end
-			
+    if verbose >= 3
+        disp(dispOutput);
+    end
+	if verbose >= 2
+		disp(['This API implements SOFA version ' SOFAgetVersion('SOFA') '.']);
+		text=['Available SOFA Conventions: ' convs{1}];
+		for ii=2:length(convs)
+				text=[text ', ' convs{ii}];
 		end
+		disp(text);
+        disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath('reset') ]);
+		disp(['SOFAdbURL (internet repository): ' SOFAdbURL('reset')]);	
+	end
 end
+
+
 
 % FIXME: I would check only if the URL is available in the function where it is
 % needed. At the start it takes to long. Octaves urlread didn't know the TimeOut

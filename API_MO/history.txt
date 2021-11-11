@@ -31,6 +31,8 @@
 - SOFAstart: 
 	- Bug fixed when using 'restart' option: SOFAdbPath and SOFAdbURL were not reset
 	- Bug in help comment fixed
+	- flag 'full' added: show all information, including all compiled conventions & versions
+	- changed order of display output messages
 
 ## API Functionality
 - license updated to EUPL 1.2
@@ -52,6 +54,8 @@
 		- ignores files beginning with '_'
 		- Bug fixed when running in Octave
 		- '10' replaced by 'newline' in strings to avoid warnings in Octave
+		- display messages changed to output variable dispOutput
+	- bug fixed: replaced version "2" by "2.0" to keep one minor digit everywhere
 - Demos:	
 	- demo_FreeFieldHRTF.m added; updated several times, allows saving figures as fig & png (see parameter 'savefigures')
 	- demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now

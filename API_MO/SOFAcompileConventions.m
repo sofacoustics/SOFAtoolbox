@@ -1,7 +1,7 @@
-function SOFAcompileConventions(conventions)
+function [dispOutput] = SOFAcompileConventions(conventions)
 %SOFAcompileConventions
 %
-%   SOFAcompileConventions(sofaconventions) compiles the specified
+%   [dispOutput] = SOFAcompileConventions(sofaconventions) compiles the specified
 %   SOFA conventions. For every convention, a CSV file must exist that
 %   will be compiled to a .mat file and used later by SOFAgetConventions().
 % 
@@ -15,9 +15,13 @@ function SOFAcompileConventions(conventions)
 %   behaviour is required for operation in a read-only directory. 
 %
 %   SOFAcompileConventions ignores all files beginning with '_' (underscore).
+% 
+%   Output variable dispOutput contains a string with all compiled
+%   conventions information.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc fixed, header documentation updated (20.10.2021)
+% #Author: Michael Mihocic: display information changed to output variable (11.11.2021)
 %
 % SOFA API 
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
@@ -28,13 +32,14 @@ function SOFAcompileConventions(conventions)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 baseFolder = fileparts(which('SOFAstart'));
+dispOutput='';
 
 if nargin<1
     conventionFiles = dir(fullfile(baseFolder,'conventions','*.csv'));
     conventions={};
     for file = conventionFiles'
         [~,name,~] = fileparts(file.name);
-        if name(1)=='_', continue; end;
+        if name(1)=='_', continue; end
         % Check if mat files exist for every convention flag (r,m,a)
         flagsCounter = 0;
         for flag = 'rma'
@@ -95,11 +100,13 @@ for convention = conventions
         Obj = compileConvention(C,flag);
         % Write to mat file
 %         if strcmp(Obj.GLOBAL_SOFAConventions,convention{:})
-            if strcmp(flag,'r') % Display message only the very first time
-                disp(['Compiling ',convention{:},'.csv: ', ...
-                            Obj.GLOBAL_SOFAConventions, ' ', ...
-                            Obj.GLOBAL_SOFAConventionsVersion]);
-            end
+        if strcmp(flag,'r')    % && dispOutput==1 % Display message only the very first time
+%                 disp(['Compiling ',convention{:},'.csv: ', ...
+%                             Obj.GLOBAL_SOFAConventions, ' ', ...
+%                             Obj.GLOBAL_SOFAConventionsVersion]);
+            if ~strcmp(dispOutput,''); dispOutput = [dispOutput newline]; end
+            dispOutput = [dispOutput 'Compiling ',convention{:},'.csv: ', Obj.GLOBAL_SOFAConventions, ' ', Obj.GLOBAL_SOFAConventionsVersion];
+        end
             save(fullfile(baseFolder,'conventions', ...
                  strcat(Obj.GLOBAL_SOFAConventions,'_',flag,'_', Obj.GLOBAL_SOFAConventionsVersion,'.mat')), ...
                  'Obj','-v7');
@@ -142,14 +149,14 @@ function Obj = compileConvention(convention,flag)
                 Obj.(var) = convDefault{ii};
                 if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
                     x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
-                    y = regexprep(x2,',',['''' char(10) '''']); % enclose in quotations and insert line breaks
+                    y = regexprep(x2,',',['''' newline '''']); % enclose in quotations and insert line breaks
                     Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
                 end
             else      
                 Obj.Data.(var(6:end)) = convDefault{ii};
                 if isempty(strfind(var(6:end),'_')) 
                     x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
-                    y = regexprep(x2,',',['''' char(10) '''']); % enclose in quatations and insert line breaks
+                    y = regexprep(x2,',',['''' newline '''']); % enclose in quatations and insert line breaks
                     Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
                 end      
             end
