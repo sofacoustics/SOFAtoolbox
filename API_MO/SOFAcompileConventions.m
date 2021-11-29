@@ -84,10 +84,10 @@ for convention = conventions
         Obj = compileConvention(C,flag);
         % Write to mat file
         if strcmp(Obj.GLOBAL_SOFAConventions,convention{:})
-            if strcmp(flag,'r') % Display message only the very first time
-                disp(['Compiling ',convention{:},' ', ...
-                            Obj.GLOBAL_SOFAConventionsVersion]);
-            end
+%             if strcmp(flag,'r') % Display message only the very first time
+%                 disp(['Compiling ',convention{:},' ', ...
+%                             Obj.GLOBAL_SOFAConventionsVersion]);
+%             end
             save(fullfile(baseFolder,'conventions', ...
                           strcat(convention{:},'-',flag,'.mat')), ...
                  'Obj','-v7');
