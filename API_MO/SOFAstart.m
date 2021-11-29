@@ -17,6 +17,7 @@ function SOFAstart(flags)
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: 'full' flag added, changed order of display output messages (11.11.2021)
+% #Author: Michael Mihocic: bug fixed when adding paths (29.11.2021)
 %
 % SOFA API - function SOFAstart
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
@@ -68,21 +69,18 @@ end
 basepath=which('SOFAstart');
 basepath=basepath(1:end-12); % Kill the function name from the path.
 f=filesep;
+
 % Add the base path and the needed sub-directories
-if exist('addpath','builtin')
-  addpath(basepath);
-  addpath([basepath f 'helper']);
-  addpath([basepath f 'coordinates']);
-  addpath([basepath f 'converters']);
-  addpath([basepath f 'demos']);
-  addpath([basepath f 'netcdf']);
-else
+% (basepath is added in case user navigated to this folder and changes dir)
+if exist('addpath','file') || exist('addpath','builtin') % in Matlab it is a 'file'; in Octave it is a 'built-in' function
+  addpath(basepath,[basepath f 'helper'],[basepath f 'coordinates'],[basepath f 'converters'],[basepath f 'demos'],[basepath f 'netcdf']);
+else % in case "addpath" command is not available - can this ever be the case???
+  path([basepath f 'helper'],path);
+  path([basepath f 'coordinates'],path);
+  path([basepath f 'converters'],path);
+  path([basepath f 'demos'],path);
+  path([basepath f 'netcdf'],path);
   path(path,basepath);
-  path(path,[basepath f 'helper']);
-  path(path,[basepath f 'coordinates']);
-  path(path,[basepath f 'converters']);
-  path(path,[basepath f 'demos']);
-  path(path,[basepath f 'netcdf']);
 end
 
 

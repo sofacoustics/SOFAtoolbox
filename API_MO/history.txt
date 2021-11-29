@@ -32,7 +32,8 @@
 	- Bug fixed when using 'restart' option: SOFAdbPath and SOFAdbURL were not reset
 	- Bug in help comment fixed
 	- flag 'full' added: show all information, including all compiled conventions & versions
-	- changed order of display output messages
+	- changed order of display output messages ((c) first)
+	- Bug fixed when adding paths (added at bottom in some specific cases)
 
 ## API Functionality
 - license updated to EUPL 1.2
