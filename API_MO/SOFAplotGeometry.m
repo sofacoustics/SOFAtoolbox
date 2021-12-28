@@ -21,6 +21,7 @@ function SOFAplotGeometry(Obj,varargin)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: bug fixed when extracting LU (listener up) coordinates (28.12.2021)
 %
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -96,7 +97,7 @@ switch Obj.GLOBAL_SOFAConventions
             if size(Obj.ListenerUp,1)==1, idx=1; else idx=index; end          
             LU = SOFAconvertCoordinates(Obj.ListenerUp(idx,:),Obj.ListenerUp_Type,'cartesian');
         catch
-            % if listerUp_type is not definied try using listenerView_type
+            % if listerUp_type is not defined try using listenerView_type
             % instead
             if size(Obj.ListenerUp,1)==1, idx=1; else idx=index; end        
             LU = SOFAconvertCoordinates(Obj.ListenerUp(idx,:),Obj.ListenerView_Type,'cartesian');
@@ -148,7 +149,8 @@ switch Obj.GLOBAL_SOFAConventions
         	LP = uniquePoints(:,1:3);
             SP = uniquePoints(:,4:6);
             LV = uniquePoints(:,7:9);
-            LU = uniquePoints(:,7:9);
+%             LU = uniquePoints(:,7:9); % I think this was a bug (miho)
+            LU = uniquePoints(:,10:12);
         case 'LVLUSV'
         	LP = uniquePoints(:,1:3);
             SP = uniquePoints(:,4:6);
@@ -370,16 +372,16 @@ switch Obj.GLOBAL_SOFAConventions
             if flags.do_normalize
                 LU(ii,:) = LU(ii,:)./norm(LU(ii,:));
             end
-            quiver3(LP(ii,1),LP(ii,2),LP(ii,3),LU(ii,1),LU(ii,2),LU(ii,3),0,...
-                'AutoScale','off',...
-                'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
+            quiver3(LP(ii,1),LP(ii,2),LP(ii,3),LU(ii,1),LU(ii,2),LU(ii,3),0,'AutoScale','off','Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
+%               quiver3(LP(ii,1),LP(ii,2),LP(ii,3),LU(ii,1),LU(ii,2),LU(ii,3),'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
+%             quiver3(LP(ii,1),LP(ii,2),LP(ii,3),LV(ii,1),LV(ii,2),LV(ii,3),'Color',[1 0 0],'MarkerFaceColor',[1 0 0]);
         end
         if flags.do_normalize
             LU(1,:) = LU(1,:)./norm(LU(1,:));
         end
-        legendEntries(end+1) = quiver3(LP(1,1),LP(1,2),LP(1,3),LU(1,1),LU(1,2),LU(1,3),0,...
-                'AutoScale','off',...
-                'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
+        legendEntries(end+1) = quiver3(LP(1,1),LP(1,2),LP(1,3),LU(1,1),LU(1,2),LU(1,3),0,'AutoScale','off','Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
+%         legendEntries(end+1) = quiver3(LP(1,1),LP(1,2),LP(1,3),LU(1,1),LU(1,2),LU(1,3),'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
+%         legendEntries(end+1) = quiver3(LP(1,1),LP(1,2),LP(1,3),LV(1,1),LV(1,2),LV(1,3),'Color',[1 0 0],'MarkerFaceColor',[1 0 0]);
     end
     if exist('SV','var')
         SV=unique(SV,'rows');

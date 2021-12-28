@@ -58,7 +58,7 @@
 		- display messages changed to output variable dispOutput
 	- bug fixed: replaced version "2" by "2.0" to keep one minor digit everywhere
 - Demos:	
-	- demo_FreeFieldHRTF.m added; updated several times, allows saving figures as fig & png (see parameter 'savefigures')
+	- demo_FreeFieldHRTF.m added; updated several times, allows saving figures as fig & png (see parameter 'savefigures'), some bug fixes
 	- demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now
 	- SOFAconvertMIT2SOFA.m, demo_FHK2SOFA.m, demo_SingleRoomDRIROldenburg.m, demo_SingleRoomMIMOSRIR.m, demo_TUBerlin2SOFA.m: error message if source files are not available
 	- demo_ARI2SOFA.m, demo_LISTEN2SOFA.m: bug fixed: subject_ID was always overwritten; error message if source files are not available
@@ -83,6 +83,9 @@
 	- 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain. Default: 1.
 	- type 'ITDhorizontal' added (changes DC)
 	- Octave support (except for type itdhorizontal)	
+- SOFAplotGeometry:
+	- bug fixed when extracting LU (listener up) coordinates
+	- minor bugs fixed
 - headers of functions checked, updated, author format changed to machine-readable format (#author)
 
 ## TO-DO ##

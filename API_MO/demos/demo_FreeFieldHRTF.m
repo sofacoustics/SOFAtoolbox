@@ -6,6 +6,7 @@
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: save figures as optional parameter added, figures are saved with respective titles as names (10.11.2021)
+% #Author: Michael Mihocic: minor bugs fixed (28.12.2021)
 % 
 % SOFA API - demo script
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
@@ -18,19 +19,23 @@
 savefigures=0; % save all created figures as fig and png (0: no, 1: yes)
 if savefigures==1
     close all; % clean-up first
-    mkdir (mfilename('fullpath')); % output folder for figures
-    folder=[mfilename('fullpath') filesep];
+    warning('off', 'MATLAB:MKDIR:DirectoryExists'); % suppress warning if folder exists
+    mkdir ([mfilename('fullpath') ' figures']); % output folder for figures
+    folder=[mfilename('fullpath') ' figures' filesep];
 end
 
+%% Let's start, load a SimpleFreeFieldHRIR SOFA object
 IR=SOFAload('db://database/thk/HRIR_L2354.sofa');
 fs=IR.Data.SamplingRate;
 IR.GLOBAL_APIVersion=SOFAgetVersion;
+%% Figures
 figure;
 SOFAplotHRTF(IR,'magmedian'); 
 tit='SimpleFreeFieldHRIR (FIR, mag), for reference'; % title
 title(tit);
 if savefigures==1
     saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
+%    print([folder tit '.png'], '-dpng');
 end
 
 SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_1_IR.sofa'),IR);
@@ -133,7 +138,7 @@ SH = SOFAupdateDimensions(SH);
 
 SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
 
-%% plot median and horitonal planes - spatially continuous
+%% plot median and horizonal planes - spatially continuous
 figure;
 SOFAplotHRTF(SH,'magmedian'); %title('');
 tit='FreeFieldHRTF (TFE, mag) in Spherical Harmonics'; % title
