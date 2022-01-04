@@ -68,6 +68,7 @@
 	- demo_BTDEI2SOFA.m: Minor bug fixed in error message text
 	- demo_SOFAcalculateITD.m, demo_SOFAcalculateLFE.m added (by DC)
 	- demo_SphericalHarmonicsMic added
+	- plot_trumpet_directivity added
 - test_SOFAall.m: 
 	- structured (first *->SOFA, then SOFA->*, then SOFA functions, then SOFA conventions), and sorted (alphabetically)
 	- missing demos added

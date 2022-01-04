@@ -136,6 +136,12 @@ disp('**************  demo_SOFAplotHRTF  **************');
 demo_SOFAplotHRTF
 disp('*** Finished: demo_SOFAplotHRTF (Output: Figure(s))'); disp('      ');
 
+%% demo_plot_trumpet_directivity
+% Test plotting HRTFs
+disp('**************  demo_plot_trumpet_directivity  **************');
+demo_plot_trumpet_directivity
+disp('*** Finished: demo_plot_trumpet_directivity (Output: Figure(s))'); disp('      ');
+
 %% demo_SOFAsave
 disp('**************  SOFAsave  **************');
 clear;
