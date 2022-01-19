@@ -20,7 +20,7 @@ function SOFAstart(flags)
 % #Author: Michael Mihocic: bug fixed when adding paths (29.11.2021)
 %
 % SOFA API - function SOFAstart
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
@@ -91,7 +91,7 @@ convs = SOFAgetConventions;
 %% Display general informations
 
 if verbose
-    disp(['SOFA Matlab/Octave API, version ' SOFAgetVersion '. Copyright 2013-21 Acoustics Research Institute (piotr@majdak.com).']);
+    disp(['SOFA Matlab/Octave API, version ' SOFAgetVersion '. Copyright 2013-2022 Acoustics Research Institute (piotr@majdak.com).']);
     if verbose >= 3
         disp(dispOutput);
     end

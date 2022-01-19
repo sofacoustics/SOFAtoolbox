@@ -2,9 +2,10 @@
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: '(demo_)plot_trumpet_directivity' added to this script (19.02.2022)
 % 
 % SOFA API - demo script
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
@@ -34,8 +35,39 @@ for ii=1:length(fn)
    
     % set title
     title(strrep(char(fn(ii)),'_',' '));
-    disp([' Figure ' num2str(ii) ' of ' num2str(length(fn)) ' plotted: ' strrep(char(fn(ii)),'_',' ')]);
+    disp([' Figure ' num2str(ii) ' of ' num2str(length(fn))+1 ' plotted: ' strrep(char(fn(ii)),'_',' ')]);
 end
 
+
+%%  plot_trumpet_directivity
+% original code from Fabian Brinkmann (12.2021), adapted by Michael Mihocic (2021-2022)
+% requires AKp.m, check dependencies, otherwise skip this part
+if exist('AKp.m', 'file')
+    
+    % load Data
+    H = SOFAload('db://database/tu-berlin%20(directivity)/Trumpet_modern_a4_fortissimo.sofa');
+    
+    p = H.Data.Real(:,:,1) + 1j * H.Data.Imag(:,:,1);
+    p_log = 20*log10(p/max(abs(p)));
+    
+    % plot
+    AKf(20)
+    AKp(p_log, 'x2', 'g', H.ReceiverPosition(:, 1:2), 'dr', [-10 0], ...
+        'hp_view', [30 45], 'cm', 'RdBu_flip', 'cb', 0, ...
+        'sph_proc', 'interpSpline1');
+    title ''
+    
+    AKtightenFigure;
+    disp(' Figure 3 of 3 plotted: Trumpet_modern_a4_fortissimo.sofa');
+else
+    warning(' Figure 3 of 3 skipped: Trumpet_modern_a4_fortissimo.sofa');
+    disp('   To plot this figure you need to:');
+    disp('   - download AKtools.zip from: https://www.ak.tu-berlin.de/menue/publications/open_research_tools/aktools/');
+    disp('   - extract the zip file');
+    disp('   - run AKtoolsStart.m');
+    disp('   - add the path of AKtoolsStart.m to Matlab (including subdirectories)');
+end
+
+%%
 disp('    ');
 disp('###   demo_FreeFieldDirectivityTF: done   ###');

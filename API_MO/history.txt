@@ -59,7 +59,7 @@
 	- bug fixed: replaced version "2" by "2.0" to keep one minor digit everywhere
 - Demos:	
 	- demo_FreeFieldHRTF.m added; updated several times, allows saving figures as fig & png (see parameter 'savefigures'), some bug fixes
-	- demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now
+	- demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now; plot_trumpet_directivity included
 	- SOFAconvertMIT2SOFA.m, demo_FHK2SOFA.m, demo_SingleRoomDRIROldenburg.m, demo_SingleRoomMIMOSRIR.m, demo_TUBerlin2SOFA.m: error message if source files are not available
 	- demo_ARI2SOFA.m, demo_LISTEN2SOFA.m: bug fixed: subject_ID was always overwritten; error message if source files are not available
 	- demo_SimpleFreeFieldHRIR2TF.m: bug fixed: Object to be saved was wrong; error message if source files are not available; updated several times; parameter 'plotfigures' causes plotting all figures, and saving them (fig, png) if set to 1
@@ -68,7 +68,6 @@
 	- demo_BTDEI2SOFA.m: Minor bug fixed in error message text
 	- demo_SOFAcalculateITD.m, demo_SOFAcalculateLFE.m added (by DC)
 	- demo_SphericalHarmonicsMic added
-	- plot_trumpet_directivity added
 - test_SOFAall.m: 
 	- structured (first *->SOFA, then SOFA->*, then SOFA functions, then SOFA conventions), and sorted (alphabetically)
 	- missing demos added
