@@ -184,6 +184,9 @@ else
         Obj = SOFAupdateDimensions(Obj);
     end
 
+	% Remove undesired attribute of NetCDF files, if existing
+	if isfield(Obj,'GLOBAL__NCProperties'), Obj=rmfield(Obj,'GLOBAL__NCProperties'); end
+	
     % ----- Ensure backwards compatibility -----
     % TODO: is the while loop necessary, or could be handled just by calling
     % SOFAupgradeConventions(Obj) once?
