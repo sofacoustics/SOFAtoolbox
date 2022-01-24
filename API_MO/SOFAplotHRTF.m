@@ -35,8 +35,9 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %    SHFreeFieldHRTF
 %    some special cases of GeneralTF, GeneralTF-E.
 %
-% [M,meta,h]=SOFAplotHRTF... returns the matrix M and axes (meta) displayed in the figure.
-%    h is the handle of the plot.
+% [M,meta,h]=SOFAplotHRTF... returns the matrix M and meta information about displayed in the figure.
+%    h is the handle of the plot. meta.idx is the index to the vectors actually plotted.
+%
 %
 
 % #Author: Piotr Majdak
@@ -146,6 +147,7 @@ switch lower(type)
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
     del=round(Obj.Data.Delay(idx,R));
+    meta.idx=idx;
     M2=noisefloor*ones(size(M)+[0 max(del)]);
     for ii=1:size(M,1)
       M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
@@ -178,6 +180,7 @@ switch lower(type)
         pos(pos(:,1)>180,1)=pos(pos(:,1)>180,1)-360; % find horizontal plane
         idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr)); % find indices
         pos=pos(idx,:); % truncate pos
+        meta.idx=idx;
     if convert == 1  % converted
         hM=double(squeeze(Obj.Data.IR(:,R,:)));
         M=(20*log10(abs(fft(hM(idx,:)')')));
@@ -218,11 +221,12 @@ switch lower(type)
   case 'magmedian'
       azi=0;
       pos=Obj.SourcePosition;
-      idx=find(abs(pos(:,1))>90);
-      pos(idx,2)=180-pos(idx,2);
-      pos(idx,1)=180-pos(idx,1);
+      idx0=find(abs(pos(:,1))>90);
+      pos(idx0,2)=180-pos(idx0,2);
+      pos(idx0,1)=180-pos(idx0,1);
       idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
       pos=pos(idx,:);
+      meta.idx=idx; % PM: TODO: check if the correct index
       
       if convert == 1  % converted
         
@@ -264,6 +268,7 @@ switch lower(type)
     pos=[lat pol];
     idx=find(pos(:,1)<(offset+thr) & pos(:,1)>(offset-thr));
     pos=pos(idx,:);
+    meta.idx=idx;
     
     if convert == 1  % converted
     
@@ -303,10 +308,11 @@ switch lower(type)
     Obj=SOFAexpand(Obj,'Data.Delay');
     hM=double(squeeze(Obj.Data.IR(:,R,:)));
     pos=Obj.SourcePosition;
-    idx=find(abs(pos(:,1))>90);
-    pos(idx,2)=180-pos(idx,2);
-    pos(idx,1)=180-pos(idx,1);
+    idx0=find(abs(pos(:,1))>90);
+    pos(idx0,2)=180-pos(idx0,2);
+    pos(idx0,1)=180-pos(idx0,1);
     idx=find(pos(:,1)<(azi+thr) & pos(:,1)>(azi-thr));
+    meta.idx=idx; % PM: TODO: Check if the correct index
     M=(20*log10(abs(hM(idx,:))));
     pos=pos(idx,:);
     del=round(Obj.Data.Delay(idx,R));
@@ -369,6 +375,7 @@ switch lower(type)
                 ismember(elePos,eleComp,'rows') & ismember(rPos,rComp,'rows'));
     end
     if isempty(idx), error('Position not found'); end
+    meta.idx=idx;
     
     if convert == 1  % converted
         IR=squeeze(Obj.Data.IR(idx,R,:));
@@ -421,6 +428,7 @@ switch lower(type)
         pos = Obj.SourcePosition;
         idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
         itd = itd(idx);
+        meta.idx=idx;
         [pos, idx_sort] = sort(pos(idx,1));
         itd = itd(idx_sort);
         angles = deg2rad(pos);   
