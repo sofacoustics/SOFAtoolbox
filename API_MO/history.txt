@@ -82,7 +82,8 @@
 - SOFAplotHRTF: 
 	- 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain. Default: 1.
 	- type 'ITDhorizontal' added (changes DC)
-	- Octave support (except for type itdhorizontal)	
+	- Octave support (except for type itdhorizontal)
+	- dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway)
 - SOFAplotGeometry:
 	- bug fixed when extracting LU (listener up) coordinates
 	- minor bugs fixed
