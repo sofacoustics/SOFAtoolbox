@@ -57,6 +57,7 @@
 		- '10' replaced by 'newline' in strings to avoid warnings in Octave
 		- display messages changed to output variable dispOutput
 	- bug fixed: replaced version "2" by "2.0" to keep one minor digit everywhere
+	- flags fixed
 - Demos:	
 	- demo_FreeFieldHRTF.m added; updated several times, allows saving figures as fig & png (see parameter 'savefigures'), some bug fixes
 	- demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now; plot_trumpet_directivity included
