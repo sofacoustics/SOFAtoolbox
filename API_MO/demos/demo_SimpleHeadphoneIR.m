@@ -45,9 +45,13 @@ for ii=1:X.API.M
   end
 end
 
+for ii=1:X.API.M
+  plot(20*log10(abs(fft(squeeze(X.Data.IR(ii,2,:)),X.Data.SamplingRate)))-20,cols(ii));  
+end
 
+xlim([-200 18200]);
 
-axis([0 X.Data.SamplingRate/2 -80 20]);
+axis([-200 18200 -65 15]);
 leg{1}='#1, first measurement';
 legend(leg);
 

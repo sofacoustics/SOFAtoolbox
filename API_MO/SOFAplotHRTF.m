@@ -63,7 +63,7 @@ if nargin == 3 && ischar(type) && isscalar(varargin{1})
     noisefloor=-50;             
     convert=1;
 else
-    definput.keyvals.R=1;
+    definput.keyvals.receiver=1;
     definput.keyvals.dir=[0,0];
     definput.keyvals.thr=2;
     definput.keyvals.offset=0;
@@ -75,8 +75,8 @@ else
     for ii=1:length(argin)
         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
     end
-    [flags,kv] = SOFAarghelper({'R','dir','thr','offset','floor'},definput,argin);
-    R = kv.R;
+    [flags,kv] = SOFAarghelper({'receiver','dir','thr','offset','floor'},definput,argin);
+    R = kv.receiver;
     dir = kv.dir;
     thr=kv.thr;
     color = flags.color;
