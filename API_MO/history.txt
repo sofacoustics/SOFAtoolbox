@@ -57,6 +57,7 @@
 		- '10' replaced by 'newline' in strings to avoid warnings in Octave
 		- display messages changed to output variable dispOutput
 	- bug fixed: replaced version "2" by "2.0" to keep one minor digit everywhere
+	- flags fixed
 - Demos:	
 	- demo_FreeFieldHRTF.m added; updated several times, allows saving figures as fig & png (see parameter 'savefigures'), some bug fixes
 	- demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now; plot_trumpet_directivity included
@@ -82,7 +83,8 @@
 - SOFAplotHRTF: 
 	- 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain. Default: 1.
 	- type 'ITDhorizontal' added (changes DC)
-	- Octave support (except for type itdhorizontal)	
+	- Octave support (except for type itdhorizontal)
+	- dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway)
 - SOFAplotGeometry:
 	- bug fixed when extracting LU (listener up) coordinates
 	- minor bugs fixed

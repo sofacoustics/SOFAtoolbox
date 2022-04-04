@@ -4,7 +4,7 @@
 % #Author: Michael Mihocic: bugs fixed (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % 
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences
 % 
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
@@ -30,3 +30,6 @@ Obj=SOFAload(SOFAfile);
 % plot magnitude spectrum in the median plane, channel 1
 figure;
 SOFAplotHRTF(Obj,'MagMedian',1);
+figure;
+SOFAplotHRTF(Obj,'MagMedian',1,'convert',0);
+

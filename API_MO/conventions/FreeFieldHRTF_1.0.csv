@@ -41,4 +41,4 @@ Data.Real	[0 0]	m	mrne	double
 Data.Imag	[0 0]	m	MRNE	double
 N	0	m	N	double
 N:LongName	frequency			attribute
-N:Units	hertz			attribute
+N:Units	hertz	m		attribute

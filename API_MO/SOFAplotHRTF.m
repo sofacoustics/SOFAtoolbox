@@ -43,8 +43,9 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: type ITDhorizontal added and updated (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway) (08.02.2022)
 %
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences;
+% Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
@@ -107,7 +108,7 @@ meta=[];
 
 if convert == 1 
     %% Convert data to FIR
-    Obj=SOFAconvertConventions(Obj); 
+    Obj=SOFAconvertConventions(Obj);   
     fs=Obj.Data.SamplingRate;
     
     %% check if receiver selection is possible
@@ -125,11 +126,16 @@ end
     
 %% Convert to spherical if cartesian
 if strcmp(Obj.SourcePosition_Type,'cartesian')
+% %     Obj2=Obj; % compare to old method (Obj2)
     for ii=1:Obj.API.M
         [Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3)]=cart2sph(Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3));
+%             [Obj2.SourcePosition(ii,1),Obj2.SourcePosition(ii,2),Obj2.SourcePosition(ii,3)]=cart2sph(Obj2.SourcePosition(ii,1),Obj2.SourcePosition(ii,2),Obj2.SourcePosition(ii,3));
         Obj.SourcePosition(ii,2)=rad2deg(Obj.SourcePosition(ii,2));
+%             Obj2.SourcePosition(ii,2)=rad2deg(Obj2.SourcePosition(ii,2));
         Obj.SourcePosition(ii,1)=rad2deg(Obj.SourcePosition(ii,1));
-        Obj.SourcePosition(ii,1)=npi2pi(Obj.SourcePosition(ii,1),'degrees'); % requires Mapping toolbox in Matlab
+%             Obj2.SourcePosition(ii,1)=rad2deg(Obj2.SourcePosition(ii,1));
+        Obj.SourcePosition(ii,1)=mywrapTo180(Obj.SourcePosition(ii,1));
+%             Obj2.SourcePosition(ii,1)=npi2pi(Obj2.SourcePosition(ii,1),'degrees'); % requires Mapping toolbox in Matlab
     end
     Obj.SourcePosition_Type='spherical';
     Obj.SourcePosition_Units='degrees';
@@ -195,8 +201,6 @@ switch lower(type)
         meta.freq = 0:fs/size(hM,2):(size(M,2)-1)*fs/size(hM,2);
         meta.azi = azi;
 %         figure; 
-
-
         h=surface(meta.freq,azi,M(:,:));
         
     else
@@ -451,10 +455,18 @@ switch lower(type)
 end
 
 
-function f=myifftreal(c,N) % thanks goto the LTFAT <http://ltfat.sf.net>
-if rem(N,2)==0
-  f=[c; flipud(conj(c(2:end-1,:)))];
-else
-  f=[c; flipud(conj(c(2:end,:)))];
-end
-f=real(ifft(f,N,1));
+% function f=myifftreal(c,N) % thanks goto the LTFAT <http://ltfat.sf.net>
+%     if rem(N,2)==0
+%       f=[c; flipud(conj(c(2:end-1,:)))];
+%     else
+%       f=[c; flipud(conj(c(2:end,:)))];
+%     end
+%     f=real(ifft(f,N,1));
+% end
+
+function newangle = mywrapTo180(angle)
+    % transfer to range -180:180
+    newangle = mod(angle+360, 360);
+    if newangle > 180
+        newangle = newangle-360;
+    end
