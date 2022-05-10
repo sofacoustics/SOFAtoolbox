@@ -85,6 +85,7 @@
 	- type 'ITDhorizontal' added (changes DC)
 	- Octave support (except for type itdhorizontal)
 	- dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway)
+	- keyvalue 'R'/'r' renamed to 'receiver'
 - SOFAplotGeometry:
 	- bug fixed when extracting LU (listener up) coordinates
 	- minor bugs fixed

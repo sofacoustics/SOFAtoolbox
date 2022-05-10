@@ -44,6 +44,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Michael Mihocic: type ITDhorizontal added and updated (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway) (08.02.2022)
+% #Author: Michael Mihocic: keyvalue 'R'/'r' renamed to 'receiver' (10.05.2022)
 %
 % Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -64,7 +65,7 @@ if nargin == 3 && ischar(type) && isscalar(varargin{1})
     noisefloor=-50;             
     convert=1;
 else
-    definput.keyvals.R=1;
+    definput.keyvals.receiver=1;
     definput.keyvals.dir=[0,0];
     definput.keyvals.thr=2;
     definput.keyvals.offset=0;
@@ -76,8 +77,8 @@ else
     for ii=1:length(argin)
         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
     end
-    [flags,kv] = SOFAarghelper({'R','dir','thr','offset','floor'},definput,argin);
-    R = kv.R;
+    [flags,kv] = SOFAarghelper({'receiver','dir','thr','offset','floor'},definput,argin);
+    R = kv.receiver;
     dir = kv.dir;
     thr=kv.thr;
     color = flags.color;
