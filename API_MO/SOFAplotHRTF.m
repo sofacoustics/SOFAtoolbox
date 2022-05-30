@@ -45,6 +45,8 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway) (08.02.2022)
 % #Author: Michael Mihocic: keyvalue 'R'/'r' renamed to 'receiver' (10.05.2022)
+% #Author: Michael Mihocic: 'do not convert' option enabled for SimpleFreeFieldHRTF convention; 
+%                           global title only displayed if 'Obj.GLOBAL_Title' not empty (30.05.2022)
 %
 % Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -95,7 +97,7 @@ else
       end       
     else
       % We're in Matlab
-      if ~isempty(strfind(lower(type),'mag')) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
+      if ~isempty(strfind(lower(type),'mag')) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
           % frequency domain input data only 
           convert=kv.convert;
       else
@@ -124,6 +126,12 @@ else
     end
     titlepostfix=' (unconverted)';
 end
+if isfield(Obj, 'GLOBAL_Title') && isempty(Obj.GLOBAL_Title) == 0
+    titleprefix = [Obj.GLOBAL_Title ': '];
+else
+    titleprefix = '';
+end
+
     
 %% Convert to spherical if cartesian
 if strcmp(Obj.SourcePosition_Type,'cartesian')
@@ -179,7 +187,7 @@ switch lower(type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Azimuth (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R)],'Interpreter','none');
 
     % Magnitude spectrum in the horizontal plane
   case 'maghorizontal'
@@ -220,7 +228,7 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Azimuth (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R) titlepostfix],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R) titlepostfix],'Interpreter','none');
         
     % Magnitude spectrum in the median plane
   case 'magmedian'
@@ -264,7 +272,7 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Elevation (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R) titlepostfix],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R) titlepostfix],'Interpreter','none');
    
     % Magnitude spectrum in the median plane
   case 'magsagittal'
@@ -303,7 +311,7 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Polar angle (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R) '; Lateral angle: ' num2str(offset) 'deg' titlepostfix],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R) '; Lateral angle: ' num2str(offset) 'deg' titlepostfix],'Interpreter','none');
  
 
     % ETC in the median plane
@@ -347,7 +355,7 @@ switch lower(type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Elevation (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R)],'Interpreter','none');
 
   case 'magspectrum'
     pos=round(Obj.SourcePosition*10)/10;

@@ -81,11 +81,12 @@
 	- HRTFs\CIPIC\readme.txt
 	- HRTFs\TU-Berlin KEMAR\readme.txt	
 - SOFAplotHRTF: 
-	- 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain. Default: 1.
+	- 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain (FreeFieldDirectivityTF, GeneralTF, SimpleFreeFieldHRTF conventions). Default: 1.
 	- type 'ITDhorizontal' added (changes DC)
 	- Octave support (except for type itdhorizontal)
 	- dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway)
 	- keyvalue 'R'/'r' renamed to 'receiver'
+	- Obj.GLOBAL_Title only displayed in figure title if not empty
 - SOFAplotGeometry:
 	- bug fixed when extracting LU (listener up) coordinates
 	- minor bugs fixed
