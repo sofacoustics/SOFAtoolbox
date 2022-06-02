@@ -32,6 +32,9 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %    h is the handle of the plot.
 %
 
+% #Author: Piotr Majdak
+% #Author: Michael Mihocic: bug fixed regarding x axis values when plotting magspectrum (02.06.2022)
+% 
 % Copyright (C) 2012-2013 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
@@ -325,7 +328,8 @@ switch lower(type)
     if length(idx) > 1,
         M=20*log10(abs(fft(IR')))';
         M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
-        h=plot(0:fs/2/size(M,2):(size(M,2)-1)*fs/2/size(M,2),M);
+%         h=plot(0:fs/2/size(M,2):(size(M,2)-1)*fs/2/size(M,2),M);
+        h=plot(0:fs  /size(M,2):(size(M,2)-1)*fs  /size(M,2),M);
         for ii=1:length(idx)
             labels{ii}=['#' num2str(idx(ii)) ': (' num2str(pos(idx(ii),1)) ', ' num2str(pos(idx(ii),2)) ')'];
         end
@@ -334,7 +338,9 @@ switch lower(type)
         hM=20*log10(abs(fft(IR)));
         M=hM(1:floor(length(hM)/2));
         hold on;
-        h=plot(0:fs/2/length(hM):(length(M)-1)*fs/2/length(hM),M,color,...
+%         h=plot(0:fs/2/length(hM):(length(M)-1)*fs/2/length(hM),M,color,...
+%             'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
+        h=plot(0:fs/length(hM):(length(M)-1)*fs/length(hM),M,color,...
             'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
         leg=legend;
         if isempty(leg),

@@ -20,6 +20,7 @@
 	- changed order of display output messages ((c) first)
 	- Bug fixed when adding paths (added at bottom in some specific cases)
 - SOFAcompileConventions: do not display compiled conventions
+- SOFAplotHRTF: bug fixed regarding x axis values when plotting magspectrum
 	
 *** v1.1.3
 - bug fixes from unreleased SOFA API v1.1.2 merged to latest version of branch v1:
