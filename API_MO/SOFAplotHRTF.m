@@ -47,6 +47,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Michael Mihocic: keyvalue 'R'/'r' renamed to 'receiver' (10.05.2022)
 % #Author: Michael Mihocic: 'do not convert' option enabled for SimpleFreeFieldHRTF convention; 
 %                           global title only displayed if 'Obj.GLOBAL_Title' not empty (30.05.2022)
+% #Author: Michael Mihocic: plotting simplefreefieldhrtf fixed (in Octave); titles fixed when plotting magspectrum (02.06.2022) 
 %
 % Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -89,7 +90,7 @@ else
     
     if exist('OCTAVE_VERSION','builtin')
       % We're in Octave
-       if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
+       if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
           % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
           convert=kv.convert;
       else
@@ -400,7 +401,7 @@ switch lower(type)
                 labels{ii}=['#' num2str(idx(ii)) ': (' num2str(pos(idx(ii),1)) ', ' num2str(pos(idx(ii),2)) ')'];
             end
             legend(labels);
-        else
+        else % only one curve
             hM=20*log10(abs(fft(IR)));
             M=hM(1:floor(length(hM)/2));
             hold on;
@@ -409,6 +410,7 @@ switch lower(type)
             legend;
         end
         xlim([0 fs/2]);
+        titlepostfix='';
     else
         
         M=20*log10(abs(sqrt(squeeze(Obj.Data.Real(idx,R,:)).^2 + squeeze(Obj.Data.Imag(idx,R,:)).^2)));
@@ -425,12 +427,13 @@ switch lower(type)
                 'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
             legend;
         end        
-        
+        titlepostfix=' (unconverted)';
     end
     ylabel('Magnitude (dB)');
     xlabel('Frequency (Hz)');
     ylim([max(max(M))+noisefloor-10 max(max(M))+10]);
-    
+    title([titleprefix 'receiver: ' num2str(R) titlepostfix],'Interpreter','none');
+
     % Interaural time delay in the horizontal plane
     case 'itdhorizontal'
  

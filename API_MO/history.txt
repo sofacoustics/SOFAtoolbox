@@ -86,7 +86,7 @@
 	- Octave support (except for type itdhorizontal)
 	- dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway)
 	- keyvalue 'R'/'r' renamed to 'receiver'
-	- Obj.GLOBAL_Title only displayed in figure title if not empty
+	- Obj.GLOBAL_Title only displayed in figure title if not empty; title handling improved
 - SOFAplotGeometry:
 	- bug fixed when extracting LU (listener up) coordinates
 	- minor bugs fixed
