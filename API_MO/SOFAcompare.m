@@ -1,5 +1,5 @@
 function [tf,reason,where] = SOFAcompare(Obj1, Obj2, varargin)
-%SOFASOFAcompare
+%SOFAcompare
 %   TF = SOFAcompare(A, B) compares A and B and
 %   returns logical 1 (true) if they are identical.
 %
