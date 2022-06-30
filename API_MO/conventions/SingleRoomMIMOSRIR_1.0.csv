@@ -44,7 +44,6 @@ ListenerView:Type	cartesian	m		attribute
 ListenerView:Units	metre	m		attribute
 GLOBAL:ReceiverShortName				attribute
 GLOBAL:ReceiverDescription				attribute
-ReceiverDescription	{''}		RS	string	Optional R-dependent version of the attribute ReceiverDescription
 ReceiverPosition	[0 0 0]	m	IC, RCI, RCM	double
 ReceiverPosition:Type	spherical	m	  	attribute	Can be of any type enabling both spatially discrete and spatially continuous representations.
 ReceiverPosition:Units	degree, degree, metre	m	  	attribute
@@ -63,7 +62,6 @@ SourceView:Type	cartesian	m		attribute
 SourceView:Units	metre	m		attribute
 GLOBAL:EmitterShortName				attribute
 GLOBAL:EmitterDescription				attribute
-EmitterDescription	{''}		ES	string	Optional E-dependent version of the EmitterDiscription
 EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	Can be of any type enabling both spatially discrete and spatially continuous representations.
 EmitterPosition:Type	spherical	m	  	attribute
 EmitterPosition:Units	degree, degree, metre	m	  	attribute
