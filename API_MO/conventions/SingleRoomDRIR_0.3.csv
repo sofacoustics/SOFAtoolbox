@@ -1,75 +1,47 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute
-GLOBAL:Version	2.0	rm	 	attribute
+GLOBAL:Version	1.0	rm	 	attribute
 GLOBAL:SOFAConventions	SingleRoomDRIR	rm	  	attribute	This convention stores arbitrary number of receivers while providing an information about the room. The main application is to store DRIRs for a single room.
 GLOBAL:SOFAConventionsVersion	0.3	rm	  	attribute
-GLOBAL:DataType	FIR	rm	  	attribute
-GLOBAL:RoomType	reverberant	m	  	attribute
-GLOBAL:Title		m		attribute
-GLOBAL:DateCreated		m	 	attribute
-GLOBAL:DateModified		m	 	attribute
 GLOBAL:APIName		rm	  	attribute
 GLOBAL:APIVersion		rm	  	attribute
-GLOBAL:AuthorContact		m	  	attribute
-GLOBAL:Organization		m	  	attribute
-GLOBAL:License	No license provided, ask the author for permission	m	  	attribute
 GLOBAL:ApplicationName			  	attribute
 GLOBAL:ApplicationVersion			  	attribute
+GLOBAL:AuthorContact		m	  	attribute
 GLOBAL:Comment		m	 	attribute
+GLOBAL:DataType	FIR	rm	  	attribute
 GLOBAL:History			 	attribute
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute
+GLOBAL:Organization		m	  	attribute
 GLOBAL:References				attribute
+GLOBAL:RoomType	reverberant	m	  	attribute
 GLOBAL:Origin				attribute
-GLOBAL:DatabaseName		m	  	attribute
-GLOBAL:RoomShortName				attribute	Short name of the Room
-GLOBAL:RoomDescription				attribute	Informal verbal description of the room
-GLOBAL:RoomLocation				attribute	Location of the room
-GLOBAL:RoomGeometry				attribute	URI to a file describing the room geometry.
-RoomTemperature	0		I, M	double	Temperature during measurements
-RoomTemperature:Units	Kelvin			attribute	Units of the room temperature
-RoomVolume	0		I, M	double	Volume of the room
-RoomVolume:Units	cubic metre			attribute	Units of the room volume
-RoomCornerA	[0 0 0]		IC, MC	double
-RoomCornerB	[1 2 3]		IC, MC	double
-RoomCorners	0		II	double	The value of this attribute is to be ignored. It only exist to for RoomCorners:Type and RoomCorners:Units
-RoomCorners:Type	cartesian			attribute
-RoomCorners:Units	metre			attribute
-GLOBAL:ListenerShortName				attribute
-GLOBAL:ListenerDescription				attribute
+GLOBAL:DateCreated		m	 	attribute
+GLOBAL:DateModified		m	 	attribute
+GLOBAL:Title		m		attribute
 ListenerPosition	[0 0 0] 	m	IC, MC	double
 ListenerPosition:Type	cartesian	m	  	attribute
 ListenerPosition:Units	metre	m	  	attribute
+ReceiverPosition	[0 0 0]	m	RCI, RCM	double
+ReceiverPosition:Type	cartesian	m	  	attribute
+ReceiverPosition:Units	metre	m	  	attribute
+SourcePosition	[0 0 0]	m	IC, MC	double
+SourcePosition:Type	cartesian	m	  	attribute
+SourcePosition:Units	metre	m	  	attribute
+EmitterPosition	[0 0 0]	m	eCI, eCM	double
+EmitterPosition:Type	cartesian	m	  	attribute
+EmitterPosition:Units	metre	m	  	attribute
+GLOBAL:DatabaseName		m	  	attribute
+GLOBAL:RoomDescription		m	  	attribute
 ListenerUp	[0 0 1]	m	IC, MC	double
 ListenerView	[1 0 0]	m	IC, MC	double
 ListenerView:Type	cartesian	m		attribute
 ListenerView:Units	metre	m		attribute
-GLOBAL:ReceiverShortName				attribute
-GLOBAL:ReceiverDescription				attribute
-ReceiverPosition	[0 0 0]	m	RCI, RCM	double
-ReceiverPosition:Type	cartesian	m	  	attribute
-ReceiverPosition:Units	metre	m	  	attribute
-ReceiverView	[1 0 0]		RCI, RCM	double
-ReceiverUp	[0 0 1]		RCI, RCM	double
-ReceiverView:Type	cartesian			attribute
-ReceiverView:Units	metre			attribute
-GLOBAL:SourceShortName				attribute
-GLOBAL:SourceDescription				attribute
-SourcePosition	[0 0 0]	m	IC, MC	double
-SourcePosition:Type	cartesian	m	  	attribute
-SourcePosition:Units	metre	m	  	attribute
 SourceUp	[0 0 1]	m	IC, MC	double
 SourceView	[-1 0 0]	m	IC, MC	double
 SourceView:Type	cartesian	m		attribute
 SourceView:Units	metre	m		attribute
-GLOBAL:EmitterShortName				attribute
-GLOBAL:EmitterDescription				attribute
-EmitterPosition	[0 0 0]	m	eCI, eCM	double
-EmitterPosition:Type	cartesian	m	  	attribute
-EmitterPosition:Units	metre	m	  	attribute
-EmitterView	[1 0 0]		ECI, ECM	double
-EmitterUp	[0 0 1]		ECI, ECM	double
-EmitterView:Type	cartesian			attribute
-EmitterView:Units	metre			attribute
-Data.IR	0	m	mrn	double	Impulse responses
+Data.IR	[0]	m	mrn	double
 Data.SamplingRate	48000	m	I	double
 Data.SamplingRate:Units	hertz	m		attribute
-Data.Delay	0	m	IR, MR	double
+Data.Delay	[0]	m	IR, MR	double
