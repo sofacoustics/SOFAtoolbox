@@ -81,7 +81,7 @@
 	- HRTFs\CIPIC\readme.txt
 	- HRTFs\TU-Berlin KEMAR\readme.txt	
 - SOFAplotHRTF: 
-	- 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain (FreeFieldDirectivityTF, GeneralTF, SimpleFreeFieldHRTF conventions). Default: 1.
+	- 'convert' flag added -> 1: convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain (FreeFieldDirectivityTF, GeneralTF, SimpleFreeFieldHRTF conventions). By default the function chooses the best option.
 	- type 'ITDhorizontal' added (changes DC)
 	- Octave support (except for type itdhorizontal)
 	- dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway)

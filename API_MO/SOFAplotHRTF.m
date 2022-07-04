@@ -22,7 +22,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %     'offset' chooses a plane to be plotted. Default: 0 deg.
 %     'thr'    threshold for selecting positions around a plane. Default: 2 deg.
 %     'floor'  lowest amplitude shown (dB). Default: -50 dB.
-%     'convert' convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain. Default: 1.
+%     'convert' convert to TF domain. Function should automatically choose if neccessary. Default: 0 if conversion is not necessary; 1 if conversion is neccessary.
 % 
 %   Additionally, 'b', 'r', 'g', etc. can be used for plotting in color 
 %   as used by PLOT.
@@ -48,6 +48,8 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Michael Mihocic: 'do not convert' option enabled for SimpleFreeFieldHRTF convention; 
 %                           global title only displayed if 'Obj.GLOBAL_Title' not empty (30.05.2022)
 % #Author: Michael Mihocic: plotting simplefreefieldhrtf fixed (in Octave); titles fixed when plotting magspectrum (02.06.2022) 
+% #Author: Michael Mihocic: plotting improved when data is available in TF format (more stable, no conversions by default);
+%                           figure titles improved (04.07.2022) 
 %
 % Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -66,7 +68,26 @@ if nargin == 3 && ischar(type) && isscalar(varargin{1})
     thr=2;
     offset=0;
     noisefloor=-50;             
-    convert=1;
+%     convert=1; more comples differing below:
+
+    if exist('OCTAVE_VERSION','builtin')
+      % We're in Octave
+       if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
+          % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
+          convert = 0;
+      else
+          convert = 1;
+      end       
+    else
+      % We're in Matlab
+      if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
+          % frequency domain input data only 
+          convert = 0;
+      else
+          convert = 1;
+      end    
+    end
+
 else
     definput.keyvals.receiver=1;
     definput.keyvals.dir=[0,0];
@@ -86,25 +107,26 @@ else
     thr=kv.thr;
     color = flags.color;
     offset = kv.offset;
-    noisefloor=kv.floor;         
+    noisefloor=kv.floor;      
+    convert=kv.convert; % force convert or not
     
-    if exist('OCTAVE_VERSION','builtin')
-      % We're in Octave
-       if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
-          % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
-          convert=kv.convert;
-      else
-          convert = 1;
-      end       
-    else
-      % We're in Matlab
-      if ~isempty(strfind(lower(type),'mag')) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
-          % frequency domain input data only 
-          convert=kv.convert;
-      else
-          convert = 1;
-      end    
-    end
+%     if exist('OCTAVE_VERSION','builtin')
+%       % We're in Octave
+%        if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
+%           % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
+%           convert=kv.convert;
+%       else
+%           convert = 1;
+%       end       
+%     else
+%       % We're in Matlab
+%       if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
+%           % frequency domain input data only 
+%           convert=kv.convert;
+%       else
+%           convert = 1;
+%       end    
+%     end
     
 end
 
@@ -119,13 +141,13 @@ if convert == 1
     if R > size(Obj.Data.IR,2)
         error(['Choosen receiver out of range. Only ', num2str(size(Obj.Data.IR,2)), ' receivers recorded.'])
     end
-    titlepostfix='';
+    titlepostfix=' (converted to IR)';
 else
     %% check if receiver selection is possible
     if R > size(Obj.Data.Real,2)
         error(['Choosen receiver out of range. Only ', num2str(size(Obj.Data.Real,2)), ' receivers recorded.'])
     end
-    titlepostfix=' (unconverted)';
+    titlepostfix='';
 end
 if isfield(Obj, 'GLOBAL_Title') && isempty(Obj.GLOBAL_Title) == 0
     titleprefix = [Obj.GLOBAL_Title ': '];
@@ -391,7 +413,7 @@ switch lower(type)
     if isempty(idx), error('Position not found'); end
     meta.idx=idx;
     
-    if convert == 1  % converted
+    if convert == 1  % convert
         IR=squeeze(Obj.Data.IR(idx,R,:));
         if length(idx) > 1
             M=20*log10(abs(fft(IR')))';
@@ -410,7 +432,7 @@ switch lower(type)
             legend;
         end
         xlim([0 fs/2]);
-        titlepostfix='';
+        titlepostfix=' (converted to IR)';
     else
         
         M=20*log10(abs(sqrt(squeeze(Obj.Data.Real(idx,R,:)).^2 + squeeze(Obj.Data.Imag(idx,R,:)).^2)));
@@ -427,7 +449,7 @@ switch lower(type)
                 'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
             legend;
         end        
-        titlepostfix=' (unconverted)';
+        titlepostfix='';
     end
     ylabel('Magnitude (dB)');
     xlabel('Frequency (Hz)');
