@@ -45,7 +45,7 @@ GLOBAL:SourceModel		m		attribute	Name of the headphone model. Must uniquely desc
 SourceModel	{''}		MS	string	Optional M-dependent version of the attribute SourceModel
 GLOBAL:SourceURI		m		attribute	URI of the headphone specifications
 GLOBAL:ReceiverDescription		m		attribute	Narrative description of the microphones
-ReceiverDescriptions	{'';''}		RS	string	R-dependent version of the attribute ReceiverDescription
+ReceiverDescriptions	{''}		MS	string	R-dependent version of the attribute ReceiverDescription
 GLOBAL:EmitterDescription		m		attribute	Narrative description of the headphone drivers
-EmitterDescriptions	{'';''}		ES	string	E-dependent version of the attribute EmitterDescription
+EmitterDescriptions	{''}		MS	string	E-dependent version of the attribute EmitterDescription
 MeasurementDate	0		M	double	Optional M-dependent date and time of the measurement
