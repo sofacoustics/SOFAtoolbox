@@ -1,16 +1,16 @@
 function Obj=SOFAconvertConventions(Obj,varargin)
 % Obj = SOFAconvertConventions(Obj) converts a SOFA object to SimpleFreeFieldHRIR
-%   
-%  Supported conventions: 
+%
+%  Supported conventions:
 %    SimpleFreeFieldSOS
 %    SimpleFreeFieldTF
 %    SimpleFreeFieldHRTF
 %    FreeFieldHRTF
 %    some special cases of GeneralTF, GeneralTF-E.
-% 
+%
 % When using optional input values, they are transferred to and must be supported by SOFAarghelper function:
 %   Obj=SOFAconvertConventions(Obj,varargin)
-% 
+%
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
@@ -20,13 +20,13 @@ function Obj=SOFAconvertConventions(Obj,varargin)
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing  permissions and limitations under the License. 
+% See the License for the specific language governing  permissions and limitations under the License.
 
 %% get convention to be converted
 if ~isempty(varargin)
     definput.flags.convention=SOFAgetConventions();
     definput.flags.convention=strrep(definput.flags.convention,'-','_');
-    
+
     if contains(varargin,'-')
         varargin=strrep(varargin,'-','_');
     end
@@ -40,7 +40,7 @@ if ~isempty(varargin)
     if isempty( SOFAgetConventions(newConvention))
        error([newConvention, ' not a valid convention.'])
     end
-else 
+else
     newConvention = 'SimpleFreeFieldHRIR';
 end
 oldConvention = Obj.GLOBAL_SOFAConventions;
@@ -64,7 +64,7 @@ try
             if strcmp(newObj.GLOBAL_DataType,'SOS')
                  % no data conversion needed
             elseif strcmp(newObj.GLOBAL_DataType,'FIR')
-                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;   
+                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
                 N=512;
                 impulse=[1; zeros(N-1,1)];
                 Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.SOS;
@@ -77,7 +77,7 @@ try
                 Obj.Data=rmfield(Obj.Data,'SOS');
                 Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
             elseif strcmp(newObj.GLOBAL_DataType,'TF')
-                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;   
+                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
                 N=512;
                 impulse=[1; zeros(N-1,1)];
                 Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.SOS;
@@ -100,7 +100,7 @@ try
                 end
                 Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,'SOS');
             elseif strcmp(newObj.GLOBAL_DataType,'TF-E')
-                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;   
+                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
                 N=512;
                 impulse=[1; zeros(N-1,1)];
                 Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.SOS;
@@ -126,7 +126,7 @@ try
 
                 Obj.API.E=Obj.API.M;
                 Obj.API.M=1;
-                realBuffer=shiftdim(Obj.Data.Real,1); 
+                realBuffer=shiftdim(Obj.Data.Real,1);
                 Obj.Data.Real=zeros(1,Obj.API.R,Obj.API.N,Obj.API.E);
                 Obj.Data.Real(1,:,:,:)=realBuffer;% MRN --> 1RNM --> MRNE with M=1
                 Obj.API.Dimensions.Data.Real='MRNE';
@@ -163,7 +163,7 @@ try
                 % TODO
                 error('Not supported yet')
             elseif strcmp(newObj.GLOBAL_DataType,'FIR')
-                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;   
+                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
                 if sum(diff(diff(Obj.N)))
                   fs=max(Obj.N)*2;  % irregular grid, find the smallest frequency difference
                   N=fs/min([min(diff(Obj.N)) Obj.N(1)]);
@@ -178,7 +178,7 @@ try
                 end
                 Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.Real;
                 Obj.Data.SamplingRate=fs;
-                Obj.Data.SamplingRate_Units='Hertz';
+                Obj.Data.SamplingRate_Units='hertz';
                 Obj.Data.IR=zeros(Obj.API.M, Obj.API.R, N);
                 for ii=1:Obj.API.M
                   for jj=1:Obj.API.R
@@ -195,14 +195,14 @@ try
                 Obj.Data=rmfield(Obj.Data,{'Real','Imag'});
                 if isfield(Obj.API.Dimensions,'Data')
                     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
-                end    
-            elseif strcmp(newObj.GLOBAL_DataType,'TF') 
-                 % no data conversion needed    
+                end
+            elseif strcmp(newObj.GLOBAL_DataType,'TF')
+                 % no data conversion needed
             elseif strcmp(newObj.GLOBAL_DataType,'TF-E')
                 Obj.GLOBAL_DataType = newObj.GLOBAL_DataType;
                 Obj.API.E=Obj.API.M;
                 Obj.API.M=1;
-                realBuffer=shiftdim(Obj.Data.Real,1); 
+                realBuffer=shiftdim(Obj.Data.Real,1);
                 Obj.Data.Real=zeros(1,Obj.API.R,Obj.API.N,Obj.API.E);
                 Obj.Data.Real(1,:,:,:)=realBuffer;% MRN --> 1RNM --> MRNE with M=1
                 Obj.API.Dimensions.Data.Real='MRNE';
@@ -233,17 +233,17 @@ try
                 Obj.EmitterPosition_Type='Spherical Harmonics';
                 Obj.EmitterPosition_Units='Metre';
             end
-                
+
 
         case 'TF-E'
             if strcmp(newObj.GLOBAL_DataType,'SOS')
                 % TODO
                 error('Not supported yet')
             elseif strcmp(newObj.GLOBAL_DataType,'FIR')
-                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;   
+                Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
                 Obj.API.Dimensions.Data.IR=Obj.API.Dimensions.Data.Real;
                 Obj.Data.SamplingRate=max(Obj.N)*2;
-                Obj.Data.SamplingRate_Units='Hertz';
+                Obj.Data.SamplingRate_Units='hertz';
                 % convert sperical harmonics
                 if strcmpi(Obj.EmitterPosition_Type,'spherical harmonics')
                     [X,Y,Z]=sphere(60);
@@ -260,7 +260,7 @@ try
                     Obj.API.M=size(S,1);
                     Obj.SourcePosition=[azi ele radius];
                     Obj.SourcePosition_Type='spherical';
-                    Obj.SourcePosition_Units='degrees,degrees,metre';    
+                    Obj.SourcePosition_Units='degrees,degrees,metre';
 
                     Data.Real = zeros(Obj.API.M,2,Obj.API.N);
                     Data.Imag = zeros(Obj.API.M,2,Obj.API.N);
@@ -306,12 +306,12 @@ try
                 Obj.Data.SamplingRate=fs;
                 Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
                 Obj.Data=rmfield(Obj.Data,{'Real','Imag'});
-                Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});    
+                Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
             elseif strcmp(newObj.GLOBAL_DataType,'TF')
                 Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
                 % convert sperical harmonics
                 if strcmpi(Obj.EmitterPosition_Type,'harmonics')
-                    [X,Y,Z]=sphere(60); 
+                    [X,Y,Z]=sphere(60);
                     [azi_rad,ele_rad,radius]=cart2sph(X,Y,Z);
                     azi=azi_rad/pi*180;
                     ele=ele_rad/pi*180;
@@ -320,13 +320,13 @@ try
                     azi=azi(:);
                     ele=ele(:);
                     radius=radius(:);
-                    
+
                     S = sph2SH([azi ele], sqrt(Obj.API.E)-1);
                     Obj.API.M=size(S,1);
                     Obj.SourcePosition=radius;
                     Obj.SourcePosition_Type='spherical harmonics';
-                    Obj.SourcePosition_Units='metre'; 
-                    
+                    Obj.SourcePosition_Units='metre';
+
                     oldObj.Data.Real = Obj.Data.Real;
                     oldObj.Data.Imag = Obj.Data.Imag;
                     Obj.Data.Real = zeros(Obj.API.M,2,Obj.API.N);
@@ -345,7 +345,7 @@ try
             elseif strcmp(newObj.GLOBAL_DataType,'TF-E')
                  % no data conversion needed
             end
-            
+
         case 'FIR'
             if strcmp(newObj.GLOBAL_DataType,'SOS')
                 % TODO
@@ -369,7 +369,7 @@ try
                         Obj.Data.Real(ii,jj,:)=real(TF);
                         Obj.Data.Imag(ii,jj,:)=imag(TF);
                     end
-                end  
+                end
             elseif strcmp(newObj.GLOBAL_DataType,'TF-E')
                 Obj.GLOBAL_DataType=newObj.GLOBAL_DataType;
                 IR=Obj.Data.IR;
@@ -387,12 +387,12 @@ try
                         Obj.Data.Real(ii,jj,:)=real(TF);
                         Obj.Data.Imag(ii,jj,:)=imag(TF);
                     end
-                end  
+                end
                 Obj=SOFAupdateDimensions(Obj);
 
                 Obj.API.E=Obj.API.M;
                 Obj.API.M=1;
-                realBuffer=shiftdim(Obj.Data.Real,1); 
+                realBuffer=shiftdim(Obj.Data.Real,1);
                 Obj.Data.Real=zeros(1,Obj.API.R,Obj.API.N,Obj.API.E);
                 Obj.Data.Real(1,:,:,:)=realBuffer;% MRN --> 1RNM --> MRNE with M=1
                 Obj.API.Dimensions.Data.Real='MRNE';
@@ -422,7 +422,7 @@ try
                 Obj.EmitterPosition=mean(Obj.EmitterPosition(:,3));
                 Obj.EmitterPosition_Type='Spherical Harmonics';
                 Obj.EmitterPosition_Units='Metre';
-            end    
+            end
         otherwise
             error(['Turning ',oldConvention,' into ',...
                 newObj.GLOBAL_SOFAConventions,' not supported.']);
