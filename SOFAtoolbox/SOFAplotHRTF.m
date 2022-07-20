@@ -13,7 +13,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %  More options are available by SOFAplotHRTF(Obj,type,parameter,value)
 %
 %   Parameter
-%     'R'      receiver  to be plotted. Default: 1
+%     'receiver' receiver  to be plotted. Default: 1
 %     'dir'    fixes the positions to be plotted:
 %              [azi]: shows all direction for that azimuth
 %              [azi, ele]: shows all distances for that direction 
