@@ -1,9 +1,9 @@
-%% Converts all CSV files with Conventions to WIKI tables
+%% Convert all convention files to Wiki tables
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated, license text added (28.10.2021)
-%
-% SOFA API - function SOFAaddVariable
+
+% SOFA Toolbox
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
@@ -12,9 +12,8 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 
-clear all;
-p=mfilename('fullpath');
-d=dir('*.csv');
+p=fullfile('..','SOFAtoolbox','conventions');
+d=dir([p filesep '*.csv']);
 conventions={};
 for ii=1:length(d)
   dn=d(ii).name;
@@ -22,7 +21,7 @@ for ii=1:length(d)
 end
   
 for jj=1:length(conventions)
-  fid=fopen([conventions{jj} '.csv']);
+  fid=fopen([p filesep conventions{jj} '.csv']);
   C=textscan(fid,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1); 
   fclose(fid);
   fid=fopen([conventions{jj} '.txt'],'w');
