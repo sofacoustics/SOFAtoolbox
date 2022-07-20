@@ -13,11 +13,16 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v2.0
+*** v2.0 (SOFA Toolbox)
+
+## Core Functionality ##
+- main directory renamed to "SOFAtoolbox"
+- repository renamed to "SOFAtoolbox"
+
+*** v1.99
 
 ## Core Functionality ##
 - license updated to EUPL 1.2
-- main directory renamed to "SOFAtoolbox"
 - .gitignore added
 - Support for spherical harmonics added.
 - SOFAconvertCoordinates.m: type horizontal-polar removed (not (properly) defined in SOFA)
