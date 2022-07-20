@@ -17,6 +17,7 @@
 
 ## Core Functionality ##
 - license updated to EUPL 1.2
+- main directory renamed to "SOFAtoolbox"
 - .gitignore added
 - Support for spherical harmonics added.
 - SOFAconvertCoordinates.m: type horizontal-polar removed (not (properly) defined in SOFA)
@@ -35,7 +36,7 @@
 	- changed order of display output messages ((c) first)
 	- Bug fixed when adding paths (added at bottom in some specific cases)
 
-## API Functionality
+## Toolbox Functionality
 - license updated to EUPL 1.2
 - Conventions:
 	- Conventions for SOFA 2.0 added

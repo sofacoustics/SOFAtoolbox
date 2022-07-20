@@ -8,32 +8,31 @@ Examples of data we consider are head-related transfer functions (HRTFs),
 binaural room impulse responses (BRIRs), multichannel measurements such as done
 with microphone arrays, or directionality data of loudspeakers.
 
-The format specifications are the major issue, but we also aim in providing APIs
-for reading and writing the data in SOFA.
+The format specification is the major focus of SOFA, but we also aim in providing 
+toolboxes for reading and writing the data in SOFA. For more information on the 
+format specifications and available data, see http://www.sofaconventions.org/.
 
-For more information on the format specifications and available data have a look
-at http://www.sofaconventions.org/
+This project implements a reference toolbox for SOFA: The SOFA Toolbox. 
+
+SOFA Toolbox 2.x implements SOFA versions 2.x. The SOFA Toolbox has been previously 
+known as the SOFA API_MO, which supported SOFA versions up to 1.x.
 
 
 Downloads
 =========
 
-Current versions of SOFA can be found on its [old
+Current releases of SOFA Toolbox can be found on its [old
 home](http://sourceforge.net/projects/sofacoustics/files/?source=navbar).
-
-At the moment we are working on a new release which will be shortly available on
-this site.
 
 
 Usage
 =====
 
-## Matlab/Octave API
+## Matlab/Octave 
 
-In order to use SOFA with Matlab or Octave you have to add its `API_MO` folder
-to your paths. After that you can play around with your acoustic measurements
-as shown by the following example which uses a head-related transfer function
-measurement.
+In order to use SOFA with Matlab or Octave add its `SOFAtoolbox` folder
+to your search paths. After that you can play around with your acoustic measurements
+as shown by the following example which uses a HRTF measurement.
 
 ```matlab
 %% put your information here:
