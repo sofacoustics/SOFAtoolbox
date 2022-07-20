@@ -22,7 +22,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %     'offset' chooses a plane to be plotted. Default: 0 deg.
 %     'thr'    threshold for selecting positions around a plane. Default: 2 deg.
 %     'floor'  lowest amplitude shown (dB). Default: -50 dB.
-%     'convert' convert to FIR and then to TF domain. Can be set to 0 if data is available in TF domain. Default: 1.
+%     'convert' convert to TF domain. Function should automatically choose if neccessary. Default: 0 if conversion is not necessary; 1 if conversion is neccessary.
 % 
 %   Additionally, 'b', 'r', 'g', etc. can be used for plotting in color 
 %   as used by PLOT.
@@ -44,6 +44,12 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Michael Mihocic: type ITDhorizontal added and updated (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway) (08.02.2022)
+% #Author: Michael Mihocic: keyvalue 'R'/'r' renamed to 'receiver' (10.05.2022)
+% #Author: Michael Mihocic: 'do not convert' option enabled for SimpleFreeFieldHRTF convention; 
+%                           global title only displayed if 'Obj.GLOBAL_Title' not empty (30.05.2022)
+% #Author: Michael Mihocic: plotting simplefreefieldhrtf fixed (in Octave); titles fixed when plotting magspectrum (02.06.2022) 
+% #Author: Michael Mihocic: plotting improved when data is available in TF format (more stable, no conversions by default);
+%                           figure titles improved (04.07.2022) 
 %
 % Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -62,7 +68,26 @@ if nargin == 3 && ischar(type) && isscalar(varargin{1})
     thr=2;
     offset=0;
     noisefloor=-50;             
-    convert=1;
+%     convert=1; more comples differing below:
+
+    if exist('OCTAVE_VERSION','builtin')
+      % We're in Octave
+       if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
+          % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
+          convert = 0;
+      else
+          convert = 1;
+      end       
+    else
+      % We're in Matlab
+      if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
+          % frequency domain input data only 
+          convert = 0;
+      else
+          convert = 1;
+      end    
+    end
+
 else
     definput.keyvals.receiver=1;
     definput.keyvals.dir=[0,0];
@@ -82,25 +107,26 @@ else
     thr=kv.thr;
     color = flags.color;
     offset = kv.offset;
-    noisefloor=kv.floor;         
+    noisefloor=kv.floor;      
+    convert=kv.convert; % force convert or not
     
-    if exist('OCTAVE_VERSION','builtin')
-      % We're in Octave
-       if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
-          % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
-          convert=kv.convert;
-      else
-          convert = 1;
-      end       
-    else
-      % We're in Matlab
-      if ~isempty(strfind(lower(type),'mag')) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf'})
-          % frequency domain input data only 
-          convert=kv.convert;
-      else
-          convert = 1;
-      end    
-    end
+%     if exist('OCTAVE_VERSION','builtin')
+%       % We're in Octave
+%        if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
+%           % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
+%           convert=kv.convert;
+%       else
+%           convert = 1;
+%       end       
+%     else
+%       % We're in Matlab
+%       if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
+%           % frequency domain input data only 
+%           convert=kv.convert;
+%       else
+%           convert = 1;
+%       end    
+%     end
     
 end
 
@@ -115,14 +141,20 @@ if convert == 1
     if R > size(Obj.Data.IR,2)
         error(['Choosen receiver out of range. Only ', num2str(size(Obj.Data.IR,2)), ' receivers recorded.'])
     end
-    titlepostfix='';
+    titlepostfix=' (converted to IR)';
 else
     %% check if receiver selection is possible
     if R > size(Obj.Data.Real,2)
         error(['Choosen receiver out of range. Only ', num2str(size(Obj.Data.Real,2)), ' receivers recorded.'])
     end
-    titlepostfix=' (unconverted)';
+    titlepostfix='';
 end
+if isfield(Obj, 'GLOBAL_Title') && isempty(Obj.GLOBAL_Title) == 0
+    titleprefix = [Obj.GLOBAL_Title ': '];
+else
+    titleprefix = '';
+end
+
     
 %% Convert to spherical if cartesian
 if strcmp(Obj.SourcePosition_Type,'cartesian')
@@ -178,7 +210,7 @@ switch lower(type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Azimuth (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R)],'Interpreter','none');
 
     % Magnitude spectrum in the horizontal plane
   case 'maghorizontal'
@@ -219,7 +251,7 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Azimuth (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R) titlepostfix],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R) titlepostfix],'Interpreter','none');
         
     % Magnitude spectrum in the median plane
   case 'magmedian'
@@ -263,7 +295,7 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Elevation (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R) titlepostfix],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R) titlepostfix],'Interpreter','none');
    
     % Magnitude spectrum in the median plane
   case 'magsagittal'
@@ -302,7 +334,7 @@ switch lower(type)
     shading flat
     xlabel('Frequency (Hz)');
     ylabel('Polar angle (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R) '; Lateral angle: ' num2str(offset) 'deg' titlepostfix],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R) '; Lateral angle: ' num2str(offset) 'deg' titlepostfix],'Interpreter','none');
  
 
     % ETC in the median plane
@@ -346,7 +378,7 @@ switch lower(type)
     colorbar;
     xlabel('Time (ms)');
     ylabel('Elevation (deg)');
-    title([Obj.GLOBAL_Title '; receiver: ' num2str(R)],'Interpreter','none');
+    title([titleprefix 'receiver: ' num2str(R)],'Interpreter','none');
 
   case 'magspectrum'
     pos=round(Obj.SourcePosition*10)/10;
@@ -381,7 +413,7 @@ switch lower(type)
     if isempty(idx), error('Position not found'); end
     meta.idx=idx;
     
-    if convert == 1  % converted
+    if convert == 1  % convert
         IR=squeeze(Obj.Data.IR(idx,R,:));
         if length(idx) > 1
             M=20*log10(abs(fft(IR')))';
@@ -391,7 +423,7 @@ switch lower(type)
                 labels{ii}=['#' num2str(idx(ii)) ': (' num2str(pos(idx(ii),1)) ', ' num2str(pos(idx(ii),2)) ')'];
             end
             legend(labels);
-        else
+        else % only one curve
             hM=20*log10(abs(fft(IR)));
             M=hM(1:floor(length(hM)/2));
             hold on;
@@ -400,6 +432,7 @@ switch lower(type)
             legend;
         end
         xlim([0 fs/2]);
+        titlepostfix=' (converted to IR)';
     else
         
         M=20*log10(abs(sqrt(squeeze(Obj.Data.Real(idx,R,:)).^2 + squeeze(Obj.Data.Imag(idx,R,:)).^2)));
@@ -416,12 +449,13 @@ switch lower(type)
                 'DisplayName',['#' num2str(idx) ': (' num2str(pos(idx,1)) ', ' num2str(pos(idx,2)) ')']);
             legend;
         end        
-        
+        titlepostfix='';
     end
     ylabel('Magnitude (dB)');
     xlabel('Frequency (Hz)');
     ylim([max(max(M))+noisefloor-10 max(max(M))+10]);
-    
+    title([titleprefix 'receiver: ' num2str(R) titlepostfix],'Interpreter','none');
+
     % Interaural time delay in the horizontal plane
     case 'itdhorizontal'
  

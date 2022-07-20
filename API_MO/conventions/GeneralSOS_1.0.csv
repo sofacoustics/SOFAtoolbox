@@ -1,0 +1,40 @@
+Name	Default	Flags	Dimensions	Type	Comment
+GLOBAL:Conventions	SOFA	rm	  	attribute	
+GLOBAL:Version	2	rm	 	attribute	
+GLOBAL:SOFAConventions	GeneralSOS	rm	  	attribute	This conventions follows GeneralFIR but the data is stored as second-order section (SOS) coefficients.
+GLOBAL:SOFAConventionsVersion	1	rm	  	attribute	
+GLOBAL:APIName		rm	  	attribute	
+GLOBAL:APIVersion		rm	  	attribute	
+GLOBAL:ApplicationName			  	attribute	
+GLOBAL:ApplicationVersion			  	attribute	
+GLOBAL:AuthorContact		m	  	attribute	
+GLOBAL:Comment		m	 	attribute	
+GLOBAL:DataType	SOS	rm		attribute	Filters described as second-order section (SOS) coefficients
+GLOBAL:History			 	attribute	
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:Organization		m	  	attribute	
+GLOBAL:References				attribute	
+GLOBAL:RoomType	free field	m	  	attribute	The room information can be arbitrary
+GLOBAL:Origin				attribute	
+GLOBAL:DateCreated		m	 	attribute	
+GLOBAL:DateModified		m	 	attribute	
+GLOBAL:Title		m		attribute	
+ListenerPosition	[0 0 0] 	m	IC, MC	double	
+ListenerPosition:Type	cartesian	m	  	attribute	
+ListenerPosition:Units	metre	m	  	attribute	
+ListenerView	[1 0 0]		IC, MC	double	
+ListenerView:Type	cartesian			attribute	
+ListenerView:Units	metre			attribute	
+ReceiverPosition	[0 0 0]	m	IC, RC, RCM	double	
+ReceiverPosition:Type	cartesian	m	  	attribute	
+ReceiverPosition:Units	metre	m	  	attribute	
+SourcePosition	[0 0 1]	m	IC, MC	double	In order to store different directions/positions around the listener, SourcePosition is assumed to vary
+SourcePosition:Type	spherical	m	  	attribute	
+SourcePosition:Units	degree, degree, metre	m	  	attribute	
+EmitterPosition	[0 0 0]	m	eCI, eCM	double	
+EmitterPosition:Type	cartesian	m	  	attribute	
+EmitterPosition:Units	metre	m	  	attribute	
+Data.SOS	permute([0 0 0 1 0 0], [3 1 2]);	m	mrn	double	Filter coefficients as SOS coefficients.
+Data.SamplingRate	48000	m	I, M	double	Sampling rate of the coefficients in Data.SOS and the delay in Data.Delay
+Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
+Data.Delay	0	m	IR, MR	double	Broadband delay (in samples resulting from SamplingRate)
