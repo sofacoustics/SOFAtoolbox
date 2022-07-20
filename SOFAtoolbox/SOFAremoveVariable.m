@@ -9,7 +9,7 @@ function Obj = SOFAremoveVariable(Obj,Name)
 % #Author: Piotr Majdak: adapted from SOFAaddVariable (19.06.2019)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 %
-% SOFA API - function SOFAremoveVariable
+% SOFA Toolbox - function SOFAremoveVariable
 % Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
