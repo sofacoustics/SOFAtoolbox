@@ -13,13 +13,14 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v2.0 (SOFA Toolbox)
+*** v2.1 (first 2.x release)
 
-## Core Functionality ##
+
+*** v2.0 (not released, rebranded to SOFA Toolbox)
+
+## Rebranding ##
 - main directory renamed to "SOFAtoolbox"
 - repository renamed to "SOFAtoolbox"
-
-*** v1.99
 
 ## Core Functionality ##
 - license updated to EUPL 1.2
