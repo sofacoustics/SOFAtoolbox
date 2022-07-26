@@ -1,36 +1,25 @@
 function Obj = SOFAload(fn,varargin)
 %SOFALOAD 
-%   Obj = SOFAload(FN) reads the SOFA object OBJ with all data from
-%   a SOFA file FN. 
+%   Obj = SOFAload(FN) reads the SOFA object OBJ with all data from a SOFA file FN. 
 %
 %   FN can point to a remote file (containing '://') or to a local file: 
-%     Remote file: FN will be downloaded to a temporary directory and
-%       loaded.
-%     Local file: If existing, will be loaded. If not existing, it will be
-%       downloaded from the internet repository given by SOFAdbURL. For
-%       this, FN must begin with the local HRTF directory given by SOFAdbPath.
+%     Remote file: FN will be downloaded to a temporary directory and loaded.
+%     Local file: If existing, will be loaded. If not existing, it will be downloaded from the internet repository given by SOFAdbURL. For this, FN must begin with the local HRTF directory given by SOFAdbPath.
 %
-%   Obj = SOFAload(FN,'nodata') ignores the "Data." variables and
-%   loads metadata only (variables and attributes).
+%   Obj = SOFAload(FN,'nodata') ignores the "Data." variables and loads metadata only (variables and attributes).
 %
-%   Obj = SOFAload(FN,[START COUNT]) loads only COUNT number of 
-%	measurements (dimension M) beginning with the index START. For remote
-%   files, or local but not existing files, the full file will be downloaded.
+%   Obj = SOFAload(FN,[START COUNT]) loads only COUNT number of measurements (dimension M) beginning with the index START. For remote files, or local but not existing files, the full file will be downloaded.
 %
-%   Obj = SOFAload(FN,[START1 COUNT1],DIM1,[START2 COUNT2],DIM2,...) loads
-%   only COUNT1 number of data in dimension DIM1 beginning with the index
-%   START1, COUNT2 number of data in dimension DIM2 with the index START2
-%   and so on.
+%   Obj = SOFAload(FN,[START1 COUNT1],DIM1,[START2 COUNT2],DIM2,...) loads only COUNT1 number of data in dimension DIM1 beginning with the index START1, COUNT2 number of data in dimension DIM2 with the index START2 and so on.
 %   
-%   Obj = SOFAload(FN,...,'nochecks') loads the file but does not perform
-%   any checks for correct conventions.
+%   Obj = SOFAload(FN,...,'nochecks') loads the file but does not perform any checks for correct conventions.
 % 
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 %
 % SOFA Toolbox - function SOFAload
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
