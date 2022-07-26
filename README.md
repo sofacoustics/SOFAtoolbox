@@ -24,6 +24,11 @@ Downloads
 Current releases of SOFA Toolbox can be found on its [old
 home](http://sourceforge.net/projects/sofacoustics/files/?source=navbar).
 
+**Note:** 
+- The currently latest release is known as the SOFA API M/O version 1.1.3. 
+- The SOFA Toolbox 2.0 has never been released. 
+- The SOFA Toolbox 2.1 is currently under preparation. It will support SOFA 2.1 as known as AES69-2022.
+
 
 Usage
 =====
