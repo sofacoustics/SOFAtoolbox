@@ -1,6 +1,6 @@
 function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 % SOFAcalculateITD: Estimate ITD from a binaural signal
-%   Usage: itd = SOFAcalculateITD(data,mode,threshlvl,lowpass,butterpoly,upper_cutfreq) 
+%   Usage: [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(data,mode,threshlvl,lowpass,butterpoly,upper_cutfreq) 
 %
 %   Input parameters:
 % 
@@ -44,7 +44,7 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %       IACC:       interaural cross-correlation coefficient
 %                   Available on when xcorr is used (modes: 'MaxIACCr', 'MaxIACCe',
 %                   'CenIACCr','CenIACCe', 'CenIACC2e')
-%       Obj:        Input object with Obj.Data.Delay filled
+%       Obj:        Input SOFA object with Obj.Data.Delay filled
 % 
 % 
 %   Purpose:
@@ -76,11 +76,13 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %
 %   Url: https://amtoolbox.org/amt-1.0.0/doc/common/itdestimator_code.php
 
-
+% #Author: Laurin Steidle
+% #Author: Robert Baumgartner: data matrix option
 % #Author: Piotr Majdak: Copyright (C) 2009-2021 Piotr Majdak and the AMT team.
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
+% #Author: Michael Mihocic: adaption for SOFA Toolbox 2.0
 % 
-% This file is part of the SOFA_MO 2.0, 
+% This file is part of the SOFA Toolbox 2.0, 
 % basing on the function itdestimator in Auditory Modeling Toolbox (AMT) version 1.0.0
 %
 % This program is free software: you can redistribute it and/or modify
@@ -96,9 +98,7 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-% AUTHOR: Laurin Steidle
-% data matrix option: Robert Baumgartner
-% adaption for SOFA_MO 2.0: Michael Mihocic
+
 
 
 % ---------------------- SOFAarghelper -------------------------------

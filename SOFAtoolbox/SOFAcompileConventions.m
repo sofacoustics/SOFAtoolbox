@@ -24,7 +24,7 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 % #Author: Michael Mihocic: display information changed to output variable (11.11.2021)
 %
 % SOFA API 
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
