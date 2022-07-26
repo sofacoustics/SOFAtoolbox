@@ -1,7 +1,7 @@
 *************************************************************
 *** History of SOFA API for Matlab and Octave
 *** Acoustics Research Institute, Austrian Academy of Sciences, Vienna
-*** Project leader: Piotr Majdak, piotr@majdak.com
+*** Project leader: Piotr Majdak, piotr.majdak@oeaw.ac.at
 *** Contributors:
 ***		Michael Mihocic
 ***		Harald Ziegelwanger
@@ -21,9 +21,9 @@
 ## Rebranding ##
 - main directory renamed to "SOFAtoolbox"
 - repository renamed to "SOFAtoolbox"
+- license updated to EUPL 1.2
 
 ## Core Functionality ##
-- license updated to EUPL 1.2
 - .gitignore added
 - Support for spherical harmonics added.
 - SOFAconvertCoordinates.m: type horizontal-polar removed (not (properly) defined in SOFA)
@@ -43,7 +43,6 @@
 	- Bug fixed when adding paths (added at bottom in some specific cases)
 
 ## Toolbox Functionality
-- license updated to EUPL 1.2
 - Conventions:
 	- Conventions for SOFA 2.0 added
 	- SOFAgetConventions: Versioning of convention files .CSV added
