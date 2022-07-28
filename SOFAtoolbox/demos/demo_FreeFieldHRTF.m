@@ -8,8 +8,8 @@
 % #Author: Michael Mihocic: save figures as optional parameter added, figures are saved with respective titles as names (10.11.2021)
 % #Author: Michael Mihocic: minor bugs fixed (28.12.2021)
 % 
-% SOFA API - demo script
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% SOFA Toolbox - demo script
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
@@ -38,7 +38,7 @@ if savefigures==1
 %    print([folder tit '.png'], '-dpng');
 end
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_1_IR.sofa'),IR);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_1_IR.sofa'),IR);
 
 %% Convert to TF
 TF=SOFAgetConventions('SimpleFreeFieldHRTF');
@@ -72,7 +72,7 @@ TF.N=(0:fs/2/IR.API.N:fs/2)';
 
 TF=SOFAupdateDimensions(TF);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_2_TF.sofa'),TF);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_2_TF.sofa'),TF);
 
 %% Plot median plane and horizontal planes for reference
 figure;
@@ -111,7 +111,7 @@ TFE.API.Dimensions.SourcePosition='IC';
 
 TFE=SOFAupdateDimensions(TFE);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_3_TFE.sofa'),TFE);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_3_TFE.sofa'),TFE);
 
 %% Convert to SH
 SH=TFE;
@@ -136,7 +136,7 @@ SH.EmitterPosition_Type='Spherical Harmonics';
 
 SH = SOFAupdateDimensions(SH);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
 
 %% plot median and horizonal planes - spatially continuous
 figure;
@@ -226,7 +226,7 @@ end
 
 TFEint=SOFAupdateDimensions(TFEint);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_5_TFEint.sofa'),TFEint);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_5_TFEint.sofa'),TFEint);
 
 %% interpolate for the horizontal and median planes to SimpleFreeFieldHRTF (TF)
 TFint=TF;
@@ -247,7 +247,7 @@ end
 
 TFint=SOFAupdateDimensions(TFint);
 
-SOFAsave(fullfile(SOFAdbPath,'sofa_api_mo_test','demo_FreeFieldHRTF_6_TFint.sofa'),TFint);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_6_TFint.sofa'),TFint);
 
 %% compare
 figure;

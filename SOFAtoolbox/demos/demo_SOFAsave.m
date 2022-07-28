@@ -8,8 +8,8 @@
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 
-% SOFA API - demo script
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% SOFA Toolbox - demo script
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
@@ -61,13 +61,13 @@ Obj=SOFAupdateDimensions(Obj);
 Obj.GLOBAL_ListenerShortName = 'KEMAR';
 Obj.GLOBAL_History = 'created with a script';
 Obj.GLOBAL_DatabaseName = 'none';
-Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
+Obj.GLOBAL_ApplicationName = 'Demo of the SOFA Toolbox';
 Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 Obj.GLOBAL_Organization = 'Acoustics Research Institute';
 Obj.GLOBAL_AuthorContact = 'piotr@majdak.com';
 Obj.GLOBAL_Comment = 'Contains simple pulses for all directions';
 
 %% save the SOFA file
-SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test','Pulse.sofa');
+SOFAfn=fullfile(SOFAdbPath,'sofatoolbox_test','Pulse.sofa');
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj, compression);

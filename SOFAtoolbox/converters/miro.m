@@ -8,10 +8,7 @@
 
 % #Author: Benjamin Bernschütz (2012-2014)
 % #Author: Johannes M. Arend (2014-2017)
-% #Author: Christoph Pörschmann (TH Köln, University of Applied Sciences,
-%   Institute of Communications Engineering, 
-%   Mail christoph.poerschmann@th-koeln.de, Phone +49 221 8275 2495) (2012-2017)
-
+% #Author: Christoph Pörschmann (TH Köln, University of Applied Sciences, Institute of Communications Engineering, Mail christoph.poerschmann@th-koeln.de, Phone +49 221 8275 2495) (2012-2017)
 % #Author: Chris Pike, BBC R&D (02.2014)
 % #Author: Johannes M. Arend, TH Köln (12.2016)
 % #Author: Johannes M. Arend & Christoph Pörschmann, TH Köln (09.2017)

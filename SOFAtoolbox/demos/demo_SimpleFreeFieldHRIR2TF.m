@@ -5,8 +5,8 @@
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: plot figures as optional parameter added, figures are saved with titles (10.11.2021)
 % 
-% SOFA API - demo script
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% SOFA Toolbox - demo script
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
@@ -72,7 +72,7 @@ if plotfigures==1
 end
 
 %% Save
-SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['ARI_' ARIfile '_' subjectID '_' num2str(length(bins)) '_freqs.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'sofatoolbox_test',['ARI_' ARIfile '_' subjectID '_' num2str(length(bins)) '_freqs.sofa']);
 disp(['Saving:   ' SOFAfn]);
 SOFAsave(SOFAfn,IR,compression);
 
