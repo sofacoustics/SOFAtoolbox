@@ -49,7 +49,7 @@ try
     BTDEI.specs = container.specs; 
     BTDEI.data  = container.data; 
 catch e
-	error(['Load BTDEI file - Error message: ' e.message]);
+	error(['Load BTDEI file - Error message: ' e.message ' Try downloading the BT-DEI database from: http://padva.dei.unipd.it/?page_id=345 to the corresponding directory.']);
 end
 
 BTDEI.type    = BTDEIfold;
