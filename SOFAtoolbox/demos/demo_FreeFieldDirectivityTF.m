@@ -62,10 +62,10 @@ if exist('AKp.m', 'file')
 else
     warning(' Figure 3 of 3 skipped: Trumpet_modern_a4_fortissimo.sofa');
     disp('   To plot this figure you need to:');
-    disp('   - download AKtools.zip from: https://www.ak.tu-berlin.de/menue/publications/open_research_tools/aktools/');
+    disp('   - download AKtools.zip (release) from: https://www.ak.tu-berlin.de/menue/publications/open_research_tools/aktools/');
     disp('   - extract the zip file');
     disp('   - run AKtoolsStart.m');
-    disp('   - add the path of AKtoolsStart.m to Matlab (including subdirectories)');
+    disp('   - add the path of AKtoolsStart.m to Matlab (including subdirectories!)');
 end
 
 %%
