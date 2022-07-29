@@ -11,7 +11,7 @@ function [Obj, log] = SOFAcompact(Obj)
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
 
 % SOFA Toolbox - function SOFAcompact
-% Copyright (C) 2012-2022 Acoustics Research Institute - Austrian Academy of Sciences
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence")
 % You may not use this work except in compliance with the Licence.
 % You may obtain a copy of the Licence at: https://joinup.ec.europa.eu/software/page/eupl

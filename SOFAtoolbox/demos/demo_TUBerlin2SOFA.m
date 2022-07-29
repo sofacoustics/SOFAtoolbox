@@ -1,16 +1,17 @@
-% SOFA API - demo script
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
-% Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
-% You may not use this work except in compliance with the License.
-% You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
-% Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing  permissions and limitations under the License. 
+% SOFA Toolbox - demo script
 
 % load HRTF in TU Berlin format and save as SOFA format
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
+% Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% You may not use this work except in compliance with the License.
+% You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
+% Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the License for the specific language governing  permissions and limitations under the License. 
 
 %% Define parameters
 % Prefix to the files 
@@ -50,12 +51,12 @@ for ii=1:length(radius)
 		% convert and add application specific metadata
 	Obj=SOFAconvertTUBerlin2SOFA(TUB.irs);
 	Obj.GLOBAL_DatabaseName = 'TU-Berlin'; % maybe setting the name by function parameter
-	Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
+	Obj.GLOBAL_ApplicationName = 'Demo of the SOFA Toolbox';
 	Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 	Obj.GLOBAL_Organization = 'Technische Universität Berlin';
 	Obj.GLOBAL_AuthorContact = 'hagen.wierstorf@tu-berlin.de';
 		% save
-	SOFAfn=fullfile(SOFAdbPath, 'sofa_api_mo_test', ['TU-Berlin_' TUBfile 'radius_' sprintf('%g',radius(ii)) 'm.sofa']);
+	SOFAfn=fullfile(SOFAdbPath, 'sofatoolbox_test', ['TU-Berlin_' TUBfile 'radius_' sprintf('%g',radius(ii)) 'm.sofa']);
 	disp(['Saving:  ' SOFAfn]);
 	Obj=SOFAsave(SOFAfn, Obj, compression);
 end

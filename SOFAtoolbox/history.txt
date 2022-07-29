@@ -1,5 +1,5 @@
 *************************************************************
-*** History of SOFA API for Matlab and Octave
+*** History of SOFA Toolbox for Matlab and Octave
 *** Acoustics Research Institute, Austrian Academy of Sciences, Vienna
 *** Project leader: Piotr Majdak, piotr.majdak@oeaw.ac.at
 *** Contributors:
@@ -21,7 +21,7 @@
 ## Rebranding ##
 - main directory renamed to "SOFAtoolbox"
 - repository renamed to "SOFAtoolbox"
-- license updated to EUPL 1.2
+- all SOFA files created by demo_ will be saved in sofatoolbox_test
 
 ## Core Functionality ##
 - .gitignore added

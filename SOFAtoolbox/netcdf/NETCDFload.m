@@ -1,10 +1,8 @@
 function [Obj,Dims] = NETCDFload(filename,flags,varargin)
 %% NETCDFLOAD
-%   Obj = NETCDFload(filename,'all') reads the SOFA object OBJ with all data from
-%   a SOFA file.
+%   Obj = NETCDFload(filename,'all') reads the SOFA object OBJ with all data from a SOFA file.
 %
-%   Obj = NETCDFload(filename,'nodata') ignores the Data. variables while
-%   reading.
+%   Obj = NETCDFload(filename,'nodata') ignores the data, reads variables.
 %
 %   Obj = NETCDFload(filename,[START COUNT],partialDim) reads only COUNT number of data
 %   in dimension partialDim (given as string) beginning with the index START. If START
@@ -15,12 +13,11 @@ function [Obj,Dims] = NETCDFload(filename,flags,varargin)
 %   the file as a string.
 
 % #Author: Piotr Majdak: String array support. Works for 1D and 2D strings only. (10.08.2014)
-% #Author: Michael Mihocic: 'deblank' command added when loading strings 
-%   to avoid trailing empty spaces in size of array dimension (14.10.2021)
+% #Author: Michael Mihocic: 'deblank' command added when loading strings to avoid trailing empty spaces in size of array dimension (14.10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % 
 %% SOFA Toolbox - function netcdf/NETCDFload
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl

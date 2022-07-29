@@ -10,13 +10,13 @@ function [azi,ele]=hor2sph(lat,pol)
 %       azi ... azimuth (0 <= azi < 360)
 %       ele ... elevation (-90 <= ele <= 90)
 %
-%   See also SPH2HOR, SPH2NAV, SPH2VERT, VERT2SPH, NAV2SPH
+%   See also SPH2HOR, SPH2NAV, SPH2HOR, SPH2SH, NAV2SPH
 
 % #Author: Robert Baumgartner
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 
 % SOFA Toolbox - function hor2sph
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences; Wolfgang Hrauda
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl

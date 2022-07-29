@@ -1,14 +1,14 @@
 # compiled convention files
-/API_MO/conventions/*.mat
-/API_MO/conventions/*.txt
+/SOFAtoolbox/conventions/*.mat
+/SOFAtoolbox/conventions/*.txt
 # test files for demos
-/API_MO/demos/*.sofa
-/API_MO/demos/demo_FreeFieldHRTF/*.fig
-/API_MO/demos/demo_FreeFieldHRTF/*.png
-/API_MO/demos/LigetiHall_CubeletToSt450/
-/API_MO/test/*.sofa
-/API_MO/test/*/*.wav
-/API_MO/test/LigetiHall_CubeletToSt450/
+/SOFAtoolbox/demos/*.sofa
+/SOFAtoolbox/demos/demo_FreeFieldHRTF/*.fig
+/SOFAtoolbox/demos/demo_FreeFieldHRTF/*.png
+/SOFAtoolbox/demos/LigetiHall_CubeletToSt450/
+/SOFAtoolbox/test/*.sofa
+/SOFAtoolbox/test/*/*.wav
+/SOFAtoolbox/test/LigetiHall_CubeletToSt450/
 /HRTFs/ARI/*/*.mat
 /HRTFs/BTDEI/*/*/*/*/*/*.mat
 /HRTFs/BTDEI/*/headphones_info.mat
@@ -20,7 +20,7 @@
 /HRTFs/MIT KEMAR/full/*/*.wav
 /HRTFs/Oldenburg/HRIR_database_mat/
 /HRTFs/SCUT/nearfield/
-/HRTFs/SOFA/sofa_api_mo_test/*.sofa
+/HRTFs/SOFA/sofatoolbox_test/*.sofa
 /HRTFs/SOFA/database/*/*.sofa
 /HRTFs/SOFA/headphones/*/*.sofa
 /HRTFs/TU-Berlin KEMAR/*.mat

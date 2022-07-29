@@ -3,8 +3,8 @@
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % 
-% SOFA API - demo script
-% Copyright (C) 2012-2021 Acoustics Research Institute - Austrian Academy of Sciences
+% SOFA Toolbox - demo script
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
@@ -30,11 +30,11 @@ radius=[0.2 0.25 0.3:0.1:1];
 
 %% load and convert
 Obj=SOFAconvertSCUT2SOFA(SCUTroot,radius);
-Obj.GLOBAL_ApplicationName = 'Demo of the SOFA API';
+Obj.GLOBAL_ApplicationName = 'Demo of the SOFA Toolbox';
 Obj.GLOBAL_ApplicationVersion = SOFAgetVersion('API');
 
 %% save SOFA file
 str=sprintf('%g,',radius);
-SOFAfn=fullfile(SOFAdbPath,'sofa_api_mo_test',['SCUT_KEMAR_radius_' str(1:end-1) '.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'sofatoolbox_test',['SCUT_KEMAR_radius_' str(1:end-1) '.sofa']);
 disp(['Saving:  ' SOFAfn]);
 SOFAsave(SOFAfn, Obj, compression); 
