@@ -31,7 +31,8 @@ for ii=1:length(fn)
     
     % move every figure a little to the right from previous one
     H=gcf;
-    if ~isoctave; if ii>1; movegui(H,[(H.Position(1)+(ii-1)*300) H.Position(2)]); end; end
+    % if ~isoctave; if ii>1; movegui(H,[(H.Position(1)+(ii-1)*300) H.Position(2)]); end; end
+	if exist('OCTAVE_VERSION','builtin') == 0; if ii>1; movegui(H,[(H.Position(1)+(ii-1)*300) H.Position(2)]); end; end
    
     % set title
     title(strrep(char(fn(ii)),'_',' '));

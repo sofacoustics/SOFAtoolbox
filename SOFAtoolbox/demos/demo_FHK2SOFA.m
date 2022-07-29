@@ -12,7 +12,8 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 % Octave has no support for the miro class of the FHK data
-if isoctave
+% if isoctave
+if exist('OCTAVE_VERSION','builtin') ~= 0
     warning(['demo_FHK2SOFA does not work in Octave.' newline 'Octave is not able to convert FHK to SOFA, use Matlab instead.']);
     return;
 end

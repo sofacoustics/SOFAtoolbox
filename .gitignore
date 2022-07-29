@@ -24,4 +24,4 @@
 /HRTFs/SOFA/database/*/*.sofa
 /HRTFs/SOFA/headphones/*/*.sofa
 /HRTFs/TU-Berlin KEMAR/*.mat
-
+/SOFAtoolbox/helpers/*.m

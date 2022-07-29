@@ -24,7 +24,7 @@
 - all SOFA files created by demo_ will be saved in sofatoolbox_test
 
 ## Core Functionality ##
-- .gitignore added
+- .gitignore added, updated multiple times
 - Support for spherical harmonics added.
 - SOFAconvertCoordinates.m: type horizontal-polar removed (not (properly) defined in SOFA)
 - SOFAarghelper: minor bugs fixed (changes FB)
@@ -82,6 +82,7 @@
 	- some bugs fixed; all conventions are included in at least one demo file; all demos are tested with Matlab & Octave (run test_SOFAall.m)
 		- Matlab: all demos are working in Matlab, without any visible warnings
 		- Octave: all demos are working without any errors except for FHK2SOFA (not working at all; skipped in Octave), and some minor restrictions cause by unsupported commands, see warning messages during process for details
+	- some bugs fixed; demos that require souce files that are not publicly available will be catched with a warning instead of an error
 - Download links updated for:
 	- HRTFs\ARI\readme.txt
 	- HRTFs\CIPIC\readme.txt
@@ -97,6 +98,9 @@
 	- bug fixed when extracting LU (listener up) coordinates
 	- minor bugs fixed
 - headers of functions checked, updated, author format changed to machine-readable format (#author)
+- helper folder renamed to helpers; just SOFAcalculateITD moved to this directory, folder is prepared for downloadable third-party functions
+- helper functions removed; some functions are already supported by MATLAB, a few functionalities were implemented in the files themselves
+- isoctave.m removed, replaced by code in files
 
 ## TO-DO ##
 - SOFAplotGeometry: complete rewrite with extensive support

@@ -73,9 +73,9 @@ f=filesep;
 % Add the base path and the needed sub-directories
 % (basepath is added in case user navigated to this folder and changes dir)
 if exist('addpath','file') || exist('addpath','builtin') % in Matlab it is a 'file'; in Octave it is a 'built-in' function
-  addpath(basepath,[basepath f 'helper'],[basepath f 'coordinates'],[basepath f 'converters'],[basepath f 'demos'],[basepath f 'netcdf']);
+  addpath(basepath,[basepath f 'helpers'],[basepath f 'coordinates'],[basepath f 'converters'],[basepath f 'demos'],[basepath f 'netcdf']);
 else % in case "addpath" command is not available - can this ever be the case???
-  path([basepath f 'helper'],path);
+  path([basepath f 'helpers'],path);
   path([basepath f 'coordinates'],path);
   path([basepath f 'converters'],path);
   path([basepath f 'demos'],path);

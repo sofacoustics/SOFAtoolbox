@@ -156,7 +156,8 @@ if flags.do_lp
         disp(strcat('  Polynomial order of Butterworth filter: ',num2str(kv.butterpoly)))
         disp(strcat('  Cut-off frequency is: ',num2str(kv.upper_cutfreq),' Hz'))
     end
-    if isoctave; pkg load signal; end
+    % if isoctave; pkg load signal; end
+	if exist('OCTAVE_VERSION','builtin') ~= 0; pkg load signal; end
     cut_off_freq_norm = kv.upper_cutfreq/(fs/2);
  
     [lp_a,lp_b] = butter(kv.butterpoly,cut_off_freq_norm);

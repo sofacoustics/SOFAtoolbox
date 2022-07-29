@@ -158,7 +158,8 @@ end
 %% plot spatially continuous geometry
 SOFAplotGeometry(SH);
 tit='FreeFieldHRTF (TFE, geometry) in Spherical Harmonics'; % title
-if ~isoctave
+% if ~isoctave
+if exist('OCTAVE_VERSION','builtin') == 0
   fig=gcf;
   fig.Position(3:4)=[600,400]; % increase size (supported in Matlab only)
 end

@@ -25,6 +25,10 @@ disp('############################################');
 disp('#######   TEST CONVERTERS TO SOFA   ########');
 disp('############################################');
 
+disp('      ');
+disp('!!! Make sure that all source files are available in the HRTFs directories. See individual readme.txt files for more information !!!');
+disp('      ');
+
 %% demo_ARI2SOFA
 disp('**************  demo_ARI2SOFA  **************');
 clear;
@@ -43,8 +47,13 @@ disp('*** Finished: demo_BTDEI2SOFA (Output: SOFA-file(s))'); disp('      ');
 %% demo_CIPIC2SOFA
 disp('**************  demo_CIPIC2SOFA  **************');
 clear;
-demo_CIPIC2SOFA;
-disp('*** Finished: demo_CIPIC2SOFA (Output: SOFA-file(s))'); disp('      ');
+try
+    demo_CIPIC2SOFA;
+    disp('*** Finished: demo_CIPIC2SOFA (Output: SOFA-file(s))');
+catch
+    warning('demo_CIPIC2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\HRTFs\CIPIC\ directory.')
+end
+disp('      ');
 
 %% demo_FHK2SOFA
 clear;
@@ -60,8 +69,13 @@ disp('*** Finished: demo_FHK2SOFA (Output: SOFA-file(s))'); disp('      ');
 disp('**************  demo_LISTEN2SOFA  **************');
 clear;
 subjectID='1002';
-demo_LISTEN2SOFA;
-disp('*** Finished: demo_LISTEN2SOFA (Output: SOFA-file(s))'); disp('      ');
+try
+    demo_LISTEN2SOFA;
+    disp('*** Finished: demo_LISTEN2SOFA (Output: SOFA-file(s))');
+catch
+    warning('demo_LISTEN2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\HRTFs\LISTEN\ directory.')
+end
+disp('      ');
 
 %% demo_MIT2SOFA
 disp('**************  demo_MIT2SOFA  **************');
@@ -75,8 +89,13 @@ disp('*** Finished: demo_MIT2SOFA (Output: SOFA-file(s))'); disp('      ');
 %% demo_SCUT2SOFA
 disp('**************  demo_SCUT2SOFA  **************');
 clear;
-demo_SCUT2SOFA;
-disp('*** Finished: demo_SCUT2SOFA (Output: SOFA-file(s))'); disp('      ');
+try
+    demo_SCUT2SOFA;
+    disp('*** Finished: demo_SCUT2SOFA (Output: SOFA-file(s))'); 
+catch
+    warning('demo_SCUT2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\HRTFs\SCUT\ directory.')
+end
+disp('      ');
 
 %% demo_TUBerlin2SOFA
 disp('**************  demo_TUBerlin2SOFA  **************');
@@ -136,11 +155,11 @@ disp('**************  demo_SOFAplotHRTF  **************');
 demo_SOFAplotHRTF
 disp('*** Finished: demo_SOFAplotHRTF (Output: Figure(s))'); disp('      ');
 
-%% demo_plot_trumpet_directivity
-% Test plotting HRTFs
-disp('**************  demo_plot_trumpet_directivity  **************');
-demo_plot_trumpet_directivity
-disp('*** Finished: demo_plot_trumpet_directivity (Output: Figure(s))'); disp('      ');
+% %% demo_plot_trumpet_directivity
+% % Test plotting HRTFs
+% disp('**************  demo_plot_trumpet_directivity  **************');
+% demo_plot_trumpet_directivity
+% disp('*** Finished: demo_plot_trumpet_directivity (Output: Figure(s))'); disp('      ');
 
 %% demo_SOFAsave
 disp('**************  SOFAsave  **************');

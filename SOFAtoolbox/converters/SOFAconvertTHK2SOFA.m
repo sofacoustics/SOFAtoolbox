@@ -18,7 +18,8 @@ function Obj = SOFAconvertTHK2SOFA(miroObj)
 % See the License for the specific language governing  permissions and limitations under the License. 
 
 %%
-if isoctave,
+%if isoctave,
+if exist('OCTAVE_VERSION','builtin') ~= 0
     error(['Octave is not able to convert THK to SOFA, use Matlab instead.']);
 end
 
