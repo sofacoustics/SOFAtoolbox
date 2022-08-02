@@ -33,7 +33,7 @@
 - Readme.md: Example fixed (demoPlaySound.m)
 - headers of functions checked, updated, author format changed to machine-readable format (#author)
 - NETCDFload: 'deblank' command added when loading strings to avoid trailing empty spaces in size of array dimension
-- SOFAcalculateITD.m added (adapted from AMT)
+- SOFAcalculateITD.m added, adapted from AMT itdestimator
 - SOFAcalculateLFE.m added (by DC), db changed to mag2db (Octave support)
 - SOFAstart: 
 	- Bug fixed when using 'restart' option: SOFAdbPath and SOFAdbURL were not reset
@@ -73,7 +73,8 @@
 	- demo_SimpleHeadphoneIR.m: if .MeasurementDate is not existing use .GLOBAL_DateCreated as measurement time (legend in figure)
 	- SOFAconvertSCUT2SOFA.m: bug fixed when source files are not available -> error message
 	- demo_BTDEI2SOFA.m: Minor bug fixed in error message text
-	- demo_SOFAcalculateITD.m, demo_SOFAcalculateLFE.m added (by DC)
+	- demo_SOFAcalculateITD.m added
+	- demo_SOFAcalculateLFE.m added (by DC)
 	- demo_SphericalHarmonicsMic added
 - test_SOFAall.m: 
 	- structured (first *->SOFA, then SOFA->*, then SOFA functions, then SOFA conventions), and sorted (alphabetically)
@@ -98,9 +99,10 @@
 	- bug fixed when extracting LU (listener up) coordinates
 	- minor bugs fixed
 - headers of functions checked, updated, author format changed to machine-readable format (#author)
-- helper folder renamed to helpers; just SOFAcalculateITD moved to this directory, folder is prepared for downloadable third-party functions
+- helper folder renamed to helpers; folder is prepared for downloadable third-party functions
 - helper functions removed; some functions are already supported by MATLAB, a few functionalities were implemented in the files themselves
 - isoctave.m removed, replaced by code in files
+- miro.m removed from repository; class file is downloaded if needed (by demo_FHK2SOFA, SOFAconvertFHK2SOFA, SOFAconvertTHK2SOFA); file might also be included in other toolboxes and can be used from them
 
 ## TO-DO ##
 - SOFAplotGeometry: complete rewrite with extensive support

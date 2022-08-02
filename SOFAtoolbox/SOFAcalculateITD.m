@@ -1,6 +1,6 @@
 function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 % SOFAcalculateITD: Estimate ITD from a binaural signal
-%   Usage: [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(data,mode,threshlvl,lowpass,butterpoly,upper_cutfreq) 
+%   Usage: [itd,toa,IACC,Obj] = SOFAcalculateITD(data,mode,threshlvl,lowpass,butterpoly,upper_cutfreq) 
 %
 %   Input parameters:
 % 
@@ -10,18 +10,15 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %       fs:         sampling rate, used only if data provided as matrix
 % 
 %       mode:       (optional) Select one estimation methods
-%                   ('Threshold' (default),'Cen_e2','MaxIACCr', 'MaxIACCe',
-%                   'CenIACCr','CenIACCe', 'CenIACC2e', 'PhminXcor','IRGD')
-%             
-%                   For details concerning estimation methods see:
-%                   'http://asa.scitation.org/doi/10.1121/1.4996457'
+%                   (Threshold (default),Cen_e2,MaxIACCr, MaxIACCe,
+%                   CenIACCr,CenIACCe, CenIACC2e, PhminXcor,IRGD)
 % 
-%       lowpass:    (optional) Bandwidth considered. 'lp' for lowpass (default), 'bb' for broadband
+%       lowpass:    (optional) Bandwidth considered. lp for lowpass (default), bb for broadband
 %
 %       peak:       (optional) Method to find the max, used in Threshold mode only. 
-%                   'hp' for max (default), 'fb' for findpeak
+%                   hp for max (default), fb for findpeak
 % 
-%       threshlvl:  (optional) Set threshold level for 'Threshold' mode in dB.        
+%       threshlvl:  (optional) Set threshold level for Threshold mode in dB.        
 %                   Default is -10 dB. 
 %
 %       butterpoly: (optional) Select the order of the polynom
@@ -34,7 +31,7 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %       lower_cutfreq: (optional) Set frequency of highpass cutoff in Hz, 
 %                      only used in IRGD mode. Default is 1000 Hz.   
 %
-%       'debug':     (optional, 0/1): Output debug information about calculations.
+%       debug     : output debug information about calculations.
 % 
 % 
 %   Output parameters:
@@ -42,20 +39,15 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %       itd:        interaural time difference in seconds
 %       toa:        detected activation onsets for left and right channels
 %       IACC:       interaural cross-correlation coefficient
-%                   Available on when xcorr is used (modes: 'MaxIACCr', 'MaxIACCe',
-%                   'CenIACCr','CenIACCe', 'CenIACC2e')
-%       Obj:        Input SOFA object with Obj.Data.Delay filled
+%                   Available on when xcorr is used (modes: MaxIACCr, MaxIACCe,
+%                   CenIACCr,CenIACCe, CenIACC2e)
+%       Obj:        Input SOFA object with Obj.Data.Delay added
 % 
 % 
 %   Purpose:
 %   Estimates the ITD based on biaural impulse responses.
 %   Several different estimaton methods can be chosen.
 %   MaxIAACe is recommended.
-% 
-%   Requirements: 
-%   -------------
-%
-%   1) SOFA Toolbox from http://sourceforge.net/projects/sofacoustics for Matlab (in e.g. thirdparty/SOFA)
 % 
 %
 %   Examples:
@@ -74,29 +66,24 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %   plane_idx = find( Obj.SourcePosition(:,2) == 0 );
 %   plane_angle = Obj.SourcePosition(plane_idx,1);
 %
-%   Url: https://amtoolbox.org/amt-1.0.0/doc/common/itdestimator_code.php
+%   Url: https://amtoolbox.org/amt-1.2.0/doc/common/itdestimator_code.php
 
-% #Author: Laurin Steidle
+% #Author: AMToolbox, Laurin Steidle, Piotr Majdak, Clara Hollomey, and the AMT team
 % #Author: Robert Baumgartner: data matrix option
-% #Author: Piotr Majdak: Copyright (C) 2009-2021 Piotr Majdak and the AMT team.
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
 % #Author: Michael Mihocic: adaption for SOFA Toolbox 2.0
+% #Author: Michael Mihocic: updated to version 1.2.0 of function itdestimator in Auditory Modeling Toolbox (AMT) (01.08.2022)
 % 
 % This file is part of the SOFA Toolbox 2.0, 
-% basing on the function itdestimator in Auditory Modeling Toolbox (AMT) version 1.0.0
+% basing on the function itdestimator in Auditory Modeling Toolbox (AMT) version 1.2.0
 %
-% This program is free software: you can redistribute it and/or modify
-% it under the terms of the GNU General Public License as published by
-% the Free Software Foundation, either version 3 of the License, or
-% (at your option) any later version.
-%
-% This program is distributed in the hope that it will be useful,
-% but WITHOUT ANY WARRANTY; without even the implied warranty of
-% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-% GNU General Public License for more details.
-%
-% You should have received a copy of the GNU General Public License
-% along with this program.  If not, see <http://www.gnu.org/licenses/>.
+% Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
+% Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% You may not use this work except in compliance with the License.
+% You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
+% Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+% See the License for the specific language governing  permissions and limitations under the License. 
+
 
 
 
@@ -144,7 +131,7 @@ end
 toa = zeros(pos,ear);
 toa_diff = zeros(pos,1);
 IACC = zeros(pos,1);
-delay = zeros(length(Obj.SourcePosition), 2);
+% delay = zeros(length(Obj.SourcePosition), 2);
 
 if kv.debug == 1; disp('SOFAcalculateITD:'); end
 
@@ -202,7 +189,9 @@ switch(flags.mode)
                 for jj=1:ear
                     indB = 0.5*mag2db(squeeze(f_ir(ii,jj,:)).^2);
                     th_value = max(indB) + kv.threshlvl;
-                    toa(ii,jj) = find(indB>th_value,1);
+                    idx=find(indB>th_value,1);
+                    if isempty(idx), idx=NaN; end
+                    toa(ii,jj) = idx; 
                 end
                 toa_diff(ii) = toa(ii,1) - toa(ii,2);     
             end

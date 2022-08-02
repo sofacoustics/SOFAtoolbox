@@ -18,6 +18,18 @@ if exist('OCTAVE_VERSION','builtin') ~= 0
     return;
 end
 
+%% Check if miro.m class file is available, if not download file from server
+% miro class might also be included in other toolboxes, eg. AKtools
+if exist('miro','class') ~= 8
+    % download miro.m
+    disp('Downloading miro.m from TH Köln server...')
+    url = 'http://audiogroup.web.th-koeln.de/FILES/miro.m'; 
+    basepath=which('SOFAstart');
+    basepath=basepath(1:end-12); % Kill the function name from the path.
+    target=[basepath filesep 'helpers' filesep 'miro.m'];
+    websave (target,url);
+end
+
 % load HRTF in FHK format and save as SOFA format
 
 %% Define parameters
