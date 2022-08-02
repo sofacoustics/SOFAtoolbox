@@ -20,6 +20,11 @@ for ii=1:hrtf.API.M
 end
 % SOFAaddVariable(Obj,Name,Dim,Value)
 hrtf2 = SOFAaddVariable(hrtf,'Test','MS',str);
+
+% Add a new string with dimensions [RS]
+strn={'left ear'; 'right ear'};
+hrtf2 = SOFAaddVariable(hrtf2, 'ReceiverDescriptions', 'RS', strn);
+
 % Save as SOFA
 SOFAsave('stringtest_applicationvar.sofa',hrtf2);
 % Reload the file
@@ -34,7 +39,7 @@ end
 clear
 
 
-%% Test with conventions GeneralString
+%% Test with conventions GeneralString (non-standardized convention, just for testing)
 % Create an empty object
 Obj = SOFAgetConventions('GeneralString');
 % Create numeric data with M=15, R=2, N=10
@@ -50,9 +55,7 @@ end
 Obj.String2 = str2;      % String1=[MRS]
 Obj.Data.String1 = str;  % Data.String1=[MS]
 Obj.Data.String2 = str2; % Data.String2=[MRS]
-% Add a new string with dimensions [RS]
-strn={'left ear'; 'right ear'};
-Obj = SOFAaddVariable(Obj, 'Ears', 'RS', strn);
+
 % Update dimensions
 Obj = SOFAupdateDimensions(Obj);
 % Save as SOFA
@@ -69,9 +72,9 @@ end
 if ~prod(strcmp(Obj2.Data.String1,Obj.Data.String1))
     error('Data.String1: Comparison showed differences');
 end
-if ~prod(strcmp(Obj2.Ears,Obj.Ears))
-    error('Ears: Comparison showed differences');
+if ~prod(strcmp(Obj2.ReceiverDescriptions,Obj.ReceiverDescriptions))
+    error('ReceiverDescriptions: Comparison showed differences');
 end
-disp('GeneralString: String1, String2, Data, Ears: Load-Reload: OK');
+disp('GeneralString: String1, String2, Data, ReceiverDescriptions: Load-Reload: OK');
 clear
 delete('stringtest_generalstring.sofa');
