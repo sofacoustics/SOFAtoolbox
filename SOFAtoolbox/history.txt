@@ -13,7 +13,7 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v2.1 (first 2.x release) 
+*** v2.1 (first 2.x release)
 
 
 *** v2.0 (not released, rebranded to SOFA Toolbox)
