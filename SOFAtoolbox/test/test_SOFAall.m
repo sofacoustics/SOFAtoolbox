@@ -51,7 +51,7 @@ try
     demo_CIPIC2SOFA;
     disp('*** Finished: demo_CIPIC2SOFA (Output: SOFA-file(s))');
 catch
-    warning('demo_CIPIC2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\HRTFs\CIPIC\ directory.')
+    warning('demo_CIPIC2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\data\CIPIC\ directory.')
 end
 disp('      ');
 
@@ -73,7 +73,7 @@ try
     demo_LISTEN2SOFA;
     disp('*** Finished: demo_LISTEN2SOFA (Output: SOFA-file(s))');
 catch
-    warning('demo_LISTEN2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\HRTFs\LISTEN\ directory.')
+    warning('demo_LISTEN2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\data\LISTEN\ directory.')
 end
 disp('      ');
 
@@ -93,7 +93,7 @@ try
     demo_SCUT2SOFA;
     disp('*** Finished: demo_SCUT2SOFA (Output: SOFA-file(s))'); 
 catch
-    warning('demo_SCUT2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\HRTFs\SCUT\ directory.')
+    warning('demo_SCUT2SOFA cannot finish successfully. Please make sure to save the source files to the \SOFAtoolbox\data\SCUT\ directory.')
 end
 disp('      ');
 

@@ -2,7 +2,7 @@ function dbPath=SOFAdbPath(newPath)
 % dbPath=SOFAdbPath(newPath)
 %
 %   dbPath=SOFAdbPath returns the path to the directory containing
-%   HRTFs for demos and applications. The default path is: this_directory/../HRTFs/SOFA
+%   HRTFs for demos and applications. The default path is: this_directory/../data/SOFA
 % 
 %   [...]=SOFAdbPath(newPath) sets the path to the directory for further calls
 %   of SOFAdbPath.
@@ -22,13 +22,13 @@ persistent CachedPath;
 
 if exist('newPath','var')
     if strcmp(newPath,'reset')
-        CachedPath=fullfile(fileparts(fileparts(mfilename('fullpath'))),'HRTFs','SOFA');
+        CachedPath=fullfile(fileparts(fileparts(mfilename('fullpath'))),'data','SOFA');
     else
         CachedPath=newPath;
     end
 elseif isempty(CachedPath)  
-    % default: 'this_directory/../HRTFs/SOFA'
-  CachedPath=fullfile(fileparts(fileparts(mfilename('fullpath'))),'HRTFs','SOFA');
+    % default: 'this_directory/../data/SOFA'
+  CachedPath=fullfile(fileparts(fileparts(mfilename('fullpath'))),'data','SOFA');
 end
 dbPath=CachedPath;
 

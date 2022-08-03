@@ -21,6 +21,7 @@
 ## Rebranding ##
 - main directory renamed to "SOFAtoolbox"
 - repository renamed to "SOFAtoolbox"
+- subfolder "HRTFs" renamed to "data"; some files adapted
 - all SOFA files created by demo_ will be saved in sofatoolbox_test
 
 ## Core Functionality ##

@@ -2,6 +2,7 @@
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: updated with variable ReceiverDescriptions instead of Ears (03.08.2022)
 % 
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -38,7 +39,6 @@ else
 end
 clear
 
-
 %% Test with conventions GeneralString (non-standardized convention, just for testing)
 % Create an empty object
 Obj = SOFAgetConventions('GeneralString');
@@ -55,6 +55,10 @@ end
 Obj.String2 = str2;      % String1=[MRS]
 Obj.Data.String1 = str;  % Data.String1=[MS]
 Obj.Data.String2 = str2; % Data.String2=[MRS]
+
+% Add a new string with dimensions [RS]
+strn={'left ear'; 'right ear'};
+Obj = SOFAaddVariable(Obj, 'ReceiverDescriptions', 'RS', strn);
 
 % Update dimensions
 Obj = SOFAupdateDimensions(Obj);

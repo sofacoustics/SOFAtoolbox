@@ -79,7 +79,7 @@ if isfield(X,'PRIVATE'), X=rmfield(X,'PRIVATE'); end
 Xf=fieldnames(X);
 for ii=1:length(Xf)
 	if isempty(strfind(Xf{ii},'_')),	% is not an attribute...
-		if isfield(OC.API.Dimensions, Xf{ii}), % is a known variable		
+		if isfield(OC.API.Dimensions, Xf{ii}), % is a known variable	
 			dim=OC.API.Dimensions.(Xf{ii});
 			if ~iscell(dim), dim={dim}; end;
 			[dim,S]=checkdim(Obj,dim,sizecell(Obj.(Xf{ii})));

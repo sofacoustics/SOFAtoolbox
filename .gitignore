@@ -9,20 +9,21 @@
 /SOFAtoolbox/test/*.sofa
 /SOFAtoolbox/test/*/*.wav
 /SOFAtoolbox/test/LigetiHall_CubeletToSt450/
-/HRTFs/ARI/*/*.mat
-/HRTFs/BTDEI/*/*/*/*/*/*.mat
-/HRTFs/BTDEI/*/headphones_info.mat
-/HRTFs/CIPIC/*/*.mat
-/HRTFs/CIPIC/show_data/
-/HRTFs/CIPIC/CIPIC_hrtf_database/
-/HRTFs/FHK/*.mat
-/HRTFs/LISTEN/IRC_1002/
-/HRTFs/MIT KEMAR/full/*/*.wav
-/HRTFs/Oldenburg/HRIR_database_mat/
-/HRTFs/SCUT/nearfield/
-/HRTFs/SOFA/sofatoolbox_test/*.sofa
-/HRTFs/SOFA/database/*/*.sofa
-/HRTFs/SOFA/headphones/*/*.sofa
-/HRTFs/TU-Berlin KEMAR/*.mat
+/data/ARI/*/*.mat
+/data/BTDEI/*/*/*/*/*/*.mat
+/data/BTDEI/*/headphones_info.mat
+/data/CIPIC/*/*.mat
+/data/CIPIC/show_data/
+/data/CIPIC/CIPIC_hrtf_database/
+/data/FHK/*.mat
+/data/IEM/*.wav
+/data/IEM/*.pdf
+/data/LISTEN/IRC_1002/
+/data/MIT KEMAR/full/*/*.wav
+/data/Oldenburg/HRIR_database_mat/
+/data/SCUT/nearfield/
+/data/SOFA/sofatoolbox_test/*.sofa
+/data/SOFA/database/*/*.sofa
+/data/SOFA/headphones/*/*.sofa
+/data/TU-Berlin KEMAR/*.mat
 /SOFAtoolbox/helpers/*.m
-/SOFAtoolbox/test/LigetiHall_CubeletToSt450.zip

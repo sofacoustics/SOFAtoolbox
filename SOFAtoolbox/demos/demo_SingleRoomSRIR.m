@@ -23,6 +23,14 @@ Obj.Data.IR=rand(4800,1);
 Obj.ListenerPosition=zeros(4800,3); Obj.ListenerPosition(:,1)=1;
 Obj.SourcePosition=zeros(4800,3); Obj.SourcePosition(:,2)=1;
 
+% Add ReceiverDescriptions as string array
+str={};
+for ii=1:Obj.API.R
+  str{ii,1}=['String' num2str(round(rand(1,1)*10000))];
+end
+Obj = SOFAaddVariable(Obj,'ReceiverDescriptions','RS',str);
+
+
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);
 
