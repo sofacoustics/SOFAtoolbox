@@ -74,13 +74,13 @@ for k = 1:size(IR, 2)
         mag_interp = mag;
         
         % interp 
-        x = [freq_vec_ext(2),    freq_vec_ext(f500Hz)];
-        xq = freq_vec_ext(2:f500Hz);
+        x = [1, f500Hz];
+        xq = [1:f500Hz];
         y_mag = [mag(f500Hz); mag(f500Hz)];
         if exist('OCTAVE_VERSION','builtin')
-          mag_interp(2:f500Hz) = interp1(x, y_mag, xq);
+          mag_interp(1:f500Hz) = interp1(x, y_mag, xq);
         else
-          mag_interp(2:f500Hz) = interp1(x, y_mag, xq, 'makima');
+          mag_interp(1:f500Hz) = interp1(x, y_mag, xq, 'makima');
         end
         
         mag_interp = 10.^(mag_interp./20);
