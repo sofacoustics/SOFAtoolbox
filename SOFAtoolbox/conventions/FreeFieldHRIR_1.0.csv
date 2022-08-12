@@ -12,7 +12,7 @@ GLOBAL:Comment			 	attribute
 GLOBAL:DataType	FIR-E	rm	  	attribute
 GLOBAL:History			 	attribute
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute
-GLOBAL:ListenerShortName		m		attribute	ID of the subject from the database
+GLOBAL:ListenerShortName		m		attribute	Short name of the listener (as for example the subject ID).
 GLOBAL:Organization		m	  	attribute
 GLOBAL:References				attribute
 GLOBAL:RoomType	free field	m	  	attribute
@@ -37,7 +37,7 @@ ListenerUp	[0 0 1]	m	IC, MC	double
 ListenerView	[1 0 0]	m	IC, MC	double
 ListenerView:Type	cartesian	m		attribute
 ListenerView:Units	metre	m		attribute
-Data.IR	[0 0]	m	mrne	double
+Data.IR	[0 0]	m	MRNE	double
 Data.SamplingRate	48000	m	I, M	double
 Data.SamplingRate:Units	hertz	m		attribute
-Data.Delay	[0 0]	m	IRE, MRE	double	Additional delay of each IR (in samples)
+Data.Delay	[0 0]	m	IRI, MRI, MRE	double	Additional delay of each IR (in samples)

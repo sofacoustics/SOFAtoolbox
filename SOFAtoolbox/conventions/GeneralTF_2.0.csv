@@ -1,6 +1,6 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute
-GLOBAL:Version	1.0	rm	 	attribute
+GLOBAL:Version	2.0	rm	 	attribute
 GLOBAL:SOFAConventions	GeneralTF	rm	  	attribute	This conventions stores TFs for general purposes, i.e., only the mandatory, SOFA general metadata are pre-defined. This convention is based on GeneralFIR.
 GLOBAL:SOFAConventionsVersion	2.0	rm	  	attribute
 GLOBAL:APIName		rm	  	attribute
@@ -8,7 +8,7 @@ GLOBAL:APIVersion		rm	  	attribute
 GLOBAL:ApplicationName			  	attribute
 GLOBAL:ApplicationVersion			  	attribute
 GLOBAL:AuthorContact		m	  	attribute
-GLOBAL:Comment		m	 	attribute
+GLOBAL:Comment			 	attribute
 GLOBAL:DataType	TF	rm	  	attribute	We store frequency-dependent data here
 GLOBAL:History			 	attribute
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute
@@ -28,7 +28,7 @@ ReceiverPosition:Units	metre	m	  	attribute
 SourcePosition	[0 0 1]	m	IC, MC	double	In order to store different directions/positions around the listener, SourcePosition is assumed to vary
 SourcePosition:Type	spherical	m	  	attribute
 SourcePosition:Units	degree, degree, metre	m	  	attribute
-EmitterPosition	[0 0 0]	m	eCI, eCM	double
+EmitterPosition	[0 0 0]	m	eC, eCM	double
 EmitterPosition:Type	cartesian	m	  	attribute
 EmitterPosition:Units	metre	m	  	attribute
 Data.Real	0	m	mrn	double	The real part of the complex spectrum

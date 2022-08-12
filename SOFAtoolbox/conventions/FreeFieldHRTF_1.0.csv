@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute
 GLOBAL:Version	2.0	rm	 	attribute
 GLOBAL:SOFAConventions	FreeFieldHRTF	rm	  	attribute	This conventions is for HRTFs created under conditions where room information is irrelevant and stored as SH coefficients
-GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute
+GLOBAL:SOFAConventionsVersion	2.0	rm	  	attribute
 GLOBAL:APIName		rm	  	attribute
 GLOBAL:APIVersion		rm	  	attribute
 GLOBAL:ApplicationName			  	attribute
@@ -37,8 +37,8 @@ ListenerUp	[0 0 1]	m	IC, MC	double
 ListenerView	[1 0 0]	m	IC, MC	double
 ListenerView:Type	cartesian	m		attribute
 ListenerView:Units	metre	m		attribute
-Data.Real	[0 0]	m	mrne	double
+Data.Real	[0 0]	m	MRNE	double
 Data.Imag	[0 0]	m	MRNE	double
 N	0	m	N	double
 N:LongName	frequency			attribute
-N:Units	hertz	m		attribute
+N:Units	Hertz	m		attribute

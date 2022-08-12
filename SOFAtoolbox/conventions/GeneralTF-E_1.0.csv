@@ -8,7 +8,7 @@ GLOBAL:APIVersion		rm	  	attribute
 GLOBAL:ApplicationName			  	attribute
 GLOBAL:ApplicationVersion			  	attribute
 GLOBAL:AuthorContact		m	  	attribute
-GLOBAL:Comment		m	 	attribute
+GLOBAL:Comment			 	attribute
 GLOBAL:DataType	TF-E	rm	  	attribute	We store frequency-dependent data depending on the emitter here
 GLOBAL:History			 	attribute
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute
