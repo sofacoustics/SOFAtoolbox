@@ -27,3 +27,6 @@
 /data/SOFA/headphones/*/*.sofa
 /data/TU-Berlin KEMAR/*.mat
 /SOFAtoolbox/helpers/*.m
+~*.ods#
+/SOFAtoolbox/conventions/check
+/SOFAtoolbox/doc
