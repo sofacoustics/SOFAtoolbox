@@ -1,0 +1,5 @@
+.. role:: linkrole(raw)
+   :format: html
+.. |sofastart| replace:: :linkrole:`<a href="/amt-1.2.0/doc/SOFAtoolbox/sofastart.php">sofastart</a>`
+.. |sofaplothrtf| replace:: :linkrole:`<a href="/amt-1.2.0/doc/SOFAtoolbox/sofaplothrtf.php">sofaplothrtf</a>`
+.. |sofaload| replace:: :linkrole:`<a href="/amt-1.2.0/doc/SOFAtoolbox/sofaload.php">sofaload</a>`

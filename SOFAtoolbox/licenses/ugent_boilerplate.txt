@@ -1,0 +1,6 @@
+For non-commercial academic research, you can use it and/or 
+modify it under the terms of the UGent Academic License. Further usage details are provided 
+in the UGent Academic License which can be found in the AMT directory "licences" and at 
+<https://raw.githubusercontent.com/HearingTechnology/Verhulstetal2018Model/master/license.txt>.
+This program is distributed without any warranty; without even the implied warranty of 
+merchantability or fitness for a particular purpose. 

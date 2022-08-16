@@ -1,0 +1,7 @@
+Free software, you can redistribute it and/or modify it under the terms of the 
+GNU General Public License (GPL) as published by the Free Software Foundation, 
+either version 3 of the License, or any later version. Details of the GPL 
+version 3 can be found in the AMT directory "licences" and at 
+   <https://www.gnu.org/licenses/gpl-3.0.html>. 
+This program is distributed without any warranty; without even the implied warranty
+of merchantability or fitness for a particular purpose. 

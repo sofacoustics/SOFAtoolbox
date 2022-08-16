@@ -1,0 +1,5 @@
+fext='.tex'
+urlbase='http://amtoolbox.org/amt-1.1.1/doc/'
+urlext='php'
+widthstr='60ex'
+imagetype='eps'
