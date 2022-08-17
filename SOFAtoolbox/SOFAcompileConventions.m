@@ -156,7 +156,7 @@ function Obj = compileConvention(convention,flag)
                 Obj.Data.(var(6:end)) = convDefault{ii};
                 if isempty(strfind(var(6:end),'_')) 
                     x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
-                    y = regexprep(x2,',',['''' 10 '''']); % enclose in quatations and insert line breaks
+                    y = regexprep(x2,',',['''' 10 '''']); % enclose in quotations and insert line breaks
                     Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
                 end      
             end
