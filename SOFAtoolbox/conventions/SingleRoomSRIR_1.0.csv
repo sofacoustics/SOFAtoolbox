@@ -1,6 +1,6 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute
-GLOBAL:Version	2.0	rm	 	attribute
+GLOBAL:Version	2.1	rm	 	attribute
 GLOBAL:SOFAConventions	SingleRoomSRIR	rm	  	attribute	For measuring SRIRs in a single room with a single excitation source (e.g., a loudspeaker) and a listener containing an arbitrary number of omnidirectional receivers (e.g., a microphone array).
 GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute
 GLOBAL:DataType	FIR	rm	  	attribute	Shall be FIR

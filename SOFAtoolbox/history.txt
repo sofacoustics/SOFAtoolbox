@@ -14,7 +14,7 @@
 *** DEVELOPMENT STATUS ***
 
 *** v2.1 (first 2.x release)
-
+- conventions (csv files) updated to v2.1; several bugs fixed, version numbers and content adapted to standard
 
 *** v2.0 (not released, rebranded to SOFA Toolbox)
 
@@ -42,6 +42,7 @@
 	- flag 'full' added: show all information, including all compiled conventions & versions
 	- changed order of display output messages ((c) first)
 	- Bug fixed when adding paths (added at bottom in some specific cases)
+- SOFAcheckFilename: fixes for strings instead of characters, and file names shorter than 7 characters
 
 ## Toolbox Functionality
 - Conventions:
@@ -64,7 +65,7 @@
 		- '10' replaced by 'newline' in strings to avoid warnings in Octave
 		- display messages changed to output variable dispOutput
 	- bug fixed: replaced version "2" by "2.0" to keep one minor digit everywhere
-	- flags fixed
+	- flags fixed	
 - Demos:	
 	- demo_FreeFieldHRTF.m added; updated several times, allows saving figures as fig & png (see parameter 'savefigures'), some bug fixes
 	- demo_FreeFieldDirectivityTF.m: adapted to actual data on sofaconventions.org -> working now; plot_trumpet_directivity included

@@ -1,6 +1,6 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute
-GLOBAL:Version	2.0	rm	 	attribute
+GLOBAL:Version	2.1	rm	 	attribute
 GLOBAL:SOFAConventions	FreeFieldHRIR	rm	  	attribute	An extension of SimpleFreeFieldHRIR in order to consider more complex data sets described in spatially continuous representation. Each HRTF direction corresponds to an emitter, and a consistent measurement for a single listener and all directions is described by a set of the emitter positions surrounding the listener.
 GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute
 GLOBAL:APIName		rm	  	attribute

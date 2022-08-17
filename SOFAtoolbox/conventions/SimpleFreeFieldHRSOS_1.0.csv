@@ -1,6 +1,6 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute
-GLOBAL:Version	2.0	rm	 	attribute
+GLOBAL:Version	2.1	rm	 	attribute
 GLOBAL:SOFAConventions	SimpleFreeFieldHRSOS	rm	  	attribute	This convention set follows SimpleFreeFieldHRIR but the data is stored as second-order section (SOS) coefficients.
 GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute
 GLOBAL:APIName		rm	  	attribute

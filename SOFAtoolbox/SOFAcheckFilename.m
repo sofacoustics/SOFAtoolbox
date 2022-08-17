@@ -1,9 +1,10 @@
 function newfn=SOFAcheckFilename(fn)
 %SOFACHECKFILENAME
-%   newFN = SOFAcheckFilename(FN) checks the filename FN replaces certain characters
+%   newFN = SOFAcheckFilename(FN) checks the filename, and replaces certain characters
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
+% #Author: Michael Mihocic: fixes for strings instead of characters, and file names shorter than 7 characters (17.08.2022)
 
 % SOFA Toolbox - function SOFAcheckFilename
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -15,10 +16,13 @@ function newfn=SOFAcheckFilename(fn)
 
 
 % filename = string?
+if isstring(fn) 
+    fn = char(fn);
+end
 if ~ischar(fn)
 	error('Filename must be a string.');
 end
-if strcmp(fn(1:7),'http://')
+if length(fn)>6 && strcmp(fn(1:7),'http://')
   newfn=fn; % remote file
 else
   fn=strrep(fn,'/',filesep);
