@@ -4,18 +4,18 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 %   [dispOutput] = SOFAcompileConventions(sofaconventions) compiles the specified
 %   SOFA conventions. For every convention, a CSV file must exist that
 %   will be compiled to a .mat file and used later by SOFAgetConventions().
-% 
-%   The CSV file must be in the directory conventions and can contain 
-%   files for multiple versions of the same conventions. For each version, 
+%
+%   The CSV file must be in the directory conventions and can contain
+%   files for multiple versions of the same conventions. For each version,
 %   SOFAcompileConventions generates 3 files, one for each flag (r, m, and all)
 %
 %   Before compiling, SOFAcompileConventions checks if the modification
 %   date of the .mat files is older than that of the .csv file. Compiling
 %   is not performed if all .mat files are newer than the .csv file. This
-%   behaviour is required for operation in a read-only directory. 
+%   behaviour is required for operation in a read-only directory.
 %
 %   SOFAcompileConventions ignores all files beginning with '_' (underscore).
-% 
+%
 %   Output variable dispOutput contains a string with all compiled
 %   conventions information.
 
@@ -23,13 +23,13 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 % #Author: Michael Mihocic: doc fixed, header documentation updated (20.10.2021)
 % #Author: Michael Mihocic: display information changed to output variable (11.11.2021)
 %
-% SOFA Toolbox 
+% SOFA Toolbox
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing  permissions and limitations under the License. 
+% See the License for the specific language governing  permissions and limitations under the License.
 
 baseFolder = fileparts(which('SOFAstart'));
 dispOutput='';
@@ -58,13 +58,13 @@ elseif ~iscell(conventions)
     conventions={conventions};
 end
 
-  
+
 %% ----- Convert convention csv files into mat files -----
 for convention = conventions
     % Read convention description from csv file
     fid = fopen(fullfile(baseFolder,'conventions', ...
                          strcat(convention{:},'.csv')));
-	if exist('OCTAVE_VERSION','builtin') 
+	if exist('OCTAVE_VERSION','builtin')
       % We're in Octave where textscan works differently since ver. 4.2
       C_lines = textscan(fid,'%s','Delimiter','\n','Headerlines',1);
       C_line = C_lines{1}{1};
@@ -72,26 +72,26 @@ for convention = conventions
       C_maxcols = 2;
       for line_nr = 1:length(C_lines{1})
         C_line = C_lines{1}{line_nr};
-        C_elems{line_nr} = strsplit(C_line, '\t', 'collapsedelimiters', false); 
+        C_elems{line_nr} = strsplit(C_line, '\t', 'collapsedelimiters', false);
         C_maxcols = max(C_maxcols, length(C_elems{line_nr}));
       end
       % C = cell(1,length(C_elems{1}));
       C = cell(1,C_maxcols);
       for col_nr = 1:C_maxcols
-      % for col_nr = 1:length(C_elems{1})        
-        C{col_nr} = cell(length(C_lines{1}),1); 
+      % for col_nr = 1:length(C_elems{1})
+        C{col_nr} = cell(length(C_lines{1}),1);
       end
       for line_nr = 1:length(C_lines{1})
-        for col_nr = 1:length(C_elems{line_nr}) 
-        % for col_nr = 1:length(C_elems{1})  
-          C{col_nr}{line_nr} = C_elems{line_nr}{col_nr}; 
+        for col_nr = 1:length(C_elems{line_nr})
+        % for col_nr = 1:length(C_elems{1})
+          C{col_nr}{line_nr} = C_elems{line_nr}{col_nr};
         end
       end
   else
       x=char(fread(fid));
       xr=strrep(x',char([9 13 10]),char([9 32 32 13 10]));
       C = textscan(xr,'%s%s%s%s%s%s','Delimiter','\t','Headerlines',1,'WhiteSpace','');
-  end	
+  end
   fclose(fid);
 
     % Convert to mat files for r,m,a cases
@@ -104,7 +104,7 @@ for convention = conventions
 %                 disp(['Compiling ',convention{:},'.csv: ', ...
 %                             Obj.GLOBAL_SOFAConventions, ' ', ...
 %                             Obj.GLOBAL_SOFAConventionsVersion]);
-            if ~strcmp(dispOutput,''); dispOutput = [dispOutput 10]; end
+            if ~strcmp(dispOutput,''); dispOutput = [dispOutput char(10)]; end  % char(10) does not return a warning in Octave, compared to newline
             dispOutput = [dispOutput 'Compiling ',convention{:},'.csv: ', Obj.GLOBAL_SOFAConventions, ' ', Obj.GLOBAL_SOFAConventionsVersion];
         end
             save(fullfile(baseFolder,'conventions', ...
@@ -149,16 +149,16 @@ function Obj = compileConvention(convention,flag)
                 Obj.(var) = convDefault{ii};
                 if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
                     x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
-                    y = regexprep(x2,',',['''' 10 '''']); % enclose in quotations and insert line breaks
+                    y = regexprep(x2,',',['''' char(10) '''']); % enclose in quotations and insert line breaks  % char(10) does not return a warning in Octave, compared to newline
                     Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
                 end
-            else      
+            else
                 Obj.Data.(var(6:end)) = convDefault{ii};
-                if isempty(strfind(var(6:end),'_')) 
+                if isempty(strfind(var(6:end),'_'))
                     x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
-                    y = regexprep(x2,',',['''' 10 '''']); % enclose in quotations and insert line breaks
+                    y = regexprep(x2,',',['''' char(10) '''']); % enclose in quotations and insert line breaks  % char(10) does not return a warning in Octave, compared to newline
                     Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
-                end      
+                end
             end
         end
     end
