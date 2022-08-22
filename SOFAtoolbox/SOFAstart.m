@@ -1,5 +1,5 @@
 function SOFAstart(flags)
-% SOFAstart 
+% SOFAstart
 %
 %   SOFAstart adds all needed pathes and checks if we need the Matlab or Octave
 %   version of the API
@@ -11,7 +11,7 @@ function SOFAstart(flags)
 %
 %   SOFAstart checks if SOFA has been started within the MATLAB session. If
 %   it is the case, SOFAstart skips all the initialization. If the initialization
-%   is required, SOFAstart('restart') performs the initialization in any case. 
+%   is required, SOFAstart('restart') performs the initialization in any case.
 %
 
 % #Author: Piotr Majdak
@@ -21,14 +21,14 @@ function SOFAstart(flags)
 %
 % SOFA Toolbox - function SOFAstart
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
-% Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
 %% Input parameters
-verbose = 2; 
+verbose = 2;
 restart = 0;
 if nargin>0
 	if strcmpi(flags,'silent'), verbose=0; end
@@ -40,8 +40,8 @@ end
 
 %% do not start when already started but not forced to restart
 persistent started
-if ~isempty(started) && ~restart 
-    return; 
+if ~isempty(started) && ~restart
+    return;
 end
 started=1;
 %% Check required support
@@ -50,7 +50,7 @@ if exist('OCTAVE_VERSION','builtin')
   if compare_versions(OCTAVE_VERSION,'3.6.0','<=')   % check if the octave version is high enough
     error('You need Octave >=3.6.0 to work with SOFA.');
   end
-  pkg load netcdf  
+  pkg load netcdf
   if ~which('test_netcdf') % check if octcdf is installed
     error('You have to install the netcdf package in Octave to work with SOFA.');
   end
@@ -62,7 +62,7 @@ else
 end
 
 
-%% Add Paths 
+%% Add Paths
 % Get the basepath as the directory this function resides in.
 % The 'which' solution below is more portable than 'mfilename'
 % becase old versions of Matlab does not have "mfilename('fullpath')"
@@ -102,8 +102,8 @@ if verbose
 				text=[text ', ' convs{ii}];
 		end
 		disp(text);
-        disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath('reset') ]);
-		disp(['SOFAdbURL (internet repository): ' SOFAdbURL('reset')]);	
+		disp(['SOFAdbPath (local HRTF database): ' SOFAdbPath('reset') ]);
+		disp(['SOFAdbURL (internet repository): ' SOFAdbURL('reset')]);
 	end
 end
 
