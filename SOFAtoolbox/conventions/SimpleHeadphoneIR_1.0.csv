@@ -37,13 +37,13 @@ Data.SamplingRate:Units	hertz	m		attribute
 Data.Delay	[0 0]	m	IR, MR	double
 GLOBAL:DatabaseName		m	  	attribute	Correspondence to a database
 GLOBAL:ListenerShortName		m	  	attribute	Correspondence to a subject from the database
-GLOBAL:ListenerDescription		m		attribute	Narrative description of the listener (or mannequin)
-GLOBAL:SourceDescription		m		attribute	Narrative description of the headphones
-GLOBAL:SourceManufacturer		m		attribute	Name of the headphones manufacturer
+GLOBAL:ListenerDescription				attribute	Narrative description of the listener (or mannequin)
+GLOBAL:SourceDescription				attribute	Narrative description of the headphones
+GLOBAL:SourceManufacturer				attribute	Name of the headphones manufacturer
 SourceManufacturer	{''}		MS	string	Optional M-dependent version of the attribute SourceManufucturer
-GLOBAL:SourceModel		m		attribute	Name of the headphone model. Must uniquely describe the headphones of the manufacturer
+GLOBAL:SourceModel				attribute	Name of the headphone model. Must uniquely describe the headphones of the manufacturer
 SourceModel	{''}		MS	string	Optional M-dependent version of the attribute SourceModel
-GLOBAL:SourceURI		m		attribute	URI of the headphone specifications
+GLOBAL:SourceURI				attribute	URI of the headphone specifications
 GLOBAL:ReceiverDescription		m		attribute	Narrative description of the microphones
 ReceiverDescriptions	{''}		MS	string	R-dependent version of the attribute ReceiverDescription
 GLOBAL:EmitterDescription		m		attribute	Narrative description of the headphone drivers

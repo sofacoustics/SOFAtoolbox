@@ -24,9 +24,9 @@ GLOBAL:RoomShortName				attribute	Short name of the Room
 GLOBAL:RoomDescription				attribute	Informal verbal description of the room
 GLOBAL:RoomLocation				attribute	Location of the room
 GLOBAL:RoomGeometry				attribute	URI to a file describing the room geometry.
-RoomTemperature	0		I, M	double	Temperature during measurements
+RoomTemperature	0		I, M	double	Temperature during measurements, given in Kelvin.
 RoomTemperature:Units	kelvin			attribute	Units of the room temperature
-RoomVolume	0		I, M	double	Volume of the room
+RoomVolume	0		I, MI	double	Volume of the room
 RoomVolume:Units	cubic metre			attribute	Units of the room volume
 RoomCornerA	[0 0 0]		IC, MC	double
 RoomCornerB	[1 2 3]		IC, MC	double
@@ -44,7 +44,7 @@ ListenerView:Type	cartesian	m		attribute
 ListenerView:Units	metre	m		attribute
 GLOBAL:ReceiverShortName				attribute
 GLOBAL:ReceiverDescription				attribute
-ReceiverDescriptions	{''}		RS	string	R-dependent version of the attribute ReceiverDescription
+ReceiverDescriptions	{''}		RS, RSM	string	R-dependent version of the attribute ReceiverDescription
 ReceiverPosition	[0 0 0]	m	IC, RCI, RCM	double
 ReceiverPosition:Type	spherical	m	  	attribute	Can be of any type enabling both spatially discrete and spatially continuous representations.
 ReceiverPosition:Units	degree, degree, metre	m	  	attribute
@@ -63,7 +63,7 @@ SourceView:Type	cartesian	m		attribute
 SourceView:Units	metre	m		attribute
 GLOBAL:EmitterShortName				attribute
 GLOBAL:EmitterDescription				attribute
-EmitterDescriptions	{''}		ES	string	E-dependent version of the attribute EmitterDescription
+EmitterDescriptions	{''}		ES, ESM	string	E-dependent version of the attribute EmitterDescription
 EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	Can be of any type enabling both spatially discrete and spatially continuous representations.
 EmitterPosition:Type	spherical	m	  	attribute
 EmitterPosition:Units	degree, degree, metre	m	  	attribute
@@ -75,3 +75,4 @@ Data.IR	0	m	mrne	double	Impulse responses
 Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay
 Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
 Data.Delay	0	m	IRI, MRI, MRE	double	Additional delay of each IR (in samples)
+MeasurementDate	0		M	double	Optional M-dependent date and time of the measurement.
