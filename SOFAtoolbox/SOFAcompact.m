@@ -1,11 +1,14 @@
 function [Obj, log] = SOFAcompact(Obj)
-%SOFAcompact
-%   Obj = SOFAcompact(Obj) 
-%    compacts the unique value to singleton dimensions 
-%    of variables where possible. 
-%    Current limitation: Variables with 3 dimensions will be only compacted
-%    when the third dimension is the compressible one.
+%SOFAcompact - Compact a SOFA object by removing redundancies in the objects 
+%   Usage: Obj = SOFAcompact(Obj) 
 %
+%   SOFAcompact compacts the unique values to singleton dimensions 
+%   of variables where possible. For example, if SourcePosition has M entries
+%   but all of them refer to the same position, SOFAcompact will compact
+%   SourcePosition to a single entry. 
+%    
+%   Current limitation: Variables with 3 dimensions will be only compacted
+%   when the third dimension is the compressible one.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
