@@ -1,42 +1,54 @@
 function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
-% SOFAplotHRTF(OBJ, TYPE, R, DIR, COLOR) plots the R receiver of HRTFs given in OBJ.
-%  The following TYPEs are supported:
-%  'EtcHorizontal'  energy-time curve in the horizontal plane (+/- THR)
-%  'EtcMedian'      energy-time curve in the median plane (+/- THR)
-%  'MagHorizontal'  magnitude spectra in the horizontal plane (+/- THR)
-%  'MagMedian'      magnitude spectra in the median plane (+/- THR)
-%  'MagSpectrum'    single magnitude spectrum for direction(s) DIR in COLOR
-%  'MagSagittal'    magnitude spectra in a sagittal plane specified by OFFSET +/- THR
-%  'ITDhorizontal'  interaural time delay in the horizontal plane (not
-%  supported in Octave)
+%SOFAplotHRTF - Plot HRTFs 
+%   Usage: SOFAplotHRTF(Obj, type)
+%          SOFAplotHRTF(Obj, type, R) 
+%          SOFAplotHRTF(Obj, type, key,value)
 %
-%  More options are available by SOFAplotHRTF(Obj,type,parameter,value)
+%   SOFAplotHRTF(Obj, type) plots HRTFs of the first receiver (left ear) 
+%   provided in Obj as the figure described by type: 
+%     'EtcHorizontal'  Energy-Time Curve (ETC) in the horizontal plane (+/- THR)
+%     'EtcMedian'      ETC in the median plane (+/- THR)
+%     'MagHorizontal'  Magnitude spectra in the horizontal plane (+/- THR)
+%     'MagMedian'      Magnitude spectra in the median plane (+/- THR)
+%     'MagSagittal'    Magnitude spectra in a sagittal plane specified by OFFSET +/- THR
+%     'MagSpectrum'    A single magnitude spectrum for given direction(s) DIR in COLOR
+%     'ITDhorizontal'  Interaural time delays (ITDs) in the horizontal plane (Matlab only)
 %
-%   Parameters:
-%     'receiver' receiver  to be plotted. Default: 1
-%     'dir'    fixes the positions to be plotted:
-%              [azi]: shows all direction for that azimuth
-%              [azi, ele]: shows all distances for that direction 
-%              [azi, ele, distance]: shows only that position 
-%              default: [0,0]
-%     'offset' chooses a plane to be plotted. Default: 0 deg.
-%     'thr'    threshold for selecting positions around a plane. Default: 2 deg.
-%     'floor'  lowest amplitude shown (dB). Default: -50 dB.
-%     'convert' convert to TF domain. Function should automatically choose if neccessary. Default: 0 if conversion is not necessary; 1 if conversion is neccessary.
-% 
-%   Additionally, 'b', 'r', 'g', etc. can be used for plotting in color 
-%   as used by PLOT.
+%   SOFAplotHRTF(Obj,type,key,value) defines the plotting in more detail:
+%     'receiver' : Value specifies the receiver to be plotted. Default: 1
+%     'dir'      : Value specifies the positions to be plotted. Value can be:
+%                  [azi]:         show all directions described by the azimuth angles azi.
+%                  [azi, ele]:    show all directions described by the pairs of 
+%                                 azimuth and elevation angles azi an ele, respectively.
+%                  [azi, ele, r]: show only that specific positions described by the 
+%                                 spherical coordinates azi, ele, and r.
+%                  Default: [0,0].
+%     'offset'   : Shifts the plane for which the HRTFs will be plotted. The amount of the 
+%                  shift is described by value in degrees. 
+%                  For plots in the horizontal plane, offset shifts the plane to be above the eye level.
+%                  For plots in the the sagittal plane, offset shifts the plane to the left. 
+%                  Default: 0 deg.
+%     'thr'      : Threshold for considering the data in the proximity of the selected plane. 
+%                  Default: 2 deg.
+%     'floor'    : Lowest amplitude (dB) shown in the plot. Default: -50 dB.
 %
+%   SOFAplotHRTF(Obj,type,..,flags) defines the following flags:
+%     'b','r','k','y','g','c','m' : Color of the plots (MagSpectrum only)
+%     'normalize','absolute'      : Normalize the data before applying the floor. Default: normalize.
+%     'convert2TF','original'     : Convert to the TF domain before plotting. SOFAplotHRTF 
+%                                   automatically selects if the convertion is required but this 
+%                                   mechanism can be overwritten with this flag. 
 %
-%  Supported conventions: 
-%    SimpleFreeFieldHRIR
-%    SimpleFreeFieldHRSOS
-%    SimpleFreeFieldHRTF
-%    SHFreeFieldHRTF
-%    some special cases of GeneralTF, GeneralTF-E.
+%   SOFAplotHRTF supports the following conventions: 
+%     SimpleFreeFieldHRIR
+%     SimpleFreeFieldHRSOS
+%     SimpleFreeFieldHRTF
+%     SHFreeFieldHRTF
+%     and some special cases of GeneralTF, GeneralTF-E.
 %
-% [M,meta,h]=SOFAplotHRTF... returns the matrix M and meta information about displayed in the figure.
-%    h is the handle of the plot. meta.idx is the index to the vectors actually plotted.
+%   [M,meta,h]=SOFAplotHRTF(..) returns the matrix M, the meta information about 
+%   the displayed the figure, and the handle h of the plot. meta contains the field idx
+%   which is the index to the vectors actually plotted.
 %
 %
 
@@ -50,6 +62,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Michael Mihocic: plotting simplefreefieldhrtf fixed (in Octave); titles fixed when plotting magspectrum (02.06.2022) 
 % #Author: Michael Mihocic: plotting improved when data is available in TF format (more stable, no conversions by default);
 %                           figure titles improved (04.07.2022) 
+% #Author: Piotr Majdak: conversion to TF is a flag now. It's called convert2TF. 
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -73,7 +86,7 @@ if nargin == 3 && ischar(type) && isscalar(varargin{1})
     if exist('OCTAVE_VERSION','builtin')
       % We're in Octave
        if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
-          % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
+          % In Octave 'contains' is not available, thus, the list has to be extended manually 
           convert = 0;
       else
           convert = 1;
@@ -96,7 +109,7 @@ else
     definput.keyvals.floor=-50;
     definput.flags.color={'b','r','k','y','g','c','m'};
     definput.flags.level={'normalize','absolute'};          
-    definput.keyvals.convert=1;
+    definput.flags.convert2tf={'convert2tf','original'};
     argin=varargin;
     for ii=1:length(argin)
         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
@@ -108,25 +121,7 @@ else
     color = flags.color;
     offset = kv.offset;
     noisefloor=kv.floor;      
-    convert=kv.convert; % force convert or not
-    
-%     if exist('OCTAVE_VERSION','builtin')
-%       % We're in Octave
-%        if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
-%           % frequency domain input data only; for Octave the list has to be extended manually because 'contains' is not available
-%           convert=kv.convert;
-%       else
-%           convert = 1;
-%       end       
-%     else
-%       % We're in Matlab
-%       if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
-%           % frequency domain input data only 
-%           convert=kv.convert;
-%       else
-%           convert = 1;
-%       end    
-%     end
+    convert=flags.do_convert2tf; % force convertion to TF (or not)
     
 end
 
@@ -161,16 +156,12 @@ if strcmp(Obj.SourcePosition_Type,'cartesian')
 % %     Obj2=Obj; % compare to old method (Obj2)
     for ii=1:Obj.API.M
         [Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3)]=cart2sph(Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3));
-%             [Obj2.SourcePosition(ii,1),Obj2.SourcePosition(ii,2),Obj2.SourcePosition(ii,3)]=cart2sph(Obj2.SourcePosition(ii,1),Obj2.SourcePosition(ii,2),Obj2.SourcePosition(ii,3));
         Obj.SourcePosition(ii,2)=rad2deg(Obj.SourcePosition(ii,2));
-%             Obj2.SourcePosition(ii,2)=rad2deg(Obj2.SourcePosition(ii,2));
         Obj.SourcePosition(ii,1)=rad2deg(Obj.SourcePosition(ii,1));
-%             Obj2.SourcePosition(ii,1)=rad2deg(Obj2.SourcePosition(ii,1));
         Obj.SourcePosition(ii,1)=mywrapTo180(Obj.SourcePosition(ii,1));
-%             Obj2.SourcePosition(ii,1)=npi2pi(Obj2.SourcePosition(ii,1),'degrees'); % requires Mapping toolbox in Matlab
     end
     Obj.SourcePosition_Type='spherical';
-    Obj.SourcePosition_Units='degrees';
+    Obj.SourcePosition_Units='degrees,degrees,metre';
 end
 
 %% Plot according to the type
