@@ -1,6 +1,6 @@
 function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist,callfun)
-%SOFAARGHELPER  Parse arguments for SOFA
-%   Usage: [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist,callfun);
+%SOFAarghelper - Parse arguments for SOFA
+%   Usage: [flags,keyvals,varargout]  = SOFAarghelper(posdepnames, definput, arglist, callfun);
 %
 %   Input parameters:
 %      posdepnames : Names of the position dependant parameters.
