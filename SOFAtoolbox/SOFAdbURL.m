@@ -1,10 +1,12 @@
 function dbURL=SOFAdbURL(dbURL)
-% dbURL=SOFAdbURL
+%SOFAdbURL - set/return the URL to the remote SOFA database
+%   Usage: dbURL=SOFAdbURL(newURL)
 %
-%   dbURL=SOFAdbURL returns the internet URL to the directory containing
-%   HRTFs. The default URL is http://www.sofacoustics.org/data.
+%   dbURL=SOFAdbURL() returns the URL to the remote directory containing
+%   SOFA files such as HRTFs and SRIRs. 
+%   The default URL is http://www.sofacoustics.org/data.
 %
-%   dbURL=SOFAdbURL(newURL) sets the internet URL to the newURL for further calls
+%   SOFAdbURL(newURL) sets the URL to newURL for further calls
 %   of SOFAdbURL.
 
 % #Author: Piotr Majdak
