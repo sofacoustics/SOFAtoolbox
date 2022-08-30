@@ -9,9 +9,9 @@ function Obj = SOFAgetConventions(sofaconventions,flags,version)
 % 
 %    Obj = SOFAgetConventions(sofaconvention, flags) returns only selected
 %    metadata for the corresponding sofaconvention with the following encoding:
-%        m: mandatory
+%        m: mandatory (default)
 %        r: readonly
-%        a: all (default)
+%        a: all 
 %
 %    Obj = SOFAgetConventions(sofaconvention, version) returns only the selected
 %    version of the convention. 
@@ -36,14 +36,14 @@ persistent AllObj;
 %% If flags not provided, return the conventions with all metadata
 if ~exist('version','var')
   if ~exist('flags','var')
-    flags='a'; % no flags, no version --> flags = a, version = any.
+    flags='m'; % no flags, no version --> flags = a, version = any.
   else
     switch flags % no version, check if flags is flags or version
       case {'a', 'm', 'r'}
         % flags is flags --> do nothing
       otherwise
         version=flags;  % flags is version --> copy to version 
-        flags='a';
+        flags='m';
     end
   end
 end
