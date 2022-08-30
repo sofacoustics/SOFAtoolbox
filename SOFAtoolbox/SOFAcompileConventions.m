@@ -1,22 +1,22 @@
 function [dispOutput] = SOFAcompileConventions(conventions)
-%SOFAcompileConventions
+%SOFAcompileConventions - Compile conventions from CSV to MAT
+%   Usage: out = SOFAcompileConventions(conventions)
+% 
+%   SOFAcompileConventions() compiles all conventions within the directory 
+%   'conventions', i.e., it loads a CSV file, interprete it as a Matlab/Octave 
+%   structure, and saves as MAT file. This MAT file is later used by 
+%   SOFAgetConventions. Note that SOFAcompileConventions ignores all 
+%   files beginning with '_' (underscore) in the 'conventions' directory.
 %
-%   [dispOutput] = SOFAcompileConventions(sofaconventions) compiles the specified
-%   SOFA conventions. For every convention, a CSV file must exist that
-%   will be compiled to a .mat file and used later by SOFAgetConventions().
+%   SOFAcompileConventions(conv) compiles the conv convention only. 
+%   The convention conv must be in the directory 
+%   'conventions'. For each conv, multiple versions of the 
+%   same conventions conv can be encoded by 'conv_version.csv'. For each version,
+%   SOFAcompileConventions generates three MAT files: conv_m_version.mat (mandatory
+%   metadata), conv_r_version.mat (read-only metadata), and conv_a_version.mat (all
+%   metadata).
 %
-%   The CSV file must be in the directory conventions and can contain
-%   files for multiple versions of the same conventions. For each version,
-%   SOFAcompileConventions generates 3 files, one for each flag (r, m, and all)
-%
-%   Before compiling, SOFAcompileConventions checks if the modification
-%   date of the .mat files is older than that of the .csv file. Compiling
-%   is not performed if all .mat files are newer than the .csv file. This
-%   behaviour is required for operation in a read-only directory.
-%
-%   SOFAcompileConventions ignores all files beginning with '_' (underscore).
-%
-%   Output variable dispOutput contains a string with all compiled
+%   out = SOFAcompileConventions(..) returns a string with all compiled
 %   conventions information.
 
 % #Author: Piotr Majdak
