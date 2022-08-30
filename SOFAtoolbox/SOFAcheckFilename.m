@@ -1,6 +1,10 @@
 function newfn=SOFAcheckFilename(fn)
-%SOFACHECKFILENAME
-%   newFN = SOFAcheckFilename(FN) checks the filename, and replaces certain characters
+%SOFAcheckFilename - Check and prepare file name
+%   Usage: newfn=SOFAcheckFilename(fn)
+%   
+%   SOFAcheckFilename checks the filename fn, and replaces
+%   file separators by the actual file separators of the current system. 
+%   If fn begins with 'db:', then it is replaced by the SOFAdbPath. 
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
