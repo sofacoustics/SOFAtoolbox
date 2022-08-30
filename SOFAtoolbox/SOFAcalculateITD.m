@@ -1,6 +1,11 @@
 function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
-% SOFAcalculateITD: Estimate ITD from a binaural signal
+% SOFAcalculateITD - Estimate the ITD from a SOFA obj
 %   Usage: [itd,toa,IACC,Obj] = SOFAcalculateITD(data,mode,threshlvl,lowpass,butterpoly,upper_cutfreq) 
+%
+%   SOFAcalculateITD estimates the ITD between the first two receiver channels 
+%   found within the Data.IR matrix. Only FIR data type is supported. 
+%
+%   SOFAcalculateITD is a fork of itdestimator from the AMT <amtoolbox.org>.
 %
 %   Input parameters:
 % 
@@ -68,11 +73,7 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %
 %   Url: https://amtoolbox.org/amt-1.2.0/doc/common/itdestimator_code.php
 
-% #Author: AMToolbox, Laurin Steidle, Piotr Majdak, Clara Hollomey, and the AMT team
-% #Author: Robert Baumgartner: data matrix option
-% #Author: Michael Mihocic: header documentation updated (20.10.2021)
-% #Author: Michael Mihocic: adaption for SOFA Toolbox 2.0
-% #Author: Michael Mihocic: updated to version 1.2.0 of function itdestimator in Auditory Modeling Toolbox (AMT) (01.08.2022)
+% #Author: Michael Mihocic: updated to version 1.2.0 of itdestimator from AMT (01.08.2022)
 % 
 % This file is part of the SOFA Toolbox 2.0, 
 % basing on the function itdestimator in Auditory Modeling Toolbox (AMT) version 1.2.0
