@@ -1,23 +1,36 @@
 function SOFAplotGeometry(Obj,varargin)
-% SOFAplotGeometry(Obj) plots the geometry found in the Obj.
+%SOFAplotGeometry - Plot the geometry found a SOFA object
+%   Usage: SOFAplotGeometry(Obj)
+%
+%   SOFAplotGeometry(Obj) plots the geometry found in a SOFA object
+%   for all measurements, i.e., along the M dimension.
+%   Obj needs to be one of the following conventions: 
+%     SimpleFreeFieldHRIR
+%     SimpleFreeFieldHRTF
+%     SingleRoomDRIR
+%     FreeFieldDirectivityTF
+%   some special cases of GeneralFIR.
 % 
-% SOFAplotGeometry(Obj, index) plots the geometry for the measurements
-% given in the index. 
+%   SOFAplotGeometry(Obj, index) plots the geometry for the measurements
+%   given in the index. 
 %
-% Supported conventions: 
-%    SimpleFreeFieldHRIR
-%    SimpleFreeFieldHRTF
-%    SingleRoomDRIR
-%    FreeFieldDirectivityTF
-%    some special cases of GeneralFIR.
+%   SOFAplotGeometry(Obj,key,value) specifies in more detail the plotting:
+%     'index'     : consider only specific measurements along the dimension M. 
+%                   Value is a vector with entries from 1 to M. 
+%     'SHorder'   : If the coordinate system is Spherical Harmonics, value defines
+%                   the order of the spherical harmonic to be plotted. 
+%                   Default: largest order available.
+%     'SHm'       : If the coordinate system is Spherical Harmonics, value defines
+%                   the degree of the shperical harmonic to be plotted.
+%                   Default: largest degree available.
 %
-% Parameter
-%     'index'        measurement to be plotted. Default: 1:Obj.API.M
-%     'normalize'    normalize view and up vectors
-%     'SHorder'      order of spherical harmonics
-%     'SHm'          m of shperical harmonics
-%     'normalize'    normalize view and up vectors
+%   SOFAplotGeometry(Obj,key,value,flags) specifies in more even detail the plotting:
+%     'normalize'  : Normalize the size of the View and Up vectors. 
+%     'original'   : Plot the View and Up vectors as stored in Obj. 
+%                    Default: normalize.
 %
+%    Multiple key-value pairs combined with the flags can be provided. 
+
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
@@ -33,7 +46,7 @@ function SOFAplotGeometry(Obj,varargin)
 definput.keyvals.index=1:Obj.API.M;
 definput.keyvals.shorder=Inf;
 definput.keyvals.shm=Inf;
-definput.flags.normalize={'normalize'};
+definput.flags.normalize={'normalize','original'};
 argin=varargin;
 for ii=1:length(argin)
     if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
