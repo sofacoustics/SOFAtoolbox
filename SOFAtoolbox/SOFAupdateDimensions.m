@@ -1,13 +1,20 @@
 function Obj = SOFAupdateDimensions(Obj,varargin)
-%SOFAupdateDimensions
-%   Obj = SOFAupdateDimensions(Obj, varargin) updates the dimensions in the SOFA
-%   structure
+%SOFAupdateDimensions - Update the dimensions in the SOFA object
+%   Usage: Obj = SOFAupdateDimensions(Obj)
+%          Obj = SOFAupdateDimensions(Obj, flags)
 %
-%   Obj is a struct containing the data and meta.
-%		The dimension sizes are created as .API.X and updated corresponding to the
-%		conventions
-%   flag is 'nodata', 'all', or 'verbose'; default is 'all'
-%   set 'verbose' to 1 to obtain detailed information on the check.
+%   Obj = SOFAupdateDimensions(Obj) updates the dimensions in the SOFA
+%   object Obj. This can be done to check if all data and metadata comply
+%   with the convention. It is automatically done by SOFAsave and SOFAload.
+%
+%   The updated dimension sizes are stored in Obj.API.X. 
+%
+%   Obj = SOFAupdateDimensions(Obj, 'verbose',1) provides more information 
+%   on the update process, which can be usefull when Obj does not comply. 
+%   
+%   Obj = SOFAupdateDimensions(Obj, 'nodata') disables the checks on the
+%   Data variables, which can be usefull when debugging the remaining 
+%   variables of Obj.
 
 % #Author: Piotr Majdak
 % #Author: Piotr Majdak: String support added (09.08.2014)
