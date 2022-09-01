@@ -1,13 +1,10 @@
 function Obj_lfe = SOFAcalculateLFE(Obj, fmin, fmax)
 %SOFAcalculateLFE - Extend the HRTFs towards lower frequencies
-% 
 %   Usage: Obj = SOFAcalculateLFE(Obj, fmin, fmax)
 % 
-%   Description:     This function extrapolates each HRTF in Obj 
-%                    below fmax down to fmin by considering a
-%                    linear extrapolation in the amplitude spectrum
-%                    and the minimum-phase version of the phase spectrum
-%
+%   This function extrapolates each HRTF in Obj below fmax down to fmin 
+%   by considering a linear extrapolation in the amplitude spectrum
+%   and the minimum-phase version of the phase spectrum
 %
 %   Input parameters:
 %     Obj:           SOFA object (only SimpleFreeFieldHRIR supported)
