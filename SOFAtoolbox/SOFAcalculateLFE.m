@@ -7,13 +7,12 @@ function Obj_lfe = SOFAcalculateLFE(Obj, fmin, fmax)
 %   and the minimum-phase version of the phase spectrum
 %
 %   Input parameters:
-%     Obj:           SOFA object (only SimpleFreeFieldHRIR supported)
-%     fmin:          Minimal frequency to be calculated (default: 15 Hz)
-%     fmax:          Frequency to be extended down to fmin (default: 500 Hz)
+%     Obj:  SOFA object (only SimpleFreeFieldHRIR supported)
+%     fmin: Minimal frequency to be calculated (default: 15 Hz)
+%     fmax: Frequency to be extended down to fmin (default: 500 Hz)
 % 
 %   Output parameters:
-%     Obj:           New SOFA object
-
+%     Obj:  New SOFA object
 
 % #Author: Davi R. Carvalho, UFSM - Acoustical Engineering (07.04.2021)
 % #Author: Michael Mihocic: adapted for SOFA 2.0 release; header documentation updated (20.10.2021)
