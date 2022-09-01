@@ -26,7 +26,7 @@ disp('#######   TEST CONVERTERS TO SOFA   ########');
 disp('############################################');
 
 disp('      ');
-disp('!!! Make sure that all source files are available in the HRTFs directories. See individual readme.txt files for more information !!!');
+disp('!!! Make sure that all source files are available in the data subdirectories. See individual readme.txt files for more information !!!');
 disp('      ');
 
 %% demo_ARI2SOFA

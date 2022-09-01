@@ -54,5 +54,5 @@ SourceTuningFrequency	440		I, M	double	Frequency (in hertz) to which a musical i
 Data.Real	0	m	MRN	double	Real part of the complex spectrum. The default value 0 indicates that all data fields are initialized with zero values.
 Data.Imag	0	m	MRN	double	Imaginary part of the complex spectrum
 N	0	m	N	double	Frequency values
-N:LongName	frequency	m		attribute
+N:LongName	frequency	m		attribute	narrative name of N
 N:Units	hertz	m		attribute	Units used for N

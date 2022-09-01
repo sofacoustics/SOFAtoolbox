@@ -34,5 +34,5 @@ EmitterPosition:Units	metre	m	  	attribute
 Data.Real	0	m	mrne	double	The real part of the complex spectrum
 Data.Imag	0	m	MRNE	double	The imaginary part of the complex spectrum
 N	0	m	N	double	Frequency values
-N:LongName	frequency			attribute
+N:LongName	frequency	m		attribute	narrative name of N
 N:Units	hertz	m		attribute	Unit of the values given in N
