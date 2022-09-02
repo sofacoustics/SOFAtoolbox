@@ -1,6 +1,0 @@
-fext='.php'
-urlbase='/amt-1.2.0/doc'
-urlext='.php'
-widthstr=''
-imagetype='png'
-includedir='../include'
