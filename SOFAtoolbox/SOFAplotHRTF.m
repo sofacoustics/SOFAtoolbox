@@ -33,11 +33,11 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %     'floor'    : Lowest amplitude (dB) shown in the plot. Default: -50 dB.
 %
 %   SOFAplotHRTF(Obj,type,..,flags) defines the following flags:
-%     'b','r','k','y','g','c','m' : Color of the plots (MagSpectrum only)
-%     'normalize','absolute'      : Normalize the data before applying the floor. Default: normalize.
-%     'convert2TF','original'     : Convert to the TF domain before plotting. SOFAplotHRTF 
-%                                   automatically selects if the convertion is required but this 
-%                                   mechanism can be overwritten with this flag. 
+%     'b','r','k','y','g','c','m'       : Color of the plots (MagSpectrum only)
+%     'normalization','nonormalization' : Normalize the data before applying the floor. Default: normalization.
+%     'conversion2ir','noconversion2ir' : Convert to the IR domain before plotting. SOFAplotHRTF 
+%                                         automatically selects if the convertion is required but this 
+%                                         mechanism can be overwritten with this flag. 
 %
 %   SOFAplotHRTF supports the following conventions: 
 %     SimpleFreeFieldHRIR
@@ -50,7 +50,6 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %   the displayed the figure, and the handle h of the plot. meta contains the field idx
 %   which is the index to the vectors actually plotted.
 %
-%
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: type ITDhorizontal added and updated (10.2021)
@@ -62,7 +61,8 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Michael Mihocic: plotting simplefreefieldhrtf fixed (in Octave); titles fixed when plotting magspectrum (02.06.2022) 
 % #Author: Michael Mihocic: plotting improved when data is available in TF format (more stable, no conversions by default);
 %                           figure titles improved (04.07.2022) 
-% #Author: Piotr Majdak: conversion to TF is a flag now. It's called convert2TF. 
+% #Author: Piotr Majdak: conversion to TF is a flag now. It's called convert2TF.
+% #Author: Michael Mihocic: flag convert2TF renamed to conversion2ir and noconversion2ir. (01.09.2022)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -75,7 +75,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 if nargin == 3 && ischar(type) && isscalar(varargin{1})
 %   varargin = flipud(varargin(:));
     R = varargin{1};
-    flags.do_normalize=1;
+    flags.do_normalization=1;
     dir=[0,0];
     color='b';
     thr=2;
@@ -87,17 +87,17 @@ if nargin == 3 && ischar(type) && isscalar(varargin{1})
       % We're in Octave
        if ismember(type,{'MagHorizontal','MagMedian','MagSpectrum','MagSagittal'}) && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
           % In Octave 'contains' is not available, thus, the list has to be extended manually 
-          convert = 0;
+          do_conversion2ir = 0;
       else
-          convert = 1;
+          do_conversion2ir = 1;
       end       
     else
       % We're in Matlab
       if contains(lower(type),'mag') && ismember(lower(Obj.GLOBAL_SOFAConventions),{'freefielddirectivitytf','generaltf','simplefreefieldhrtf'})
           % frequency domain input data only 
-          convert = 0;
+          do_conversion2ir = 0;
       else
-          convert = 1;
+          do_conversion2ir = 1;
       end    
     end
 
@@ -108,8 +108,8 @@ else
     definput.keyvals.offset=0;
     definput.keyvals.floor=-50;
     definput.flags.color={'b','r','k','y','g','c','m'};
-    definput.flags.level={'normalize','absolute'};          
-    definput.flags.convert2tf={'convert2tf','original'};
+    definput.flags.normalization={'normalization','nonormalization'};          
+    definput.flags.conversion2ir={'conversion2ir','noconversion2ir'};
     argin=varargin;
     for ii=1:length(argin)
         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
@@ -121,13 +121,13 @@ else
     color = flags.color;
     offset = kv.offset;
     noisefloor=kv.floor;      
-    convert=flags.do_convert2tf; % force convertion to TF (or not)
+    do_conversion2ir=flags.do_conversion2ir; % force convertion to TF (or not)
     
 end
 
 meta=[];
 
-if convert == 1 
+if do_conversion2ir == 1 
     %% Convert data to FIR
     Obj=SOFAconvertConventions(Obj);   
     fs=Obj.Data.SamplingRate;
@@ -183,7 +183,7 @@ switch lower(type)
     end
     [azi,i]=sort(pos(:,1));
     M=M2(i,:);
-    if flags.do_normalize
+    if flags.do_normalization
       M=M-max(max(M));
     end
     M(M<=noisefloor)=noisefloor;
@@ -210,12 +210,12 @@ switch lower(type)
         idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr)); % find indices
         pos=pos(idx,:); % truncate pos
         meta.idx=idx;
-    if convert == 1  % converted
+    if do_conversion2ir == 1  % converted
         hM=double(squeeze(Obj.Data.IR(:,R,:)));
         M=(20*log10(abs(fft(hM(idx,:)')')));
         M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
-        if flags.do_normalize
-          M=M-max(max(M)); % normalize
+        if flags.do_normalization
+          M=M-max(max(M));
         end
 
         M(M<noisefloor)=noisefloor;
@@ -228,8 +228,8 @@ switch lower(type)
         
     else
       M=20*log10(abs(sqrt(squeeze(Obj.Data.Real(idx,R,:)).^2 + squeeze(Obj.Data.Imag(idx,R,:)).^2)));
-        if flags.do_normalize
-          M=M-max(max(M)); % normalize
+        if flags.do_normalization
+          M=M-max(max(M)); 
         end
         M(M<noisefloor)=noisefloor;
         [azi,i]=sort(pos(:,1));
@@ -255,13 +255,13 @@ switch lower(type)
       pos=pos(idx,:);
       meta.idx=idx; % PM: TODO: check if the correct index
       
-      if convert == 1  % converted
+      if do_conversion2ir == 1  % converted
         
         hM=double(squeeze(Obj.Data.IR(:,R,:)));
         M=(20*log10(abs(fft(hM(idx,:)')')));
         M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
 
-        if flags.do_normalize
+        if flags.do_normalization
           M=M-max(max(M));
         end
         M(M<noisefloor)=noisefloor;
@@ -273,7 +273,7 @@ switch lower(type)
         h=surface(meta.freq,ele,M(:,:));
       else
         M=20*log10(abs(sqrt(squeeze(Obj.Data.Real(idx,R,:)).^2 + squeeze(Obj.Data.Imag(idx,R,:)).^2)));
-        if flags.do_normalize
+        if flags.do_normalization
           M=M-max(max(M)); % normalize
         end
         M(M<noisefloor)=noisefloor;
@@ -297,12 +297,12 @@ switch lower(type)
     pos=pos(idx,:);
     meta.idx=idx;
     
-    if convert == 1  % converted
+    if do_conversion2ir == 1  % converted
     
         hM=double(squeeze(Obj.Data.IR(:,R,:)));
         M=(20*log10(abs(fft(hM(idx,:)')')));
         M=M(:,1:floor(size(M,2)/2));  % only positive frequencies
-        if flags.do_normalize
+        if flags.do_normalization
           M=M-max(max(M));
         end
         M(M<noisefloor)=noisefloor;
@@ -313,8 +313,8 @@ switch lower(type)
         h=surface(meta.freq,ele,M(:,:));
     else
         M=20*log10(abs(sqrt(squeeze(Obj.Data.Real(idx,R,:)).^2 + squeeze(Obj.Data.Imag(idx,R,:)).^2)));
-        if flags.do_normalize
-          M=M-max(max(M)); % normalize
+        if flags.do_normalization
+          M=M-max(max(M));
         end
         M(M<noisefloor)=noisefloor;
         [ele,i]=sort(pos(:,2));
@@ -347,7 +347,7 @@ switch lower(type)
     for ii=1:size(M,1)
       M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
     end
-    if flags.do_normalize
+    if flags.do_normalization
       M=M2-max(max(M2));
     else
       M = M2;
@@ -404,7 +404,7 @@ switch lower(type)
     if isempty(idx), error('Position not found'); end
     meta.idx=idx;
     
-    if convert == 1  % convert
+    if do_conversion2ir == 1  % convert
         IR=squeeze(Obj.Data.IR(idx,R,:));
         if length(idx) > 1
             M=20*log10(abs(fft(IR')))';
