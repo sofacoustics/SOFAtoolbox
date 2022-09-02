@@ -29,7 +29,7 @@
 - .gitignore added, updated multiple times
 - Support for spherical harmonics added.
 - SOFAconvertCoordinates.m: type horizontal-polar removed (not (properly) defined in SOFA)
-- SOFAarghelper: minor bugs fixed (changes FB); license changed from GPL to EUPL, in agreement with Peter L. Soendergaard
+- SOFAarghelper: minor bugs fixed (changes FB); license changed from GPL to EUPL, in agreement with Peter L. Soendergaard; header example adapted to function SOFAupdateDimensions
 - SOFAinfo: showing all global mandatory fields now, plus some more for SimpleFreeFieldHRIR
 - demoPlaySound.m added
 - Readme.md: Example fixed (demoPlaySound.m)

@@ -4,14 +4,14 @@ function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist
 %
 %   Input parameters:
 %      posdepnames : Names of the position dependant parameters.
-%      definput    : Struct to define the allowed input
-%      arglist     : Commandline of the calling function (varargin)
-%      callfun     : Name of calling function (optional)
+%      definput    : Struct to define the allowed input.
+%      arglist     : Commandline of the calling function (varargin).
+%      callfun     : Name of calling function (optional).
 %
 %   Output parameters:
 %      flags       : Struct with information about flags.
 %      keyvals     : Struct with key / values.
-%      varargout   : The position dependant pars. properly initialized
+%      varargout   : The position dependant pars. properly initialized.
 %
 %   [flags,keyvals,varargout]=SOFAarghelper(posdepnames,definput,arglist,callfun) assists in
 %   parsing input parameters for a function. Parameters come in
@@ -21,7 +21,7 @@ function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist
 %       the first parameters passed to a function, and they are really just a short way
 %       of specifying key/value pairs. See below.
 %
-%      Flags. These are single string appearing after the position dependant
+%      Flags. These are single string appearing after the position-dependent
 %       parameters.
 %
 %      Key/value pairs. The key is always a string followed by the value, which can be
@@ -33,42 +33,44 @@ function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist
 %   The parameters are parsed in order, so parameters appearing later in varargin will override
 %   previously set values.
 %
-%   The following example for calling SOFAARGHELPER is taken from DGT:
-%  
-%     definput.keyvals.L=[];
-%     definput.flags.phase={'freqinv','timeinv'};
-%     [flags,kv]=SOFAarghelper({'L'},definput,varargin);
-%
-%   The first line defines a key/value pair with the key 'L' having an initial value of `[]`
-%   (the empty matrix).
-%
-%   The second line defines a group of flags by the name of phase.  The
-%   group phase contains the flags `'freqinv'` and `'timeinv'`, which can
+%   The following example for calling SOFAARGHELPER is taken from SOFAupdateDimensions:
+% 
+%       definput.keyvals.Index=[];
+%       definput.keyvals.verbose=0;
+%       definput.flags.type={'data','nodata'};
+%       [flags,kv]=SOFAarghelper({'Index'},definput,varargin);
+% 
+%   The first line defines a key/value pair with the key 'Index' having an initial value of `[]` (the empty matrix).
+% 
+%   The second line defines a key/value pair with the key 'verbose' having an initial value of `0`.
+% 
+%   The third line defines a group of flags by the name of type. The
+%   group type contains the flags `data` and `nodata`, which can
 %   both be specified on the command line by the user. The group-name
-%   phase is just for internal use, and does not appear to the user. The
+%   type is just for internal use, and does not appear to the user. The
 %   flag mentioned first in the list will be selected by default, and only
 %   one flag in a group can be selected at any time. A group can contain as
 %   many flags as desired.
 %  
-%   The third line is the actual call to SOFAARGHELPER which defines the
-%   output flags and `kv`.  The input `{'L'}` indicates that the value of
-%   the parameter 'L' can also be given as the very first value in
+%   The fourth line is the actual call to SOFAARGHELPER which defines the
+%   output flags and `kv`.  The input `{'Index'}` indicates that the value of
+%   the parameter 'Index' can also be given as the very first value in
 %   varargin.
 %
-%   The output struct kv contains the key/value pairs, so the value associated to `'L'` is
-%   stored in kv.L.
+%   The output struct kv contains the key/value pairs, so the value associated to 'Index' is
+%   stored in kv.Index.
 %
 %   The output struct flags contains information about the flags choosen
-%   by the user. The value of flags.phase will be set to the selected flag
-%   in the group phase and additionally, the value of `flags.do_timeinv`
-%   will be 1 if 'timeinv' was selected and 0 otherwise, and similarly for
-%   'freqinv'. This allows for easy checking of selected flags.
-%
+%   by the user. The value of flags.type will be set to the selected flag
+%   in the group type and additionally, the value of `flags.do_data`
+%   will be 1 if 'data' was selected and 0 otherwise, and similarly for
+%   'nodata'. This allows for easy checking of selected flags.
 
 % #Author: Peter L. Soendergaard, Copyright (C) 2005-2012
 % #Author: Piotr Majdak: Modified from the LTFAT 1.1.2 for SOFA by Piotr Majdak.
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
 % #Author: Michael Mihocic: license changed from GPL to EUPL, in agreement with Peter L. Soendergaard (31.08.2022)
+% #Author: Michael Mihocic: header documentation/example updated to SOFAupdateDimensions (02.09.2022)
 %
 % SOFA Toolbox - function SOFAarghelper
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
