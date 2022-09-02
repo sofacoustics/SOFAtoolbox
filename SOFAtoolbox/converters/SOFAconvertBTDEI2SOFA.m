@@ -1,13 +1,15 @@
 function Obj = SOFAconvertBTDEI2SOFA(BTDEI)
+%SOFAconvertBTDEI2SOFA - Convert BT-DEI to SOFA format
+% Usage: OBJ=SOFAconvertBTDEI2SOFA(BTDEI)
+% 
 % OBJ=SOFAconvertBTDEI2SOFA(BTDEI) converts the HRTFs described in BT-DEI
 % to a SOFA object.
 % 
 % BTDEI format is used by Michele Geronazzo, University of Padova.
-%
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
-%
+
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.

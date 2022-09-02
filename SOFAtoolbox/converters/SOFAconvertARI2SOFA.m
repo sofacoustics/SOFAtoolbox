@@ -1,11 +1,13 @@
 function Obj=SOFAconvertARI2SOFA(hM,meta,stimPar)
-% OBJ=SOFAconvertARI2SOFA(hM,meta,stimPar) converts the HRTFs described in hM, meta, and
-% stimPar (see ARI HRTF format) to a SOFA object.
-%
+%SOFAconvertARI2SOFA - Convert ARI to SOFA format
+%   Usage: Obj=SOFAconvertARI2SOFA(hM,meta,stimPar)
+% 
+%   OBJ=SOFAconvertARI2SOFA(hM,meta,stimPar) converts the HRTFs described in hM, meta, and
+%   stimPar (see ARI HRTF format) to a SOFA object.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
-%
+
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
