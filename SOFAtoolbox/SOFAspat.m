@@ -10,24 +10,24 @@ function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
 %   and the index vector of the actually used filters from Obj. 
 %   
 %   Input parameters: 
-%		IN:  vector with the sound
-%		Obj: SOFA object containing the HRTFs
-%		azi: vector with the azimuth angles (in degrees) of the trajectory
-%       ele: vector with the elevation angles (in degrees) of the trajectory
-%   The first and last element in azi and ele defines the beginning and end direction
-%   of the spatialized source. Directions inbetween will be interpolated. 
+%		IN  : Vector with the sound.
+%		Obj : SOFA object containing the HRTFs.
+%		azi : Vector with the azimuth angles (in degrees) of the trajectory.
+%       ele : Vector with the elevation angles (in degrees) of the trajectory.
+%    The first and last element in azi and ele define the beginning and end direction
+%    of the spatialized source. Directions inbetween will be interpolated.
 % 
 %   Output parameters: 
-%		out: the spatialized binaural signal
-%		azi: the azimuth angles of the actual trajectory (degrees)
-%		ele: the elevation angles of the actual trajectory (degrees)
-%		idx: index of the used filters corresponding to the actual trajectory
+%		out : The spatialized binaural signal.
+%		azi : The azimuth angles of the actual trajectory (degrees).
+%		ele : The elevation angles of the actual trajectory (degrees).
+%		idx : Index of the used filters corresponding to the actual trajectory.
 %
 
 % #Author: Piotr Majdak (2013)
 % #Author: Robert Baumgartner: adaptations (2016)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
-%
+
 % SOFA Toolbox
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

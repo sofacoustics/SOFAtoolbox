@@ -16,19 +16,19 @@ function [idx, azinew, elenew, rnew] = SOFAfind(Obj,azi,ele,r)
 %   described by azinew, elenew, and rnew.
 %
 %   Input parameters: 
-%		Obj:      SOFA object with the positions of the source
-%		azi, ele: direction (in degrees) for azimuth and elevation
-%       r:        radius (optional). If not provided, radius will be ignored.
+%		Obj      : SOFA object with the positions of the source.
+%		azi, ele : Direction (in degrees) for azimuth and elevation.
+%       r        : Radius (optional). If not provided, radius will be ignored.
 % 
 %    Output parameters: 
-%		idx:      index of the data being nearest to the trajectory
-%		azi, ele: azimuth and elevation of the actual direction (degrees)
-%       r:        radius of the actual position 
+%		idx      : Index of the data being nearest to the trajectory.
+%		azi, ele : Azimuth and elevation of the actual direction (degrees).
+%       r        : Radius of the actual position.
 %
 
 % #Author: Piotr Majdak (2019)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
-%
+
 % SOFA Toolbox - SOFAfind
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -36,8 +36,6 @@ function [idx, azinew, elenew, rnew] = SOFAfind(Obj,azi,ele,r)
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
-
-
 
 %% create a 2D-grid with nearest positions
 if ~exist('r','var'),

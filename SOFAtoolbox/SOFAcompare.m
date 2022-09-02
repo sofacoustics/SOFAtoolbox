@@ -12,7 +12,7 @@ function [tf,reason,where] = SOFAcompare(Obj1, Obj2, varargin)
 %   SOFAcompare(A, B, 'ignoreDate') ignores the global attributes
 %   DateCreated and DateModified. 
 %
-%   Currenty the functionality is limited to the comparison og 
+%   Currenty the functionality is limited to the comparison of 
 %   attributes only.
 
 % #Author: Piotr Majdak

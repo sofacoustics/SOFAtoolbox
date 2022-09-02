@@ -16,11 +16,10 @@ function [Obj] = SOFAsave(filename,Obj,varargin)
 %   file as a number between 0 and 9. compression of 0 is no compression and 
 %   9 is the largest compression available. For the compression, ZIP algorithm
 %   is used.
- 
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc and header documentation updated (28.10.2021)
-%
+
 % SOFA Toolbox - function SOFAsave
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

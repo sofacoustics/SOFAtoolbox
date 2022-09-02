@@ -9,11 +9,10 @@ function [C, log] = SOFAmerge(A,B)
 %   [C, log] = SOFAmerge(A, B) returns a log string describing the process
 %   of merging. 
 
-
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
-%
-% SOFA Toolbox - function SOFAupdateDimensions
+
+% SOFA Toolbox - function SOFAmerge
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.

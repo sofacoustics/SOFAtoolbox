@@ -7,12 +7,12 @@ function ApparentPositionVector = SOFAcalculateAPV(Obj)
 %   listener's position and view. APV is a matrix of X-by-C with C 
 %   being the spherical coordinates in the format [azi ele radius] 
 %   with units [deg deg m]; and X being max of ListenerView and Source Position.
-%   ListenerUp is not considered in the calculations
-%
+%   ListenerUp is not considered in the calculations.
+
 % #Author: Piotr Majdak
 % #Author: Hagen Wierstorf
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
-%
+
 % SOFA Toolbox - function SOFAcalculateAPV
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

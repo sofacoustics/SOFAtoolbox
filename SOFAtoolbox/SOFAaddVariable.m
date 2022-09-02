@@ -1,6 +1,5 @@
 function Obj = SOFAaddVariable(Obj,Name,Dim,Value)
 %SOFAaddVariable - Add a user-defined variable
-%
 %   Usage: Obj = SOFAaddVariable(Obj, Name, Dim, Value) 
 %
 %   SOFAaddVariable adds a user-defined variable

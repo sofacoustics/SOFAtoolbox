@@ -9,7 +9,7 @@ function SOFAplotGeometry(Obj,varargin)
 %     SimpleFreeFieldHRTF
 %     SingleRoomDRIR
 %     FreeFieldDirectivityTF
-%   some special cases of GeneralFIR.
+%     some special cases of GeneralFIR
 % 
 %   SOFAplotGeometry(Obj, index) plots the geometry for the measurements
 %   given in the index. 
@@ -35,7 +35,7 @@ function SOFAplotGeometry(Obj,varargin)
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: bug fixed when extracting LU (listener up) coordinates (28.12.2021)
-%
+
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.

@@ -8,46 +8,34 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %   SOFAcalculateITD is a fork of itdestimator from the AMT <amtoolbox.org>.
 %
 %   Input parameters:
-% 
-%       data:       SOFA object or IR matrix with dimensions: 
-%                     emitter x receiver x time
-% 
-%       fs:         sampling rate, used only if data provided as matrix
-% 
-%       mode:       (optional) Select one estimation methods
-%                   (Threshold (default),Cen_e2,MaxIACCr, MaxIACCe,
-%                   CenIACCr,CenIACCe, CenIACC2e, PhminXcor,IRGD)
-% 
-%       lowpass:    (optional) Bandwidth considered. lp for lowpass (default), bb for broadband
-%
-%       peak:       (optional) Method to find the max, used in Threshold mode only. 
-%                   hp for max (default), fb for findpeak
-% 
-%       threshlvl:  (optional) Set threshold level for Threshold mode in dB.        
-%                   Default is -10 dB. 
-%
-%       butterpoly: (optional) Select the order of the polynom
-%                   applied in the butterworth filter. ( 2 =< i =< 10 )
-%                   Default is 10. 
-% 
-%       upper_cutfreq: (optional) Set frequency of lowpass cutoff in Hz.
-%                      Default is 3000 Hz. 
-% 
-%       lower_cutfreq: (optional) Set frequency of highpass cutoff in Hz, 
-%                      only used in IRGD mode. Default is 1000 Hz.   
-%
-%       debug     : output debug information about calculations.
+%       data          : SOFA object or IR matrix with dimensions: 
+%                       emitter x receiver x time
+%       fs            : sampling rate, used only if data provided as matrix
+%       mode          : (optional) Select one estimation methods
+%                       (Threshold (default),Cen_e2,MaxIACCr, MaxIACCe,
+%                       CenIACCr,CenIACCe, CenIACC2e, PhminXcor,IRGD)
+%       lowpass       : (optional) Bandwidth considered. lp for lowpass (default), bb for broadband
+%       peak          : (optional) Method to find the max, used in Threshold mode only. 
+%                       hp for max (default), fb for findpeak
+%       threshlvl     : (optional) Set threshold level for Threshold mode in dB.        
+%                       Default is -10 dB. 
+%       butterpoly    : (optional) Select the order of the polynom
+%                       applied in the butterworth filter. ( 2 =< i =< 10 )
+%                       Default is 10. 
+%       upper_cutfreq : (optional) Set frequency of lowpass cutoff in Hz.
+%                       Default is 3000 Hz. 
+%       lower_cutfreq : (optional) Set frequency of highpass cutoff in Hz, 
+%                       only used in IRGD mode. Default is 1000 Hz.   
+%       debug         : output debug information about calculations.
 % 
 % 
 %   Output parameters:
-% 
-%       itd:        interaural time difference in seconds
-%       toa:        detected activation onsets for left and right channels
-%       IACC:       interaural cross-correlation coefficient
-%                   Available on when xcorr is used (modes: MaxIACCr, MaxIACCe,
-%                   CenIACCr,CenIACCe, CenIACC2e)
-%       Obj:        Input SOFA object with Obj.Data.Delay added
-% 
+%       itd  : interaural time difference in seconds
+%       toa  : detected activation onsets for left and right channels
+%       IACC : interaural cross-correlation coefficient
+%              Available on when xcorr is used (modes: MaxIACCr, MaxIACCe,
+%              CenIACCr,CenIACCe, CenIACC2e)
+%       Obj  : Input SOFA object with Obj.Data.Delay added
 % 
 %   Purpose:
 %   Estimates the ITD based on biaural impulse responses.
@@ -77,7 +65,7 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 % 
 % This file is part of the SOFA Toolbox 2.0, 
 % basing on the function itdestimator in Auditory Modeling Toolbox (AMT) version 1.2.0
-%
+
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.

@@ -19,11 +19,10 @@ function output = SOFAdefinitions(varargin)
 %   for the date when stored as numeric (number of seconds elapsed)
 %
 %   SOFAdefinitions('units') returns the units and their corresponding aliases
-%
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc & header documentation updated (28.10.2021)
-%
+
 % SOFA Toolbox - function SOFAdefinitions
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")

@@ -14,8 +14,7 @@ function [flags,keyvals,varargout]  = SOFAarghelper(posdepnames,definput,arglist
 %      varargout   : The position dependant pars. properly initialized.
 %
 %   [flags,keyvals,varargout]=SOFAarghelper(posdepnames,definput,arglist,callfun) assists in
-%   parsing input parameters for a function. Parameters come in
-%   four categories:
+%   parsing input parameters for a function. Parameters come in four categories:
 %  
 %      Position dependant parameters. These must not be strings. These are
 %       the first parameters passed to a function, and they are really just a short way
