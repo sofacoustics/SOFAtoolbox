@@ -27,8 +27,8 @@
 /data/SOFA/headphones/*/*.sofa
 /data/TU-Berlin KEMAR/*.mat
 /SOFAtoolbox/helpers/*.m
-~*.ods#
 /SOFAtoolbox/conventions/check
+# doc & mediawiki files
 /SOFAtoolbox/doc
 /doc/FreeFieldDirectivityTF_1.0.txt
 /doc/FreeFieldDirectivityTF_1.1.txt
@@ -53,3 +53,5 @@
 /doc/SingleRoomDRIR_0.3.txt
 /doc/SingleRoomMIMOSRIR_1.0.txt
 /doc/SingleRoomSRIR_1.0.txt
+# temp files
+~*.ods#
