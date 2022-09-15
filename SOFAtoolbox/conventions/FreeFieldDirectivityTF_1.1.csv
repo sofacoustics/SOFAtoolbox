@@ -22,6 +22,7 @@ GLOBAL:Origin				attribute
 GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data
 GLOBAL:Musician				attribute	Narrative description of the musician such as position, behavior, or personal data if not data-protected, e.g., 'Christiane Schmidt sitting on the chair', or 'artificial excitation by R2D2'.
 GLOBAL:Description				attribute	Narrative description of a measurement. For musical instruments/singers, the note (C1, D1, etc) or the dynamic (pp., ff., etc), or the string played, the playing style (pizzicato, legato, etc.), or the type of excitation (e.g., hit location of a cymbal). For loudspeakers, the system and driver units.
+GLOBAL:EmitterDescription	{''}		IS, MS	attribute	A more detailed structure of the source. In a simple setting, a single Emitter is considered that is collocated with the source. In a more complicated setting, this may be the strings of a violin or the units of a loudspeaker.
 GLOBAL:SourceType		m		attribute	Narrative description of the acoustic source, e.g., 'Violin', 'Female singer', or '2-way loudspeaker'
 GLOBAL:SourceManufacturer		m		attribute	Narrative description of the manufacturer of the source, e.g., 'Stradivari, Lady Blunt, 1721' or 'LoudspeakerCompany'
 ListenerPosition	[0 0 0] 	m	IC, MC	double	Position of the microphone array during the measurements.
@@ -44,15 +45,14 @@ SourceView:Units	metre	m		attribute
 SourceView:Reference		m		attribute	Narrative description of the spatial reference of the source view, e.g., 'Viewing direction of the bell' for a trumpet or 'Perpendicular to the front plate' for a loudspeaker. Mandatory in order to provide a reference across different sources.
 SourceUp	[0 0 1]	m	IC, MC	double	Up vector of the acoustic source (instrument)
 SourceUp:Reference		m		attribute	Narrative description of the spatial reference of the source up, e.g., 'Along the keys, keys up' for a trumpet or 'Perpendicular to the top plate' for a loudspeaker. Mandatory in order to provide a reference across different sources.
-EmitterPosition	[0 0 0]	m	EC, ECM	double	Position. In a simple settings, a single emitter is considered that is collocated with the source.
+EmitterPosition	[0 0 0]	m	eC, eCM	double	Position. In a simple settings, a single emitter is considered that is collocated with the source.
 EmitterPosition:Type	cartesian	m		attribute
 EmitterPosition:Units	metre	m		attribute
-EmitterDescription	{''}		IS, MS	string	A more detailed structure of the source. In a simple setting, a single Emitter is considered that is collocated with the source. In a more complicated setting, this may be the strings of a violin or the units of a loudspeaker.
-GLOBAL:EmitterDescriptions	{''}		MS	string	A more detailed description of the Emitters. For example, this may be the strings of a violin or the units of a loudspeaker.
+EmitterDescriptions	{''}		MS, ES, MES	string	A more detailed description of the Emitters. For example, this may be the strings of a violin or the units of a loudspeaker.
 MIDINote	0		I, M	double	Defines the note played by the source during the measurement. The note is specified a MIDI note by the [https://www.midi.org/specifications-old/item/the-midi-1-0-specification MIDI specifications, version 1.0]. Not mandatory, but recommended for tonal instruments.
 Description	{''}		MS	string	This variable is used when the description varies with M.
 SourceTuningFrequency	440		I, M	double	Frequency (in hertz) to which a musical instrument is tuned to corresponding to the note A4 (MIDINote=69). Recommended for tonal instruments.
-Data.Real	0	m	MRN	double	Real part of the complex spectrum. The default value 0 indicates that all data fields are initialized with zero values.
+Data.Real	0	m	mrn	double	Real part of the complex spectrum. The default value 0 indicates that all data fields are initialized with zero values.
 Data.Imag	0	m	MRN	double	Imaginary part of the complex spectrum
 N	0	m	N	double	Frequency values
 N:LongName	frequency	m		attribute	narrative name of N

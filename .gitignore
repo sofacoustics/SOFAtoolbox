@@ -18,6 +18,7 @@
 /data/FHK/*.mat
 /data/IEM/*.wav
 /data/IEM/*.pdf
+/data/IEM/LigetiHall_CubeletToSt450
 /data/LISTEN/IRC_1002/
 /data/MIT KEMAR/full/*/*.wav
 /data/Oldenburg/HRIR_database_mat/
@@ -27,8 +28,8 @@
 /data/SOFA/headphones/*/*.sofa
 /data/TU-Berlin KEMAR/*.mat
 /SOFAtoolbox/helpers/*.m
-~*.ods#
 /SOFAtoolbox/conventions/check
+# doc & mediawiki files
 /SOFAtoolbox/doc
 /doc/FreeFieldDirectivityTF_1.0.txt
 /doc/FreeFieldDirectivityTF_1.1.txt
@@ -53,4 +54,6 @@
 /doc/SingleRoomDRIR_0.3.txt
 /doc/SingleRoomMIMOSRIR_1.0.txt
 /doc/SingleRoomSRIR_1.0.txt
-/data/IEM/LigetiHall_CubeletToSt450
+
+# temp files
+~*.ods#
