@@ -51,7 +51,7 @@ EmitterDescription	{''}		IS, MS	string	A more detailed structure of the source. 
 MIDINote	0		I, M	double	Defines the note played by the source during the measurement. The note is specified a MIDI note by the [https://www.midi.org/specifications-old/item/the-midi-1-0-specification MIDI specifications, version 1.0]. Not mandatory, but recommended for tonal instruments.
 Description	{''}		MS	string	This variable is used when the description varies with M.
 SourceTuningFrequency	440		I, M	double	Frequency (in hertz) to which a musical instrument is tuned to corresponding to the note A4 (MIDINote=69). Recommended for tonal instruments.
-Data.Real	0	m	MRN	double	Real part of the complex spectrum. The default value 0 indicates that all data fields are initialized with zero values.
+Data.Real	0	m	mrn	double	Real part of the complex spectrum. The default value 0 indicates that all data fields are initialized with zero values.
 Data.Imag	0	m	MRN	double	Imaginary part of the complex spectrum
 N	0	m	N	double	Frequency values
 N:LongName	frequency	m		attribute
