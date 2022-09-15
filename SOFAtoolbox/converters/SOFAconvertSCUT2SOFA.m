@@ -1,7 +1,16 @@
 function Obj=SOFAconvertSCUT2SOFA(root,r)
-% OBJ=SOFAconvertSCUT2SOFA(root,pinna) loads the SCUT HRTFs saved in a 
-% directory ROOT for the radius R and converts to a SOFA object.
-% R must be in meters.
+%SOFAconvertSCUT2SOFA - converts from SCUT to SOFA format
+%   Usage: OBJ=SOFAconvertSCUT2SOFA(root,pinna)
+% 
+%   OBJ=SOFAconvertSCUT2SOFA(root,pinna) loads the SCUT HRTFs saved in a directory ROOT for the radius R and converts to a SOFA object.
+%   R must be in meters.
+%
+%   Input parameters:
+%     root : Root source folder
+%     r    : Radius in meters
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

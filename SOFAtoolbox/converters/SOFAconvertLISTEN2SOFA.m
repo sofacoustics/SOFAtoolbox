@@ -1,7 +1,15 @@
 function Obj=SOFAconvertLISTEN2SOFA(LISTEN, subjectID)
-% Obj=SOFAconvertLISTEN2SOFA(LISTEN, subjectID) converts the HRTFs described in LISTEN 
-% (see LISTEN HRTF format) to a SOFA object.
+%SOFAconvertLISTEN2SOFA - converts from LISTEN to SOFA format
+%   Usage: Obj=SOFAconvertLISTEN2SOFA(LISTEN, subjectID)
+% 
+%   SOFAconvertLISTEN2SOFA(LISTEN, subjectID) converts the HRTFs described in LISTEN (see LISTEN HRTF format) to a SOFA object.
 %
+%   Input parameters:
+%     LISTEN    : HRTF data in LISTEN format
+%     subjectID : Subject ID, assigned to SOFA output file
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc fixed, header documentation updated (28.10.2021)

@@ -1,14 +1,15 @@
-function [Obj] = SOFAconvertSYMARE2SOFA(SYMAREpath,HRIRname)
-%   [Obj] = SOFAconvertSYMARE2SOFA(SYMAREpath,HRIRname) converts objects
-%   from SYMARE database to Struct in SOFA format.
+function Obj = SOFAconvertSYMARE2SOFA(SYMAREpath,HRIRname)
+%SOFAconvertSYMARE2SOFA - converts from SYMARE to SOFA format
+%   Usage: Obj = SOFAconvertSYMARE2SOFA(SYMAREpath,HRIRname)
+% 
+%   SOFAconvertSYMARE2SOFA(SYMAREpath,HRIRname) converts objects from SYMARE database to SOFA format.
 %
-%   SYMAREpath of type string specifies the path where the SYMARE directory
-%   is found
-%   HRIRname of type string specifies which HRIR out of the
-%   <SYMAREpath>/HRIRs/Acoustic directory should be converted
-%
-%   Returns Obj in SOFA format which can further be converted into .sofa
-%   file using SOFAsave
+%   Input parameters:
+%     SYMAREpath : Path of the SYMARE directory
+%     HRIRname   : HRIR in the <SYMAREpath>/HRIRs/Acoustic directory to be converted
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: license added, header documentation updated (28.10.2021)

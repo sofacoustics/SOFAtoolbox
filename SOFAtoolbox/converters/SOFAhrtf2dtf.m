@@ -1,15 +1,14 @@
 function [dtf,ctf]=SOFAhrtf2dtf(hrtf,varargin)
-%SOFAHRTF2DTF splits HRTFs into directional transfer functions (DTFs) and
-%common transfer functions (CTFs)
+%SOFAHRTF2DTF - splits HRTFs into directional transfer functions (DTFs) and common transfer functions (CTFs)
 %   Usage:      [dtf,ctf]=SOFAhrtf2dtf(hrtf)
 %               [dtf,ctf]=SOFAhrtf2dtf(hrtf,f1,f2)
 %
 %   Input parameters:
-%     hrtf:     SOFA object with SimpleFreeFieldHRIR convention
+%     hrtf : SOFA object with SimpleFreeFieldHRIR convention
 %
 %   Output arguments:
-%     dtf:      SOFA object with the directional transfer functions
-%     ctf:      SOFA object with the common transfer functions
+%     dtf : SOFA object with the directional transfer functions
+%     ctf : SOFA object with the common transfer functions
 %
 %   `SOFAhrtf2dtf(...)` calculates DTFs using the method from either 
 %   Majdak et al. (2010; 'log' flag) or Middlebrooks (1999; 'rms' flag). 

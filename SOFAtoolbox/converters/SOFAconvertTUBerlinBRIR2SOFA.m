@@ -1,8 +1,14 @@
 function Obj=SOFAconvertTUBerlinBRIR2SOFA(irs)
-% OBJ=SOFAconvertTUBerlinBRIR2SOFA(irs) converts the HRTFs described in irs
-% (see TU-Berlin HRTF format) to a SOFA object, using the MultiSpeakerBRIR
-% Convention.
+%SOFAconvertTUBerlinBRIR2SOFA - converts from irs (TU-Berlin format) to SOFA format, using MultiSpeakerBRIR Convention
+%   OBJ=SOFAconvertTUBerlinBRIR2SOFA(irs)
+% 
+%   SOFAconvertTUBerlinBRIR2SOFA(irs) converts the HRTFs described in irs (see TU-Berlin HRTF format) to a SOFA object, using the MultiSpeakerBRIR Convention.
 %
+%   Input parameters:
+%     irs : HRTF data in TU-Berlin format
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc fixed, header documentation updated (28.10.2021)

@@ -1,7 +1,14 @@
 function Obj=SOFAconvertTUBerlin2SOFA(irs)
-% OBJ=SOFAconvertTUBerlin2SOFA(irs) converts the HRTFs described in irs
-% (see TU-Berlin HRTF format) to a SOFA object.
+%SOFAconvertTUBerlin2SOFA - converts from irs (TU-Berlin format) to SOFA format
+%   OBJ=SOFAconvertTUBerlin2SOFA(irs)
+% 
+%   SOFAconvertTUBerlin2SOFA(irs) converts the HRTFs described in irs (see TU-Berlin HRTF format) to a SOFA object.
 %
+%   Input parameters:
+%     irs : HRTF data in TU-Berlin format
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

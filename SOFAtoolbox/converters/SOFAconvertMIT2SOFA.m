@@ -1,7 +1,16 @@
 function Obj=SOFAconvertMIT2SOFA(root,pinna)
-% OBJ=SOFAconvertMIT2SOFA(root,pinna) loads the MIT HRTFs saved in a 
-% directory ROOT for the PINNA and converts to a SOFA object.
-% PINNA must be 'normal' or 'large'.
+%SOFAconvertMIT2SOFA - converts from MIT to SOFA format
+%   Usage: OBJ=SOFAconvertMIT2SOFA(root,pinna) 
+% 
+%   OBJ=SOFAconvertMIT2SOFA(root,pinna) loads the MIT HRTFs saved in a directory ROOT for the PINNA and converts to a SOFA object. 
+%   PINNA must be 'normal' or 'large'.
+%
+%   Input parameters:
+%     root  : Root source folder
+%     pinna : Pinna size ('normal' or 'large')
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

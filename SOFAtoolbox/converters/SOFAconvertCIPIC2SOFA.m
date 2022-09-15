@@ -1,7 +1,14 @@
 function Obj=SOFAconvertCIPIC2SOFA(CIPIC)
-% Obj=SOFAconvertCIPIC2SOFA(CIPIC) converts the HRTFs described in the structure CIPIC
-% (see CIPIC HRTF format) to a SOFA object.
+%SOFAconvertCIPIC2SOFA - converts from CIPIC to SOFA format
+%   Usage: Obj=SOFAconvertCIPIC2SOFA(CIPIC) 
+% 
+%   SOFAconvertCIPIC2SOFA converts the HRTFs described in the structure CIPIC (see CIPIC HRTF format) to a SOFA object.
 %
+%   Input parameters:
+%     CIPIC : HRTF data in CIPIC format
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

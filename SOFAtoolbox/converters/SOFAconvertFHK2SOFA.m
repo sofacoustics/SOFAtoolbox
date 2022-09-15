@@ -1,9 +1,17 @@
 function Obj=SOFAconvertFHK2SOFA(miroObj)
-% OBJ=SOFAconvertFHK2SOFA(miroObj) converts the HRTFs described in miroObj
-% to SOFA. miroObj is the miro object saved at the Fach-Hochschule Köln
-% provided by Benjamin Bernschütz.
-% Reference to the source format: http://www.audiogroup.web.fh-koeln.de/ku100hrir.html
-% Reference to the source coordinate system: [1] http://code.google.com/p/sofia-toolbox/wiki/COORDINATES
+%SOFAconvertFHK2SOFA - converts from miroObj to SOFA format
+%   Usage: OBJ=SOFAconvertFHK2SOFA(miroObj)
+% 
+%   SOFAconvertFHK2SOFA(miroObj) converts the HRTFs described in miroObj to SOFA. miroObj is the miro object saved at the Fach-Hochschule Köln, provided by Benjamin Bernschütz.
+%
+%   Input parameters:
+%     miroObj : HRTF data in miro format
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
+% 
+%   Reference to the source format: http://www.audiogroup.web.fh-koeln.de/ku100hrir.html
+%   Reference to the source coordinate system: http://code.google.com/p/sofia-toolbox/wiki/COORDINATES
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

@@ -1,12 +1,19 @@
 function Obj = SOFAconvertTHK2SOFA(miroObj)
-% OBJ=SOFAconvertTHK2SOFA(miroObj) converts the HRIRs, BRIRs, and DRIRs
-% (VariSphear array measurements) described in miroObj to SOFA. 
-% miroObj is the miro object saved at the Technische Hochschule Koeln, provided by Benjamin Bernschuetz.
-% Reference to the source format: http://www.audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
-% Reference to the source coordinate system: [1] http://www.audiogroup.web.th-koeln.de/SOFiA_wiki/COORDINATES.html
-% SOFAconvertTHK2SOFA written by Tim Lübeck, TH Köln, 2018
+%SOFAconvertTHK2SOFA - converts from miroObj to SOFA format
+%   Usage: OBJ=SOFAconvertTHK2SOFA(miroObj)
+% 
+%   SOFAconvertTHK2SOFA(miroObj) converts the HRIRs, BRIRs, and DRIRs (VariSphear array measurements) described in miroObj to SOFA. miroObj is the miro object saved at the Technische Hochschule Koeln, provided by Benjamin Bernschuetz.
 %
+%   Input parameters:
+%     miroObj : HRTF data in miro format
+% 
+%   Output parameters:
+%     Obj : New SOFA object (SOFA format)
+% 
+%   Reference to the source format: http://www.audiogroup.web.th-koeln.de/FILES/miro_documentation.pdf
+%   Reference to the source coordinate system: http://www.audiogroup.web.th-koeln.de/SOFiA_wiki/COORDINATES.html
 
+% #Author: Tim Lübeck, TH Köln (2018)
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 %
