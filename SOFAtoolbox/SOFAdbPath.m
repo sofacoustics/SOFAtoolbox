@@ -1,10 +1,12 @@
 function dbPath=SOFAdbPath(newPath)
-% dbPath=SOFAdbPath(newPath)
+%SOFAdbPath - set/return the path to the local SOFA database
+%   Usage: dbPath=SOFAdbPath(newPath)
 %
-%   dbPath=SOFAdbPath returns the path to the directory containing
-%   HRTFs for demos and applications. The default path is: this_directory/../data/SOFA
+%   dbPath=SOFAdbPath() returns the path to the local SOFA database, i.e., 
+%   the directory containing SOFA files such as HRTFs and SRIRs. 
+%   The default path is: SOFAtoolbox/data/SOFA
 %
-%   [...]=SOFAdbPath(newPath) sets the path to the directory for further calls
+%   SOFAdbPath(newPath) sets the path to the directory new Path for further calls
 %   of SOFAdbPath.
 
 % #Author: Piotr Majdak

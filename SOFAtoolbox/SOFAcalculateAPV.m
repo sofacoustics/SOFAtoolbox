@@ -1,13 +1,16 @@
 function ApparentPositionVector = SOFAcalculateAPV(Obj)
-%SOFAcalculateAPV
-%   ApparentPositionVector = SOFAcalculateAPV(Obj) calculates the apparent position vector
-%   (ApparentPositionVector) which represents the position of the source relative to the
-%   listener's position and view. ApparentPositionVector is in the format [azi ele radius] 
-%   with units [deg deg m].
-%   Note that ListenerUp is not considered and the ApparentPositionVector can be considered as
-%   the HRTF direction usually used in HRTF databases
-
+%SOFAcalculateAPV - Calculate the appearent position vector
+%   Usage: APV = SOFAcalculateAPV(Obj)
+% 
+%   SOFAcalculateAPV calculates the apparent position vector (APV)
+%   which is the vector from the source position to the
+%   listener's position and view. APV is a matrix of X-by-C with C 
+%   being the spherical coordinates in the format [azi ele radius] 
+%   with units [deg deg m]; and X being max of ListenerView and Source Position.
+%   ListenerUp is not considered in the calculations
+%
 % #Author: Piotr Majdak
+% #Author: Hagen Wierstorf
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)
 %
 % SOFA Toolbox - function SOFAcalculateAPV

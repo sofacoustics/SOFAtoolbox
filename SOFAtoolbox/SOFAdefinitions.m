@@ -1,16 +1,19 @@
 function output = SOFAdefinitions(varargin)
-% output = SOFAdefinitions(varargin)
+%SOFAdefinitions - Definitions of formats used by the toolbox
+%   Usage: output = SOFAdefinitions(type)
 %
-%   SOFAdefinitions returns a struct containing definitions like the time
-%   format used in the API.
+%   SOFAdefinitions() returns a struct containing definitions of the 
+%   formats like the time, date, dimensions, etc used in toolbox. 
+%   These formats correspond to those defined by AES69. 
 %
 %   SOFAdefinitions('dateFormat') returns the date format
 %
-%   SOFAdefinitions('APIName') returns the APIName
+%   SOFAdefinitions('APIName') returns the name of the toolbox
+%   to be stored as APIName
 %
-%   SOFAdefinitions('dimensions') returns the dimensions used in the API
+%   SOFAdefinitions('dimensions') returns the dimension strings
 %
-%   SOFAdefinitions('EOL') returns the end-of-line separator used in the API
+%   SOFAdefinitions('EOL') returns the end-of-line separator
 %
 %   SOFAdefinitions('dateReference') returns the string with the reference
 %   for the date when stored as numeric (number of seconds elapsed)
@@ -45,7 +48,7 @@ end
 
 %% name of the API
 if flags.do_APIName, 
-  output = 'ARI SOFA Toolbox for Matlab/Octave';
+  output = 'SOFA Toolbox for Matlab/Octave';
 end
 
 %% date string to use (see help datestr)

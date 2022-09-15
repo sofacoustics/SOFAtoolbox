@@ -1,23 +1,25 @@
 function Obj = SOFAgetConventions(sofaconventions,flags,version)
-%SOFAgetConventions
+%SOFAgetConventions - Get an empty SOFA object for a given convention
+%   Usage: List = SOFAgetConventions()
+%          Obj = SOFAgetConventions(conv)
 %
 %    List = SOFAgetConventions() returns a list with supported conventions.
 % 
-%    Obj = SOFAgetConventions(sofaconvention) returns a SOFA object
-%    with all metadata and data for the corresponding sofaconvention. Obj
-%    will be empty if sofaconventions is not supported.
+%    Obj = SOFAgetConventions(conv) returns a SOFA object Obj
+%    with the predefined mandatory metadata and data for the SOFA convention conv. 
+%    Obj is empty if conv is not supported. The latest version of the convention
+%    conv is provided. 
 % 
-%    Obj = SOFAgetConventions(sofaconvention, flags) returns only selected
-%    metadata for the corresponding sofaconvention with the following encoding:
-%        m: mandatory
-%        r: readonly
-%        a: all (default)
+%    Obj = SOFAgetConventions(conv, flags) returns only selected
+%    metadata with flags encoding the following:
+%      'm' : mandatory metadata only (default)
+%      'r' : readonly metadata only
+%      'a' : all metadata
 %
-%    Obj = SOFAgetConventions(sofaconvention, version) returns only the selected
-%    version of the convention. 
+%    SOFAgetConventions(conv, ver) returns the version ver of the convention conv. 
 %
-%    Obj = SOFAgetConventions(sofaconvention, flag, version) returns only the selected
-%    version and metadata. 
+%    SOFAgetConventions(conv, flag, ver) returns the version ver and selected
+%    metadata of the convention conv.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc & header documentation updated (28.10.2021)
@@ -36,14 +38,14 @@ persistent AllObj;
 %% If flags not provided, return the conventions with all metadata
 if ~exist('version','var')
   if ~exist('flags','var')
-    flags='a'; % no flags, no version --> flags = a, version = any.
+    flags='m'; % no flags, no version --> flags = a, version = any.
   else
     switch flags % no version, check if flags is flags or version
       case {'a', 'm', 'r'}
         % flags is flags --> do nothing
       otherwise
         version=flags;  % flags is version --> copy to version 
-        flags='a';
+        flags='m';
     end
   end
 end

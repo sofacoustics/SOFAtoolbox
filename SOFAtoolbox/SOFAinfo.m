@@ -1,6 +1,10 @@
 function SOFAinfo(Obj)
-% SOFAinfo(Obj) gathers (mandatory) information about the SOFA object and
-% display it. For SimpleFreeFieldHRIR some more details are displayed.
+%SOFAinfo - Display informatio about the SOFA object
+%   Usage: SOFAinfo(Obj)
+%
+%   SOFAinfo(Obj) gathers the mandatory information about the 
+%   SOFA object Obj and display it in a narrative form. 
+%   For SimpleFreeFieldHRIR more details are displayed.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

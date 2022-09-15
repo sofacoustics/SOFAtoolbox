@@ -48,7 +48,7 @@ SourceView:Type	cartesian			attribute
 SourceView:Units	metre			attribute	
 GLOBAL:EmitterShortName				attribute	
 GLOBAL:EmitterDescription				attribute	
-EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	
+EmitterPosition	[0 0 0]	m	eCI, eCM	double	
 EmitterPosition:Type	cartesian	m	  	attribute	
 EmitterPosition:Units	metre	m	  	attribute	
 EmitterView	[1 0 0]		ECI, ECM	double	

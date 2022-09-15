@@ -1,12 +1,14 @@
 function [C, log] = SOFAmerge(A,B)
-%SOFAmerge
-%   [C, log] = SOFAmerge(A, B) merges the SOFA objects A and B to a single one, C.
+%SOFAmerge - Merge two SOFA objects
+%   Usage: [C, log] = SOFAmerge(A,B)
 %
-%   A and B are structs containing the data and meta. A and B
-%   must be of the same SOFA conventions.
+%   C = SOFAmerge(A, B) merges SOFA objects A and B to the single one object C.
+%
+%   A and B must be of the same SOFA conventions.
 % 
-%   C is a struct containing merged data
-%   log contains log data
+%   [C, log] = SOFAmerge(A, B) returns a log string describing the process
+%   of merging. 
+
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

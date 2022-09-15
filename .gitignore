@@ -18,6 +18,7 @@
 /data/FHK/*.mat
 /data/IEM/*.wav
 /data/IEM/*.pdf
+/data/IEM/LigetiHall_CubeletToSt450
 /data/LISTEN/IRC_1002/
 /data/MIT KEMAR/full/*/*.wav
 /data/Oldenburg/HRIR_database_mat/
@@ -53,5 +54,6 @@
 /doc/SingleRoomDRIR_0.3.txt
 /doc/SingleRoomMIMOSRIR_1.0.txt
 /doc/SingleRoomSRIR_1.0.txt
+
 # temp files
 ~*.ods#

@@ -1,18 +1,26 @@
 function SOFAstart(flags)
-% SOFAstart
+%SOFAstart - Start the SOFA Toolbox
+%   Usage: SOFAstart
+%          SOFAstart('restart')
+%          SOFAstart('silent')
 %
-%   SOFAstart adds all needed pathes and checks if we need the Matlab or Octave
-%   version of the API
+%   SOFAstart() starts the SOFA Toolbox by adding all the needed pathes 
+%   and checking the version of the environment (Matlab or Octave). It also 
+%   initializes global variables such as SOFAdbURL and SOFAdbPath. 
 %
-%   SOFAstart(0) or SOFAstart('silent') will suppress any message during the start.
-%   SOFAstart ('short') will show a short header only during the start.
-%   SOFAstart ('full') will show all information, including all compiled
-%   conventions & versions.
+%   SOFAstart() also checks if SOFA has been started within the MATLAB session. 
+%   If a previous start has been detected, SOFAstart returns without further 
+%   initialization to speed up the starting process. 
 %
-%   SOFAstart checks if SOFA has been started within the MATLAB session. If
-%   it is the case, SOFAstart skips all the initialization. If the initialization
-%   is required, SOFAstart('restart') performs the initialization in any case.
+%   SOFAstart('restart') forces the initialization to happen in any case.
 %
+%   SOFAstart(0) or SOFAstart('silent') suppresses all messages at the start.
+%
+%   SOFAstart ('short') shows a short header at the start only. 
+%
+%   SOFAstart ('full') show all the information at the start, 
+%   including all compiled conventions and their versions.
+
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
@@ -91,7 +99,7 @@ convs = SOFAgetConventions;
 %% Display general informations
 
 if verbose
-    disp(['SOFA Matlab/Octave API, version ' SOFAgetVersion '. Copyright 2013-2022 Acoustics Research Institute (piotr@majdak.com).']);
+    disp(['SOFA Toolbox for Matlab/Octave ' SOFAgetVersion '. Copyright: Acoustics Research Institute.']);
     if verbose >= 3
         disp(dispOutput);
     end
@@ -106,12 +114,4 @@ if verbose
 		disp(['SOFAdbURL (internet repository): ' SOFAdbURL('reset')]);
 	end
 end
-
-
-
-% FIXME: I would check only if the URL is available in the function where it is
-% needed. At the start it takes to long. Octaves urlread didn't know the TimeOut
-% parameter.
-%[~,stat]=urlread(SOFAdbURL);
-%if ~stat, disp('  --> could not connect'); end
 

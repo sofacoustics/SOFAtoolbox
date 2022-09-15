@@ -1,18 +1,37 @@
 function Obj = SOFAload(fn,varargin)
-%SOFALOAD 
-%   Obj = SOFAload(FN) reads the SOFA object OBJ with all data from a SOFA file FN. 
-%
-%   FN can point to a remote file (containing '://') or to a local file: 
-%     Remote file: FN will be downloaded to a temporary directory and loaded.
-%     Local file: If existing, will be loaded. If not existing, it will be downloaded from the internet repository given by SOFAdbURL. For this, FN must begin with the local HRTF directory given by SOFAdbPath.
-%
-%   Obj = SOFAload(FN,'nodata') ignores the "Data." variables and loads metadata only (variables and attributes).
-%
-%   Obj = SOFAload(FN,[START COUNT]) loads only COUNT number of measurements (dimension M) beginning with the index START. For remote files, or local but not existing files, the full file will be downloaded.
-%
-%   Obj = SOFAload(FN,[START1 COUNT1],DIM1,[START2 COUNT2],DIM2,...) loads only COUNT1 number of data in dimension DIM1 beginning with the index START1, COUNT2 number of data in dimension DIM2 with the index START2 and so on.
+%SOFAload - Load a SOFA file
+%   Usage:  Obj = SOFAload(fn)
 %   
-%   Obj = SOFAload(FN,...,'nochecks') loads the file but does not perform any checks for correct conventions.
+%   Obj = SOFAload(fn) reads the SOFA file fn and represents it as
+%   a structure Obj in the Matlab/Octave environment. The structure
+%   will be checked if the SOFA conventions are known, if the 
+%   mandatory data are provided, and the data type is correct. 
+%   Finally, the convention's version will be updated to the most
+%   recent one. 
+%
+%   The filename fn can point to a remote file by containing '://', 
+%   which will be downloaded to a temporary directory and loaded.
+%
+%   The filename fn can point to a local file. If fn begins with 
+%   'db://' or with that defined by SOFAdbPath, then it will be loaded
+%   from the SOFA local database. If not found, it will be downloaded 
+%   from the remote internet repository given by SOFAdbURL. 
+%
+%   Obj = SOFAload(fn,'nodata') loads metadata only (variables and attributes)
+%   and ignores the "Data." variables. This is especially useful when fn 
+%   is a huge file. 
+%
+%   Obj = SOFAload(fn,[START COUNT]) loads only COUNT number of measurements 
+%   (along the dimension M) beginning with the index START. Note that for 
+%   remote (or local but not existing) files, still the full file will 
+%   need to be downloaded.
+%
+%   Obj = SOFAload(fn,[START1 COUNT1],DIM1,[START2 COUNT2],DIM2,...) loads 
+%   only COUNT1 number of data in dimension DIM1 beginning with the index START1,
+%   COUNT2 number of data in dimension DIM2 with the index START2 and so on.
+%   
+%   Obj = SOFAload(fn,...,'nochecks') loads the file but does not perform 
+%   any checks for correct conventions.
 % 
 
 % #Author: Piotr Majdak
@@ -177,8 +196,6 @@ else
 	if isfield(Obj,'GLOBAL__NCProperties'), Obj=rmfield(Obj,'GLOBAL__NCProperties'); end
 	
     % ----- Ensure backwards compatibility -----
-    % TODO: is the while loop necessary, or could be handled just by calling
-    % SOFAupgradeConventions(Obj) once?
     modified = 1;
     while modified
         [Obj,modified] = SOFAupgradeConventions(Obj);

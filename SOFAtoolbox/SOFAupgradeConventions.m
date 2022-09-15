@@ -1,9 +1,14 @@
 function [Obj,modified] = SOFAupgradeConventions(Obj)
-%SOFAcompatibility 
-%   [Obj,modified] = SOFAupgradeConventions(Obj) upgrades the Obj to the next higher
-%   version if required. MODIFIED is 1 when an upgrade was required. 
-%   In order to obtain the most recent version, SOFAupgradeConventions
-%   should be processed recursively until MODIFIED is 0. 
+%SOFAupgradeConventions - Upgrade conventions to a higher version
+%   Usage: Obj = SOFAupgradeConventions(Obj)
+%
+%   Obj = SOFAupgradeConventions(Obj) searches for a new version of the 
+%   convention stored in Obj and upgrades to a next higher
+%   version if found. 
+%
+%   [Obj,MODIFIED] = SOFAupgradeConventions(..) returns MODIFIED = 1 when 
+%   an upgrade was performed. In order to obtain the most recent version, 
+%   SOFAupgradeConventions can be processed recursively until MODIFIED is 0. 
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

@@ -15,6 +15,7 @@
 
 *** v2.1 (first 2.x release)
 - conventions (csv files) updated to v2.1; several bugs fixed, version numbers and content adapted to standard
+- SOFAgetConventions: returns only the mandatory metadata per default. 
 
 *** v2.0 (not released, rebranded to SOFA Toolbox)
 
@@ -28,7 +29,7 @@
 - .gitignore added, updated multiple times
 - Support for spherical harmonics added.
 - SOFAconvertCoordinates.m: type horizontal-polar removed (not (properly) defined in SOFA)
-- SOFAarghelper: minor bugs fixed (changes FB)
+- SOFAarghelper: minor bugs fixed (changes FB); license changed from GPL to EUPL, in agreement with Peter L. Soendergaard
 - SOFAinfo: showing all global mandatory fields now, plus some more for SimpleFreeFieldHRIR
 - demoPlaySound.m added
 - Readme.md: Example fixed (demoPlaySound.m)
@@ -97,6 +98,8 @@
 	- dependency on function 'npi2pi' removed (required toolbox in Matlab; in Octave not supported; outdated anyway)
 	- keyvalue 'R'/'r' renamed to 'receiver'
 	- Obj.GLOBAL_Title only displayed in figure title if not empty; title handling improved
+	- input flags for normalization renamed to: 'normalization','nonormalization'
+	- input flags for conversion to IR domain renamed to: 'conversion2ir','noconversion2ir'
 - SOFAplotGeometry:
 	- bug fixed when extracting LU (listener up) coordinates
 	- minor bugs fixed

@@ -40,7 +40,7 @@ Obj.EmitterPosition = [0 0 0.075;90 0 0.075;180 0 0.075;270 0 0.075;0 90 0.075;0
 Obj.SourcePosition = [4.2 0 0];
 Obj.SourceView = [-1 0 0];%The source and the listener are facing each other
 
-datapath=[fileparts(SOFAdbPath) filesep 'IEM' filesep];
+datapath=[fileparts(SOFAdbPath) filesep 'IEM' filesep 'LigetiHall_CubeletToSt450' filesep];
 IR_list = dir([datapath '*.wav']);
 if isempty(IR_list)
     error([' Folder does not exist or is empty: ' strrep(datapath,['SOFA' filesep '..' filesep],'') newline ' Download IR dataset from https://phaidra.kug.ac.at/view/o:104376 and save the files to the folder ''IEM'' in your data directory.'])

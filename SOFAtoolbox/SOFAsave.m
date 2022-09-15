@@ -1,17 +1,22 @@
 function [Obj] = SOFAsave(filename,Obj,varargin)
-%SOFASAVE 
-%   [Obj] = SOFAsave(filename,Obj,Compression) creates a new SOFA file and
-%   writes an entire data set to it.
+%SOFAsave - Save a SOFA object to a SOFA file
+%   Usage: Obj = SOFAsave(fn,Obj)
+%          Obj = SOFAsave(fn,Obj,compression)
 %
-%   filename specifies the name of the SOFA file to which the data is written.
-%   Obj is a struct containing the data and meta
-%   data to be written to the SOFA file (see below for exact format).
-%   Compression is an optional numeric value between 0 and 9 specifying the
-%   amount of compression to be applied to the data when writing to the netCDF file.
-%   0 is no compression and 9 is the most compression.
-% 
-%   The existence of mandatory variables will be checked. The dimensions
-%   will be updated.
+%   SOFAsave(fn, Obj) creates a new SOFA file with the name fn and stores 
+%   the SOFA object Obj in that file. Before storing, the existence of 
+%   mandatory variables in Obj is checked and the dimensions are updated. 
+%   Further, DateModified is set to now, DateCreated is created if 
+%   not provided in Obj, and all read-only metadata is reset to its standard
+%   values. 
+%
+%   Obj=SOFAsave(..) returns the updated object.
+%
+%   SOFAsave(fn,Obj,compression) specifies the amount of compression of the 
+%   file as a number between 0 and 9. compression of 0 is no compression and 
+%   9 is the largest compression available. For the compression, ZIP algorithm
+%   is used.
+ 
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc and header documentation updated (28.10.2021)

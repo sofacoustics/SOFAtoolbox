@@ -1,11 +1,19 @@
 function [Obj, log] = SOFAexpand(Obj,VarName)
-%SOFAexpand
-%   Obj = SOFAexpand(Obj) expands the singleton dimensions of all variables.
-%     Only variables will be expanded. Data and attributes won't. Note that Obj.API.Dimensions will be updated to the new dimensions.
+%SOFAexpand - Expand variables in a SOFA object
+%   Usage: Obj = SOFAexpand(Obj,VarName) 
+%    
+%   SOFAexpand(Obj,VarName) expands the the singleton dimensions of 
+%   the variable VarName, e.g., a variable SourcePosition containing a single entry
+%   thus size of [I C], will be expanded to the next possible,thus size of [I M].
+%   The potential for the expansion is defined in API.Dimensions.VarName. 
+%   Obj.API.Dimensions will be updated to the new dimensions.
+%   
+%   SOFAexpand(Obj) expands the singleton dimensions of all variables of Obj.
+%   Note that Data variables are not expanded. 
 % 
 %	Obj = SOFAexpand(Obj,VarName) expands the singleton dimensions of the variable VarName.
 %   
-%   [Obj,log] = SOFAexpand(...) returns a log of expanded variables.
+%   [Obj,log] = SOFAexpand(..) returns a log of expanded variables.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

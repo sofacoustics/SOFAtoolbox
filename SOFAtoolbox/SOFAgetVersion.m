@@ -1,10 +1,13 @@
 function results = SOFAgetVersion(flag)
-%SOFAGETVERSION
-%   version = SOFAgetVersion() returns the version of the SOFA Toolbox API
+%SOFAgetVersion - Get the version of the SOFA Toolbox
+%   Usage: ver = SOFAgetVersion(flag)
 %
-%   version = SOFAgetVersion('API') does the same.
+%   ver = SOFAgetVersion() returns the version of the SOFA Toolbox
 %
-%   version = SOFAgetVersion('SOFA') returns the version of the SOFA supported by this Toolbox API.
+%   ver = SOFAgetVersion('API') does the same.
+%
+%   ver = SOFAgetVersion('SOFA') returns the version of the SOFA supported 
+%   by the SOFA Toolbox.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
@@ -23,7 +26,7 @@ end
 
 switch flag
 	case 'API'
-		results = '2.1';
+		results = '2.0.99';
 	case 'SOFA'
 		results = '2.1';
 end

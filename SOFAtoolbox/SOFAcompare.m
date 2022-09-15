@@ -1,17 +1,19 @@
 function [tf,reason,where] = SOFAcompare(Obj1, Obj2, varargin)
-%SOFAcompare
-%   TF = SOFAcompare(A, B) compares A and B and
-%   returns logical 1 (true) if they are identical.
+%SOFAcompare - compare two SOFA objects
+%   Usage: TF = SOFAcompare(A, B)
 %
-%   [TF,REASON,WHERE] = SOFAcompare(A, B) provides the REASON 
-%   and shows WHERE the difference arose. 
+%   SOFAcompare compares A and B and
+%   returns logical 1 (true) if they are identical and 0 (false)
+%   if a difference has been found. 
 %
-%   ... = SOFAcompare(A, B, 'ignoreDate') ignores the global attributes
+%   [TF,reason,where] = SOFAcompare(..) provides in reason the reason 
+%   for a difference and describes in where in which metadata the difference arose. 
+%
+%   SOFAcompare(A, B, 'ignoreDate') ignores the global attributes
 %   DateCreated and DateModified. 
 %
-%
-%   Limited functionality!!! Only attributes are compared now.
-%
+%   Currenty the functionality is limited to the comparison og 
+%   attributes only.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (20.10.2021)

@@ -1,23 +1,31 @@
 function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
-% SOFAspat
-% [out, azi, ele, idx] = SOFAspat(in, Obj, azi, ele) spatializes the sound IN using
-% the HRTFs from OBJ according to the trajectory given in AZI and ELE.
-% Input: 
-%		in: vector with the sound
-%		Obj: SOFA object containing the HRTFs
-%		azi, ele: vectors with the trajectory (in degrees) independent for
-%							azimuth and elevation
-% 
-% Output: 
-%		out: binaural signal
-%		azi, ele: azimuth and elevation of the actual trajectory (degrees)
-%		idx: index of the filters (corresponds to AZI and ELE)
+%SOFAspat - Spatialize a sound source along a trajectory
+%   Usage: out = SOFAspat(IN,Obj,AZI,ELE)
+%          [out, azi, ele, idx] = SOFAspat(IN,Obj,AZI,ELE)
 %
-% This is an example of how to use SOFA.
+%   out = SOFAspat(IN, Obj, AZI, ELE) spatializes the sound IN using
+%   the HRTFs from Obj along the trajectory given in AZI and ELE.
+%
+%   [out, azi, ele, idx] = SOFAspat(..) returns the actual trajectory 
+%   and the index vector of the actually used filters from Obj. 
+%   
+%   Input parameters: 
+%		IN:  vector with the sound
+%		Obj: SOFA object containing the HRTFs
+%		azi: vector with the azimuth angles (in degrees) of the trajectory
+%       ele: vector with the elevation angles (in degrees) of the trajectory
+%   The first and last element in azi and ele defines the beginning and end direction
+%   of the spatialized source. Directions inbetween will be interpolated. 
 % 
+%   Output parameters: 
+%		out: the spatialized binaural signal
+%		azi: the azimuth angles of the actual trajectory (degrees)
+%		ele: the elevation angles of the actual trajectory (degrees)
+%		idx: index of the used filters corresponding to the actual trajectory
+%
 
 % #Author: Piotr Majdak (2013)
-% #Author: Robert Baumgartner: adaptions (2016)
+% #Author: Robert Baumgartner: adaptations (2016)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 %
 % SOFA Toolbox

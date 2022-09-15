@@ -1,24 +1,18 @@
 function Obj_lfe = SOFAcalculateLFE(Obj, fmin, fmax)
-% Low frequency extention
+%SOFAcalculateLFE - Extend HRTFs towards lower frequencies
+%   Usage: Obj = SOFAcalculateLFE(Obj, fmin, fmax)
 % 
-% function Obj_lfe = SOFAcalculateLFE(Obj, fmin, fmax)
-% 
-%   Description:
-%                    This function extrapolates low frequency content of 
-%                    SOFA SimpleFreeFieldHRIR objects by considering a
-%                    linear behavior to the low frequency content
-
-%   Usage:           Obj = SOFAcalculateLFE(Obj, fmin, fmax)
+%   SOFAcalculateLFE extrapolates each HRTF in Obj below fmax down to fmin 
+%   by considering a linear extrapolation in the amplitude spectrum
+%   and the minimum-phase version of the phase spectrum.
 %
 %   Input parameters:
-%     Obj:           SOFA object with SimpleFreeFieldHRIR convention.
-%     fmin:          Minimal frequency to be calculated (default: 15Hz)
-%     fmax:          Reference frequency value to be extended until fmin
-%                                                       (default: 500Hz)
+%     Obj:  SOFA object (only SimpleFreeFieldHRIR supported)
+%     fmin: Minimal frequency to be calculated (default: 15 Hz)
+%     fmax: Frequency to be extended down to fmin (default: 500 Hz)
 % 
-%   Output arguments:
-%     Obj:           SOFA object with SimpleFreeFieldHRIR convention.
-
+%   Output parameters:
+%     Obj:  New SOFA object
 
 % #Author: Davi R. Carvalho, UFSM - Acoustical Engineering (07.04.2021)
 % #Author: Michael Mihocic: adapted for SOFA 2.0 release; header documentation updated (20.10.2021)
@@ -63,7 +57,6 @@ end
 f500Hz = dsearchn(freq_vec_ext.', fmax); % idx at defined linear part of HRTFs
 
 [~, ~, ~, Obj] = SOFAcalculateITD(Obj, 'samples', 'debug', 1);
-% [~, ObjD] = SOFAcalculateITDdavi(Obj, 'samples');
 
 %% extrap low frequency
 ir_interp = zeros(size(IR, 2), size(IR, 3), N_ext);
@@ -94,7 +87,6 @@ end
 
 %% OUTPUT
 Obj_lfe = Obj;
-% ir_interp = ir_interp./max(abs(ir_interp(:))) .* max(abs(IR(:)));
 Obj_lfe.Data.IR = ir_interp;
 end
 
@@ -106,6 +98,6 @@ H = [H; flip(H)]; % back to double sided spectrum
 
 %% Get minimum_phase
 phi_min = imag(hilbert(-(log(abs(H)+eps)))); % eps makes avoids log(0) = -inf
-% Filtro inverso complexo (cria fase)
+% Complex inverse filtering to consider the phase
 Hmin = abs(H).*exp(1i*(phi_min));
 end

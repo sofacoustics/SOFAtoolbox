@@ -1,22 +1,26 @@
 function Obj = SOFAaddVariable(Obj,Name,Dim,Value)
-%SOFAaddVariable
-%   Obj = SOFAaddVariable(Obj,Name,Dim,Value) adds a user-defined variable
-%   to the SOFA structure OBJ. NAME must be a string with the variable name 
-%   ('API', 'PRIVATE', or 'GLOBAL' are not allowed). DIM is a string 
+%SOFAaddVariable - Add a user-defined variable
+%
+%   Usage: Obj = SOFAaddVariable(Obj, Name, Dim, Value) 
+%
+%   SOFAaddVariable adds a user-defined variable
+%   to the SOFA structure Obj. Name must be a string with the variable name 
+%   ('API', 'PRIVATE', or 'GLOBAL' are not allowed). Dim is a string 
 %   describing the dimensions of the variable according to SOFA specifications. 
-%   The content of NAME is stored in VALUE which must be of the size DIM. 
-%   The used-defined variable NAME will be stored as Obj.NAME and its
-%   dimension will be stored as Obj.API.Dimensions.NAME. Note that user-
+%   Value is the content of the variable with the size of Dim. 
+%
+%   In Obj, the new variable will be stored as Obj.Name and its
+%   dimension will be stored as Obj.API.Dimensions.Name. User-
 %   defined variables can be saved in SOFA file and thus remain in the 
 %   object when loaded from a SOFA file. 
 %
 %   Obj = SOFAaddVariable(Obj,Name,'PRIVATE',Value) adds a private variable
-%   to OBJ. The private variable NAME will be stored as Obj.PRIVATE.NAME. 
-%   Note that the private variables will be not stored in SOFA files and
+%   to Obj. The private variable Name will be stored as Obj.PRIVATE.Name. 
+%   Private variables will be not stored in the SOFA file and
 %   arbitrary dimensions are allowed.
 %
-%		Note that adding variables to Data is not supported and should not be used
-%		as it might be confusing having user-defined variables in a Data structure. 
+%		Note that adding variables to the Data structure is not supported as
+%		user-defined variables in a Data structure are not recommended. 
 %		Consider adding a variable at the global level instead, which would be more
 %		clear for others.
 

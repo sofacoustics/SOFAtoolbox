@@ -1,9 +1,9 @@
 function Obj = SOFAremoveVariable(Obj,Name)
-%SOFAremoveVariable
-%   Obj = SOFAremoveVariable(Obj,Name) removes the user-defined variable
-%   from the SOFA structure OBJ. NAME must be a string with the variable name 
-%   ('API', 'PRIVATE', or 'GLOBAL' are not allowed). 
-%
+%SOFAremoveVariable - Remove a variable from the SOFA object
+%   Usage: Obj = SOFAremoveVariable(Obj,Name)
+%   
+%   SOFAremoveVariable(Obj,Name) removes the variable Name
+%   from the SOFA structure Obj. 
 %
 
 % #Author: Piotr Majdak: adapted from SOFAaddVariable (19.06.2019)
