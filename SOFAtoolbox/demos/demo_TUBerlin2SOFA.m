@@ -1,6 +1,4 @@
-% SOFA Toolbox - demo script
-
-% load HRTF in TU Berlin format and save as SOFA format
+%demo_TUBerlin2SOFA - Load HRTF in TU Berlin format and save as SOFA format.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)
@@ -18,7 +16,7 @@
 TUBfile = 'QU_KEMAR_anechoic_';
 % Define vector with radii to be loaded. Available files: 0.5, 1, 2, and 3 m
 % radius=[0.5 1 2 3];
-radius=[0.5];
+radius=0.5;
 
 % Data compression (0..uncompressed, 9..most compressed)
 compression=1; % results in a nice compression within a reasonable processing time

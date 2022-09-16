@@ -1,4 +1,4 @@
-% load HRTF in FHK format and save in SOFA format
+%demo_FHK2SOFA - Load HRTF in FHK format and save in SOFA format.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

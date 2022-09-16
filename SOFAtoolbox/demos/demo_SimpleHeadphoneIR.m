@@ -1,5 +1,4 @@
-% SOFA Toolbox - demo script for the convention SimpleHeadphoneIR.
-% load headphone IRs from a SOFA file from the ARI headphones database
+%demo_SimpleHeadphoneIR - Load headphone IRs (SimpleHeadphoneIR convention) from a SOFA file from the ARI headphones database.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

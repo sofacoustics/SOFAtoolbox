@@ -1,4 +1,5 @@
-% Demonstrates the usage of spherical harmonics (SH) for HRTF interpolation. 
+%demo_FreeFieldHRTF - Demonstrates the usage of spherical harmonics (SH) for HRTF interpolation. 
+% 
 % demo_FreeFieldHRTF loads an HRTF set, transforms to TF, then to SH, then 
 % samples the horizontal and median plane in steps of 0.5 degrees. Finally, 
 % the files are saved in SOFAdbPath as demo_FreeFieldHRTF_{TF, SH, TFrec}.sofa.

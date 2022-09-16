@@ -1,5 +1,4 @@
-% SOFA Toolbox - test script
-% Test audio playback after convolving sound file
+%demo_PlaySound - Test audio playback after convolving sound file.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)

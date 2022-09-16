@@ -1,4 +1,4 @@
-% load HRTF in SOFA format and save as ARI format
+%demo_SOFA2ARI - Load HRTF in SOFA format and save as ARI format.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)

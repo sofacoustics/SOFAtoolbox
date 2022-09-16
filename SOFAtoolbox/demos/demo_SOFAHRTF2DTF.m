@@ -1,5 +1,4 @@
-% load HRTF and plots CTF and average DTF
-% 
+%demo_SOFAHRTF2DTF - Load HRTF and plots CTF and average DTF.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

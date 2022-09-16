@@ -1,5 +1,4 @@
-% load HRTF and extends low frequency content
-% 
+%demo_SOFAcalculateLFE - Load HRTF and extends low frequency content.
 
 % #Author: Davi Carvalho
 % #Author: Michael Mihocic: bugs fixed (10.2021)

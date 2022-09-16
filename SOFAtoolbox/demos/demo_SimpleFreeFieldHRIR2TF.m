@@ -1,5 +1,4 @@
-% Convert data from SingleFreeFieldHRIR to SingleFreeFieldHRTF, 
-%   extract a few frequency bins and save.
+%demo_SimpleFreeFieldHRIR2TF - Convert data from SingleFreeFieldHRIR to SingleFreeFieldHRTF, extract a few frequency bins and save.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

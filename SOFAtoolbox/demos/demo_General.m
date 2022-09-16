@@ -1,4 +1,4 @@
-% Demonstrates the usage of the General conventions.
+%demo_General - Demonstrates the usage of the General conventions.
 
 % #Author: Michael Mihocic
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

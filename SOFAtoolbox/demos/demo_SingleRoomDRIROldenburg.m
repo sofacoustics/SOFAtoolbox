@@ -1,4 +1,5 @@
-% demo for SingleRoomDRIR: save DRIR data from Uni Oldenburg (Office II) as
+%demo_SingleRoomDRIROldenburg - Demo for SingleRoomDRIR: 
+% Save DRIR data from Uni Oldenburg (Office II) as
 % SOFA file and plot the speaker and listener positions. 
 % It uses conventions SingleRoomDRIR and RoomType 'shoebox', defined by
 % RoomCornerA and RoomCornerB.

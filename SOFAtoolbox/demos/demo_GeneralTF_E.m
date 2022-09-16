@@ -1,4 +1,4 @@
-% Demonstrates the usage of the GeneralTF-E conventions.
+%demo_GeneralTF_E - Demonstrates the usage of the GeneralTF-E conventions.
 
 % #Author: Michael Mihocic
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

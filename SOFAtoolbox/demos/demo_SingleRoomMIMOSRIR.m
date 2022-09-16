@@ -1,4 +1,4 @@
-% Demonstrates the usage of SingleRoomMIMOSRIR.
+%demo_SingleRoomMIMOSRIR - Demonstrates the usage of SingleRoomMIMOSRIR.
 % Idea: demo_SingleRoomMIMOSRIR loads SRIRs from IEM database,
 % converts to SH as SingleRoomMIMOSRIR, does planewave decompositon, and stores
 % the data as a .sofa file.

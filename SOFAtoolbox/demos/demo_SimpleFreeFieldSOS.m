@@ -1,4 +1,4 @@
-% Demonstrates the usage of the SimpleFreeFieldSOS conventions.
+%demo_SimpleFreeFieldSOS - Demonstrates the usage of the SimpleFreeFieldSOS conventions.
 
 % #Author: Michael Mihocic
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

@@ -1,4 +1,4 @@
-% Demonstrates the usage of the FreeFieldDirectivityTF conventions.
+%demo_FreeFieldDirectivityTF - Demonstrates the usage of the FreeFieldDirectivityTF conventions.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

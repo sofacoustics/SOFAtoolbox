@@ -1,5 +1,4 @@
-% SOFA Toolbox demo script
-% load HRTF in BT-DEI format and save in SOFA format.
+%demo_BTDEI2SOFA - Load HRTF in BT-DEI format and save in SOFA format.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

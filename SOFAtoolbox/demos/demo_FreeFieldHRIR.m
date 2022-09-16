@@ -1,4 +1,4 @@
-% Demonstrates the usage of the FreeFieldHRIR conventions.
+%demo_FreeFieldHRIR - Demonstrates the usage of the FreeFieldHRIR conventions.
 
 % #Author: Michael Mihocic (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

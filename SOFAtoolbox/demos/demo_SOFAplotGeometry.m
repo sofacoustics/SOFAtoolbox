@@ -1,6 +1,4 @@
-% demo_SOFAplotGeometry - script demonstrating the usage of
-% SOFAplotGeometry
-%
+%demo_SOFAplotGeometry - Script demonstrating the usage of SOFAplotGeometry.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

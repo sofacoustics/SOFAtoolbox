@@ -1,4 +1,4 @@
-% Demonstrates the usage of the SingleRoomSRIR conventions.
+%demo_SingleRoomSRIR - Demonstrates the usage of the SingleRoomSRIR conventions.
 
 % #Author: Michael Mihocic
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

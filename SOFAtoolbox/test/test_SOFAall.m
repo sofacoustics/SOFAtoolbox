@@ -1,5 +1,4 @@
-% SOFA Toolbox - test script
-% Test some of the SOFA Toolbox functionality
+%test_SOFAall - Test script, running all demos from 'demos' subfolder and testing some SOFA Toolbox functionalities.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: missing demos added, bugs fixed (09-10.2021)

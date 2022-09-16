@@ -1,3 +1,5 @@
+%demo_SOFAload - Demo showing how to load SOFA files, full or partial data.
+
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

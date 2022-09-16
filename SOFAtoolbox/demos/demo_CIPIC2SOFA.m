@@ -1,4 +1,4 @@
-% load HRTF in CIPIC format and save in SOFA format
+%demo_CIPIC2SOFA - Load HRTF in CIPIC format and save in SOFA format.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

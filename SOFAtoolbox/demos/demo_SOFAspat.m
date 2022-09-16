@@ -1,4 +1,4 @@
-% SOFA Toolbox - demo script
+%demo_SOFAspat - Demo script showing how to spatialize noise with a SOFA HRTF set.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)

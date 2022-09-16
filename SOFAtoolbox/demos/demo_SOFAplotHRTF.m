@@ -1,4 +1,4 @@
-% demo_SOFAplotHRTF - script demonstrating the usage of SOFAplotHRTF
+%demo_SOFAplotHRTF - Script demonstrating the usage of SOFAplotHRTF.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)

@@ -1,4 +1,4 @@
-% Demonstrates the usage of the SimpleFreeFieldHRSOS conventions.
+%demo_SimpleFreeFieldHRSOS - Demonstrates the usage of the SimpleFreeFieldHRSOS conventions.
 
 % #Author: Michael Mihocic
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

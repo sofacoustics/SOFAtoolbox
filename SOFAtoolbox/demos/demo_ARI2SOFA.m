@@ -1,5 +1,4 @@
-% SOFA Toolbox - demo script
-% Load HRTF in ARI format and save as SOFA format
+%demo_ARI2SOFA - Load HRTF in ARI format and save as SOFA format.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

@@ -1,4 +1,4 @@
-% load HRTF in MIT format and save as SOFA format
+%demo_MIT2SOFA - Load HRTF in MIT format and save as SOFA format.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

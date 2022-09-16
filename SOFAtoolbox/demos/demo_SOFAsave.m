@@ -1,5 +1,4 @@
-%%
-% This demo creates an artificial HRTF set.
+%demo_SOFAsave - This demo creates an artificial HRTF set.
 % It shows how to use SOFAgetConventions and SOFAsave
 % The HRTF set contains single pulses placed at sample index of 100
 % which results in a broadband delay of 100 samples. 

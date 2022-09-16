@@ -1,4 +1,4 @@
-% Script for testing the string array feature of SOFA
+%demo_SOFAstrings - Script for testing the string array feature of SOFA.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

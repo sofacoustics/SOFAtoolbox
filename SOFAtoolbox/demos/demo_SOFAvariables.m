@@ -1,4 +1,4 @@
-% SOFA Toolbox - script demonstrating the usage of variables in the API
+%demo_SOFAvariables - Script demonstrating the usage of variables in the SOFA Toolbox.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)

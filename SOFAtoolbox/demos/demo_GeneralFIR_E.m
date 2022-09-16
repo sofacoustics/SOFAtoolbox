@@ -1,4 +1,4 @@
-% Demonstrates the usage of the GeneralFIR-E conventions.
+%demo_GeneralFIR_E - Demonstrates the usage of the GeneralFIR-E conventions.
 
 % #Author: Michael Mihocic
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)

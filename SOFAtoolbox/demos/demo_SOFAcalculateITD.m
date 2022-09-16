@@ -1,4 +1,4 @@
-% load HRTF and plots ITD
+%demo_SOFAcalculateITD - Load HRTF and plots ITD.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)
