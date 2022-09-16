@@ -1,14 +1,16 @@
 function [S, N_SH] = sph2SH(dirs, L)
-%[S, N_SH] = sph2SH(dirs, L);
-%  sph2SH calculates real-valued spherical harmonics for directions dirs = [azi ele] (in degrees) up to order L. 
+%sph2SH - Calculate real-valued spherical harmonics.
+%  Usage: [S, N_SH] = sph2SH(dirs, L)
+% 
+%  sph2SH calculates real-valued spherical harmonics for directions dirs = [azi ele] (in degrees) up to order L.
 % 
 %   Input:
-%       dirs ... dirs = [azi ele]
-%       L    ... order L
+%       dirs : dirs = [azi ele]
+%       L    : order L
 %
 %   Output:
-%       S    ... real-valued spherical harmonics
-%       N_SH ... number of SH coefficients
+%       S    : real-valued spherical harmonics
+%       N_SH : number of SH coefficients
 % 
 %   See also HOR2SPH, SPH2HOR, SPH2NAV, SPH2HOR, NAV2SPH
 

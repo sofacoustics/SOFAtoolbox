@@ -1,15 +1,14 @@
 function [azi,ele]=nav2sph(azi,ele)
-%NAV2SPH Coordinate Transform.
-%	[azi,ele] = nav2sph(azi,ele) vonverts navigational coordinates to
-%	spherical coordinates.
+%NAV2SPH - Transform coordinates from nagigational to spherical coordinates.
+%	Usage: [azi,ele] = nav2sph(azi,ele)
 %
 %	Input:
-%       azi ... azimuth (-180 <= azi <= 180)
-%       ele ... elevation (-90 <= ele <= 90)
+%       azi : azimuth (-180 <= azi <= 180)
+%       ele : elevation (-90 <= ele <= 90)
 %
 %   Output:
-%       azi ... azimuth (0 <= azi < 360)
-%       ele ... elevation (-90 <= ele <= 90)
+%       azi : azimuth (0 <= azi < 360)
+%       ele : elevation (-90 <= ele <= 90)
 %
 %   See also HOR2SPH, SPH2HOR, SPH2NAV, SPH2HOR, SPH2SH
 

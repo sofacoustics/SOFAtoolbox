@@ -1,15 +1,14 @@
 function [azi,ele] = sph2nav(azi,ele)
-%SPH2NAV  Coordinate Transform
-%   [azi,ele] = sph2nav(azi,ele) converts spherical coordinates to
-%   navigational coordinates.
+%SPH2NAV - Convert spherical coordinates to navigational coordinates.
+%   Usage: [azi,ele] = sph2nav(azi,ele) 
 %
 %   Input:
-%       azi ... azimuth (0 <= azi < 360)
-%       ele ... elevation (-90 <= ele <= 90)
+%       azi : azimuth (0 <= azi < 360)
+%       ele : elevation (-90 <= ele <= 90)
 %
 %   Output:
-%       azi ... azimuth (-180 <= azi <= 180)
-%       ele ... elevation (-90 <= ele <= 90)
+%       azi : azimuth (-180 <= azi <= 180)
+%       ele : elevation (-90 <= ele <= 90)
 %
 %   See also HOR2SPH, SPH2HOR, SPH2HOR, SPH2SH, NAV2SPH
 

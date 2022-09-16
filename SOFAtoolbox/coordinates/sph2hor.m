@@ -1,14 +1,14 @@
 function [lat,pol]=sph2hor(azi,ele)
-%SPH2HOR  transform spherical to horizontal-polar coordinates.
-%   [lat,pol]=sph2hor(azi,ele)
+%SPH2HOR - Transform spherical to horizontal-polar coordinates.
+%   Usage: [lat,pol]=sph2hor(azi,ele)
 % 
 %   Input:
-%       azi ... azimuth (in degrees)
-%       ele ... elevation (in degrees)
+%       azi : azimuth (in degrees)
+%       ele : elevation (in degrees)
 % 
 %   Output:
-%       lat ... lateral angle (-90 <= lat <= 90)
-%       pol ... polar angle (-90 <= pol < 270)
+%       lat : lateral angle (-90 <= lat <= 90)
+%       pol : polar angle (-90 <= pol < 270)
 %
 %   See also HOR2SPH, SPH2NAV, SPH2HOR, SPH2SH, NAV2SPH
 
