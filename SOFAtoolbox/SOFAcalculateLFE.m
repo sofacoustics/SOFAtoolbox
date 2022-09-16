@@ -1,5 +1,5 @@
 function Obj_lfe = SOFAcalculateLFE(Obj, fmin, fmax)
-%SOFAcalculateLFE - Extend HRTFs towards lower frequencies
+%SOFAcalculateLFE - Extend HRTFs towards lower frequencies.
 %   Usage: Obj = SOFAcalculateLFE(Obj, fmin, fmax)
 % 
 %   SOFAcalculateLFE extrapolates each HRTF in Obj below fmax down to fmin 
