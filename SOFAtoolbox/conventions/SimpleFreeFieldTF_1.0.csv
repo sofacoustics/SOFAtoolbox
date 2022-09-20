@@ -1,0 +1,44 @@
+Name	Default	Flags	Dimensions	Type	Comment
+GLOBAL:Conventions	SOFA	rm	  	attribute	
+GLOBAL:Version	1.0	rm	 	attribute	
+GLOBAL:SOFAConventions	SimpleFreeFieldTF	rm	  	attribute	This conventions is for TFs created under conditions where room information is irrelevant
+GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
+GLOBAL:APIName		rm	  	attribute	
+GLOBAL:APIVersion		rm	  	attribute	
+GLOBAL:ApplicationName			  	attribute	
+GLOBAL:ApplicationVersion			  	attribute	
+GLOBAL:AuthorContact		m	  	attribute	
+GLOBAL:Comment			 	attribute	
+GLOBAL:DataType	TF	rm	  	attribute	
+GLOBAL:History			 	attribute	
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:ListenerShortName		m		attribute	ID of the subject from the database
+GLOBAL:Organization		m	  	attribute	
+GLOBAL:References				attribute	
+GLOBAL:RoomType	free field	m	  	attribute	
+GLOBAL:Origin				attribute	
+GLOBAL:DateCreated		m	 	attribute	
+GLOBAL:DateModified		m	 	attribute	
+GLOBAL:Title		m		attribute	
+ListenerPosition	[0 0 0] 	m	IC, MC	double	
+ListenerPosition:Type	cartesian	m	  	attribute	
+ListenerPosition:Units	metre	m	  	attribute	
+ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rCI, rCM	double	
+ReceiverPosition:Type	cartesian	m	  	attribute	
+ReceiverPosition:Units	metre	m	  	attribute	
+SourcePosition	[0 0 1]	m	IC, MC	double	Source position is assumed to vary for different directions/positions around the listener
+SourcePosition:Type	spherical	m	  	attribute	
+SourcePosition:Units	degree, degree, metre	m	  	attribute	
+EmitterPosition	[0 0 0]	m	eCI, eCM	double	
+EmitterPosition:Type	cartesian	m	  	attribute	
+EmitterPosition:Units	metre	m	  	attribute	
+GLOBAL:DatabaseName		m	  	attribute	name of the database to which these data belong
+ListenerUp	[0 0 1]	m	IC, MC	double	
+ListenerView	[1 0 0]	m	IC, MC	double	
+ListenerView:Type	cartesian	m		attribute	
+ListenerView:Units	metre	m		attribute	
+Data.Real	[0 0]	m	mRn	double	
+Data.Imag	[0 0]	m	MRN	double	
+N	0	m	N	double	
+N_LongName	frequency			attribute	
+N_Units	hertz			attribute	

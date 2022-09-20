@@ -1,0 +1,51 @@
+Name	Default	Flags	Dimensions	Type	Comment
+GLOBAL:Conventions	SOFA	rm	  	attribute	
+GLOBAL:Version	1.0	rm	 	attribute	
+GLOBAL:SOFAConventions	SimpleHeadphoneIR	rm	  	attribute	Conventions for IRs with a 1-to-1 correspondence between emitter and receiver. The main application for this convention is to store headphone IRs recorded for each emitter and each ear.
+GLOBAL:SOFAConventionsVersion	0.2	rm	  	attribute	
+GLOBAL:APIName		rm	  	attribute	
+GLOBAL:APIVersion		rm	  	attribute	
+GLOBAL:ApplicationName			  	attribute	
+GLOBAL:ApplicationVersion			  	attribute	
+GLOBAL:AuthorContact		m	  	attribute	
+GLOBAL:Comment		m	 	attribute	
+GLOBAL:DataType	FIR	rm	  	attribute	We will store IRs here
+GLOBAL:History			 	attribute	
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:Organization		m	  	attribute	
+GLOBAL:References				attribute	
+GLOBAL:RoomType	free field	m	  	attribute	Room type is not relevant here
+GLOBAL:Origin				attribute	
+GLOBAL:DateCreated		m	 	attribute	
+GLOBAL:DateModified		m	 	attribute	
+GLOBAL:Title		m		attribute	
+ListenerPosition	[0 0 0] 	m	IC, MC	double	
+ListenerPosition:Type	cartesian	m	  	attribute	
+ListenerPosition:Units	metre	m	  	attribute	
+ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rCI, rCM	double	
+ReceiverPosition:Type	cartesian	m	  	attribute	
+ReceiverPosition:Units	metre	m	  	attribute	
+SourcePosition	[0 0 0]	m	IC, MC	double	Default: Headphones are located at the position of the listener
+SourcePosition:Type	spherical	m	  	attribute	
+SourcePosition:Units	degree, degree, metre	m	  	attribute	
+EmitterPosition	[0 0.09 0; 0 -0.09 0]	m	eCI, eCM	double	Default: Reflects the correspondence of each emitter to each receiver
+EmitterPosition:Type	cartesian	m	  	attribute	
+EmitterPosition:Units	metre	m	  	attribute	
+Data.IR	[0 0]	m	mRn	double	
+Data.SamplingRate	48000	m	I	double	
+Data.SamplingRate:Units	hertz	m		attribute	
+Data.Delay	[0 0]	m	IR, MR	double	
+GLOBAL:DatabaseName		m	  	attribute	Correspondence to a database
+GLOBAL:ListenerShortName		m	  	attribute	Correspondence to a subject from the database
+GLOBAL:ListenerDescription		m		attribute	Narrative description of the listener (or mannequin)
+GLOBAL:SourceDescription		m		attribute	Narrative description of the headphones
+GLOBAL:SourceManufacturer		m		attribute	Name of the headphones manufacturer
+SourceManufacturer	{''}		MS	string	Optional M-dependent version of the attribute SourceManufucturer
+GLOBAL:SourceModel		m		attribute	Name of the headphone model. Must uniquely describe the headphones of the manufacturer
+SourceModel	{''}		MS	string	Optional M-dependent version of the attribute SourceModel
+GLOBAL:SourceURI		m		attribute	URI of the headphone specifications
+GLOBAL:ReceiverDescription		m		attribute	Narrative description of the microphones
+ReceiverDescription	{''}		MS	string	Optional M-dependent version of the attribute ReceiverDescription
+GLOBAL:EmitterDescription		m		attribute	Narrative description of the headphone drivers
+EmitterDescription	{''}		MS	string	Optional M-dependent version of the attribute EmitterDescription
+MeasurementDate	0		M	double	Optional M-dependent date and time of the measurement
