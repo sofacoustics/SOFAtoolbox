@@ -39,6 +39,7 @@ if isfield(Obj,'PRIVATE'), Obj=rmfield(Obj,'PRIVATE'); end
 
 %% Check convention: mandatory variables
 ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
+if isempty(ObjCheck), error(['Unknown conventions: ' Obj.GLOBAL_SOFAConventions '. Can''t save.']); end
 
 varNames = fieldnames(ObjCheck);
 for ii=1:size(varNames,1);
