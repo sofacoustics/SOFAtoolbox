@@ -13,6 +13,7 @@ function Obj=SOFAconvertConventions(Obj,varargin)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: rmfield replaced by SOFAremoveVariable for non data variables, improved stability (20.09.2022)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -190,7 +191,8 @@ try
                 Obj.Data.Delay=zeros(1,Obj.API.R);
                 Obj.SourcePosition_Type=newObj.SourcePosition_Type;
                 Obj.SourcePosition_Units=newObj.SourcePosition_Units;
-                Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
+                Obj=SOFAremoveVariable(Obj,'N');
+%                 Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
                 Obj.Data=rmfield(Obj.Data,{'Real','Imag'});
                 if isfield(Obj.API.Dimensions,'Data')
                     Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
@@ -303,7 +305,8 @@ try
                 end
                 Obj.Data.Delay=zeros(Obj.API.M,Obj.API.R,1);
                 Obj.Data.SamplingRate=fs;
-                Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
+                Obj=SOFAremoveVariable(Obj,'N');
+%                 Obj=rmfield(Obj,{'N','N_LongName','N_Units'});
                 Obj.Data=rmfield(Obj.Data,{'Real','Imag'});
                 Obj.API.Dimensions.Data=rmfield(Obj.API.Dimensions.Data,{'Real','Imag'});
             elseif strcmp(newObj.GLOBAL_DataType,'TF')

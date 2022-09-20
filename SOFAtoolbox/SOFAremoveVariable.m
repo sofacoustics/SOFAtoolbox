@@ -1,13 +1,14 @@
 function Obj = SOFAremoveVariable(Obj,Name)
-%SOFAremoveVariable - Remove a variable from the SOFA object
-%   Usage: Obj = SOFAremoveVariable(Obj,Name)
+%SOFAremoveVariable - Remove a variable, its dimension, and its attributes from a SOFA object
+%  Usage: Obj = SOFAremoveVariable(Obj,Name)
 %   
-%   SOFAremoveVariable(Obj,Name) removes the variable Name
-%   from the SOFA structure Obj. 
+%  SOFAremoveVariable(Obj,Name) removes the variable Name
+%  from the SOFA structure Obj. 
 %
 
 % #Author: Piotr Majdak: adapted from SOFAaddVariable (19.06.2019)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: removing variable attributes; minor bug fixed (20.09.2022)
 %
 % SOFA Toolbox - function SOFAremoveVariable
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -19,14 +20,25 @@ function Obj = SOFAremoveVariable(Obj,Name)
 
 
 switch Name 
-    case {'API','PRIVATE','GLOBAL','PRIVATE','Data'}
+    case {'API','PRIVATE','GLOBAL','Data'}
         error('This variable name is reserved.');
     otherwise
         if isfield(Obj,Name)
-          Obj=rmfield(Obj,Name);
-          if isfield(Obj.API.Dimensions,Name)
-              Obj.API.Dimensions=rmfield(Obj.API.Dimensions,Name);
-          end
-       end
-    end
+            Obj=rmfield(Obj,Name);
+            if isfield(Obj.API.Dimensions,Name)
+                Obj.API.Dimensions=rmfield(Obj.API.Dimensions,Name);
+            end
+            % check if fields "Name_*" are existing and remove them (variable attributes)
+            ObjFields=fieldnames(Obj);
+            IndexContainsName = find(contains(ObjFields,[Name '_']));
+   
+            for ii=length(IndexContainsName):-1:1 % loop is not entered if empty IndexContainsName; run backwards because of removed indices
+                % check if field name starts with "Name_*"
+                if startsWith(char(ObjFields(IndexContainsName(ii))),Name)
+%                     disp(['removing field: ' char(ObjFields(IndexContainsName(ii)))]) % debug
+                    Obj=rmfield(Obj,ObjFields(IndexContainsName(ii)));
+                end
+            end
+
+        end
 end
