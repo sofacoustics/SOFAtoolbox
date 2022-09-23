@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
 GLOBAL:Version	2.1	rm	 	attribute	
 GLOBAL:SOFAConventions	GeneralSOS	rm	  	attribute	This conventions follows GeneralFIR but the data is stored as second-order section (SOS) coefficients.
-GLOBAL:SOFAConventionsVersion	2.0	rm	  	attribute	
+GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	
 GLOBAL:APIVersion		rm	  	attribute	
 GLOBAL:ApplicationName			  	attribute	

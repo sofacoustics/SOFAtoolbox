@@ -252,6 +252,12 @@ disp('*** Finished: GeneralFIR_E (Output: SOFA-file(s))'); disp('      ');
 
 %% GeneralString: used in demo_SOFAstrings
 
+%% demo_GeneralSOS
+disp('**************  demo_GeneralSOS  **************');
+clear
+demo_GeneralSOS;
+disp('*** Finished: GeneralSOS (Output: SOFA-file(s))'); disp('      ');
+
 %% demo_GeneralTF
 disp('**************  demo_GeneralTF  **************');
 clear
@@ -264,11 +270,11 @@ clear
 demo_GeneralTF_E;
 disp('*** Finished: GeneralTF-E (Output: SOFA-file(s))'); disp('      ');
 
-%% demo_MultiSpeakerBRIR
-disp('**************  demo_MultiSpeakerBRIR  **************');
-clear
-demo_MultiSpeakerBRIR;
-disp('*** Finished: MultiSpeakerBRIR (Output: SOFA-file(s))'); disp('      ');
+% %% demo_MultiSpeakerBRIR (outdated)
+% disp('**************  demo_MultiSpeakerBRIR  **************');
+% clear
+% demo_MultiSpeakerBRIR;
+% disp('*** Finished: MultiSpeakerBRIR (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_SimpleFreeFieldHRIR2TF
 % Test conversions from SimpleFreeFieldHRIR to SimpleFreeFieldHRTF
@@ -299,12 +305,12 @@ clear;
 demo_SimpleHeadphoneIR;
 disp('*** Finished: demo_SimpleHeadphoneIR (Output: Figure(s))'); disp('      ');
 
-%% demo_SingleRoomDRIROlcldenburg
-% Test SingleRoomDRIR
-disp('**************  demo_SingleRoomDRIROldenburg  **************');
-clear
-demo_SingleRoomDRIROldenburg;
-disp('*** Finished: demo_SingleRoomDRIROldenburg (Output: SOFA-file(s), Figure(s))'); disp('      ');
+% %% demo_SingleRoomDRIROlcldenburg (outdated)
+% % Test SingleRoomDRIR
+% disp('**************  demo_SingleRoomDRIROldenburg  **************');
+% clear
+% demo_SingleRoomDRIROldenburg;
+% disp('*** Finished: demo_SingleRoomDRIROldenburg (Output: SOFA-file(s), Figure(s))'); disp('      ');
 
 %% demo_SingleRoomMIMOSRIR
 disp('**************  demo_SingleRoomMIMOSRIR  **************');
@@ -317,6 +323,12 @@ disp('**************  SingleRoomSRIR  **************');
 clear
 demo_SingleRoomSRIR;
 disp('*** Finished: SingleRoomSRIR (Output: SOFA-file(s))'); disp('      ');
+
+% %% demo_ExampleFiles
+% disp('**************  demo_ExampleFiles  **************');
+% clear;
+% demo_ExampleFiles;
+% disp('*** Finished: demo_ExampleFiles (Output: SOFA-file(s))'); disp('      ');
 
 %% Epilogue
 disp('##############################################');

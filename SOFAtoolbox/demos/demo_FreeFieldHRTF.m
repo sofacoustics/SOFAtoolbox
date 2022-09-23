@@ -137,7 +137,7 @@ SH.EmitterPosition_Type='Spherical Harmonics';
 
 SH = SOFAupdateDimensions(SH);
 
-SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
+% SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
 
 %% plot median and horizonal planes - spatially continuous
 figure;
@@ -228,7 +228,7 @@ end
 
 TFEint=SOFAupdateDimensions(TFEint);
 
-SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_5_TFEint.sofa'),TFEint);
+% SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_5_TFEint.sofa'),TFEint);
 
 %% interpolate for the horizontal and median planes to SimpleFreeFieldHRTF (TF)
 TFint=TF;

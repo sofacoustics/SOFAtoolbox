@@ -6,8 +6,7 @@ function Obj = SOFAload(fn,varargin)
 %   a structure Obj in the Matlab/Octave environment. The structure
 %   will be checked if the SOFA conventions are known, if the 
 %   mandatory data are provided, and the data type is correct. 
-%   Finally, the convention's version will be updated to the most
-%   recent one. 
+%   The convention's version will not be updated automatically. 
 %
 %   The filename fn can point to a remote file by containing '://', 
 %   which will be downloaded to a temporary directory and loaded.
@@ -197,9 +196,9 @@ else
 	if isfield(Obj,'GLOBAL__NCProperties'), Obj=rmfield(Obj,'GLOBAL__NCProperties'); end
 	
     % ----- Ensure backwards compatibility -----
-    modified = 1;
-    while modified
-        [Obj,modified] = SOFAupgradeConventions(Obj);
-    end
+%     modified = 1;
+%     while modified
+%         [Obj,modified] = SOFAupgradeConventions(Obj);
+%     end
 
 end

@@ -1,7 +1,6 @@
-%demo_MultiSpeakerBRIR - Demonstrates the usage of the MultiSpeakerBRIR conventions.
+%demo_GeneralSOS - Demonstrates the usage of the GeneralSOS conventions.
 
-% #Author: Michael Mihocic
-% #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic (23.09.2022)
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -14,12 +13,13 @@
 
 %% Get an empy conventions structure
 clear;
-conventions='MultiSpeakerBRIR';
+conventions='GeneralSOS';
 disp(['Creating SOFA file with ' conventions 'conventions...']);
 Obj = SOFAgetConventions(conventions);
 
-%% Fill data...
-Obj.Data.IR=rand(4800,2);
+%% Fill random data...
+Obj.Data.SOS=rand(4800,3,6);
+Obj.Data.Delay=[0 0 0];
 
 %% Update dimensions
 Obj=SOFAupdateDimensions(Obj);
@@ -34,6 +34,6 @@ Obj.GLOBAL_Organization = 'Acoustics Research Institute';
 Obj.GLOBAL_AuthorContact = 'michael.mihocic@oeaw.ac.at';
 
 %% save the SOFA file
-SOFAfn=fullfile(SOFAdbPath,'sofatoolbox_test',[conventions '.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'sofatoolbox_test',[Obj.GLOBAL_SOFAConventions '_' Obj.GLOBAL_SOFAConventionsVersion '.sofa']);
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj);

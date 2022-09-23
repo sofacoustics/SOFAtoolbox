@@ -59,6 +59,6 @@ Obj.GLOBAL_AuthorContact = 'michael.mihocic@oeaw.ac.at';
 Obj.GLOBAL_Comment = 'Contains simple pulses for all directions';
 
 %% save the SOFA file
-SOFAfn=fullfile(SOFAdbPath,'sofatoolbox_test',[conventions '.sofa']);
+SOFAfn=fullfile(SOFAdbPath,'sofatoolbox_test',[conventions '_' Obj.GLOBAL_SOFAConventionsVersion '.sofa']);
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj);

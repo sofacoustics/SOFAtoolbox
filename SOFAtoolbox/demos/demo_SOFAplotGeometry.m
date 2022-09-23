@@ -23,13 +23,13 @@ SOFAplotGeometry(Obj);
 index = 1:45:Obj.API.M;
 SOFAplotGeometry(Obj,index);
 
-% %% load a SingleRoomDRIR SOFA file 
-disp(['Loading: ' 'db://' fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
-Obj=SOFAload(['db://' ...
-  fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
-
-% plot SOFA Object with 1202 Receivers
-SOFAplotGeometry(Obj);
+% % %% load a SingleRoomDRIR SOFA file (outdated)
+% disp(['Loading: ' 'db://' fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
+% Obj=SOFAload(['db://' ...
+%   fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
+% 
+% % plot SOFA Object with 1202 Receivers
+% SOFAplotGeometry(Obj);
 
 % % remove all but one Receiver
 Obj.ReceiverPosition = [0 0.09 0];
@@ -46,12 +46,12 @@ Obj = SOFAload(SOFAfile);
 
 SOFAplotGeometry(Obj);
 
-% %% load example with room geometry 
-disp(['Loading: ' SOFAfile]);
-SOFAfile = fullfile(SOFAdbPath,'sofatoolbox_test', 'Oldenburg_OfficeII.sofa');
-Obj = SOFAload(SOFAfile);
-
-SOFAplotGeometry(Obj);
+% % %% load example with room geometry (outdated)
+% disp(['Loading: ' SOFAfile]);
+% SOFAfile = fullfile(SOFAdbPath,'sofatoolbox_test', 'Oldenburg_OfficeII.sofa');
+% Obj = SOFAload(SOFAfile);
+% 
+% SOFAplotGeometry(Obj);
 
 % %% if exists try plotting SOFA file containing spherical harmonic emitter
 % if exist(fullfile(SOFAdbPath,'demo_SHforHRTFs_SH.sofa'))

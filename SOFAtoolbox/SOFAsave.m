@@ -8,7 +8,9 @@ function [Obj] = SOFAsave(filename,Obj,varargin)
 %   mandatory variables in Obj is checked and the dimensions are updated. 
 %   Further, DateModified is set to now, DateCreated is created if 
 %   not provided in Obj, and all read-only metadata is reset to its standard
-%   values. 
+%   values. The convention's version is not updated while saving. A matching
+%   csv file with convention+version must be existing in the conventions 
+%   folder, otherwise an error is thrown.
 %
 %   Obj=SOFAsave(..) returns the updated object.
 %
@@ -38,7 +40,13 @@ filename=SOFAcheckFilename(filename);
 if isfield(Obj,'PRIVATE'), Obj=rmfield(Obj,'PRIVATE'); end
 
 %% Check convention: mandatory variables
-ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
+% try % try first without upgrade
+    ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m',Obj.GLOBAL_SOFAConventionsVersion);
+% catch % if convention version not available try to upgrade to latest version
+%     disp([Obj.GLOBAL_SOFAConventions ' ' Obj.GLOBAL_SOFAConventionsVersion]);
+%     ObjCheck = SOFAgetConventions(Obj.GLOBAL_SOFAConventions,'m');
+% end
+
 if isempty(ObjCheck), error(['Unknown conventions: ' Obj.GLOBAL_SOFAConventions '. Can''t save.']); end
 
 varNames = fieldnames(ObjCheck);
