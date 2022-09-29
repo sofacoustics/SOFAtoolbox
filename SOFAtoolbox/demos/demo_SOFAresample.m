@@ -17,7 +17,7 @@
 SOFAfile=fullfile(SOFAdbPath,'database','cipic','subject_003.sofa');
 Obj=SOFAload(SOFAfile);
 
-%% Low frequency extension 
+%% Resample
 Fs_target = 96000;
 Obj_out = SOFAresample(Obj, Fs_target);
 

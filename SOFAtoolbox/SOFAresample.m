@@ -3,12 +3,25 @@ function Obj = SOFAresample(Obj, Fs, scale)
 %   Usage: Obj = SOFAresample(Obj, Fs)
 %          Obj = SOFAresample(Obj, Fs, scale)
 %
-%   SOFAresample modifies the input SOFA object to a specified sampling rate.
+%   SOFAresample resamples the data in Obj to a specified sampling rate Fs. 
+%   If Obj is not in SingleFreeFieldHRIR, it will be converted with the help 
+%   of SOFAconvertConventions. 
+%
+%   Per default, SOFAresample scales the output data to match its energy 
+%   to the input data. This corresponds to sampling as a process of energy 
+%   preservation in the continuous function and creates amplitude spectra 
+%   of the input and output at the same level. 
+%   
+%   By calling SOFAresample with scale set to false, the output data are not
+%   scaled such that the output amplitudes match the input amplitudes. This
+%   corresponds to sampling as a process of amplitude snapshots of the 
+%   continuous function and creates impulse responses of the input and 
+%   output at the same level. 
 %
 %   Input parameters:
-%     Obj   : SOFA object (only SimpleFreeFieldHRIR supported)
-%     Fs    : Desired output sampling rate
-%     scale : Wheter or not to scale the output to have a similar output total energy as the input.
+%     Obj   : SOFA object 
+%     Fs    : Output sampling rate (Hz)
+%     scale : 'true' for scaling the output (default) or 'false' otherwise. 
 %
 %   Output parameters:
 %     Obj  : New SOFA object (SimpleFreeFieldHRIR convention)
@@ -28,7 +41,7 @@ function Obj = SOFAresample(Obj, Fs, scale)
 if nargin < 3
     scale = true;
 elseif nargin == 3
-    scale = boolean(scale);
+    scale = logical(scale);
 end
 
 %% Process
@@ -45,15 +58,15 @@ end
 % --------------------------------------------------------------------------
 function IR = resample_this(X, Fs_in, Fs_out, scale)
     [p,q] = rat(Fs_out / Fs_in, 0.0001);
-    normFc = .965 / max(p,q);
-    order = 256 * max(p,q);
-    beta = 12;
-    %%% Create a filter via Least-square linear-phase FIR filter design
-    if exist('OCTAVE_VERSION','builtin'); pkg load signal; end
-    lpFilt = firls(order, [0 normFc normFc 1],[1 1 0 0]);
-    lpFilt = lpFilt .* kaiser(order+1,beta)';
-    lpFilt = lpFilt / sum(lpFilt);
-    lpFilt = p * lpFilt;
+%     normFc = .965 / max(p,q);
+%     order = 256 * max(p,q);
+%     beta = 12;
+%     %%% Create a filter via Least-square linear-phase FIR filter design
+%     if exist('OCTAVE_VERSION','builtin'); pkg load signal; end
+%     lpFilt = firls(order, [0 normFc normFc 1],[1 1 0 0]);
+%     lpFilt = lpFilt .* kaiser(order+1,beta)';
+%     lpFilt = lpFilt / sum(lpFilt);
+%     lpFilt = p * lpFilt;
 
     % Initialize output matrix
     N_pos = size(X, 1);
@@ -64,7 +77,8 @@ function IR = resample_this(X, Fs_in, Fs_out, scale)
     % Actual Resample
     for k = 1:N_pos
         for l = 1:N_ch
-            IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q, lpFilt);
+%             IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q, lpFilt);
+            IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q);
         end
     end
 
