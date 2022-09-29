@@ -1,4 +1,4 @@
-%% Convert all convention files to Wiki tables
+%%Conventions2Wiki - Convert all convention files to Wiki tables.
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated, license text added (28.10.2021)
