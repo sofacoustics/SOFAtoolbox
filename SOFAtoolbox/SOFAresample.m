@@ -58,15 +58,15 @@ end
 % --------------------------------------------------------------------------
 function IR = resample_this(X, Fs_in, Fs_out, scale)
     [p,q] = rat(Fs_out / Fs_in, 0.0001);
-%     normFc = .965 / max(p,q);
-%     order = 256 * max(p,q);
-%     beta = 12;
-%     %%% Create a filter via Least-square linear-phase FIR filter design
-%     if exist('OCTAVE_VERSION','builtin'); pkg load signal; end
-%     lpFilt = firls(order, [0 normFc normFc 1],[1 1 0 0]);
-%     lpFilt = lpFilt .* kaiser(order+1,beta)';
-%     lpFilt = lpFilt / sum(lpFilt);
-%     lpFilt = p * lpFilt;
+    normFc = .965 / max(p,q);
+    order = 256 * max(p,q);
+    beta = 12;
+    %%% Create a filter via Least-square linear-phase FIR filter design
+    if exist('OCTAVE_VERSION','builtin'); pkg load signal; end
+    lpFilt = firls(order, [0 normFc normFc 1],[1 1 0 0]);
+    lpFilt = lpFilt .* kaiser(order+1,beta)';
+    lpFilt = lpFilt / sum(lpFilt);
+    lpFilt = p * lpFilt;
 
     % Initialize output matrix
     N_pos = size(X, 1);
@@ -77,8 +77,8 @@ function IR = resample_this(X, Fs_in, Fs_out, scale)
     % Actual Resample
     for k = 1:N_pos
         for l = 1:N_ch
-%             IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q, lpFilt);
-            IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q);
+            IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q, lpFilt);
+%             IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q);
         end
     end
 
