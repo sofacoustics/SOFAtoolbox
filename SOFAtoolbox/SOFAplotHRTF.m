@@ -15,8 +15,8 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %     'ITDhorizontal'  Interaural time delays (ITDs) in the horizontal plane (Matlab only)
 %
 %   SOFAplotHRTF(Obj,type,key,value) defines the plotting in more detail:
-%     'receiver' : Value specifies the receiver to be plotted. Default: 1
-%     'dir'      : Value specifies the positions to be plotted. Value can be:
+%     'receiver' : Plot only specific receiver. Default: 1
+%     'dir'      : Plot only specific positions (specify up to 0.1 accuracy).                   
 %                  [azi]:         show all directions described by the azimuth angles azi.
 %                  [azi, ele]:    show all directions described by the pairs of 
 %                                 azimuth and elevation angles azi an ele, respectively.
