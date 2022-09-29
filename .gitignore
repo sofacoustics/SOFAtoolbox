@@ -57,3 +57,4 @@
 
 # temp files
 ~*.ods#
+/SOFAtoolbox/demos/demo_ExampleFiles.m

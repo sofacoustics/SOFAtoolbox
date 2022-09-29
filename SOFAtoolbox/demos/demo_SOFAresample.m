@@ -1,7 +1,8 @@
-% load Obj and resample it
-% 
-% #Author: Davi Carvalho
-% 
+%demo_SOFAresample - Demo script to resample SOFA object, using SOFAresample function.
+
+% #Author: Davi Carvalho (09.2022)
+% #Author: Michael Mihocic: adapt header for consistency, minor code modifications (27.09.2022)
+
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -11,7 +12,7 @@
 % See the License for the specific language governing  permissions and limitations under the License. 
 % 
 
-clear;  clc; close all;
+% clear;  clc; close all;
 
 SOFAfile=fullfile(SOFAdbPath,'database','cipic','subject_003.sofa');
 Obj=SOFAload(SOFAfile);
@@ -19,7 +20,7 @@ Obj=SOFAload(SOFAfile);
 %% Low frequency extension 
 Fs_target = 96000;
 Obj_out = SOFAresample(Obj, Fs_target);
-    
+
 %% general properties
 fs = Obj.Data.SamplingRate;
 % HRIRs
@@ -47,6 +48,7 @@ xlim([0, min(N_out, N)])
 legend('original', 'resampled', 'location', 'best')
 xlabel('Time (ms)')
 axis tight
+title('SimpleFreeFieldHRIR: original and resampled')
 
 %%% Plot freq
 figure()
@@ -58,9 +60,4 @@ legend('original', 'resampled', 'location', 'best')
 xlabel('Frequency (Hz)')
 ylabel('Amplitude (dB)')
 axis tight
-
-
-
-
-
- 
+title('SimpleFreeFieldHRIR: original and resampled')

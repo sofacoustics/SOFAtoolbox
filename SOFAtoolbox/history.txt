@@ -44,10 +44,11 @@
 	- changed order of display output messages ((c) first)
 	- Bug fixed when adding paths (added at bottom in some specific cases)
 - SOFAcheckFilename: fixes for strings instead of characters, and file names shorter than 7 characters
-- SOFAremoveVariable: remove not only variable, its dimension, but also its attributes
+- SOFAremoveVariable: remove not only variable, its dimension, but also its attributes; bug fixed for Octave
 - SOFAconvertConventions: rmfield replaced by SOFAremoveVariable for non data variables -> improved stability
 - SOFAload: The convention's version will not be updated automatically anymore when loading a SOFA file.
 - SOFAsave: The convention's version will not be updated. A matching csv file with convention+version must be existing, otherwise an error is thrown.
+- SOFAresample.m added (resample SOFA file)
 
 ## Toolbox Functionality
 - Conventions:
@@ -87,6 +88,7 @@
 	- demo_MultiSpeakerBRIR.m and demo_SingleRoomDRIROldenburg.m removed (outdated)
 	- demo_GeneralSOS.m added
 	- updates, fixes in demos files and test_SOFAall.m
+	- demo_SOFAresample.m added
 - test_SOFAall.m: 
 	- structured (first *->SOFA, then SOFA->*, then SOFA functions, then SOFA conventions), and sorted (alphabetically)
 	- missing demos added
