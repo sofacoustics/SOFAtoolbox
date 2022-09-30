@@ -2,7 +2,7 @@
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
-% 
+
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
@@ -21,7 +21,7 @@ disp(['Loading:  ' SOFAfn]);
 X=SOFAload(SOFAfn);  
 
 %% Plot amplitude spectra
-figure;
+figure('Name',mfilename);
 hold on; box on;
 cols='bgrmky';
 
@@ -55,5 +55,8 @@ xlim([-200 18200]);
 axis([-200 18200 -65 15]);
 leg{1}='#1, first measurement';
 legend(leg);
+title('Amplitude Spectra of Repeated Headphones Measurements (Left, Right)')
+xlabel('Frequency (Hz)')
+ylabel('Amplitude (dB)')
 
   

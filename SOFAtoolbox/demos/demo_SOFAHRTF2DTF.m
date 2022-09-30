@@ -30,8 +30,8 @@ end
 [D,C]=SOFAhrtf2dtf(X);
 
 % close all;
-f = figure;
-set(f, 'Position', [50, 400, 1100, 500]); 
+f = figure('Name',mfilename);
+% set(f, 'Position', [50, 400, 1100, 500]); 
 
 subplot(1,2,1);
 data=(20*log10(abs(fft(squeeze(C.Data.IR(1,1,:))))));

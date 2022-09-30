@@ -42,7 +42,7 @@ disp('Binaural signal rendered');
 %% Plot the trajectories
 time = (1:length(azi))/Obj.Data.SamplingRate;
 
-figure
+figure('Name',mfilename);
 subplot(2,1,1);
 plot(time,azi); % plot azimuthal trajectory
 ylabel('Azimuth (deg)');

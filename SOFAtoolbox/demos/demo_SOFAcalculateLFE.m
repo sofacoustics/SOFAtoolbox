@@ -46,19 +46,21 @@ ch = 1; % ear
 pos = 100;   % position index
 
 %%% Plot time 
-figure()
+figure('Name',mfilename);
 plot(tx, IR(:,pos,ch)); hold on
 plot(tx_ext(1:N), IR_lfe(1:N, pos, ch), '--','linewidth', 1.3); hold off
+title('SimpleFreeFieldHRIR, ch: 1, position: 100,  time domain')
 legend('original', 'LFE', 'location', 'best')
 xlabel('Time (ms)')
 axis tight
 
 %%% Plot freq
-figure()
+figure('Name',mfilename);
 ori  = mag2db(abs(fft(IR(:,pos,ch), N_lfe)));
 lfe = mag2db(abs(fft(IR_lfe(:,pos,ch))));
 semilogx(freq_lfe, ori(1:N_lfe/2)); hold on
 semilogx(freq_lfe, lfe(1:N_lfe/2), '--','linewidth', 1.3); hold off
+title('SimpleFreeFieldHRIR, ch: 1, position: 100, frequency domain')
 legend('original', 'LFE', 'location', 'best')
 xlabel('Frequency (Hz)')
 ylabel('Amplitude (dB)')
@@ -69,14 +71,14 @@ axis tight
 % fo = 0;
 % f1 = 500;
 % y = chirp(t,fo,t(end),f1,'linear',0,'complex');
-% figure
+% figure('Name',mfilename);
 % semilogx(angle(fft(y)))
 % title('phase')
 
 %% 
-figure
+figure('Name',mfilename);
 SOFAplotHRTF(Obj,'maghorizontal');
-figure
+figure('Name',mfilename);
 SOFAplotHRTF(Obj_lfe,'maghorizontal');
 
 

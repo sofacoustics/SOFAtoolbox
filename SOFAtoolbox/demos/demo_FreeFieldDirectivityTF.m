@@ -28,7 +28,7 @@ for ii=1:length(fn)
 
     % plot the geometry because why not
     SOFAplotGeometry(Obj);
-    
+    set(gcf, 'Name', mfilename);
     % move every figure a little to the right from previous one
     H=gcf;
     % if ~isoctave; if ii>1; movegui(H,[(H.Position(1)+(ii-1)*300) H.Position(2)]); end; end
@@ -56,7 +56,7 @@ if exist('AKp.m', 'file')
     AKp(p_log, 'x2', 'g', H.ReceiverPosition(:, 1:2), 'dr', [-10 0], ...
         'hp_view', [30 45], 'cm', 'RdBu_flip', 'cb', 0, ...
         'sph_proc', 'interpSpline1');
-    title ''
+    set(gcf, 'Name', mfilename);
     
     AKtightenFigure;
     disp(' Figure 3 of 3 plotted: Trumpet_modern_a4_fortissimo.sofa');

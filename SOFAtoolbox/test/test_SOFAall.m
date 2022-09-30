@@ -34,7 +34,7 @@ disp('**************  demo_ARI2SOFA  **************');
 clear;
 % subjectID='NH4'; % default
 demo_ARI2SOFA
-subjectID='NH2';
+subjectID='NH2'; % repeat demo, overwrite default subject ID
 demo_ARI2SOFA
 disp('*** Finished: demo_ARI2SOFA (Output: SOFA-file(s))'); disp('      ');
 
@@ -134,7 +134,7 @@ disp('############################################');
 disp('**************  demo_SOFAload  **************');
 clear;
 demo_SOFAload;
-disp('*** Finished: demo_SOFAload'); disp('      ');
+disp('*** Finished: demo_SOFAload (Output: Figure(s))'); disp('      ');
 
 %% demo_SOFAmerge
 % Test SOFAmerge and create TU-Berlin KEMAR file with multiple radii
@@ -217,7 +217,6 @@ else
     demo_SOFAresample;
     disp('*** Finished: demo_SOFAresample (Output: Figure(s))'); disp('      ');
 end
-
 
 %% Test SOFA conventions
 disp('############################################');

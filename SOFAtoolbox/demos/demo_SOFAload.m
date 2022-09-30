@@ -57,11 +57,11 @@ disp(['  Memory requirements: ' num2str(round((xobj.bytes+xmeta.bytes)/1024)) ' 
 %% Extract and plot the fully loaded data
 IRsFull=squeeze(ObjFull.Data.IR(idx,1,:));
 legFull=num2str(ObjFull.SourcePosition(idx,3));
+figure('Name',mfilename);
 subplot(1,2,1);
 plot(IRsFull');
 legend(legFull);
-title(['Demo of SOFAload:' 10 ...
-			'Fully loaded data']);
+title(['Fully loaded data'], 'Interpreter', 'none');
 xlabel(['Index (Sample Taps), fully loaded']);
 ylabel('Amplitude');
 
@@ -75,6 +75,6 @@ subplot(1,2,2);
 plot(IRs');
 legend(leg);
 title(['IRs for the left ear with radius as parameter' 10 ...
-			'Partially loaded data']);
+			'Partially loaded data'], 'Interpreter', 'none');
 xlabel(['Index (Sample Taps), partially loaded']);
 ylabel('Amplitude');

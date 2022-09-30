@@ -30,7 +30,7 @@ IR=SOFAload('db://database/thk/HRIR_L2354.sofa');
 fs=IR.Data.SamplingRate;
 IR.GLOBAL_APIVersion=SOFAgetVersion;
 %% Figures
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(IR,'magmedian'); 
 tit='SimpleFreeFieldHRIR (FIR, mag), for reference'; % title
 title(tit);
@@ -76,7 +76,7 @@ TF=SOFAupdateDimensions(TF);
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_2_TF.sofa'),TF);
 
 %% Plot median plane and horizontal planes for reference
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(TF,'magmedian');
 tit='SimpleFreeFieldHRTF (TF, mag), for reference'; % title
 title(tit);
@@ -84,7 +84,7 @@ if savefigures==1
     saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
 end    
     
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(TF,'etchorizontal'); 
 tit='SimpleFreeFieldHRTF (TF, etc), for reference'; % title
 title(tit);
@@ -140,7 +140,7 @@ SH = SOFAupdateDimensions(SH);
 % SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
 
 %% plot median and horizonal planes - spatially continuous
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(SH,'magmedian'); %title('');
 tit='FreeFieldHRTF (TFE, mag) in Spherical Harmonics'; % title
 title(tit);
@@ -148,7 +148,7 @@ if savefigures==1
     saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
 end
 
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(SH,'etchorizontal'); %title ('');
 tit='FreeFieldHRTF (TFE, etc) in Spherical Harmonics'; % title
 title(tit);
@@ -158,6 +158,7 @@ end
 
 %% plot spatially continuous geometry
 SOFAplotGeometry(SH);
+set(gcf, 'Name', mfilename);
 tit='FreeFieldHRTF (TFE, geometry) in Spherical Harmonics'; % title
 % if ~isoctave
 if exist('OCTAVE_VERSION','builtin') == 0
@@ -170,7 +171,7 @@ if savefigures==1
 end
 
 %% plot spatial spectra
-figure;
+figure('Name',mfilename);
 for y=1:4
   subplot(2,2,y); hold on;
   fax=0:fs/(2*SH.API.N):(fs-(fs/(2*SH.API.N)))/2;
@@ -188,7 +189,7 @@ if savefigures==1
 end
 
 %% plot all coefficients for a given frequency
-figure; hold on;
+figure('Name',mfilename); hold on;
 f=10000; k=round(f/fs*2*SH.API.N);
 plot(squeeze(20*log10(abs(SH.Data.Real(1,1,k,:)+1i*SH.Data.Imag(1,1,k,:)))),'ob');
 hold on;
@@ -252,7 +253,7 @@ TFint=SOFAupdateDimensions(TFint);
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_6_TFint.sofa'),TFint);
 
 %% compare
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(TFint,'magmedian'); %title('');
 tit='SimpleFreeFieldHRTF (TF, mag), interpolated'; % title
 title(tit);
@@ -260,7 +261,7 @@ if savefigures==1
     saveas(gcf,[folder tit '.fig']); saveas(gcf,[folder tit '.png']); % save figures
 end
 
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(TFint,'etchorizontal'); % title('');
 tit='SimpleFreeFieldHRTF (TF, etc), interpolated'; % title
 title(tit);

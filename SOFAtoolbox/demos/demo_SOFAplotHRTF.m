@@ -18,21 +18,21 @@ disp(['Loading: ' SOFAfile]);
 Obj=SOFAload(SOFAfile);
 
 % plot ETC horizontal plane
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(Obj,'ETCHorizontal',1);
 % plot magnitude spectrum in the median plane, channel 2
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(Obj,'MagMedian',2);
 % plot non-normalized magnitude spectrum in the median plane, channel 1
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(Obj,'MagMedian','nonormalization');
 
 %% load a GeneralTF SOFA file
 SOFAfile=fullfile(SOFAdbPath,'database','ari (sim)','hrtf_nh5_ref.sofa');
 Obj=SOFAload(SOFAfile);
 % plot magnitude spectrum in the median plane, channel 1
-figure;
+figure('Name',mfilename);;
 SOFAplotHRTF(Obj,'MagMedian',1,'conversion2ir');
-figure;
+figure('Name',mfilename);
 SOFAplotHRTF(Obj,'MagMedian',1,'noconversion2ir');
 

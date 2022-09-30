@@ -26,18 +26,25 @@ Obj=SOFAload(SOFAfn, 'nochecks');
 [itd_samples, ~, ~, Obj_samples] = SOFAcalculateITD(Obj, 'samples', 'thr', 20);
 
 %% Plot results
-h = figure();
+h = figure('Name',mfilename);
 subplot(211)
 plot((Obj_time.Data.Delay(:,1) - Obj_time.Data.Delay(:,2))*1e6)
 xlabel('Position')
-ylabel('Time (\mus)')       
+ylabel('Time (\mus)')    
+title('ITD (time)')
 axis tight
 
 subplot(212)
 plot((Obj_samples.Data.Delay(:,1) - Obj_samples.Data.Delay(:,2)))
 xlabel('Position')
 ylabel(['Samples (Fs:' num2str(Obj.Data.SamplingRate), 'Hz)'])       
+title('ITD (samples)')
 axis tight
 
 %% Polar plot (not working in Octave)
-SOFAplotHRTF(Obj, 'itdhorizontal');
+if ~exist('OCTAVE_VERSION','builtin')
+    figure('Name',mfilename);
+    SOFAplotHRTF(Obj, 'itdhorizontal');
+    title('ITD (time, horizontal plane)')
+end
+

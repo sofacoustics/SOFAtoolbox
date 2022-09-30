@@ -76,31 +76,31 @@ disp(['Saving:   ' SOFAfn]);
 SOFAsave(SOFAfn,IR,compression);
 
 function PlotFigures(data, type, bins)
-    figure; SOFAplotHRTF(data,'EtcHorizontal'); % energy-time curve in the horizontal plane (+/- THR)
+    figure('Name',mfilename); SOFAplotHRTF(data,'EtcHorizontal'); % energy-time curve in the horizontal plane (+/- THR)
         tit=[type ' ETC Horizontal' bins]; % title
         title(tit);
         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
-    figure; SOFAplotHRTF(data,'EtcMedian'); % energy-time curve in the median plane (+/- THR)
+    figure('Name',mfilename); SOFAplotHRTF(data,'EtcMedian'); % energy-time curve in the median plane (+/- THR)
         tit=[type ' ETC Median' bins]; % title
         title(tit);
         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
-    figure; SOFAplotHRTF(data,'MagHorizontal'); % magnitude spectra in the horizontal plane (+/- THR)
+    figure('Name',mfilename); SOFAplotHRTF(data,'MagHorizontal'); % magnitude spectra in the horizontal plane (+/- THR)
         tit=[type ' Magnitude Horizontal' bins]; % title
         title(tit);
         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
-    figure; SOFAplotHRTF(data,'MagMedian'); % magnitude spectra in the median plane (+/- THR)
+    figure('Name',mfilename); SOFAplotHRTF(data,'MagMedian'); % magnitude spectra in the median plane (+/- THR)
         tit=[type ' Magnitude Median' bins]; % title
         title(tit);
         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
-    figure; SOFAplotHRTF(data,'MagSpectrum'); % single magnitude spectrum for direction(s) DIR in COLOR
+    figure('Name',mfilename); SOFAplotHRTF(data,'MagSpectrum'); % single magnitude spectrum for direction(s) DIR in COLOR
         tit=[type ' Magnitude Spectrum' bins]; % title
         title(tit);
         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
-    figure; SOFAplotHRTF(data,'MagSagittal'); % magnitude spectra in a sagittal plane specified by OFFSET +/- THR
+    figure('Name',mfilename); SOFAplotHRTF(data,'MagSagittal'); % magnitude spectra in a sagittal plane specified by OFFSET +/- THR
         tit=[type ' Magnitude Sagittal' bins]; % title
         title(tit);
         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures
-    figure; SOFAplotHRTF(data,'ITDhorizontal'); % ITD horizontal
+    figure('Name',mfilename); SOFAplotHRTF(data,'ITDhorizontal'); % ITD horizontal
         tit=[type ' ITD Horizontal' bins]; % title
         title(tit);
         saveas(gcf,[tit '.fig']); saveas(gcf,[tit '.png']); save figures

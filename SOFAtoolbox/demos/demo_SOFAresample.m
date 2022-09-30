@@ -41,7 +41,7 @@ ch = 1; % ear
 pos = 1;   % position index
 
 %%% Plot time 
-figure()
+figure('Name',mfilename);
 plot(tx, IR(:,pos,ch)); hold on
 plot(tx_out, IR_out(:, pos, ch), '--','linewidth', 1.3); hold off
 xlim([0, min(N_out, N)])
@@ -51,7 +51,7 @@ axis tight
 title('SimpleFreeFieldHRIR: original and resampled')
 
 %%% Plot freq
-figure()
+figure('Name',mfilename);
 ori = mag2db(abs(fft(IR(:,pos,ch), N_out)));
 out = mag2db(abs(fft(IR_out(:,pos,ch))));
 semilogx(freq, ori(1:N_out/2)); hold on

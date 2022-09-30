@@ -56,9 +56,9 @@ disp(['Saved ' num2str(round(x.bytes/1024)) ' kb in ' num2str(toc) ' s.']);
 %% Plot IRs for a single direction but different radius
 azi=0; ele=0;
 idx=find(Obj.SourcePosition(:,1)==azi & Obj.SourcePosition(:,2)==ele);
+figure('Name',mfilename);
 plot(squeeze(ObjFull.Data.IR(idx,1,:))');
 legend(num2str(ObjFull.SourcePosition(idx,3)))
-title(['Demo of SOFAmerge:' 10 ...
-			'IRs for the left ear with radius as parameter retrieved from a merged object']);
+title('IRs for the left ear with radius as parameter retrieved from a merged object');
 xlabel(' index (sample taps)');
 ylabel('Amplitude');

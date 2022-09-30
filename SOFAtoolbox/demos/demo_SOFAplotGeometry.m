@@ -18,10 +18,14 @@ Obj=SOFAload(SOFAfile);
 
 % plot all measurements
 SOFAplotGeometry(Obj);
+title(['Geometry SimpleFreeFieldHRIR, ' num2str(Obj.API.M) ' position(s)'])
+set(gcf, 'Name', mfilename);
 
 % % only show every 45th measurement
 index = 1:45:Obj.API.M;
 SOFAplotGeometry(Obj,index);
+title(['Geometry SimpleFreeFieldHRIR, reduced to ' num2str(size(index,2)) ' position(s)'])
+set(gcf, 'Name', mfilename);
 
 % % %% load a SingleRoomDRIR SOFA file (outdated)
 % disp(['Loading: ' 'db://' fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
@@ -30,6 +34,7 @@ SOFAplotGeometry(Obj,index);
 % 
 % % plot SOFA Object with 1202 Receivers
 % SOFAplotGeometry(Obj);
+% set(gcf, 'Name', mfilename)
 
 % % remove all but one Receiver
 Obj.ReceiverPosition = [0 0.09 0];
@@ -39,12 +44,16 @@ Obj.Data.Delay = Obj.Data.Delay(:,1,:);
 Obj = SOFAupdateDimensions(Obj);
 
 SOFAplotGeometry(Obj);
+title(['Geometry SimpleFreeFieldHRIR, ' num2str(Obj.API.R) ' receiver(s), ' num2str(Obj.API.M) ' position(s)'])
+set(gcf, 'Name', mfilename);
 
 % %% load a GeneralFIR SOFA file
 SOFAfile=fullfile(SOFAdbPath,'database', 'tu-berlin','FABIAN_CTF_modeled.sofa');
 Obj = SOFAload(SOFAfile);
 
 SOFAplotGeometry(Obj);
+title(['Geometry GeneralFIR, ' num2str(Obj.API.R) ' receiver(s), ' num2str(Obj.API.M) ' position(s)'])
+set(gcf, 'Name', mfilename);
 
 % % %% load example with room geometry (outdated)
 % disp(['Loading: ' SOFAfile]);
@@ -52,6 +61,7 @@ SOFAplotGeometry(Obj);
 % Obj = SOFAload(SOFAfile);
 % 
 % SOFAplotGeometry(Obj);
+% set(gcf, 'Name', mfilename)
 
 % %% if exists try plotting SOFA file containing spherical harmonic emitter
 % if exist(fullfile(SOFAdbPath,'demo_SHforHRTFs_SH.sofa'))
