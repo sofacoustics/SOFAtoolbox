@@ -20,12 +20,14 @@ Obj=SOFAload(SOFAfile);
 %% Resample
 Fs_target = 96000;
 Obj_out = SOFAresample(Obj, Fs_target);
+Obj_out2 = SOFAresample(Obj, Fs_target,'noscale');
 
 %% general properties
 fs = Obj.Data.SamplingRate;
 % HRIRs
 IR     = shiftdim(Obj.Data.IR, 2);
 IR_out = shiftdim(Obj_out.Data.IR, 2);
+IR_out2 = shiftdim(Obj_out2.Data.IR, 2);
 % Number of samples
 N     = size(IR, 1);
 N_out = size(IR_out, 1);
@@ -43,9 +45,10 @@ pos = 1;   % position index
 %%% Plot time 
 figure('Name',mfilename);
 plot(tx, IR(:,pos,ch)); hold on
-plot(tx_out, IR_out(:, pos, ch), '--','linewidth', 1.3); hold off
+plot(tx_out, IR_out2(:, pos, ch), 'g--','linewidth', 1.3); 
+plot(tx_out, IR_out(:, pos, ch), '--','linewidth', 1.3); 
 xlim([0, min(N_out, N)])
-legend('original', 'resampled', 'location', 'best')
+legend('original', 'resampled (no scaling)', 'resampled (with scaling)', 'location', 'best')
 xlabel('Time (ms)')
 axis tight
 title('SimpleFreeFieldHRIR: original and resampled')
@@ -54,9 +57,11 @@ title('SimpleFreeFieldHRIR: original and resampled')
 figure('Name',mfilename);
 ori = mag2db(abs(fft(IR(:,pos,ch), N_out)));
 out = mag2db(abs(fft(IR_out(:,pos,ch))));
+out2 = mag2db(abs(fft(IR_out2(:,pos,ch))));
 semilogx(freq, ori(1:N_out/2)); hold on
-semilogx(freq_out, out(1:N_out/2), '--','linewidth', 1.3); hold off
-legend('original', 'resampled', 'location', 'best')
+semilogx(freq_out, out2(1:N_out/2), 'g--','linewidth', 1.3); 
+semilogx(freq_out, out(1:N_out/2), '--','linewidth', 1.3); 
+legend('original', 'resampled (no scaling)', 'resampled (with scaling)', 'location', 'best')
 xlabel('Frequency (Hz)')
 ylabel('Amplitude (dB)')
 axis tight

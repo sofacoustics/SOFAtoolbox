@@ -12,7 +12,7 @@ function Obj = SOFAresample(Obj, Fs, scale)
 %   preservation in the continuous function and creates amplitude spectra 
 %   of the input and output at the same level. 
 %   
-%   By calling SOFAresample with scale set to false, the output data are not
+%   By calling SOFAresample with scale 'noscale', the output data are not
 %   scaled such that the output amplitudes match the input amplitudes. This
 %   corresponds to sampling as a process of amplitude snapshots of the 
 %   continuous function and creates impulse responses of the input and 
@@ -21,13 +21,14 @@ function Obj = SOFAresample(Obj, Fs, scale)
 %   Input parameters:
 %     Obj   : SOFA object 
 %     Fs    : Output sampling rate (Hz)
-%     scale : 'true' for scaling the output (default) or 'false' otherwise. 
+%     scale : 'scale' for scaling the output (default) or 'noscale' otherwise. 
 %
 %   Output parameters:
 %     Obj  : New SOFA object (SimpleFreeFieldHRIR convention)
 
 % #Author: Davi R. Carvalho (09.2022)
 % #Author: Michael Mihocic: adapt header for consistency (27.09.2022)
+% #Author: Piotr Majdak: clean up and parameter adaptations (4.10.2022)
 
 % SOFA Toolbox
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -39,56 +40,49 @@ function Obj = SOFAresample(Obj, Fs, scale)
 
 %% parse inputs
 if nargin < 3
-    scale = true;
+    do_scale = true;
 elseif nargin == 3
-    scale = logical(scale);
+    if strcmpi(scale,'scale')
+      do_scale=true; 
+    else
+      do_scale=false; 
+    end
 end
-
-%% Process
+%% load packages if required and prepare conventions
+if exist('OCTAVE_VERSION','builtin'); pkg load signal; end
 Obj = SOFAconvertConventions(Obj);
-Fs_orig = Obj.Data.SamplingRate;
-IR = resample_this(Obj.Data.IR, Fs_orig, Fs, scale);
+%% Resample
+  % prepare data
+Fs_in = Obj.Data.SamplingRate;
+X = Obj.Data.IR; 
+M = Obj.API.M; 
+N = Obj.API.N; 
+R = Obj.API.R;
+[p,q] = rat(Fs / Fs_in, 0.0001); % calculate the rational fraction between the input and output sampling rate
+  % pre-calculate the resample filter coefficients for speeding up the resample function
+normFc = .965 / max(p,q);
+order = 256 * max(p,q);
+beta = 12;
+lpFilt = firls(order, [0 normFc normFc 1],[1 1 0 0]);
+lpFilt = lpFilt .* kaiser(order+1,beta)';
+lpFilt = lpFilt / sum(lpFilt);
+lpFilt = p * lpFilt;
+  % Initialize the output matrix
+M = size(X, 1);
+R = size(X, 2);
+N = ceil((Fs/Fs_in) * size(X, 3)); % length after resample
+IR=zeros(M, R, N);
+  % Resample
+for m = 1:M
+    for r = 1:R
+        IR(m,r,:) = resample(squeeze(X(m,r,:)), p, q, lpFilt);
+    end
+end
+% do scaling
+if do_scale, IR = IR.* q/p; end
 
-%% Output
+%% Compile the output structure
 Obj.Data.IR = IR;
 Obj.Data.SamplingRate = Fs;
 Obj = SOFAupdateDimensions(Obj);
-end
-
-% --------------------------------------------------------------------------
-function IR = resample_this(X, Fs_in, Fs_out, scale)
-    [p,q] = rat(Fs_out / Fs_in, 0.0001);
-    normFc = .965 / max(p,q);
-    order = 256 * max(p,q);
-    beta = 12;
-    %%% Create a filter via Least-square linear-phase FIR filter design
-    if exist('OCTAVE_VERSION','builtin'); pkg load signal; end
-    lpFilt = firls(order, [0 normFc normFc 1],[1 1 0 0]);
-    lpFilt = lpFilt .* kaiser(order+1,beta)';
-    lpFilt = lpFilt / sum(lpFilt);
-    lpFilt = p * lpFilt;
-
-    % Initialize output matrix
-    N_pos = size(X, 1);
-    N_ch = size(X, 2);
-    N_samples = ceil((Fs_out/Fs_in) * size(X, 3)); % length after resample
-    IR=zeros(N_pos, N_ch, N_samples);
-
-    % Actual Resample
-    for k = 1:N_pos
-        for l = 1:N_ch
-            IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q, lpFilt);
-%             IR(k, l, :) = resample(squeeze(X(k,l,:)), p, q);
-        end
-    end
-
-    % check scaling
-    if scale
-        IR = IR.* q/p;
-    end
-
-    % make sure signal length is not odd
-%     if rem(size(IR,3), 2) ~= 0
-%        IR(:,:,end) = [];
-%     end
 end
