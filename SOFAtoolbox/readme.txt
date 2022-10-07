@@ -2,7 +2,7 @@ This is a readme file for the SOFA Toolbox for Matlab and Octave.
 
 * Add the "SOFAtoolbox" directory to Matlab search path: Use "Add Folder" (don't use "Add with Subfolders"!)
 * Start the Toolbox: execute "SOFAstart" in Matlab or Octave.
-* No HRTF files to play around? Follow the advices in the readme.txt files in the HRTFs directories.
+* No HRTF files to play around? Follow the advices in the readme.txt files in the data directories.
 * Explore the Toolbox: execute some of the "demo_" files in the directory "demos".
 * Learn more about SOFA: read the specs PDF in the directory "doc".
 * Report a bug: send a ticket at https://github.com/sofacoustics/SOFAtoolbox/issues.
