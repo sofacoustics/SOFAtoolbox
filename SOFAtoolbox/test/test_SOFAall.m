@@ -129,6 +129,25 @@ disp('############################################');
 disp('######      TEST SOFA FUNCTIONS      #######');
 disp('############################################');
 
+%% demo_SOFAcalculateITD
+disp('**************  demo_SOFAcalculateITD  **************');
+clear;
+demo_SOFAcalculateITD;
+disp('*** Finished: demo_SOFAcalculateITD (Output: Figure(s))'); disp('      ');
+
+%% demo_SOFAcalculateLFE
+disp('**************  demo_SOFAcalculateLFE  **************');
+clear;
+demo_SOFAcalculateLFE;
+disp('*** Finished: demo_SOFAcalculateLFE (Output: Figure(s))'); disp('      ');
+
+%% demo_SOFAexpandcompact
+% Test SOFAexpand and SOFAcompact
+disp('**************  demo_SOFAexpandcompact  **************');
+clear;
+demo_SOFAexpandcompact;
+disp('*** Finished: demo_SOFAexpandcompact'); disp('      ');
+
 %% demo_SOFAload
 % Test SOFAload
 disp('**************  demo_SOFAload  **************');
@@ -149,17 +168,29 @@ clear;
 demo_SOFAplotGeometry;
 disp('*** Finished: demo_SOFAplotGeometry (Output: Figure(s))'); disp('      ');
 
+% %% demo_plot_trumpet_directivity
+% % Test plotting HRTFs
+% disp('**************  demo_plot_trumpet_directivity  **************');
+% demo_plot_trumpet_directivity
+% disp('*** Finished: demo_plot_trumpet_directivity (Output: Figure(s))'); disp('      ');
+
 %% demo_SOFAplotHRTF
 % Test plotting HRTFs
 disp('**************  demo_SOFAplotHRTF  **************');
 demo_SOFAplotHRTF
 disp('*** Finished: demo_SOFAplotHRTF (Output: Figure(s))'); disp('      ');
 
-% %% demo_plot_trumpet_directivity
-% % Test plotting HRTFs
-% disp('**************  demo_plot_trumpet_directivity  **************');
-% demo_plot_trumpet_directivity
-% disp('*** Finished: demo_plot_trumpet_directivity (Output: Figure(s))'); disp('      ');
+%% demo_SOFAresample
+disp('**************  demo_SOFAresample  **************');
+if exist('OCTAVE_VERSION','builtin')
+    % Octave
+    disp('*** Skipped: demo_SOFAresample, might run out of memory in Octave...'); disp('      ');
+else
+    % Matlab
+    clear;
+    demo_SOFAresample;
+    disp('*** Finished: demo_SOFAresample (Output: Figure(s))'); disp('      ');
+end
 
 %% demo_SOFAsave
 disp('**************  SOFAsave  **************');
@@ -187,36 +218,6 @@ disp('**************  demo_SOFAvariables  **************');
 demo_SOFAvariables
 disp('*** Finished: demo_SOFAvariables (Output: SOFA-file(s))'); disp('      ');
 
-%% demo_SOFAexpandcompact
-% Test SOFAexpand and SOFAcompact
-disp('**************  demo_SOFAexpandcompact  **************');
-clear;
-demo_SOFAexpandcompact;
-disp('*** Finished: demo_SOFAexpandcompact'); disp('      ');
-
-%% demo_SOFAcalculateITD
-disp('**************  demo_SOFAcalculateITD  **************');
-clear;
-demo_SOFAcalculateITD;
-disp('*** Finished: demo_SOFAcalculateITD (Output: Figure(s))'); disp('      ');
-
-%% demo_SOFAcalculateLFE
-disp('**************  demo_SOFAcalculateLFE  **************');
-clear;
-demo_SOFAcalculateLFE;
-disp('*** Finished: demo_SOFAcalculateLFE (Output: Figure(s))'); disp('      ');
-
-%% demo_SOFAresample
-disp('**************  demo_SOFAresample  **************');
-if exist('OCTAVE_VERSION','builtin')
-    % Octave
-    disp('*** Skipped: demo_SOFAresample, might run out of memory in Octave...'); disp('      ');
-else
-    % Matlab
-    clear;
-    demo_SOFAresample;
-    disp('*** Finished: demo_SOFAresample (Output: Figure(s))'); disp('      ');
-end
 
 %% Test SOFA conventions
 disp('############################################');
@@ -262,13 +263,13 @@ clear
 demo_GeneralFIR_E;
 disp('*** Finished: GeneralFIR_E (Output: SOFA-file(s))'); disp('      ');
 
-%% GeneralString: used in demo_SOFAstrings
-
 %% demo_GeneralSOS
 disp('**************  demo_GeneralSOS  **************');
 clear
 demo_GeneralSOS;
 disp('*** Finished: GeneralSOS (Output: SOFA-file(s))'); disp('      ');
+
+%% GeneralString: used in demo_SOFAstrings
 
 %% demo_GeneralTF
 disp('**************  demo_GeneralTF  **************');
@@ -335,12 +336,6 @@ disp('**************  SingleRoomSRIR  **************');
 clear
 demo_SingleRoomSRIR;
 disp('*** Finished: SingleRoomSRIR (Output: SOFA-file(s))'); disp('      ');
-
-% %% demo_ExampleFiles
-% disp('**************  demo_ExampleFiles  **************');
-% clear;
-% demo_ExampleFiles;
-% disp('*** Finished: demo_ExampleFiles (Output: SOFA-file(s))'); disp('      ');
 
 %% Epilogue
 disp('##############################################');
