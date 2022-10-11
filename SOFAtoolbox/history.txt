@@ -98,6 +98,9 @@
 		- Matlab: all demos are working in Matlab, without any visible warnings
 		- Octave: all demos are working without a few exceptions (not working at all; skipped in Octave), and some minor restrictions cause by unsupported commands, see warning messages during process for details
 	- some bugs fixed; demos that require souce files that are not publicly available will be catched with a warning instead of an error
+- test_SOFAdbURL.m: 
+	- new test function added, to download, load and save all files from SOFAdbURL link
+	- a log files with all errors and warnings is created
 - download links updated for:
 	- HRTFs\ARI\readme.txt
 	- HRTFs\CIPIC\readme.txt
