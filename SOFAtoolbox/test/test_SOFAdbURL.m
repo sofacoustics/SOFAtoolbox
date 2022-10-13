@@ -1,7 +1,11 @@
-%test_SOFAall - Test script, running all demos from 'demos' subfolder and testing some SOFA Toolbox functionalities.
+%test_SOFAdbURL - Test script, using all SOFA files from SOFAdbURL database.
+% 
+%   test_SOFAdbURL scans all [SOFAdbURL '/database/'] subfolders for *.sofa files.
+%   The SOFA files are downloaded to the local path [SOFAdbPath '\urlDatabase'], loaded to a SOFA object, and saved to a temporary file.
+%   All warnings and error messages are stored in a log file in the local folder (log.csv).
 
-% #Author: Michael Mihocic: header documentation updated (28.10.2021)
-%
+% #Author: Michael Mihocic: header documentation updated (13.10.2022)
+% 
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
@@ -10,55 +14,58 @@
 % See the License for the specific language governing  permissions and limitations under the License.
 
 %% Preparations
-clc; close all; clear; % clean-up first
+clc; close all; % clean-up first
+clear all;
 tic; % timer
 SOFAstart('restart');
-% warning('off','SOFA:upgrade');
-% warning('off','SOFA:load');
-% warning('off','SOFA:save');
+% warning('query','all');
+warning ('on','all');
+warning('off','SOFA:save:API');
 
 %% Prologue
 disp('      ');
 disp('############################################');
-disp('##########   TEST SOFA URL DATA   ##########');
+disp('########   TEST SOFA URL DATABASES  ########');
 disp('############################################');
 disp('      ');
-% disp('!!! Make sure that all source files are available in the data subdirectories. See individual readme.txt files for more information !!!');
-% disp('      ');
 
 %% log file
-logfile=[SOFAdbPath '\urlDatabase\log.txt'];
+logfile=[SOFAdbPath '\urlDatabase\log.csv'];
 % need to create sub directory first?
 if ~exist([SOFAdbPath '\urlDatabase\'], 'dir')
    mkdir([SOFAdbPath '\urlDatabase\']);
 end
 fid=fopen(logfile,'w');
-fprintf(fid, '%s\n',[ '*** Checking SOFA files for errors and warnings while downloading, loading & saving; start time: ' char(datetime)]);
+fprintf(fid, '%s\n\n%s',[ '*** Checking SOFA files for errors and warnings while downloading, loading & saving; start time: ' char(datetime)],['TYPE' char(9) 'Operation' char(9) 'Message' char(9) 'File/Link']);
 fclose(fid);
 lastwarn(''); % clear last warning
 errorCatch=false; % use variable to detect catched errors
+disp(['### See log file for errors and warnings: ' logfile])
 
 %% Get subdirectories from URL db
 dirDatabase=[SOFAdbURL '/database/'];
-options = weboptions("timeout", 60);
+options = weboptions("timeout", 60, "UserAgent", "Mozilla");
 dirContent=webread(dirDatabase,options);
 
 % Get subdirectories in database
 subDirs = extractBetween(dirContent, "alt=""[DIR]""></td><td><a href=""", "/""");
 
-%% Download data
+% temporary target save file, overwritten over in every loop
+temptargetfile = [SOFAdbPath '\urlDatabase\temp.sofa'];
+
+%% Loop to scan, download and handle data
 for ii=1:size(subDirs,1)
     errorCatch=false; % ok, give it a chance
 
     % let's scan the current subdirectory
     currentSubLink=[dirDatabase char(subDirs(ii))];
-    options = weboptions("timeout", 60);
+    
     try
         currentContent=webread(currentSubLink,options);
     catch me
         errorCatch=true;
-        warning([me.message]);
-        pause(5); % give it a break, server might block multiple downloads!?
+        warning(['webread' char(9) me.message]);
+        pause(5); % give it a break, server might block multiple simultaneous downloads!?
     end
 
     if errorCatch==false
@@ -68,7 +75,8 @@ for ii=1:size(subDirs,1)
         targetDir=[SOFAdbPath '\urlDatabase\' char(strrep(subDirs(ii),"%20", " "))];
     
         % a short status message:
-        disp(['### Downloading URL data: ' char(strrep(subDirs(ii),"%20", " "))]);
+        disp('      ');
+        disp(['### Downloading and checking URL database ' num2str(ii) ' from ' num2str(size(subDirs,1)) ': ' char(strrep(subDirs(ii),"%20", " "))]);
         disp(['    from: ' currentSubLink]);
         disp(['    to:   ' targetDir]);
     
@@ -85,12 +93,23 @@ for ii=1:size(subDirs,1)
                 targetfile = [targetDir '\' char(currentFiles(jj))];
 
                 %% download file
-                try % to download the file
-                    websave(targetfile,downloadLink,options);
-                catch me
-                    errorCatch=true;
-                    warning(['Download file: ' me.message]);
-                    pause(5); % give it a break, server might block multiple downloads!?
+                attempts = 0; % count download attempts
+                for retry=1:3
+                    try % to download the file
+                        errorCatch=false;
+                        websave(targetfile,downloadLink,options);
+                    catch me
+                        errorCatch=true;
+                        if retry < 3 % give it another try
+                            disp(['Download attempt failed, retry downloading (' num2str(retry) '/2) from: ' downloadLink]);
+                            pause(retry * 5); % give it a break of a couple of seconds, server might block multiple downloads!?
+                        else % ok, let's skip this file
+                            warning(['Download' char(9) me.message]);
+                        end
+                    end
+                    if errorCatch==false
+                        continue
+                    end
                 end
 
                 %% load file
@@ -99,53 +118,66 @@ for ii=1:size(subDirs,1)
                         Obj=SOFAload(targetfile);
                     catch me
                         errorCatch=true;
-                        warning(['Load file: ' me.message]);
+                        warning(['SOFAload' char(9) me.message]);
                     end
                 end
+
+%                 % SOFAsave uses evalc instead of lastwarn
+%                 [warnmsg, msgid] = lastwarn;
 
                 %% save file
                 if errorCatch==false
                     try % to save the file
-                        targetfile = [targetDir '\' strrep(char(currentFiles(jj)),'.sofa','_loadsave.sofa')];
-                        SOFAsave(targetfile,Obj);
-                    catch me
+%                         SOFAsave(temptargetfile,Obj,0); % save without compression (faster)
+                        SOFAsaveResults = evalc('SOFAsave(temptargetfile,Obj,0);'); % evaluate function to get warnings
+                        warnmsg = char(extractBetween(SOFAsaveResults,'Warning: ',']'));
+%                         msgid = 'SOFA:save';
+                        if ~isempty(warnmsg)
+                            warning(['SOFAsave' char(9) warnmsg]);
+                        end
+                    catch me % error case
                         errorCatch=true;
-                        warning(['Save file: ' me.message]);
+                        warning(['SOFAsave' char(9) me.message]);
                     end
                 end
 
                 %% check for errors & warnings
                 [warnmsg, msgid] = lastwarn;
                 if ~isempty(warnmsg)
-                    appendToFile(logfile,[targetfile ': ' warnmsg])
+                    if errorCatch==true
+                        appendToFile(logfile,['ERROR' char(9) warnmsg char(9) targetfile])
+                    else
+                        appendToFile(logfile,['WARNING' char(9) warnmsg char(9) targetfile])
+                    end
                 end
                 lastwarn(''); errorCatch=false;
     
             end
-            pause(0.1); % server errors occur after some files, if not paused here
+            pause(0.01); % server errors occur after some files, if not paused here
         end
     else
         %% check for errors & warnings during download
         [warnmsg, msgid] = lastwarn;
         if ~isempty(warnmsg)
-            appendToFile(logfile,[currentSubLink ': ' warnmsg])
+            appendToFile(logfile,['ERROR' char(9) warnmsg char(9) currentSubLink])
         end
         lastwarn(''); errorCatch=false;
     end
 end
 
 
-
 %% Epilogue
-
 fid=fopen(logfile,'a+');
 fprintf(fid, '\n\n%s', ['*** Checks done; end time: ' char(datetime)]);
 
+disp(['### See log file for errors and warnings: ' logfile])
+disp('      ');
 disp('##############################################');
-disp('####   COMPLETED ALL CHECKS SUCCESSFULLY  ####');
+disp('##########   COMPLETED ALL CHECKS   ##########');
 disp('##############################################');
 toc; % timer
 
+%% Helpers
 function appendToFile(filename,text)
     fid = fopen(filename, 'a+');
     fprintf(fid, '\n%s', text);

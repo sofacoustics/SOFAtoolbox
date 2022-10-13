@@ -18,6 +18,7 @@ SOFAstart;
 warning('off','SOFA:upgrade');
 warning('off','SOFA:load');
 warning('off','SOFA:save');
+warning('off','SOFA:save:API');
 
 %% Test converters TO SOFA
 disp('      ');

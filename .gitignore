@@ -26,6 +26,7 @@
 /data/SOFA/sofatoolbox_test/*.sofa
 /data/SOFA/database/*/*.sofa
 /data/SOFA/headphones/*/*.sofa
+/data/SOFA/urlDatabase
 /data/TU-Berlin KEMAR/*.mat
 /SOFAtoolbox/helpers/*.m
 /SOFAtoolbox/conventions/check
