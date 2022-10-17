@@ -13,9 +13,12 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
+%% Clean up and set parameters
+clear;
+downloadAttempts = 5; % how often try to download until file is skipped
+
 %% Preparations
 clc; close all; % clean-up first
-clear all;
 tic; % timer
 SOFAstart('restart');
 % warning('query','all');
@@ -94,21 +97,22 @@ for ii=1:size(subDirs,1)
 
                 %% download file
                 attempts = 0; % count download attempts
-                for retry=1:3
+                for retry=1:downloadAttempts
                     try % to download the file
                         errorCatch=false;
                         websave(targetfile,downloadLink,options);
                     catch me
                         errorCatch=true;
-                        if retry < 3 % give it another try
-                            disp(['Download attempt failed, retry downloading (' num2str(retry) '/2) from: ' downloadLink]);
-                            pause(retry * 5); % give it a break of a couple of seconds, server might block multiple downloads!?
+                        if retry < downloadAttempts % give it another try
+                            disp(['Download attempt failed, retry downloading (' num2str(retry) '/' num2str(downloadAttempts-1) ') from: ' downloadLink]);
+                            appendToFile(logfile,['RETRY' char(9) 'Download attempt failed for the ' num2str(retry) '. time, wait and retry...' char(9) downloadLink])
+                            pause(retry * 5); % give it a break of a couple of seconds, server might block too many simulataneous downloads!?
                         else % ok, let's skip this file
                             warning(['Download' char(9) me.message]);
                         end
                     end
                     if errorCatch==false
-                        continue
+                        break % leave loop
                     end
                 end
 
