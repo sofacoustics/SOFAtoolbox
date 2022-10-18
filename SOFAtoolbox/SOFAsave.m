@@ -67,18 +67,33 @@ for ii=1:size(varNames,1);
     warningPostfix='';
 	if ischar(Obj.(varNames{ii}))
 		if ~strcmp(Obj.(varNames{ii}), ObjCheck.(varNames{ii}))
-            if contains(varNames{ii},'GLOBAL_API') > 0; warningPostfix = ':API'; end
+            if exist('OCTAVE_VERSION','builtin')
+              % We're in Octave
+    %                   if contains(varNames{ii},'GLOBAL_API') > 0; warningPostfix = ':API'; end
+              if ismember(varNames{ii},{'GLOBAL_API'}); warningPostfix = ':API'; end
+                  % In Octave 'contains' is not available, thus, the list has to be extended manually 
+            else
+              % We're in Matlab
+              if contains(varNames{ii},'GLOBAL_API') > 0; warningPostfix = ':API'; end   
+            end
 			warning(['SOFA:save' warningPostfix],[varNames{ii} ' is read-only and was reset from ' Obj.(varNames{ii}) ' to '  ObjCheck.(varNames{ii})],0);
 %             warning(['SOFA:save:' varNames{ii}], [varNames{ii} ' is read-only and was reset from ' Obj.(varNames{ii}) ' to '  ObjCheck.(varNames{ii})],0);
 			Obj.(varNames{ii})=ObjCheck.(varNames{ii});
 		end
 	else
-		if Obj.(varNames{ii}) ~= ObjCheck.(varNames{ii})
-            if contains(varNames{ii},'GLOBAL_API') > 0; warningPostfix = ':API'; end
+        if Obj.(varNames{ii}) ~= ObjCheck.(varNames{ii})
+            if exist('OCTAVE_VERSION','builtin')
+                % We're in Octave
+            if ismember(varNames{ii},{'GLOBAL_API'}); warningPostfix = ':API'; end
+                  % In Octave 'contains' is not available, thus, the list has to be extended manually 
+            else
+              % We're in Matlab
+              if contains(varNames{ii},'GLOBAL_API') > 0; warningPostfix = ':API'; end   
+            end
 			warning(['SOFA:save' warningPostfix],[varNames{ii} ' is read-only and was reset from ' Obj.(varNames{ii}) ' to '  ObjCheck.(varNames{ii})],0);
 %             warning(['SOFA:save:' varNames{ii}], [varNames{ii} ' is read-only and was reset from ' Obj.(varNames{ii}) ' to '  ObjCheck.(varNames{ii})],0);
             Obj.(varNames{ii})=ObjCheck.(varNames{ii});
-		end
+        end
 	end
 end
 
