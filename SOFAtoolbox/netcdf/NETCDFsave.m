@@ -169,14 +169,16 @@ fod=fieldnames(Obj.Data);
   
 catch ME
 % 	if ~strcmp(ME.identifier,'MATLAB:imagesci:netcdf:libraryFailure')
-		netcdf.close(ncid);
+    if exist('ncid','var')
+      netcdf.close(ncid); 
+      for ii=1:length(ME.stack)
+        disp(ME.stack(ii));
+      end
+      error(['Error processing ' var 10 'Error message: ' ME.message]);
+    else
+      error(['Not not able to create the file ' filename]); 
+    end
 % 	end
-	for ii=1:length(ME.stack)
-		disp(ME.stack(ii));
-	end
-	error(['Error processing ' var 10 ...
-					'Error message: ' ME.message]);
-
 end
 netcdf.close(ncid);
 	
