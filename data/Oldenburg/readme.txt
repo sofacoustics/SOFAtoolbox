@@ -2,5 +2,5 @@ Save here the data from the Oldeburg database, http://sirius.physik.uni-oldenbur
 
 Note: before downloading that using that data, you must go to http://medi.uni-oldenburg.de/hrir/html/download.html and accept the form. 
 
-SOFA API for Matlab and Octave
+SOFA Toolbox for Matlab and Octave
 Piotr Majdak, ARI, OeAW

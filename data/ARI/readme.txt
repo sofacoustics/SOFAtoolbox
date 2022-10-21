@@ -3,5 +3,5 @@ Direct link to ARI database: https://projects.ari.oeaw.ac.at/research/experiment
 
 The data must be in the format as downloaded from ARI, that is NHX\hrtf_M_dtf 256.mat where NHX is the ARI subject ID. 
 
-SOFA API for Matlab and Octave
+SOFA Toolbox for Matlab and Octave
 Piotr Majdak, ARI, OeAW
