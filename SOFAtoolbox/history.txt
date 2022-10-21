@@ -34,6 +34,7 @@
 - Readme.md: Example fixed (demoPlaySound.m)
 - headers of functions checked, updated, author format changed to machine-readable format (#author)
 - NETCDFload: 'deblank' command added when loading strings to avoid trailing empty spaces in size of array dimension
+- NETCDFsave: error handling improved when no file handle available
 - SOFAcalculateITD.m added, adapted from AMT itdestimator
 - SOFAcalculateLFE.m added (by DC), db changed to mag2db (Octave support)
 - SOFAstart: 

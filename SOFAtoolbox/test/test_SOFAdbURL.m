@@ -3,6 +3,7 @@
 %   test_SOFAdbURL scans all [SOFAdbURL '/database/'] subfolders for *.sofa files.
 %   The SOFA files are downloaded to the local path [SOFAdbPath '\urlDatabase'], loaded to a SOFA object, and saved to a temporary file.
 %   All warnings and error messages are stored in a log file in the local folder (log.csv).
+%   Script only working in Matlab, not in Octave
 
 % #Author: Michael Mihocic: header documentation updated (13.10.2022)
 % 
@@ -39,7 +40,7 @@ if ~exist([SOFAdbPath '\urlDatabase\'], 'dir')
    mkdir([SOFAdbPath '\urlDatabase\']);
 end
 fid=fopen(logfile,'w');
-fprintf(fid, '%s\n\n%s',[ '*** Checking SOFA files for errors and warnings while downloading, loading & saving; start time: ' char(datetime)],['TYPE' char(9) 'Operation' char(9) 'Message' char(9) 'File/Link']);
+fprintf(fid, '%s\n\n%s',[ '*** Checking SOFA files for errors and warnings while downloading, loading & saving; start time: ' datestr(now(), 'dd.mm.yyyy - HH:MM:SS')],['TYPE' char(9) 'Operation' char(9) 'Message' char(9) 'File/Link']);
 fclose(fid);
 lastwarn(''); % clear last warning
 errorCatch=false; % use variable to detect catched errors
@@ -47,7 +48,7 @@ disp(['### See log file for errors and warnings: ' logfile])
 
 %% Get subdirectories from URL db
 dirDatabase=[SOFAdbURL '/database/'];
-options = weboptions("timeout", 60, "UserAgent", "Mozilla");
+options = weboptions("Timeout", 60, "UserAgent", "Mozilla"); % Matlab
 dirContent=webread(dirDatabase,options);
 
 % Get subdirectories in database
@@ -62,7 +63,6 @@ for ii=1:size(subDirs,1)
 
     % let's scan the current subdirectory
     currentSubLink=[dirDatabase char(subDirs(ii))];
-    
     try
         currentContent=webread(currentSubLink,options);
     catch me
@@ -172,7 +172,7 @@ end
 
 %% Epilogue
 fid=fopen(logfile,'a+');
-fprintf(fid, '\n\n%s', ['*** Checks done; end time: ' char(datetime)]);
+fprintf(fid, '\n\n%s', ['*** Checks done; end time: ' datestr(now(), 'dd.mm.yyyy - HH:MM:SS')]);
 
 disp(['### See log file for errors and warnings: ' logfile])
 disp('      ');
