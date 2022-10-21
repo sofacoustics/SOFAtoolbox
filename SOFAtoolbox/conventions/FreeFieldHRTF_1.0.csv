@@ -2,7 +2,7 @@ Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute
 GLOBAL:Version	2.1	rm	 	attribute
 GLOBAL:SOFAConventions	FreeFieldHRTF	rm	  	attribute	This conventions is for HRTFs created under conditions where room information is irrelevant and stored as SH coefficients
-GLOBAL:SOFAConventionsVersion	2.0	rm	  	attribute
+GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute
 GLOBAL:APIName		rm	  	attribute
 GLOBAL:APIVersion		rm	  	attribute
 GLOBAL:ApplicationName			  	attribute
