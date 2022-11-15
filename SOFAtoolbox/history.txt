@@ -13,6 +13,13 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v2.1.2 (master branch)
+- version numbers fixed, branche merged with development version v2.1.1
+- minor update in SOFAgetVersion
+
+*** v2.1.1 (development branch)
+- fixes for some version numbers
+
 *** v2.1 (first 2.x release)
 - conventions (csv files) updated to v2.1; several bugs fixed, version numbers and content adapted to standard
 - SOFAgetConventions: returns only the mandatory metadata per default. 
