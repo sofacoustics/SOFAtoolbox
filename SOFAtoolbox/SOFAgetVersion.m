@@ -4,7 +4,7 @@ function results = SOFAgetVersion(flag)
 %
 %   ver = SOFAgetVersion() returns the version of the SOFA Toolbox
 %
-%   ver = SOFAgetVersion('API') does the same.
+%   ver = SOFAgetVersion('Toolbox') and SOFAgetVersion('API') do the same (not case-sensitive).
 %
 %   ver = SOFAgetVersion('SOFA') returns the version of the SOFA supported 
 %   by the SOFA Toolbox.
@@ -21,12 +21,12 @@ function results = SOFAgetVersion(flag)
 % See the License for the specific language governing  permissions and limitations under the License.
 
 if ~exist('flag','var')
-	flag='API';
+	flag='TOOLBOX';
 end
 
-switch flag
-	case 'API'
-		results = '2.2';
+switch upper(flag)
+	case {'TOOLBOX','API'}
+		results = '2.1.3';
 	case 'SOFA'
 		results = '2.1';
 end
