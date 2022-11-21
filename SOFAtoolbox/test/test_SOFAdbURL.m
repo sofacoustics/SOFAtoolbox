@@ -6,6 +6,7 @@
 %   Script only working in Matlab, not in Octave
 
 % #Author: Michael Mihocic: header documentation updated (13.10.2022)
+% #Author: Michael Mihocic: some updated, mostly regarding convention upgrades and stability (18.11.2022)
 % 
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -16,7 +17,8 @@
 
 %% Clean up and set parameters
 clear;
-downloadAttempts = 5; % how often try to download until file is skipped
+downloadAttempts = 8; % how often try to download until file is skipped
+upgradeConventions = true; % upgrade? SingleRoomDRIR2SingleRoomSRIR, MultiSpeakerBRIR2SingleRoomMIMOSRIR
 
 %% Preparations
 clc; close all; % clean-up first
@@ -33,18 +35,25 @@ disp('########   TEST SOFA URL DATABASES  ########');
 disp('############################################');
 disp('      ');
 
-%% log file
+%% log files
 logfile=[SOFAdbPath '\urlDatabase\log.csv'];
+logfileErr=[SOFAdbPath '\urlDatabase\logErr.csv'];
 % need to create sub directory first?
 if ~exist([SOFAdbPath '\urlDatabase\'], 'dir')
    mkdir([SOFAdbPath '\urlDatabase\']);
 end
+% log
 fid=fopen(logfile,'w');
 fprintf(fid, '%s\n\n%s',[ '*** Checking SOFA files for errors and warnings while downloading, loading & saving; start time: ' datestr(now(), 'dd.mm.yyyy - HH:MM:SS')],['TYPE' char(9) 'Operation' char(9) 'Message' char(9) 'File/Link']);
+fclose(fid);
+% log errors
+fid=fopen(logfileErr,'w');
+fprintf(fid, '%s\n\n%s',[ '*** Checking SOFA files for errors while downloading, loading & saving; start time: ' datestr(now(), 'dd.mm.yyyy - HH:MM:SS')],['TYPE' char(9) 'Operation' char(9) 'Message' char(9) 'File/Link']);
 fclose(fid);
 lastwarn(''); % clear last warning
 errorCatch=false; % use variable to detect catched errors
 disp(['### See log file for errors and warnings: ' logfile])
+disp(['### See log file for errors: ' logfileErr])
 
 %% Get subdirectories from URL db
 dirDatabase=[SOFAdbURL '/database/'];
@@ -128,7 +137,15 @@ for ii=1:size(subDirs,1)
 
 %                 % SOFAsave uses evalc instead of lastwarn
 %                 [warnmsg, msgid] = lastwarn;
-
+                if upgradeConventions == true
+                    % upgrade SingleRoomDRIR2SingleRoomSRIR, MultiSpeakerBRIR2SingleRoomMIMOSRIR ?
+                    switch Obj.GLOBAL_SOFAConventions
+                        case 'SingleRoomDRIR'
+                            Obj=SOFAconvertSingleRoomDRIR2SingleRoomSRIR(Obj);
+                        case 'MultiSpeakerBRIR'
+                            Obj=SOFAconvertMultiSpeakerBRIR2SingleRoomMIMOSRIR(Obj);    
+                    end
+                end
                 %% save file
                 if errorCatch==false
                     try % to save the file
@@ -149,7 +166,8 @@ for ii=1:size(subDirs,1)
                 [warnmsg, msgid] = lastwarn;
                 if ~isempty(warnmsg)
                     if errorCatch==true
-                        appendToFile(logfile,['ERROR' char(9) warnmsg char(9) targetfile])
+                        appendToFile(logfile,   ['ERROR' char(9) warnmsg char(9) targetfile])
+                        appendToFile(logfileErr,['ERROR' char(9) warnmsg char(9) targetfile])
                     else
                         appendToFile(logfile,['WARNING' char(9) warnmsg char(9) targetfile])
                     end
@@ -163,7 +181,8 @@ for ii=1:size(subDirs,1)
         %% check for errors & warnings during download
         [warnmsg, msgid] = lastwarn;
         if ~isempty(warnmsg)
-            appendToFile(logfile,['ERROR' char(9) warnmsg char(9) currentSubLink])
+            appendToFile(logfile,   ['ERROR' char(9) warnmsg char(9) currentSubLink])
+            appendToFile(logfileErr,['ERROR' char(9) warnmsg char(9) currentSubLink])
         end
         lastwarn(''); errorCatch=false;
     end
@@ -171,10 +190,11 @@ end
 
 
 %% Epilogue
-fid=fopen(logfile,'a+');
-fprintf(fid, '\n\n%s', ['*** Checks done; end time: ' datestr(now(), 'dd.mm.yyyy - HH:MM:SS')]);
+fid=fopen(logfile,'a+');     fprintf(fid, '\n\n%s', ['*** Checks done; end time: ' datestr(now(), 'dd.mm.yyyy - HH:MM:SS')]);
+fid=fopen(logfileErr,'a+');  fprintf(fid, '\n\n%s', ['*** Checks done; end time: ' datestr(now(), 'dd.mm.yyyy - HH:MM:SS')]);
 
 disp(['### See log file for errors and warnings: ' logfile])
+disp(['### See log file for errors: ' logfileErr])
 disp('      ');
 disp('##############################################');
 disp('##########   COMPLETED ALL CHECKS   ##########');

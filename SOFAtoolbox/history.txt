@@ -14,6 +14,10 @@
 *** DEVELOPMENT STATUS ***
 
 *** v2.1.3 (development branch)
+- converters added:
+	- SOFAconvertMultiSpeakerBRIR2SingleRoomMIMOSRIR
+	- SOFAconvertSingleRoomDRIR2SingleRoomSRIR
+- test_SOFAdbURL improved
 
 *** v2.1.2 (master branch)
 - version numbers fixed, branche merged with development version v2.1.1
