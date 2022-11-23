@@ -68,20 +68,25 @@ ObjNew.ListenerView_Type=Obj.ListenerView_Type;
 ObjNew.SourceUp=Obj.SourceUp;
 ObjNew.SourceView=Obj.SourceView;
 ObjNew.SourceView_Type=Obj.SourceView_Type;
-if size(Obj.RoomCornerA,1) == 3
-    ObjNew.RoomCornerA=Obj.RoomCornerA'; % must be transposed for the data existing so far
-else
-    ObjNew.RoomCornerA=Obj.RoomCornerA;
+if isfield(Obj,'RoomCornerA')
+    if size(Obj.RoomCornerA,1) == 3
+        ObjNew.RoomCornerA=Obj.RoomCornerA'; % must be transposed for the data existing so far
+    else
+        ObjNew.RoomCornerA=Obj.RoomCornerA;
+    end
+    ObjNew.RoomCornerA_Type=Obj.RoomCornerA_Type;
+    ObjNew.RoomCornerA_Units=Obj.RoomCornerA_Units;
 end
-ObjNew.RoomCornerA_Type=Obj.RoomCornerA_Type;
-ObjNew.RoomCornerA_Units=Obj.RoomCornerA_Units;
-if size(Obj.RoomCornerB,1) == 3
-    ObjNew.RoomCornerB=Obj.RoomCornerB'; % must be transposed for the data existing so far
-else
-    ObjNew.RoomCornerB=Obj.RoomCornerB;
+
+if isfield(Obj,'RoomCornerB')
+    if size(Obj.RoomCornerB,1) == 3
+        ObjNew.RoomCornerB=Obj.RoomCornerB'; % must be transposed for the data existing so far
+    else
+        ObjNew.RoomCornerB=Obj.RoomCornerB;
+    end
+    ObjNew.RoomCornerB_Type=Obj.RoomCornerB_Type;
+    ObjNew.RoomCornerB_Units=Obj.RoomCornerB_Units;
 end
-ObjNew.RoomCornerB_Type=Obj.RoomCornerB_Type;
-ObjNew.RoomCornerB_Units=Obj.RoomCornerB_Units;
 
 %% Update dimensions
 ObjNew=SOFAupdateDimensions(ObjNew);
