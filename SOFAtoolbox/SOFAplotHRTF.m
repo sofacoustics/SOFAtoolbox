@@ -38,7 +38,10 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %     'conversion2ir','noconversion2ir' : Convert to the IR domain before plotting. SOFAplotHRTF 
 %                                         automatically selects if the convertion is required but this 
 %                                         mechanism can be overwritten with this flag. 
-%
+%      'Threshold' (default),'Cen_e2','MaxIACCr', 'MaxIACCe','CenIACCr','CenIACCe', 'CenIACC2e', 'PhminXcor','IRGD': 
+%                                         To select an ITD estimation method 
+%                                         (see SOFAcalculateITD for more details)
+%                                         
 %   SOFAplotHRTF supports the following conventions: 
 %     SimpleFreeFieldHRIR
 %     SimpleFreeFieldHRSOS
@@ -63,6 +66,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 %                           figure titles improved (04.07.2022) 
 % #Author: Piotr Majdak: conversion to TF is a flag now. It's called convert2TF.
 % #Author: Michael Mihocic: flag convert2TF renamed to conversion2ir and noconversion2ir. (01.09.2022)
+% #Author: Robert Baumgartner: changed ITDhorizontal to plot absolute ITD values. (24.11.2022)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -110,6 +114,7 @@ else
     definput.flags.color={'b','r','k','y','g','c','m'};
     definput.flags.normalization={'normalization','nonormalization'};          
     definput.flags.conversion2ir={'conversion2ir','noconversion2ir'};
+    definput.flags.itdestimator = {'Threshold','Cen_e2','MaxIACCr', 'MaxIACCe', 'CenIACCr', 'CenIACCe', 'CenIACC2e', 'PhminXcor','IRGD'};
     argin=varargin;
     for ii=1:length(argin)
         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
@@ -453,7 +458,7 @@ switch lower(type)
       if exist('OCTAVE_VERSION','builtin')
         warning('Command ''polarplot'' not supported by Octave (yet)!')
       else
-        [itd, ~] = SOFAcalculateITD(Obj, 'time');
+        [itd, ~] = SOFAcalculateITD(Obj, 'time',flags.itdestimator);
         pos = Obj.SourcePosition;
         idx=find(pos(:,2)<(offset+thr) & pos(:,2)>(offset-thr));
         itd = itd(idx);
@@ -462,7 +467,7 @@ switch lower(type)
         itd = itd(idx_sort);
         angles = deg2rad(pos);   
         %figure('Renderer', 'painters', 'Position', [10 10 700 450]); 
-        polarplot(angles, itd, 'linewidth', 1.2);
+        polarplot(angles, abs(itd), 'linewidth', 1.2);
         ax = gca;
         ax.ThetaDir = 'counterclockwise'; 
         ax.ThetaZeroLocation = 'top';

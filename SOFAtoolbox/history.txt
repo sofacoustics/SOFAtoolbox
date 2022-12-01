@@ -18,6 +18,9 @@
 	- SOFAconvertMultiSpeakerBRIR2SingleRoomMIMOSRIR
 	- SOFAconvertSingleRoomDRIR2SingleRoomSRIR
 - test_SOFAdbURL: script improved; bugs fixed for sofa files creating more than one warning
+- SOFAplotHRTF:
+	- bugfix: changed ITDhorizontal to plot absolute ITD values
+	- extended functionality: option to select ITD estimator
 
 *** v2.1.2 (master branch)
 - version numbers fixed, branche merged with development version v2.1.1
