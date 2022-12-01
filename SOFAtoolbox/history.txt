@@ -13,7 +13,12 @@
 
 *** DEVELOPMENT STATUS ***
 
-<<<<<<< HEAD
+*** v2.1.5 (development branch)
+
+*** v2.1.4 (master branch)
+- version numbers fixed, branche merged with development branch
+- minor update in SOFAgetVersion
+
 *** v2.1.3 (development branch)
 - converters added (test folder):
 	- SOFAconvertMultiSpeakerBRIR2SingleRoomMIMOSRIR
@@ -23,8 +28,6 @@
 	- bugfix: changed ITDhorizontal to plot absolute ITD values
 	- extended functionality: option to select ITD estimator
 
-=======
->>>>>>> remotes/origin/master
 *** v2.1.2 (master branch)
 - version numbers fixed, branche merged with development version v2.1.1
 - minor update in SOFAgetVersion
