@@ -26,7 +26,11 @@ end
 
 switch upper(flag)
 	case {'TOOLBOX','API'}
+<<<<<<< HEAD
 		results = '2.1.3';
+=======
+		results = '2.1.2';
+>>>>>>> remotes/origin/master
 	case 'SOFA'
 		results = '2.1';
 end
