@@ -12,6 +12,9 @@
 *************************************************************
 
 *** DEVELOPMENT STATUS ***
+*** v2.1.4 (master branch)
+- version numbers fixed, branche merged with development branch
+- minor update in SOFAgetVersion
 
 *** v2.1.3 (development branch)
 - converters added (test folder):

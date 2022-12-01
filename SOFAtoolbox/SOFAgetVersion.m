@@ -26,7 +26,7 @@ end
 
 switch upper(flag)
 	case {'TOOLBOX','API'}
-		results = '2.1.3';
+		results = '2.1.4';
 	case 'SOFA'
 		results = '2.1';
 end
