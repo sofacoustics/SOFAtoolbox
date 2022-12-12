@@ -38,13 +38,13 @@ to your search paths. After that you can play around with your acoustic measurem
 as shown by the following example which uses a HRTF measurement.
 
 ```matlab
+% Start SOFA
+SOFAstart;
+
 %% put your information here:
 hrtf = SOFAload('path/to_your/HRTF.sofa');
 soundInput = audioread('path/to_your/fancy_audio_file.wav');
 
-%% demo script
-% Start SOFA
-SOFAstart;
 % Display some information about the impulse response
 SOFAinfo(hrtf);
 % Plot a figure with the measurement setup
