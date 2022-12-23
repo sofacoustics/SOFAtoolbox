@@ -4,6 +4,7 @@
 % #Author: Michael Mihocic: missing demos added, bugs fixed (09-10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: multiple updates for SOFAtoolbox v2.1 release (2022)
+% #Author: Michael Mihocic: new demos added (23.12.2022)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -284,11 +285,11 @@ clear
 demo_GeneralTF_E;
 disp('*** Finished: GeneralTF-E (Output: SOFA-file(s))'); disp('      ');
 
-% %% demo_MultiSpeakerBRIR (outdated)
-% disp('**************  demo_MultiSpeakerBRIR  **************');
-% clear
-% demo_MultiSpeakerBRIR;
-% disp('*** Finished: MultiSpeakerBRIR (Output: SOFA-file(s))'); disp('      ');
+%% demo_MultiSpeakerBRIR
+disp('**************  demo_MultiSpeakerBRIR  **************');
+clear
+demo_MultiSpeakerBRIR;
+disp('*** Finished: MultiSpeakerBRIR (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_SimpleFreeFieldHRIR2TF
 % Test conversions from SimpleFreeFieldHRIR to SimpleFreeFieldHRTF
@@ -318,6 +319,13 @@ disp('**************  demo_SimpleHeadphoneIR  **************');
 clear;
 demo_SimpleHeadphoneIR;
 disp('*** Finished: demo_SimpleHeadphoneIR (Output: Figure(s))'); disp('      ');
+
+%% demo_SingleRoomDRIR
+% Test SingleRoomDRIR
+disp('**************  demo_SingleRoomDRIR  **************');
+clear
+demo_SingleRoomDRIR;
+disp('*** Finished: demo_SingleRoomDRIR (Output: SOFA-file(s))'); disp('      ');
 
 % %% demo_SingleRoomDRIROlcldenburg (outdated)
 % % Test SingleRoomDRIR

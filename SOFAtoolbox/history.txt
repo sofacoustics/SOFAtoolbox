@@ -14,6 +14,13 @@
 *** DEVELOPMENT STATUS ***
 
 *** v2.1.5 (development branch)
+- SOFAupgradeConventions.m:
+	- upgrade from SingleRoomDRIR files to SingleRoomSRIR implemented
+	- upgrade from MultiSpeakerBRIR files to SingleRoomSRIR implemented
+- demos added:
+	- demo_MultiSpeakerBRIR.m
+	- demo_SingleRoomDRIR.m
+- test_SOFAall.m adapted to new demos
 
 *** v2.1.4 (master branch)
 - version numbers fixed, branche merged with development branch

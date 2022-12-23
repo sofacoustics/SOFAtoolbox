@@ -157,23 +157,166 @@ end
 
 %% Upgrade specific to conventions
 if ~modified
-  switch Obj.GLOBAL_SOFAConventions
+    switch Obj.GLOBAL_SOFAConventions
     case 'MultiSpeakerBRIR'
-      if strcmp(Obj.GLOBAL_SOFAConventionsVersion,'0.1');
-          % upgrade to 0.2
-        Obj.GLOBAL_DataType='FIRE';
-        Obj.GLOBAL_SOFAConventionsVersion='0.2';
-        %Obj.Data.Delay = 
-        if strcmp(Obj.API.Dimensions.Data.Delay,'IR')
-          Obj.API.Dimensions.Data.Delay='IRE'; 
-          Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 size(Obj.EmitterPosition,1)]);
+        %% Get an empy conventions structure
+        ObjNew=SOFAgetConventions('SingleRoomMIMOSRIR');
+        
+        %% Transfer global objects
+        ObjNew.GLOBAL_ListenerShortName = Obj.GLOBAL_ListenerShortName;          
+        ObjNew.GLOBAL_ApplicationName = Obj.GLOBAL_ApplicationName;
+        ObjNew.GLOBAL_ApplicationVersion = Obj.GLOBAL_ApplicationVersion;
+        ObjNew.GLOBAL_AuthorContact = Obj.GLOBAL_AuthorContact;
+        ObjNew.GLOBAL_Comment = Obj.GLOBAL_Comment;
+        % ObjNew.GLOBAL_DataType % always FIR-E
+        ObjNew.GLOBAL_History = SOFAappendText(Obj, 'GLOBAL_History', 'Converted from SOFAconvertMultiSpeakerBRIR.'); % append information
+        ObjNew.GLOBAL_License = Obj.GLOBAL_License;
+        ObjNew.GLOBAL_Organization = Obj.GLOBAL_Organization;
+        ObjNew.GLOBAL_References = Obj.GLOBAL_References;
+        ObjNew.GLOBAL_RoomType = Obj.GLOBAL_RoomType; % shoebox or dae
+        ObjNew.GLOBAL_Origin = Obj.GLOBAL_Origin;
+        ObjNew.GLOBAL_Title = Obj.GLOBAL_Title;
+        ObjNew.GLOBAL_DatabaseName = Obj.GLOBAL_DatabaseName;
+        ObjNew.GLOBAL_RoomDescription = Obj.GLOBAL_RoomDescription;
+        
+        %% Transfer data
+        ObjNew.Data=Obj.Data; 
+        ObjNew.Data.IR=permute(ObjNew.Data.IR, [1 2 4 3]); % permute because dimension ordner has been changed
+        ObjNew.Data.Delay=repmat(ObjNew.Data.Delay,size(ObjNew.Data.IR,1),1);
+        
+        %% Upgrade some objects
+        ObjNew.ListenerPosition=repmat(Obj.ListenerPosition(1,:),size(ObjNew.Data.IR,1),1);
+        ObjNew.SourcePosition=repmat(Obj.SourcePosition(1,:),size(ObjNew.Data.IR,1),1);
+        
+        %% Transfer other objects
+        ObjNew.ListenerPosition_Type=Obj.ListenerPosition_Type;
+        ObjNew.ListenerPosition_Units=Obj.ListenerPosition_Units;
+        ObjNew.ReceiverPosition=Obj.ReceiverPosition;
+        ObjNew.ReceiverPosition_Type=Obj.ReceiverPosition_Type;
+        ObjNew.ReceiverPosition_Units=Obj.ReceiverPosition_Units;
+        ObjNew.SourcePosition_Type=Obj.SourcePosition_Type;
+        ObjNew.SourcePosition_Units=Obj.SourcePosition_Units;
+        ObjNew.EmitterPosition=Obj.EmitterPosition;
+        ObjNew.EmitterPosition_Type=Obj.EmitterPosition_Type;
+        ObjNew.EmitterPosition_Units=Obj.EmitterPosition_Units;
+        ObjNew.ListenerUp=Obj.ListenerUp;
+        ObjNew.ListenerView=Obj.ListenerView;
+        ObjNew.ListenerView_Type=Obj.ListenerView_Type;
+        % ObjNew.SourceUp=Obj.SourceUp;
+        % ObjNew.SourceView=Obj.SourceView;
+        % ObjNew.SourceView_Type=Obj.SourceView_Type;
+        if isfield(Obj,'RoomCornerA')
+            if size(Obj.RoomCornerA,1) == 3
+                ObjNew.RoomCornerA=Obj.RoomCornerA'; % must be transposed for the data existing so far
+            else
+                ObjNew.RoomCornerA=Obj.RoomCornerA;
+            end
+            ObjNew.RoomCornerA_Type=Obj.RoomCornerA_Type;
+            ObjNew.RoomCornerA_Units=Obj.RoomCornerA_Units;
         end
-        if strcmp(Obj.API.Dimensions.Data.Delay,'MR')
-          Obj.API.Dimensions.Data.Delay='MRE'; 
-          Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 size(Obj.EmitterPosition,1)]);
+        
+        if isfield(Obj,'RoomCornerB')
+            if size(Obj.RoomCornerB,1) == 3
+                ObjNew.RoomCornerB=Obj.RoomCornerB'; % must be transposed for the data existing so far
+            else
+                ObjNew.RoomCornerB=Obj.RoomCornerB;
+            end
+            ObjNew.RoomCornerB_Type=Obj.RoomCornerB_Type;
+            ObjNew.RoomCornerB_Units=Obj.RoomCornerB_Units;
         end
+        
+        %% Update dimensions
+        Obj=SOFAupdateDimensions(ObjNew);
         modified=1;
-        warning('SOFA:upgrade','Conventions MultiSpeakerBRIR 0.1 upgraded to 0.2.  Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');
-      end
-  end
+        warning('SOFA:upgrade','Conventions MultiSpeakerBRIR upgraded to SingleRoomMIMOSRIR.  Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');
+
+%       if strcmp(Obj.GLOBAL_SOFAConventionsVersion,'0.1');
+%           % upgrade to 0.2
+%         Obj.GLOBAL_DataType='FIRE';
+%         Obj.GLOBAL_SOFAConventionsVersion='0.2';
+%         %Obj.Data.Delay = 
+%         if strcmp(Obj.API.Dimensions.Data.Delay,'IR')
+%           Obj.API.Dimensions.Data.Delay='IRE'; 
+%           Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 size(Obj.EmitterPosition,1)]);
+%         end
+%         if strcmp(Obj.API.Dimensions.Data.Delay,'MR')
+%           Obj.API.Dimensions.Data.Delay='MRE'; 
+%           Obj.Data.Delay=repmat(Obj.Data.Delay,[1 1 size(Obj.EmitterPosition,1)]);
+%         end
+%         modified=1;
+%         warning('SOFA:upgrade','Conventions MultiSpeakerBRIR 0.1 upgraded to 0.2.  Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');
+%       end
+    case 'SingleRoomDRIR'
+        %% Get an empy conventions SingleRoomSRIR structure to upgrade to
+        ObjNew=SOFAgetConventions('SingleRoomSRIR');
+        
+        %% Transfer global objects
+        ObjNew.GLOBAL_ListenerShortName = Obj.GLOBAL_ListenerShortName;          
+        ObjNew.GLOBAL_ApplicationName = Obj.GLOBAL_ApplicationName;
+        ObjNew.GLOBAL_ApplicationVersion = Obj.GLOBAL_ApplicationVersion;
+        ObjNew.GLOBAL_AuthorContact = Obj.GLOBAL_AuthorContact;
+        ObjNew.GLOBAL_Comment = Obj.GLOBAL_Comment;
+        % ObjNew.GLOBAL_DataType % always FIR
+        ObjNew.GLOBAL_History = SOFAappendText(Obj, 'GLOBAL_History', 'Converted from SingleRoomDRIR.'); % append information
+        ObjNew.GLOBAL_License = Obj.GLOBAL_License;
+        ObjNew.GLOBAL_Organization = Obj.GLOBAL_Organization;
+        ObjNew.GLOBAL_References = Obj.GLOBAL_References;
+        ObjNew.GLOBAL_RoomType = Obj.GLOBAL_RoomType; % shoebox or dae
+        ObjNew.GLOBAL_Origin = Obj.GLOBAL_Origin;
+        ObjNew.GLOBAL_Title = Obj.GLOBAL_Title;
+        ObjNew.GLOBAL_DatabaseName = Obj.GLOBAL_DatabaseName;
+        ObjNew.GLOBAL_RoomDescription = Obj.GLOBAL_RoomDescription;
+        
+        %% Transfer data
+        ObjNew.Data=Obj.Data;
+        
+        %% Upgrade some objects
+        ObjNew.ListenerPosition=repmat(Obj.ListenerPosition(1,:),size(ObjNew.Data.IR,1),1);
+        % for ii=1:size(ObjNew.Data.IR,1)
+        %     ObjNew.ListenerPosition(ii,:)=Obj.ListenerPosition(1,:);
+        % end
+        
+        %% Transfer other objects
+        ObjNew.ListenerPosition_Type=Obj.ListenerPosition_Type;
+        ObjNew.ListenerPosition_Units=Obj.ListenerPosition_Units;
+        ObjNew.ReceiverPosition=Obj.ReceiverPosition;
+        ObjNew.ReceiverPosition_Type=Obj.ReceiverPosition_Type;
+        ObjNew.ReceiverPosition_Units=Obj.ReceiverPosition_Units;
+        ObjNew.SourcePosition=Obj.SourcePosition;
+        ObjNew.SourcePosition_Type=Obj.SourcePosition_Type;
+        ObjNew.SourcePosition_Units=Obj.SourcePosition_Units;
+        ObjNew.EmitterPosition=Obj.EmitterPosition;
+        ObjNew.EmitterPosition_Type=Obj.EmitterPosition_Type;
+        ObjNew.EmitterPosition_Units=Obj.EmitterPosition_Units;
+        ObjNew.ListenerUp=Obj.ListenerUp;
+        ObjNew.ListenerView=Obj.ListenerView;
+        ObjNew.ListenerView_Type=Obj.ListenerView_Type;
+        ObjNew.SourceUp=Obj.SourceUp;
+        ObjNew.SourceView=Obj.SourceView;
+        ObjNew.SourceView_Type=Obj.SourceView_Type;
+        if isfield(Obj,'RoomCornerA')
+            if size(Obj.RoomCornerA,1) == 3
+                ObjNew.RoomCornerA=Obj.RoomCornerA'; % must be transposed for the data existing so far
+            else
+                ObjNew.RoomCornerA=Obj.RoomCornerA;
+            end
+            ObjNew.RoomCornerA_Type=Obj.RoomCornerA_Type;
+            ObjNew.RoomCornerA_Units=Obj.RoomCornerA_Units;
+        end
+        
+        if isfield(Obj,'RoomCornerB')
+            if size(Obj.RoomCornerB,1) == 3
+                ObjNew.RoomCornerB=Obj.RoomCornerB'; % must be transposed for the data existing so far
+            else
+                ObjNew.RoomCornerB=Obj.RoomCornerB;
+            end
+            ObjNew.RoomCornerB_Type=Obj.RoomCornerB_Type;
+            ObjNew.RoomCornerB_Units=Obj.RoomCornerB_Units;
+        end
+        
+        %% Update dimensions
+        Obj=SOFAupdateDimensions(ObjNew); % overwrite original Object
+        modified=1;
+        warning('SOFA:upgrade','Conventions SingleRoomDRIR upgraded to SingleRoomSRIR.  Use warning(''off'',''SOFA:upgrade''); to switch off this warning. ');
+    end
 end
