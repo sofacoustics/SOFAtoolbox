@@ -21,6 +21,7 @@
 	- demo_MultiSpeakerBRIR.m
 	- demo_SingleRoomDRIR.m
 - test_SOFAall.m adapted to new demos
+- SOFAsave: help text added about supressing the API warnings
 
 *** v2.1.4 (master branch)
 - version numbers fixed, branche merged with development branch

@@ -12,12 +12,20 @@ function [Obj] = SOFAsave(filename,Obj,varargin)
 %   csv file with convention+version must be existing in the conventions 
 %   folder, otherwise an error is thrown.
 %
-%   Obj=SOFAsave(..) returns the updated object.
-%
 %   SOFAsave(fn,Obj,compression) specifies the amount of compression of the 
 %   file as a number between 0 and 9. compression of 0 is no compression and 
 %   9 is the largest compression available. For the compression, ZIP algorithm
 %   is used.
+%   
+%   SOFAsave will output a warning if GLOBAL_API and GLOBAL_APIName does not match 
+%   the actual API name and version, respectively. To supress these warnings, use
+%
+%      warning('off','SOFA:save:API');
+%
+%   before calling SOFAsave(..). 
+%   
+%   Obj=SOFAsave(..) returns the updated object.
+%
  
 
 % #Author: Piotr Majdak
