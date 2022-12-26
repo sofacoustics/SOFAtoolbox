@@ -21,8 +21,7 @@ known as the SOFA API_MO, which supported SOFA versions up to 1.x.
 Downloads
 =========
 
-Current releases of SOFA Toolbox can be found on its [old
-home](http://sourceforge.net/projects/sofacoustics/files/?source=navbar).
+Current releases of SOFA Toolbox can be found on [SourceForge](http://sourceforge.net/projects/sofacoustics).
 
 **Note:** 
 - The SOFA Toolbox 2.1 is the succeeding release version of SOFA API M/O version 1.1.3. It supports SOFA 2.1 as known as AES69-2022.
@@ -39,13 +38,13 @@ to your search paths. After that you can play around with your acoustic measurem
 as shown by the following example which uses a HRTF measurement.
 
 ```matlab
+% Start SOFA
+SOFAstart;
+
 %% put your information here:
 hrtf = SOFAload('path/to_your/HRTF.sofa');
 soundInput = audioread('path/to_your/fancy_audio_file.wav');
 
-%% demo script
-% Start SOFA
-SOFAstart;
 % Display some information about the impulse response
 SOFAinfo(hrtf);
 % Plot a figure with the measurement setup
