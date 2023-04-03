@@ -157,8 +157,15 @@ fc=fieldnames(ctf);
 fo=fieldnames(SOFAgetConventions(ctf.GLOBAL_SOFAConventions));
 f=setdiff(fc,fo); % get non-standard fields
 f(strncmpi(f,'GLOBAL_',7)) = []; % variables only
-ctf=rmfield(ctf,f); % remove
-ctf.API.Dimensions=rmfield(ctf.API.Dimensions,f);
+for ii = 1:numel(f)
+    if isfield(ctf, f{ii})
+        ctf=rmfield(ctf,f{ii}); % remove
+    end
+    if isfield(ctf.API.Dimensions,f{ii})
+        ctf.API.Dimensions=rmfield(ctf.API.Dimensions,f{ii});
+    end
+end
+clear ii
 ctf = SOFAupdateDimensions(ctf);
 
 
