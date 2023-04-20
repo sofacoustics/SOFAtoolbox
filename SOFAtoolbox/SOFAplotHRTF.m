@@ -116,9 +116,9 @@ else
     definput.flags.conversion2ir={'conversion2ir','noconversion2ir'};
     definput.flags.itdestimator = {'Threshold','Cen_e2','MaxIACCr', 'MaxIACCe', 'CenIACCr', 'CenIACCe', 'CenIACC2e', 'PhminXcor','IRGD'};
     argin=varargin;
-    for ii=1:length(argin)
-        if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
-    end
+%     for ii=1:length(argin)
+%         if ischar(argin{ii}), argin{ii}=lower(argin{ii}); end
+%     end
     [flags,kv] = SOFAarghelper({'receiver','dir','thr','offset','floor'},definput,argin);
     R = kv.receiver;
     dir = kv.dir;
