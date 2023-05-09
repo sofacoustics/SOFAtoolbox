@@ -25,7 +25,7 @@
 - SOFAsave: help text added about supressing the API warnings
 - SOFAhrtf2dtf: warning if Data.Delay >0; instead of crashing
 - Conventions:
-	- AnnotatedAudio_1.0.csv added
+	- SingleTrackedAudio_0.1 added
 
 *** v2.1.4 (master branch)
 - version numbers fixed, branche merged with development branch
