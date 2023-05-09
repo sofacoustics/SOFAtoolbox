@@ -71,10 +71,12 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 %   plane_idx = find( Obj.SourcePosition(:,2) == 0 );
 %   plane_angle = Obj.SourcePosition(plane_idx,1);
 %
-%   Url: https://amtoolbox.org/amt-1.2.0/doc/common/itdestimator_code.php
+%   File based on: 
+%     Url: https://amtoolbox.org/amt-1.2.0/doc/common/itdestimator_code.php
 
-% #Author: Michael Mihocic: updated to version 1.2.0 of itdestimator from AMT (01.08.2022)
-% 
+% #Author: Michael Mihocic (01.08.2022): updated to version 1.2.0 of itdestimator from AMT 
+% #Author: Piotr Majdak (2023): issue #72 (skip calculation of Delay if data is matrix)
+
 % This file is part of the SOFA Toolbox 2.0, 
 % basing on the function itdestimator in Auditory Modeling Toolbox (AMT) version 1.2.0
 %
@@ -84,9 +86,6 @@ function [toa_diff,toa,IACC,Obj] = SOFAcalculateITD(Obj,varargin)
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
-
-
-
 
 
 % ---------------------- SOFAarghelper -------------------------------
@@ -309,15 +308,16 @@ toa_diff = toa_diff/fs;
 toa = toa/fs;
 
 % Calculate Delay, add to Obj
-for k = 1:size(IR, 1) 
-     % Get onset 
-    OnSetL = IR_start(IR(k,1,:), kv.thr); % L
-    OnSetR = IR_start(IR(k,2,:), kv.thr); % R        
-     % Onset difference
-    delay(k,:) = [OnSetL, OnSetR];
+if isstruct(Obj), 
+	for k = 1:size(IR, 1) 
+		% Get onset 
+		OnSetL = IR_start(IR(k,1,:), kv.thr); % L
+		OnSetR = IR_start(IR(k,2,:), kv.thr); % R        
+		 % Onset difference
+		delay(k,:) = [OnSetL, OnSetR];
+	end
+	Obj = SOFAaddVariable(Obj,'Data.Delay','MR',delay); 
 end
-
-Obj = SOFAaddVariable(Obj,'Data.Delay','MR',delay);
 
 
 
