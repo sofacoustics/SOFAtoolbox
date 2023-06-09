@@ -1,4 +1,4 @@
-function SOFAplotGeometry(Obj,varargin)
+function SOFAplotGeometry(Obj0,varargin)
 %SOFAplotGeometry - Plot the geometry found a SOFA object
 %   Usage: SOFAplotGeometry(Obj)
 %
@@ -43,7 +43,7 @@ function SOFAplotGeometry(Obj,varargin)
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License. 
 
-definput.keyvals.index=1:Obj.API.M;
+definput.keyvals.index=1:Obj0.API.M;
 definput.keyvals.shorder=Inf;
 definput.keyvals.shm=Inf;
 definput.flags.normalize={'normalize','original'};
@@ -57,18 +57,18 @@ SHorder=kv.shorder;
 SHm=kv.shm;
 flags.do_normalize = flags.normalize;
 
-if any(index > Obj.API.M)
-    error(['Index out of range. Only ', num2str(Obj.API.M), ...
+if any(index > Obj0.API.M)
+    error(['Index out of range. Only ', num2str(Obj0.API.M), ...
          ' measurement(s) performed.'])
 elseif any(index < 1)
     error('Choose index to be >= 1.')
 end
 
-switch Obj.GLOBAL_SOFAConventions
+switch Obj0.GLOBAL_SOFAConventions
 %%
   case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E'}
     % Expand entries to the same number of measurement points
-    Obj = SOFAexpand(Obj);
+    Obj = SOFAexpand(Obj0);
     % See if the room geometry is specified
      if strcmpi(Obj.GLOBAL_RoomType,'shoebox')
         x = min(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
@@ -279,7 +279,7 @@ switch Obj.GLOBAL_SOFAConventions
         end
     end
     % Plot SourcePosition
-    legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'bd','MarkerSize',7);
+    legendEntries(end+1)=plot3(SP(:,1),SP(:,2),SP(:,3),'b.','MarkerSize',7);
     % Plot EmitterPositions depending on Type
     if strcmpi(Obj.EmitterPosition_Type,'Spherical Harmonics')
         maxSHorder = sqrt(Obj.API.E)-1;
@@ -344,23 +344,25 @@ switch Obj.GLOBAL_SOFAConventions
 
     else
         % Plot EmitterPosition
-        if ndims(EP)>2
-            % If EmitterPosition has more than two dimensions reduce it to the first
-            % ListenerPosition
-            EP = shiftdim(EP,2);
-            EP = squeeze(EP(1,:,:));
-            EP = reshape(EP,[size(Obj.EmitterPosition,1), Obj.API.C]);
-        end
-        % plot Emitters for first Source
-        legendEntries(end+1) = plot3(SP(1,1)+EP(1,1), SP(1,2)+EP(1,2), SP(1,3)+EP(1,3),'b+','MarkerSize',8);
-        for ii=2:size(EP,1)
-            plot3(SP(1,1)+EP(ii,1), SP(1,2)+EP(ii,2), SP(1,3)+EP(ii,3),'b+','MarkerSize',8);
-        end
-        % plot all Emitters for each Source
-        for jj=2:size(SP,1)
-            for ii=1:size(EP,1)
-              plot3(SP(jj,1)+EP(ii,1), SP(jj,2)+EP(ii,2), SP(jj,3)+EP(ii,3),'b+');
-            end
+        if ~isequal(Obj0.EmitterPosition,[0 0 0]) % plot only if not simple emitter in the source's center
+          if ndims(EP)>2
+              % If EmitterPosition has more than two dimensions reduce it to the first
+              % ListenerPosition
+              EP = shiftdim(EP,2);
+              EP = squeeze(EP(1,:,:));
+              EP = reshape(EP,[size(Obj.EmitterPosition,1), Obj.API.C]);
+          end
+          % plot Emitters for first Source
+          legendEntries(end+1) = plot3(SP(1,1)+EP(1,1), SP(1,2)+EP(1,2), SP(1,3)+EP(1,3),'b+','MarkerSize',8);
+          for ii=2:size(EP,1)
+              plot3(SP(1,1)+EP(ii,1), SP(1,2)+EP(ii,2), SP(1,3)+EP(ii,3),'b+','MarkerSize',8);
+          end
+          % plot all Emitters for each Source
+          for jj=2:size(SP,1)
+              for ii=1:size(EP,1)
+                plot3(SP(jj,1)+EP(ii,1), SP(jj,2)+EP(ii,2), SP(jj,3)+EP(ii,3),'b+');
+              end
+          end
         end
     end
     if exist('LV','var')
@@ -439,12 +441,13 @@ switch Obj.GLOBAL_SOFAConventions
         legendDescription{end+1} = 'ReceiverPosition';
     end
     legendDescription{end+1} ='SourcePosition';
-    if (strcmpi(Obj.EmitterPosition_Type,'Spherical Harmonics'))
-        legendDescription{end+1} = ['Emitter (order: ', num2str(SHorder),', m: ', num2str(SHm),')'];
-    else
-        legendDescription{end+1} = 'EmitterPosition';
+    if ~isequal(Obj0.EmitterPosition,[0 0 0])
+      if (strcmpi(Obj.EmitterPosition_Type,'Spherical Harmonics'))
+          legendDescription{end+1} = ['Emitter (order: ', num2str(SHorder),', m: ', num2str(SHm),')'];
+      else
+          legendDescription{end+1} = 'EmitterPosition';
+      end
     end
-    
     if exist('LV','var')
         legendDescription{end+1} = 'ListenerView';
     end
