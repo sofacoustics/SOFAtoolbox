@@ -1,11 +1,13 @@
 # compiled convention files
 /SOFAtoolbox/conventions/*.mat
 /SOFAtoolbox/conventions/*.txt
+
 # test files for demos
 /SOFAtoolbox/demos/*.sofa
 /SOFAtoolbox/demos/demo_FreeFieldHRTF/*.fig
 /SOFAtoolbox/demos/demo_FreeFieldHRTF/*.png
 /SOFAtoolbox/demos/LigetiHall_CubeletToSt450/
+/SOFAtoolbox/demos/demo_ExampleFiles.m
 /SOFAtoolbox/test/*.sofa
 /SOFAtoolbox/test/*/*.wav
 /SOFAtoolbox/test/LigetiHall_CubeletToSt450/
@@ -28,8 +30,10 @@
 /data/SOFA/headphones/*/*.sofa
 /data/SOFA/urlDatabase
 /data/TU-Berlin KEMAR/*.mat
+/data/UMA/*.mat
 /SOFAtoolbox/helpers/*.m
 /SOFAtoolbox/conventions/check
+
 # doc & mediawiki files
 /SOFAtoolbox/doc
 /doc/FreeFieldDirectivityTF_1.0.txt
@@ -55,7 +59,9 @@
 /doc/SingleRoomDRIR_0.3.txt
 /doc/SingleRoomMIMOSRIR_1.0.txt
 /doc/SingleRoomSRIR_1.0.txt
+/doc/AnnotatedEmitterAudio_0.1.txt
+/doc/AnnotatedReceiverAudio_0.1.txt
 
 # temp files
 ~*.ods#
-/SOFAtoolbox/demos/demo_ExampleFiles.m
+*.csv#

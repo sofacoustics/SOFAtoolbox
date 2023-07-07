@@ -1,15 +1,15 @@
-﻿Name	Default	Flags	Dimensions	Type	Comment
+Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm		attribute	
-GLOBAL:Version	2.1	rm		attribute
-GLOBAL:SOFAConventions	SingleTrackedAudio	rm		attribute
-GLOBAL:SOFAConventionsVersion	0.2	rm		attribute
+GLOBAL:Version	2.1	rm		attribute	
+GLOBAL:SOFAConventions	AnnotatedEmitterAudio	rm		attribute	
+GLOBAL:SOFAConventionsVersion	0.1	rm		attribute	
 GLOBAL:APIName		rm		attribute	
 GLOBAL:APIVersion		rm		attribute	
 GLOBAL:ApplicationName				attribute	
 GLOBAL:ApplicationVersion				attribute	
 GLOBAL:AuthorContact		m		attribute	
 GLOBAL:Comment				attribute	
-GLOBAL:DataType	FIR	rm		attribute	
+GLOBAL:DataType	Audio	rm		attribute	
 GLOBAL:History				attribute	
 GLOBAL:License	No license provided, ask the author for permission	m		attribute	
 GLOBAL:Organization		m		attribute	
@@ -22,7 +22,7 @@ GLOBAL:Title		m		attribute
 ListenerPosition	[0 0 0]	m	IC, MC	double	Position of the head. IC if not tracked, MC if tracked.
 ListenerPosition:Type	cartesian	m		attribute	
 ListenerPosition:Units	metre	m		attribute	
-ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	IC, RC, RCM	double	Position of the ears. RC if not tracked, RCM if tracked.
+ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rC, rCM	double	Position of the ears. RC if not tracked, RCM if tracked.
 ReceiverPosition:Type	cartesian	m		attribute	
 ReceiverPosition:Units	metre	m		attribute	
 SourcePosition	[0 0 0]	m	IC, MC	double	Position of the virtual ensemble. IC if not tracked, MC if tracked.
@@ -35,17 +35,12 @@ ListenerUp	[0 0 1]	m	IC, MC	double	Must be of the same dimensionality as Listene
 ListenerView	[1 0 0]	m	IC, MC	double	Orientation of the head. IC if not tracked, MC if tracked.
 ListenerView:Type	cartesian	m		attribute	
 ListenerView:Units	metre	m		attribute	
-EmitterUp	[0 0 0]		EC, ECM	double	Must be of the same dimensionality as EmitterView.
-EmitterView	[0 0 0]		EC, ECM	double	Orientation of the virtual source(s). EC if not tracked, ECM if tracked.
-EmitterView:Type	cartesian			attribute	
-EmitterView:Units	metre			attribute	
-Data.Receiver	[0 0]		nR	double	(binaural) audio data at the receivers; n=number of audio samples
-Data.Emitter	[0 0]		nE	double	(source) audio data at the emitters; n=number of audio samples
+Data.Emitter	[0 0]	m	nI, nE	double	audio data at the emitter(s); n=number of audio samples
 Data.SamplingRate	44100	m	I	double	
 Data.SamplingRate:Units	hertz	m		attribute	
-M	0	m	m	double	Time stamp of the measurements in M,defines the size of M.
+M	0	m	m	double	Time stamp of the measurements in M, defines the size of M.
 M:LongName	time	m		attribute	Narrative name for M
 M:Units	second	m		attribute	Units used for M
-Response			S, C, I	attribute	the subject’s response
-Response:Type			S, C, I	attribute	type depends on the dimension
-Response:LongName	Date		S	attribute	narrative description of the response type
+Response			I, C, S	attribute	the subject’s response
+Response:Type			I, C, S	attribute	type depends on the dimension
+Response:LongName			S	attribute	narrative description of the response type

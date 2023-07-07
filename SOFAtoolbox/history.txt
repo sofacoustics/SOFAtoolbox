@@ -21,11 +21,17 @@
 - demos added:
 	- demo_MultiSpeakerBRIR.m
 	- demo_SingleRoomDRIR.m
+	- demo_UMA2SOFA.m
+- converter added:
+	- SOFAconvertUMA2SOFA.m
 - test_SOFAall.m adapted to new demos
 - SOFAsave: help text added about supressing the API warnings
 - SOFAhrtf2dtf: warning if Data.Delay >0; instead of crashing
 - Conventions:
 	- SingleTrackedAudio_0.1 added
+	- SingleTrackedAudio removed again, replaced by conventions:
+		- AnnotatedEmitterAudio_0.1
+		- AnnotatedReceiverAudio_0.1
 
 *** v2.1.4 (master branch)
 - version numbers fixed, branche merged with development branch
