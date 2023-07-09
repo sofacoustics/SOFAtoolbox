@@ -42,9 +42,11 @@ if nargin<1
         if name(1)=='_', continue; end
         % Check if mat files exist for every convention flag (r,m,a)
         flagsCounter = 0;
+        rawname=name(1:strfind(name,'_')-1);
+        version=name(strfind(name,'_')+1:end);
         for flag = 'rma'
             flagFile = dir(fullfile(baseFolder,'conventions', ...
-                             strcat(name,'_',flag,'_*.mat')));
+                             strcat(rawname,'_',flag,'_',version,'.mat')));
             if ~isempty(flagFile) && flagFile(1).datenum>file.datenum
                 flagsCounter = flagsCounter+1;
             end
@@ -62,7 +64,7 @@ end
 %% ----- Convert convention csv files into mat files -----
 for convention = conventions
     % Read convention description from csv file
-    fid = fopen(fullfile(baseFolder,'conventions', ...
+  fid = fopen(fullfile(baseFolder,'conventions', ...
                          strcat(convention{:},'.csv')));
 	if exist('OCTAVE_VERSION','builtin')
       % We're in Octave where textscan works differently since ver. 4.2
