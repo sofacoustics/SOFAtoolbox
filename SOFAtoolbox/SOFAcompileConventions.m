@@ -22,6 +22,7 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc fixed, header documentation updated (20.10.2021)
 % #Author: Michael Mihocic: display information changed to output variable (11.11.2021)
+% #Author: Piotr Majdak: bug fix on compiling conventions only if CSV newer than MAT files (9.7.2023)
 %
 % SOFA Toolbox
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
