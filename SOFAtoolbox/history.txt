@@ -19,10 +19,11 @@
 	- upgrade from MultiSpeakerBRIR files to SingleRoomSRIR implemented
 	- outdated version of FreeFieldDirectivityTF_1.0.csv removed (FreeFieldDirectivityTF_1.1.csv is up-to-date)
 - SOFAcompileConventions: bug fix on compiling conventions only if CSV newer than MAT files
-- demos added:
-	- demo_MultiSpeakerBRIR.m
-	- demo_SingleRoomDRIR.m
-	- demo_UMA2SOFA.m
+- demos:
+	- demo_MultiSpeakerBRIR.m added; loading SOFA without checks, source convention outdated
+	- demo_SingleRoomDRIR.m added; loading SOFA without checks, source convention outdated
+	- demo_UMA2SOFA.m added
+	- demo_FreeFieldDirectivityTF: check for AK tools improved, link updated
 - converter added:
 	- SOFAconvertUMA2SOFA.m
 - test_SOFAall.m adapted to new demos

@@ -3,6 +3,7 @@
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: '(demo_)plot_trumpet_directivity' added to this script (19.02.2022)
+% #Author: Michael Mihocic: check for AK tools improved, link updated (10.07.2023)
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -43,7 +44,7 @@ end
 %%  plot_trumpet_directivity
 % original code from Fabian Brinkmann (12.2021), adapted by Michael Mihocic (2021-2022)
 % requires AKp.m, check dependencies, otherwise skip this part
-if exist('AKp.m', 'file')
+if exist('AKp.m', 'file') && exist('AKf.m', 'file')
     
     % load Data
     H = SOFAload('db://database/tu-berlin%20(directivity)/Trumpet_modern_a4_fortissimo.sofa');
@@ -63,7 +64,7 @@ if exist('AKp.m', 'file')
 else
     warning(' Figure 3 of 3 skipped: Trumpet_modern_a4_fortissimo.sofa');
     disp('   To plot this figure you need to:');
-    disp('   - download AKtools.zip (release) from: https://www.ak.tu-berlin.de/menue/publications/open_research_tools/aktools/');
+    disp('   - download AKtools.zip (release) from: https://www.tu.berlin/ak/forschung/publikationen/open-research-tools/aktools');
     disp('   - extract the zip file');
     disp('   - run AKtoolsStart.m');
     disp('   - add the path of AKtoolsStart.m to Matlab (including subdirectories!)');

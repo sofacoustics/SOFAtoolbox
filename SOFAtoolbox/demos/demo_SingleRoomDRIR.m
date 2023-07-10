@@ -3,6 +3,7 @@
 % upgrades the conventions and saves it as a new file in the local database.
 
 % #Author: Michael Mihocic: (23.12.2022)
+% #Author: Michael Mihocic: (10.07.2023): SOFAload: no checks added, source convention outdated
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -15,7 +16,7 @@
 %% Load SOFA file
 db='thk';
 fn='DRIR_CR1_VSA_50RS_L.sofa';
-Obj=SOFAload(['db://' fullfile('database',db,fn)]);
+Obj=SOFAload(['db://' fullfile('database',db,fn)],'nochecks');
 
 %% Upgrade convention
 disp(['Old conventions: ' Obj.GLOBAL_SOFAConventions ' v' Obj.GLOBAL_SOFAConventionsVersion])

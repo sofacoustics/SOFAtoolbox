@@ -35,7 +35,7 @@ ListenerUp	[0 0 1]	m	IC, MC	double	Must be of the same dimensionality as Listene
 ListenerView	[1 0 0]	m	IC, MC	double	Orientation of the head. IC if not tracked, MC if tracked.
 ListenerView:Type	cartesian	m		attribute	
 ListenerView:Units	metre	m		attribute	
-Data.Emitter	[0 0]	m	nI, nE	double	audio data at the emitter(s); n=number of audio samples
+Data.Emitter	[0 0]	m	In, En	double	audio data at the emitter(s); n=number of audio samples
 Data.SamplingRate	44100	m	I	double	
 Data.SamplingRate:Units	hertz	m		attribute	
 M	0	m	m	double	Time stamp of the measurements in M, defines the size of M.

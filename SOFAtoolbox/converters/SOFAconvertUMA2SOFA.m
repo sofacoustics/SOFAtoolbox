@@ -26,7 +26,7 @@ Obj = SOFAgetConventions('AnnotatedReceiverAudio');
 %% Fill data with data
 
 if isfield(UMA.Data,'Sample') 
-    Obj.Data.Receiver=UMA.Data.Sample'; % old versions
+    Obj.Data.Receiver=UMA.Data.Sample; % old versions
 elseif isfield(UMA.Data,'Receiver')
     Obj.Data.Receiver=UMA.Data.Receiver;
 end
