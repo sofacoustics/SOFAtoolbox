@@ -13,6 +13,10 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v2.2.0 (master branch)
+- version numbers fixed, branche merged with development branch
+- new supported data type: Audio (used in AnnotatedEmitterAudio, AnnotatedReceiverAudio)
+
 *** v2.1.5 (development branch)
 - SOFAupgradeConventions.m:
 	- upgrade from SingleRoomDRIR files to SingleRoomSRIR implemented
