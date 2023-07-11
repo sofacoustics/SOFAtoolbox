@@ -13,6 +13,8 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v2.2.1 (development branch)
+
 *** v2.2.0 (master branch)
 - version numbers fixed, branche merged with development branch
 - new supported data type: Audio (used in AnnotatedEmitterAudio, AnnotatedReceiverAudio)
