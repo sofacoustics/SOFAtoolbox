@@ -14,6 +14,9 @@
 *** DEVELOPMENT STATUS ***
 
 *** v2.2.1 (development branch)
+- Conventions:
+	- AnnotatedEmitterAudio_0.2: bugs fixed
+	- AnnotatedReceiverAudio_0.2: bugs fixed
 
 *** v2.2.0 (master branch)
 - version numbers fixed, branche merged with development branch

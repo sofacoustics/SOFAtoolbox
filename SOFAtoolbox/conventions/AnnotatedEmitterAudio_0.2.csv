@@ -1,8 +1,8 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm		attribute	
 GLOBAL:Version	2.1	rm		attribute	
-GLOBAL:SOFAConventions	AnnotatedReceiverAudio	rm		attribute	
-GLOBAL:SOFAConventionsVersion	0.1	rm		attribute	
+GLOBAL:SOFAConventions	AnnotatedEmitterAudio	rm		attribute	
+GLOBAL:SOFAConventionsVersion	0.2	rm		attribute	
 GLOBAL:APIName		rm		attribute	
 GLOBAL:APIVersion		rm		attribute	
 GLOBAL:ApplicationName				attribute	
@@ -35,12 +35,12 @@ ListenerUp	[0 0 1]	m	IC, MC	double	Must be of the same dimensionality as Listene
 ListenerView	[1 0 0]	m	IC, MC	double	Orientation of the head. IC if not tracked, MC if tracked.
 ListenerView:Type	cartesian	m		attribute	
 ListenerView:Units	metre	m		attribute	
-Data.Receiver	[0 0]	m	In, Rn	double	(binaural) audio data at the receivers; n=number of audio samples
+Data.Emitter	[0 0]	m	In, En	double	audio data at the emitter(s); n=number of audio samples
 Data.SamplingRate	44100	m	I	double	
 Data.SamplingRate:Units	hertz	m		attribute	
 M	0	m	m	double	Time stamp of the measurements in M, defines the size of M.
 M:LongName	time	m		attribute	Narrative name for M
 M:Units	second	m		attribute	Units used for M
-Response			I, C, S	attribute	the subject’s response
-Response:Type			I, C, S	attribute	type depends on the dimension
-Response:LongName			S	attribute	narrative description of the response type
+Response	{''}		I, C, S	string	the subject’s response
+Response:Type				attribute	type depends on the dimension
+Response:LongName				attribute	narrative description of the response type
