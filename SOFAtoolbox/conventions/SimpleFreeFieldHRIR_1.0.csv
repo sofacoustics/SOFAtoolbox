@@ -28,7 +28,7 @@ ReceiverPosition:Units	metre	m	  	attribute
 SourcePosition	[0 0 1]	m	IC, MC	double	Source position is assumed to vary for different directions/positions around the listener
 SourcePosition:Type	spherical	m	  	attribute	
 SourcePosition:Units	degree, degree, metre	m	  	attribute	
-EmitterPosition	[0 0 0]	m	eCI, eCM	double	
+EmitterPosition	[0 0 0]	m	eCI, eCM	double	Source consists of a single Emitter only
 EmitterPosition:Type	cartesian	m	  	attribute	
 EmitterPosition:Units	metre	m	  	attribute	
 GLOBAL:DatabaseName		m	  	attribute	name of the database to which these data belong

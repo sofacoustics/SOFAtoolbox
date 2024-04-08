@@ -65,3 +65,6 @@
 # temp files
 ~*.ods#
 *.csv#
+/doc/AnnotatedEmitterAudio_0.2.txt
+/doc/AnnotatedReceiverAudio_0.2.txt
+/doc/SingleRoomSRIR_1.1.txt
