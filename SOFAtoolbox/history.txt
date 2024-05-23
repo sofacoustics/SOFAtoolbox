@@ -17,6 +17,7 @@
 - Conventions:
 	- AnnotatedEmitterAudio_0.2: bugs fixed
 	- AnnotatedReceiverAudio_0.2: bugs fixed
+	- SingleRoomSRIR_1.1 added, based on SingleRoomSRIR_1.0
 
 *** v2.2.0 (master branch)
 - version numbers fixed, branche merged with development branch

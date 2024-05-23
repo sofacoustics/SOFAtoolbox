@@ -1,0 +1,3 @@
+[submodule "sofa_conventions"]
+	path = sofa_conventions
+	url = https://github.com/pyfar/sofa_conventions.git
