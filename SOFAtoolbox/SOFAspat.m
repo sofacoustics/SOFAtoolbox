@@ -1,32 +1,36 @@
-function [out, azi, ele, idx] = SOFAspat(in,Obj,azi,ele)
+function [out, azi, ele, r, idx] = SOFAspat(in,Obj,azi,ele,r)
 %SOFAspat - Spatialize a sound source along a trajectory
-%   Usage: out = SOFAspat(IN,Obj,AZI,ELE)
-%          [out, azi, ele, idx] = SOFAspat(IN,Obj,AZI,ELE)
+%   Usage: out = SOFAspat(IN,Obj,AZI,ELE,R)
+%          [out, azi, ele, r, idx] = SOFAspat(IN,Obj,AZI,ELE,R)
 %
-%   out = SOFAspat(IN, Obj, AZI, ELE) spatializes the sound IN using
-%   the HRTFs from Obj along the trajectory given in AZI and ELE.
+%   out = SOFAspat(IN, Obj, AZI, ELE, R) spatializes the sound IN using
+%   the HRTFs from Obj along the trajectory given in AZI, ELE, and R.
 %
-%   [out, azi, ele, idx] = SOFAspat(..) returns the actual trajectory 
+%   [out, azi, ele, r, idx] = SOFAspat(..) returns the actual trajectory 
 %   and the index vector of the actually used filters from Obj. 
 %   
 %   Input parameters: 
 %		IN:  vector with the sound
 %		Obj: SOFA object containing the HRTFs
-%		azi: vector with the azimuth angles (in degrees) of the trajectory
-%       ele: vector with the elevation angles (in degrees) of the trajectory
-%   The first and last element in azi and ele defines the beginning and end direction
+%		AZI: vector with the azimuth angles (in degrees) of the trajectory
+%   ELE: vector with the elevation angles (in degrees) of the trajectory
+%   R: vector with the radius/distance (in meters) of the trajectory.
+%   Default is 1 m.
+%   The first and last element in AZI, ELE, and R defines the beginning and end direction
 %   of the spatialized source. Directions inbetween will be interpolated. 
 % 
 %   Output parameters: 
 %		out: the spatialized binaural signal
 %		azi: the azimuth angles of the actual trajectory (degrees)
 %		ele: the elevation angles of the actual trajectory (degrees)
+%   r: vector with the radius/distance (in meters) of the actual trajectory
 %		idx: index of the used filters corresponding to the actual trajectory
 %
 
 % #Author: Piotr Majdak (2013)
 % #Author: Robert Baumgartner: adaptations (2016)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Robert Baumgartner: added distance dependency (2024)
 %
 % SOFA Toolbox
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -47,6 +51,9 @@ end
 if min(azi)<0,	% Check for the required coordinate system
 	Obj.SourcePosition(:,1)=sph2nav(Obj.SourcePosition(:,1)); % if negative azimuths are required, swith to -90/+90 system
 end
+if ~exist('r','var')
+  r = 1;
+end
 N=Obj.API.N;
 
 %% resize the input signal to be integer multiple of HRIR
@@ -66,10 +73,15 @@ if length(ele)>1,
 else
 	ele=repmat(ele,1,S);
 end;
+if length(r)>1, 
+	r= interp1(0:1/(length(r)-1):1,r,0:1/(S-1):1); 
+else
+	r=repmat(r,1,S);
+end;
 
 %% create a 2D-grid with nearest positions of the moving source
 idx=zeros(S,1);
-[target.x,target.y,target.z] = sph2cart(deg2rad(azi),deg2rad(ele),ones(1,S));
+[target.x,target.y,target.z] = sph2cart(deg2rad(azi),deg2rad(ele),r);
 [pos.x,pos.y,pos.z] = sph2cart(deg2rad(Obj.SourcePosition(:,1)),...
   deg2rad(Obj.SourcePosition(:,2)),Obj.SourcePosition(:,3));
 for ii=1:S % find nearest point on grid (LSP)
@@ -112,9 +124,11 @@ end
 % actually used angles
 azi = Obj.SourcePosition(idx,1);
 ele = Obj.SourcePosition(idx,2);
+r = Obj.SourcePosition(idx,3);
 % upsampled for each sample
 idup = floor(1:1/(N*hop):S+1-1/(N*hop));
 azi = azi(idup);
 ele = ele(idup);
+r = r(idup);
 
 end
