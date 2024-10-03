@@ -21,7 +21,7 @@ GLOBAL:References				attribute
 GLOBAL:Origin				attribute
 GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data
 GLOBAL:Musician				attribute	Narrative description of the musician such as position, behavior, or personal data if not data-protected, e.g., 'Christiane Schmidt sitting on the chair', or 'artificial excitation by R2D2'.
-GLOBAL:Description				attribute	Narrative description of a measurement. For musical instruments/singers, the note (C1, D1, etc) or the dynamic (pp., ff., etc), or the string played, the playing style (pizzicato, legato, etc.), or the type of excitation (e.g., hit location of a cymbal). For loudspeakers, the system and driver units.
+GLOBAL:Descriptions				attribute	Narrative descriptions of a measurement. For musical instruments/singers, the note (C1, D1, etc) or the dynamic (pp., ff., etc), or the string played, the playing style (pizzicato, legato, etc.), or the type of excitation (e.g., hit location of a cymbal). For loudspeakers, the system and driver units.
 GLOBAL:SourceType		m		attribute	Narrative description of the acoustic source, e.g., 'Violin', 'Female singer', or '2-way loudspeaker'
 GLOBAL:SourceManufacturer		m		attribute	Narrative description of the manufacturer of the source, e.g., 'Stradivari, Lady Blunt, 1721' or 'LoudspeakerCompany'
 GLOBAL:EmitterDescription				attribute	A more detailed structure of the source. In a simple setting, a single Emitter is considered that is collocated with the source. In a more complicated setting, this may be the strings of a violin or the units of a loudspeaker.
