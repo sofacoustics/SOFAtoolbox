@@ -73,14 +73,14 @@ str={};
 for ii=1:R
   str{ii,1}=['String' num2str(round(rand(1,1)*10000))];
 end
-Obj = SOFAaddVariable(Obj,'ReceiverDescriptions','RS',str);
+Obj = SOFAaddVariable(Obj,'ReceiverDescriptions','RSI',str);
 
 % Add EmitterDescriptions as string array
 str={};
 for ii=1:E
   str{ii,1}=['String' num2str(round(rand(1,1)*10000))];
 end
-Obj = SOFAaddVariable(Obj,'EmitterDescriptions','ES',str);
+Obj = SOFAaddVariable(Obj,'EmitterDescriptions','ESI',str);
 
 Obj = SOFAupdateDimensions(Obj);
 

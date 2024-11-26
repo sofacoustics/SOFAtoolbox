@@ -1,78 +1,78 @@
 Name	Default	Flags	Dimensions	Type	Comment
-GLOBAL:Conventions	SOFA	rm	  	attribute
-GLOBAL:Version	2.1	rm	 	attribute
-GLOBAL:SOFAConventions	SingleRoomMIMOSRIR	rm	  	attribute	Single-room multiple-input multiple-output spatial room impulse responses, depending on Emitters
-GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute
-GLOBAL:DataType	FIR-E	rm	  	attribute	Shall be FIR-E
-GLOBAL:RoomType	shoebox	m	  	attribute	Shall be 'shoebox' or 'dae'
-GLOBAL:Title		m		attribute
-GLOBAL:DateCreated		m	 	attribute
-GLOBAL:DateModified		m	 	attribute
-GLOBAL:APIName		rm	  	attribute
-GLOBAL:APIVersion		rm	  	attribute
-GLOBAL:AuthorContact		m	  	attribute
-GLOBAL:Organization		m	  	attribute
-GLOBAL:License	No license provided, ask the author for permission	m	  	attribute
-GLOBAL:ApplicationName			  	attribute
-GLOBAL:ApplicationVersion			  	attribute
-GLOBAL:Comment			 	attribute
-GLOBAL:History			 	attribute
-GLOBAL:References				attribute
-GLOBAL:Origin				attribute
-GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data.
-GLOBAL:RoomShortName				attribute	Short name of the Room
-GLOBAL:RoomDescription				attribute	Informal verbal description of the room
-GLOBAL:RoomLocation				attribute	Location of the room
+GLOBAL:Conventions	SOFA	rm	  	attribute	
+GLOBAL:Version	2.1	rm	 	attribute	
+GLOBAL:SOFAConventions	SingleRoomMIMOSRIR	rm	  	attribute	Single-room multiple-input multiple-output spatial room impulse responses, depending on Emitters.
+GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
+GLOBAL:DataType	FIR-E	rm	  	attribute	Shall be FIR-E.
+GLOBAL:RoomType	shoebox	m	  	attribute	Shall be either shoebox or dae.
+GLOBAL:Title		m		attribute	
+GLOBAL:DateCreated		m	 	attribute	
+GLOBAL:DateModified		m	 	attribute	
+GLOBAL:APIName		rm	  	attribute	
+GLOBAL:APIVersion		rm	  	attribute	
+GLOBAL:AuthorContact		m	  	attribute	
+GLOBAL:Organization		m	  	attribute	
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:ApplicationName			  	attribute	
+GLOBAL:ApplicationVersion			  	attribute	
+GLOBAL:Comment			 	attribute	
+GLOBAL:History			 	attribute	
+GLOBAL:References				attribute	
+GLOBAL:Origin				attribute	
+GLOBAL:DatabaseName		m		attribute	Unique name of the database. Used for classification of the data.
+GLOBAL:RoomShortName				attribute	Short name of the Room.
+GLOBAL:RoomDescription				attribute	Informal narrative description of the room.
+GLOBAL:RoomLocation				attribute	Location of the room.
 GLOBAL:RoomGeometry				attribute	URI to a file describing the room geometry.
-RoomTemperature	0		I, M	double	Temperature during measurements, given in Kelvin.
-RoomTemperature:Units	kelvin			attribute	Units of the room temperature
-RoomVolume	0		I, MI	double	Volume of the room
-RoomVolume:Units	cubic metre			attribute	Units of the room volume
-RoomCornerA	[0 0 0]		IC, MC	double
-RoomCornerB	[1 2 3]		IC, MC	double
-RoomCorners	0		II	double	The value of this attribute is to be ignored. It only exist to for RoomCorners:Type and RoomCorners:Units
-RoomCorners:Type	cartesian			attribute
-RoomCorners:Units	metre			attribute
-GLOBAL:ListenerShortName				attribute
-GLOBAL:ListenerDescription				attribute
-ListenerPosition	[0 0 0] 	m	MC	double
-ListenerPosition:Type	cartesian	m	  	attribute
-ListenerPosition:Units	metre	m	  	attribute
-ListenerView	[1 0 0]	m	IC, MC	double
-ListenerUp	[0 0 1]	m	IC, MC	double
-ListenerView:Type	cartesian	m		attribute
-ListenerView:Units	metre	m		attribute
-GLOBAL:ReceiverShortName				attribute
-GLOBAL:ReceiverDescription				attribute
-ReceiverDescriptions	{''}		RS, RSM	string	R-dependent version of the attribute ReceiverDescription
-ReceiverPosition	[0 0 0]	m	IC, RCI, RCM	double
-ReceiverPosition:Type	spherical	m	  	attribute	Can be of any type enabling both spatially discrete and spatially continuous representations.
-ReceiverPosition:Units	degree, degree, metre	m	  	attribute
-ReceiverView	[1 0 0]		RCI, RCM	double
-ReceiverUp	[0 0 1]		RCI, RCM	double
-ReceiverView:Type	cartesian			attribute
-ReceiverView:Units	metre			attribute
-GLOBAL:SourceShortName				attribute
-GLOBAL:SourceDescription				attribute
-SourcePosition	[0 0 1]	m	MC	double
-SourcePosition:Type	cartesian	m	  	attribute
-SourcePosition:Units	metre	m	  	attribute
-SourceView	[1 0 0]	m	IC, MC	double
-SourceUp	[0 0 1]	m	IC, MC	double
-SourceView:Type	cartesian	m		attribute
-SourceView:Units	metre	m		attribute
-GLOBAL:EmitterShortName				attribute
-GLOBAL:EmitterDescription				attribute
-EmitterDescriptions	{''}		ES, ESM	string	E-dependent version of the attribute EmitterDescription
-EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	Can be of any type enabling both spatially discrete and spatially continuous representations.
-EmitterPosition:Type	spherical	m	  	attribute
-EmitterPosition:Units	degree, degree, metre	m	  	attribute
-EmitterView	[1 0 0]		ECI, ECM	double
-EmitterUp	[0 0 1]		ECI, ECM	double
-EmitterView:Type	cartesian			attribute
-EmitterView:Units	metre			attribute
-Data.IR	0	m	mrne	double	Impulse responses
-Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay
-Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
-Data.Delay	0	m	IRI, MRI, MRE	double	Additional delay of each IR (in samples)
+RoomTemperature	0		I, M	double	Temperature during measurements.
+RoomTemperature:Units	kelvin			attribute	Units of the room temperature.
+RoomVolume	0		I, MI	double	Volume of the room.
+RoomVolume:Units	cubic metre			attribute	Units of the room volume.
+RoomCornerA	[0 0 0]		IC, MC	double	
+RoomCornerB	[1 2 3]		IC, MC	double	
+RoomCorners	0		II	double	This variable is used to provide attributes RoomCorners:Type and RoomCorners:Units. Its value can be ignored. 
+RoomCorners:Type	cartesian			attribute	
+RoomCorners:Units	metre			attribute	
+GLOBAL:ListenerShortName				attribute	
+GLOBAL:ListenerDescription				attribute	
+ListenerPosition	[0 0 0] 	m	MC	double	
+ListenerPosition:Type	cartesian	m	  	attribute	
+ListenerPosition:Units	metre	m	  	attribute	
+ListenerView	[1 0 0]	m	IC, MC	double	
+ListenerUp	[0 0 1]	m	IC, MC	double	
+ListenerView:Type	cartesian	m		attribute	
+ListenerView:Units	metre	m		attribute	
+GLOBAL:ReceiverShortName				attribute	
+GLOBAL:ReceiverDescription				attribute	
+ReceiverDescriptions	{''}		MSI, RSI, MRS	string	M- and/or R-dependent versions of ReceiverDescription with specific descriptions of the receivers.
+ReceiverPosition	[0 0 0]	m	ICI, RCI, RCM	double	
+ReceiverPosition:Type	spherical	m	  	attribute	Can be ‘cartesian’, ‘spherical’, or ‘spherical harmonics’.
+ReceiverPosition:Units	degree, degree, metre	m	  	attribute	
+ReceiverView	[1 0 0]		RCI, RCM	double	
+ReceiverUp	[0 0 1]		RCI, RCM	double	
+ReceiverView:Type	cartesian			attribute	
+ReceiverView:Units	metre			attribute	
+GLOBAL:SourceShortName				attribute	
+GLOBAL:SourceDescription				attribute	
+SourcePosition	[0 0 1]	m	MC	double	
+SourcePosition:Type	cartesian	m	  	attribute	
+SourcePosition:Units	metre	m	  	attribute	
+SourceView	[1 0 0]	m	IC, MC	double	
+SourceUp	[0 0 1]	m	IC, MC	double	
+SourceView:Type	cartesian	m		attribute	
+SourceView:Units	metre	m		attribute	
+GLOBAL:EmitterShortName				attribute	
+GLOBAL:EmitterDescription				attribute	
+EmitterDescriptions	{''}		MSI, ESI, MES	string	M- and/or E-dependent version of EmitterDescription with specific descriptions of the emitters.
+EmitterPosition	[0 0 0]	m	ICI, ECI, ECM	double
+EmitterPosition:Type	spherical	m	  	attribute	Can be ‘cartesian’, ‘spherical’, or ‘spherical harmonics’.
+EmitterPosition:Units	degree, degree, metre	m	  	attribute	
+EmitterView	[1 0 0]		ECI, ECM	double	
+EmitterUp	[0 0 1]		ECI, ECM	double	
+EmitterView:Type	cartesian			attribute	
+EmitterView:Units	metre			attribute	
+Data.IR	0	m	mrne	double	Impulse responses.
+Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay.
+Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate.
+Data.Delay	0	m	IRI, MRI, MRE	double	Additional delay of each IR (in samples).
 MeasurementDate	0		M	double	Optional M-dependent date and time of the measurement.

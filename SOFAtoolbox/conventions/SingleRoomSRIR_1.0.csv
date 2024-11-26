@@ -3,8 +3,8 @@ GLOBAL:Conventions	SOFA	rm	  	attribute
 GLOBAL:Version	2.1	rm	 	attribute
 GLOBAL:SOFAConventions	SingleRoomSRIR	rm	  	attribute	For measuring SRIRs in a single room with a single excitation source (e.g., a loudspeaker) and a listener containing an arbitrary number of omnidirectional receivers (e.g., a microphone array).
 GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute
-GLOBAL:DataType	FIR	rm	  	attribute	Shall be FIR
-GLOBAL:RoomType	shoebox	m	  	attribute	Shall be 'shoebox' or 'dae'
+GLOBAL:DataType	FIR	rm	  	attribute	Shall be FIR.
+GLOBAL:RoomType	shoebox	m	  	attribute	Shall be either shoebox or dae.
 GLOBAL:Title		m		attribute
 GLOBAL:DateCreated		m	 	attribute
 GLOBAL:DateModified		m	 	attribute
@@ -19,18 +19,18 @@ GLOBAL:Comment			 	attribute
 GLOBAL:History			 	attribute
 GLOBAL:References				attribute
 GLOBAL:Origin				attribute
-GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data.
-GLOBAL:RoomShortName				attribute	Short name of the Room
-GLOBAL:RoomDescription				attribute	Informal verbal description of the room
-GLOBAL:RoomLocation				attribute	Location of the room
+GLOBAL:DatabaseName		m		attribute	Unique name of the database. Used for classification of the data.
+GLOBAL:RoomShortName				attribute	Short name of the Room.
+GLOBAL:RoomDescription				attribute	Informal narrative description of the room.
+GLOBAL:RoomLocation				attribute	Location of the room.
 GLOBAL:RoomGeometry				attribute	URI to a file describing the room geometry.
-RoomTemperature	0		I, M	double	Temperature during measurements, given in Kelvin.
+RoomTemperature	0		I, M	double	Temperature during measurements.
 RoomTemperature:Units	kelvin			attribute	Units of the room temperature.
-RoomVolume	0		I, M	double	Volume of the room.
+RoomVolume	0		I, MI	double	Volume of the room.
 RoomVolume:Units	cubic metre			attribute	Units of the room volume.
 RoomCornerA	[0 0 0]		IC, MC	double
 RoomCornerB	[1 2 3]		IC, MC	double
-RoomCorners	0		II	double	The value of this attribute is to be ignored. It only exist to for RoomCorners:Type and RoomCorners:Units
+RoomCorners	0		II	double	This variable is used to provide attributes RoomCorners:Type and RoomCorners:Units. Its value can be ignored.
 RoomCorners:Type	cartesian			attribute
 RoomCorners:Units	metre			attribute
 GLOBAL:ListenerShortName				attribute
@@ -44,8 +44,7 @@ ListenerView:Type	cartesian	m		attribute
 ListenerView:Units	metre	m		attribute
 GLOBAL:ReceiverShortName				attribute
 GLOBAL:ReceiverDescription				attribute
-ReceiverDescriptions	{''}		RS, RSM	string	R-dependent version of the attribute ReceiverDescription
-ReceiverPosition	[0 0 0]	m	IC, RCI, RCM	double
+ReceiverPosition	[0 0 0]	m	ICI, RCI, RCM	double
 ReceiverPosition:Type	spherical	m	  	attribute	Can be of any type enabling both spatially discrete and spatially continuous representations.
 ReceiverPosition:Units	degree, degree, metre	m	  	attribute
 ReceiverView	[1 0 0]		RCI, RCM	double
@@ -63,16 +62,14 @@ SourceView:Type	cartesian	m		attribute
 SourceView:Units	metre	m		attribute
 GLOBAL:EmitterShortName				attribute
 GLOBAL:EmitterDescription				attribute
-EmitterDescriptions	{''}		ES, ESM	string	E-dependent version of the attribute EmitterDescription
 EmitterPosition	[0 0 0]	m	eCI, eCM	double
-EmitterPosition:Type	spherical	m	  	attribute	Shall be 'cartesian' or 'spherical', restricting to spatially discrete emitters.
+EmitterPosition:Type	spherical	m	  	attribute	Shall be either 'cartesian' or 'spherical', restricting to spatially discrete emitters.
 EmitterPosition:Units	degree, degree, metre	m	  	attribute
 EmitterView	[1 0 0]		ECI, ECM	double
 EmitterUp	[0 0 1]		ECI, ECM	double
 EmitterView:Type	cartesian			attribute	Shall be 'cartesian' or 'spherical', restricting to spatially discrete emitters.
 EmitterView:Units	metre			attribute
-Data.IR	0	m	mrn	double	Impulse responses
-Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay
-Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
-Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples)
-MeasurementDate	0		M	double	Optional M-dependent date and time of the measurement
+Data.IR	0	m	mrn	double	Impulse responses.
+Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay.
+Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate.
+Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples).

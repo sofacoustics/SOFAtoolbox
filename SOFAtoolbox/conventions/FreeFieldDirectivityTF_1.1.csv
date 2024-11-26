@@ -1,24 +1,24 @@
 Name	Default	Flags	Dimensions	Type	Comment
-GLOBAL:Conventions	SOFA	rm		attribute
-GLOBAL:Version	2.1	rm		attribute
+GLOBAL:Conventions	SOFA	rm		attribute	
+GLOBAL:Version	2.1	rm		attribute	
 GLOBAL:SOFAConventions	FreeFieldDirectivityTF	rm		attribute	This conventions stores directivities of acoustic sources (instruments, loudspeakers, singers, talkers, etc) in the frequency domain for multiple musical notes in free field.
-GLOBAL:SOFAConventionsVersion	1.1	rm		attribute
+GLOBAL:SOFAConventionsVersion	1.1	rm		attribute	
 GLOBAL:DataType	TF	rm		attribute	We store frequency-dependent data here
 GLOBAL:RoomType	free field	m		attribute	The room information can be arbitrary, but the spatial setup assumes free field.
-GLOBAL:Title		m		attribute
-GLOBAL:DateCreated		m		attribute
-GLOBAL:DateModified		m		attribute
-GLOBAL:APIName		rm		attribute
-GLOBAL:APIVersion		rm		attribute
-GLOBAL:AuthorContact		m		attribute
-GLOBAL:Organization		m		attribute
-GLOBAL:License	No license provided, ask the author for permission	m		attribute
-GLOBAL:ApplicationName				attribute
-GLOBAL:ApplicationVersion				attribute
-GLOBAL:Comment				attribute
-GLOBAL:History				attribute
-GLOBAL:References				attribute
-GLOBAL:Origin				attribute
+GLOBAL:Title		m		attribute	
+GLOBAL:DateCreated		m		attribute	
+GLOBAL:DateModified		m		attribute	
+GLOBAL:APIName		rm		attribute	
+GLOBAL:APIVersion		rm		attribute	
+GLOBAL:AuthorContact		m		attribute	
+GLOBAL:Organization		m		attribute	
+GLOBAL:License	No license provided, ask the author for permission	m		attribute	
+GLOBAL:ApplicationName				attribute	
+GLOBAL:ApplicationVersion				attribute	
+GLOBAL:Comment				attribute	
+GLOBAL:History				attribute	
+GLOBAL:References				attribute	
+GLOBAL:Origin				attribute	
 GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data
 GLOBAL:Musician				attribute	Narrative description of the musician such as position, behavior, or personal data if not data-protected, e.g., 'Christiane Schmidt sitting on the chair', or 'artificial excitation by R2D2'.
 GLOBAL:Description				attribute	Narrative description of a measurement. For musical instruments/singers, the note (C1, D1, etc) or the dynamic (pp., ff., etc), or the string played, the playing style (pizzicato, legato, etc.), or the type of excitation (e.g., hit location of a cymbal). For loudspeakers, the system and driver units.
@@ -26,29 +26,29 @@ GLOBAL:SourceType		m		attribute	Narrative description of the acoustic source, e.
 GLOBAL:SourceManufacturer		m		attribute	Narrative description of the manufacturer of the source, e.g., 'Stradivari, Lady Blunt, 1721' or 'LoudspeakerCompany'
 GLOBAL:EmitterDescription				attribute	A more detailed structure of the source. In a simple setting, a single Emitter is considered that is collocated with the source. In a more complicated setting, this may be the strings of a violin or the units of a loudspeaker.
 ListenerPosition	[0 0 0] 	m	IC, MC	double	Position of the microphone array during the measurements.
-ListenerPosition:Type	cartesian	m		attribute
-ListenerPosition:Units	metre	m		attribute
+ListenerPosition:Type	cartesian	m		attribute	
+ListenerPosition:Units	metre	m		attribute	
 ListenerView	[1 0 0]	m	IC, MC	double	Orientation of the microphone array
-ListenerView:Type	cartesian	m		attribute
-ListenerView:Units	metre	m		attribute
+ListenerView:Type	cartesian	m		attribute	
+ListenerView:Units	metre	m		attribute	
 ListenerUp	[0 0 1]	m	IC, MC	double	Up vector of the microphone array
-ReceiverPosition	[0 0 0]	m	IC, RC, RCM	double	Positions of the microphones during the measurements (relative to the Listener)
+ReceiverPosition	[0 0 0]	m	ICI, RCI, RCM	double	Positions of the microphones during the measurements (relative to the Listener)
 ReceiverPosition:Type	spherical	m		attribute	Type of the coordinate system used.
 ReceiverPosition:Units	degree, degree, metre	m		attribute	Units of the coordinates.
 SourcePosition	[0 0 0] 	m	IC, MC	double	Position of the acoustic source (instrument)
-SourcePosition:Type	cartesian	m		attribute
-SourcePosition:Units	metre	m		attribute
+SourcePosition:Type	cartesian	m		attribute	
+SourcePosition:Units	metre	m		attribute	
 SourcePosition:Reference		m		attribute	Narrative description of the spatial reference of the source position, e.g., 'The bell' for a trumpet or 'On the front plate between the low- and mid/high-frequency unit' for a loudspeaker. Mandatory in order to provide a reference across different sources.
 SourceView	[1 0 0]	m	IC, MC	double	View vector for the orientation.
-SourceView:Type	cartesian	m		attribute
-SourceView:Units	metre	m		attribute
+SourceView:Type	cartesian	m		attribute	
+SourceView:Units	metre	m		attribute	
 SourceView:Reference		m		attribute	Narrative description of the spatial reference of the source view, e.g., 'Viewing direction of the bell' for a trumpet or 'Perpendicular to the front plate' for a loudspeaker. Mandatory in order to provide a reference across different sources.
 SourceUp	[0 0 1]	m	IC, MC	double	Up vector of the acoustic source (instrument)
 SourceUp:Reference		m		attribute	Narrative description of the spatial reference of the source up, e.g., 'Along the keys, keys up' for a trumpet or 'Perpendicular to the top plate' for a loudspeaker. Mandatory in order to provide a reference across different sources.
-EmitterPosition	[0 0 0]	m	eC, eCM	double	Position. In a simple settings, a single emitter is considered that is collocated with the source.
-EmitterPosition:Type	cartesian	m		attribute
-EmitterPosition:Units	metre	m		attribute
-EmitterDescriptions	{''}		MS, ES, MES	string	A more detailed description of the Emitters. For example, this may be the strings of a violin or the units of a loudspeaker.
+EmitterPosition	[0 0 0]	m	eCI, eCM	double	Position. In a simple settings, a single emitter is considered that is collocated with the source.
+EmitterPosition:Type	cartesian	m		attribute	
+EmitterPosition:Units	metre	m		attribute	
+EmitterDescriptions	{''}		MSI, ESI, MES	string	A more detailed description of the Emitters. For example, this may be the strings of a violin or the units of a loudspeaker.
 MIDINote	0		I, M	double	Defines the note played by the source during the measurement. The note is specified a MIDI note by the [https://www.midi.org/specifications-old/item/the-midi-1-0-specification MIDI specifications, version 1.0]. Not mandatory, but recommended for tonal instruments.
 Descriptions	{''}		MS	string	This variable is used when the description varies with M.
 SourceTuningFrequency	440		I, M	double	Frequency (in hertz) to which a musical instrument is tuned to corresponding to the note A4 (MIDINote=69). Recommended for tonal instruments.

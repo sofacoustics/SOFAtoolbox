@@ -116,7 +116,7 @@ if length(log)>1, log=log(2:end); else log={}; end;
 % var: expanded variable, or empty if nothing happened
 % dN: new dimension, or empty if nothing happened
 function [var,dN]=expand(Obj,f,dims)
-	d=cell2mat(strfind(dims,'I'));	% all choices for a singleton dimensions
+	d=cell2mat(strfind(dims','I'));	% all choices for a singleton dimensions
 	for jj=1:length(d)	% loop through all expandable dimensions
 		len=size(Obj.(f),d(jj)); % size of the considered dimension
 		if len>1, continue; end;	% the expandable dimension is already expanded

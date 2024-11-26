@@ -3,6 +3,7 @@
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: updated with variable ReceiverDescriptions instead of Ears (03.08.2022)
+% #Author: Piotr Majdak: extended to have RSI as String variable. 
 % 
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -22,9 +23,9 @@ end
 % SOFAaddVariable(Obj,Name,Dim,Value)
 hrtf2 = SOFAaddVariable(hrtf,'Test','MS',str);
 
-% Add a new string with dimensions [RS]
+% Add a new string with dimensions [RSI]
 strn={'left ear'; 'right ear'};
-hrtf2 = SOFAaddVariable(hrtf2, 'ReceiverDescriptions', 'RS', strn);
+hrtf2 = SOFAaddVariable(hrtf2, 'ReceiverDescriptions', 'RSI', strn);
 
 % Save as SOFA
 SOFAsave('stringtest_applicationvar.sofa',hrtf2);

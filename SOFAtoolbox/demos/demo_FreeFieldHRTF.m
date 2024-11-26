@@ -151,7 +151,7 @@ SH.EmitterPosition_Type = 'Spherical Harmonics';
 SH.EmitterPosition_Units = TFE.EmitterPosition_Units;  
   % Update dimensions
 Lmax=floor(sqrt(TFE.API.E)-1); % Max SH order
-L=min(40,Lmax); % don't go higher than 40th order
+L=min(33,Lmax); % don't go higher than 30th order
 [S, SH.API.E]=sph2SH(TFE.EmitterPosition(:,1:2), L);
   % Allocate data
 SH.Data.Real=zeros(1, SH.API.R, SH.API.N, SH.API.E);

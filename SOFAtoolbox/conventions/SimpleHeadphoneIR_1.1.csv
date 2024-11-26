@@ -1,8 +1,8 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
-GLOBAL:Version	2.0	rm	 	attribute	
+GLOBAL:Version	2.1	rm	 	attribute	
 GLOBAL:SOFAConventions	SimpleHeadphoneIR	rm	  	attribute	Conventions for IRs with a one-to-one correspondence between emitter and receiver. The main application is to store headphone IRs recorded for each emitter and each ear.
-GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
+GLOBAL:SOFAConventionsVersion	1.1	rm	  	attribute	
 GLOBAL:APIName		rm	  	attribute	
 GLOBAL:APIVersion		rm	  	attribute	
 GLOBAL:ApplicationName			  	attribute	
@@ -40,12 +40,13 @@ GLOBAL:ListenerShortName		m	  	attribute	ID of the subject from the database.
 GLOBAL:ListenerDescription				attribute	Narrative description of the listener (or mannequin).
 GLOBAL:SourceDescription				attribute	Narrative description of the headphones.
 GLOBAL:SourceManufacturer				attribute	Name of the headphones manufacturer.
-SourceManufacturer	{''}		MS	string	Optional M-dependent version of the attribute SourceManufucturer.
+SourceManufacturers	{''}		MS	string	Optional M-dependent version of the attribute SourceManufucturer.
 GLOBAL:SourceModel				attribute	Name of the headphone model. Must uniquely describe the headphones of the manufacturer.
-SourceModel	{''}		MS	string	Optional M-dependent version of the attribute SourceModel.
+SourceModels	{''}		MS	string	Optional M-dependent version of the attribute SourceModel.
 GLOBAL:SourceURI				attribute	URI of the headphone specifications.
+SourceURIs	{''}		MS	string	Optional M-dependent version of the attribute SourceURI.
 GLOBAL:ReceiverDescription		m		attribute	Narrative description of the microphones.
-ReceiverDescription	{''}		MS	string	M-dependent version of the attribute ReceiverDescription.
+ReceiverDescriptions	{''}		MS	string	M-dependent version of the attribute ReceiverDescription.
 GLOBAL:EmitterDescription		m		attribute	Narrative description of the headphone drivers.
-EmitterDescription	{''}		MS	string	E-dependent version of the attribute EmitterDescription.
+EmitterDescriptions	{''}		MS	string	E-dependent version of the attribute EmitterDescription.
 MeasurementDate	0		M	double	Optional M-dependent date and time of the measurement.

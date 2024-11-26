@@ -1,43 +1,43 @@
 Name	Default	Flags	Dimensions	Type	Comment
-GLOBAL:Conventions	SOFA	rm	  	attribute
-GLOBAL:Version	2.1	rm	 	attribute
+GLOBAL:Conventions	SOFA	rm	  	attribute	
+GLOBAL:Version	2.1	rm	 	attribute	
 GLOBAL:SOFAConventions	FreeFieldHRIR	rm	  	attribute	An extension of SimpleFreeFieldHRIR in order to consider more complex data sets described in spatially continuous representation. Each HRTF direction corresponds to an emitter, and a consistent measurement for a single listener and all directions is described by a set of the emitter positions surrounding the listener.
-GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute
-GLOBAL:APIName		rm	  	attribute
-GLOBAL:APIVersion		rm	  	attribute
-GLOBAL:ApplicationName			  	attribute
-GLOBAL:ApplicationVersion			  	attribute
-GLOBAL:AuthorContact		m	  	attribute
-GLOBAL:Comment			 	attribute
-GLOBAL:DataType	FIR-E	rm	  	attribute
-GLOBAL:History			 	attribute
-GLOBAL:License	No license provided, ask the author for permission	m	  	attribute
+GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
+GLOBAL:APIName		rm	  	attribute	
+GLOBAL:APIVersion		rm	  	attribute	
+GLOBAL:ApplicationName			  	attribute	
+GLOBAL:ApplicationVersion			  	attribute	
+GLOBAL:AuthorContact		m	  	attribute	
+GLOBAL:Comment			 	attribute	
+GLOBAL:DataType	FIR-E	rm	  	attribute	
+GLOBAL:History			 	attribute	
+GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
 GLOBAL:ListenerShortName		m		attribute	Short name of the listener (as for example the subject ID).
-GLOBAL:Organization		m	  	attribute
-GLOBAL:References				attribute
-GLOBAL:RoomType	free field	m	  	attribute
-GLOBAL:Origin				attribute
-GLOBAL:DateCreated		m	 	attribute
-GLOBAL:DateModified		m	 	attribute
-GLOBAL:Title		m		attribute
-ListenerPosition	[0 0 0] 	m	IC, MC	double
-ListenerPosition:Type	cartesian	m	  	attribute
-ListenerPosition:Units	metre	m	  	attribute
-ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	RCI, RCM	double
-ReceiverPosition:Type	cartesian	m	  	attribute
-ReceiverPosition:Units	metre	m	  	attribute
-SourcePosition	[0 0 0]	m	IC, MC	double	Source position is assumed to be the ListenerPosition in order to reflect Emitters surrounding the Listener
-SourcePosition:Type	spherical	m	  	attribute
-SourcePosition:Units	degree, degree, metre	m	  	attribute
-EmitterPosition	[0 0 0]	m	IC, ECI, ECM	double	Radius in 'spherical harmonics', Position in 'cartesian' and 'spherical'
-EmitterPosition:Type	spherical harmonics	m	  	attribute	Can be 'spherical harmonics', 'cartesian', or 'spherical'
-EmitterPosition:Units	degree, degree, metre	m	  	attribute
-GLOBAL:DatabaseName		m	  	attribute	Name of the database to which these data belong
-ListenerUp	[0 0 1]	m	IC, MC	double
-ListenerView	[1 0 0]	m	IC, MC	double
-ListenerView:Type	cartesian	m		attribute
-ListenerView:Units	metre	m		attribute
-Data.IR	[0 0]	m	mrne	double
-Data.SamplingRate	48000	m	I, M	double
-Data.SamplingRate:Units	hertz	m		attribute
+GLOBAL:Organization		m	  	attribute	
+GLOBAL:References				attribute	
+GLOBAL:RoomType	free field	m	  	attribute	
+GLOBAL:Origin				attribute	
+GLOBAL:DateCreated		m	 	attribute	
+GLOBAL:DateModified		m	 	attribute	
+GLOBAL:Title		m		attribute	
+ListenerPosition	[0 0 0] 	m	IC, MC	double	
+ListenerPosition:Type	cartesian	m	  	attribute	
+ListenerPosition:Units	metre	m	  	attribute	
+ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	RCI, RCM	double	
+ReceiverPosition:Type	cartesian	m	  	attribute	
+ReceiverPosition:Units	metre	m	  	attribute	
+SourcePosition	[0 0 0]	m	IC, MC	double	In order to describe Emitters surrounding the Listener, SourcePosition needs to be the same as the ListenerPosition.
+SourcePosition:Type	spherical	m	  	attribute	
+SourcePosition:Units	degree, degree, metre	m	  	attribute	
+EmitterPosition	[0 0 0]	m	ICI, ECI, ECM	double	In 'spherical harmonics': Spherical coordinates with the valid Emitter radius. In 'cartesian' and 'spherical': 3D coordinate with the positions of the Emitters.
+EmitterPosition:Type	spherical harmonics	m	  	attribute	Can be 'spherical harmonics', 'cartesian', or 'spherical'.
+EmitterPosition:Units	degree, degree, metre	m	  	attribute	
+GLOBAL:DatabaseName		m	  	attribute	Unique name of the database to which these data belong.
+ListenerUp	[0 0 1]	m	IC, MC	double	
+ListenerView	[1 0 0]	m	IC, MC	double	
+ListenerView:Type	cartesian	m		attribute	
+ListenerView:Units	metre	m		attribute	
+Data.IR	[0 0]	m	mrne	double	
+Data.SamplingRate	48000	m	I, M	double	
+Data.SamplingRate:Units	hertz	m		attribute	
 Data.Delay	[0 0]	m	IRI, MRI, MRE	double	Additional delay of each IR (in samples)

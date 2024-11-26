@@ -22,13 +22,13 @@ GLOBAL:Title		m		attribute
 ListenerPosition	[0 0 0]	m	IC, MC	double	Position of the head. IC if not tracked, MC if tracked.
 ListenerPosition:Type	cartesian	m		attribute	
 ListenerPosition:Units	metre	m		attribute	
-ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rC, rCM	double	Position of the ears. RC if not tracked, RCM if tracked.
+ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rCI, rCM	double	Position of the ears. RCI if not tracked, RCM if tracked.
 ReceiverPosition:Type	cartesian	m		attribute	
 ReceiverPosition:Units	metre	m		attribute	
 SourcePosition	[0 0 0]	m	IC, MC	double	Position of the virtual ensemble. IC if not tracked, MC if tracked.
 SourcePosition:Type	cartesian	m		attribute	
 SourcePosition:Units	metre	m		attribute	
-EmitterPosition	[0 0 0]	m	eC, eCM	double	Position of the virtual source(s). eC if not tracked, eCM if tracked.
+EmitterPosition	[0 0 0]	m	eCI, eCM	double	Position of the virtual source(s). eCI if not tracked, eCM if tracked.
 EmitterPosition:Type	cartesian	m		attribute	
 EmitterPosition:Units	metre	m		attribute	
 ListenerUp	[0 0 1]	m	IC, MC	double	Must be of the same dimensionality as ListenerView.

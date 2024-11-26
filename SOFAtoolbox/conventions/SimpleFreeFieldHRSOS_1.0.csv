@@ -31,13 +31,13 @@ SourcePosition:Units	degree, degree, metre	m	  	attribute
 EmitterPosition	[0 0 0]	m	eCI, eCM	double
 EmitterPosition:Type	cartesian	m	  	attribute
 EmitterPosition:Units	metre	m	  	attribute
-GLOBAL:DatabaseName		m	  	attribute	name of the database to which these data belong
-GLOBAL:ListenerShortName		m	  	attribute	ID of the subject from the database
+GLOBAL:DatabaseName		m	  	attribute	Unique name of the database to which these data belong.
+GLOBAL:ListenerShortName		m	  	attribute	ID of the subject from the database.
 ListenerUp	[0 0 1]	m	IC, MC	double
 ListenerView	[1 0 0]	m	IC, MC	double
 ListenerView:Type	cartesian	m		attribute
 ListenerView:Units	metre	m		attribute
 Data.SOS	permute([0 0 0 1 0 0; 0 0 0 1 0 0], [3 1 2]);	m	mRn	double	Filter coefficients as SOS coefficients.
-Data.SamplingRate	48000	m	I, M	double	Sampling rate of the coefficients in Data.SOS and the delay in Data.Delay
-Data.SamplingRate:Units	hertz	m		attribute
-Data.Delay	[0 0]	m	IR, MR	double	Broadband delay (in samples resulting from SamplingRate)
+Data.SamplingRate	48000	m	I, M	double	Sampling rate of the coefficients in Data.SOS and the delay in Data.Delay.
+Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate.
+Data.Delay	[0 0]	m	IR, MR	double	Additional broadband delay (in samples, with the time interval as described by SamplingRate).

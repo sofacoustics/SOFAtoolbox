@@ -9,12 +9,12 @@ GLOBAL:ApplicationName			  	attribute
 GLOBAL:ApplicationVersion			  	attribute	
 GLOBAL:AuthorContact		m	  	attribute	
 GLOBAL:Comment			 	attribute	
-GLOBAL:DataType	SOS	rm		attribute	Filters described as second-order section (SOS) coefficients
+GLOBAL:DataType	SOS	rm		attribute	Filters described as second-order section (SOS) coefficients (see Annex C).
 GLOBAL:History			 	attribute	
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
 GLOBAL:Organization		m	  	attribute	
 GLOBAL:References				attribute	
-GLOBAL:RoomType	free field	m	  	attribute	The room information can be arbitrary
+GLOBAL:RoomType	free field	m	  	attribute	It can be free field, reverberant, shoebox or dae (see Tab. 6).
 GLOBAL:Origin				attribute	
 GLOBAL:DateCreated		m	 	attribute	
 GLOBAL:DateModified		m	 	attribute	
@@ -25,16 +25,16 @@ ListenerPosition:Units	metre	m	  	attribute
 ListenerView	[1 0 0]		IC, MC	double	
 ListenerView:Type	cartesian			attribute	
 ListenerView:Units	metre			attribute	
-ReceiverPosition	[0 0 0]	m	IC, RC, RCM	double	
+ReceiverPosition	[0 0 0]	m	ICI, RCI, RCM	double	
 ReceiverPosition:Type	cartesian	m	  	attribute	
 ReceiverPosition:Units	metre	m	  	attribute	
-SourcePosition	[0 0 1]	m	IC, MC	double	In order to store different directions/positions around the listener, SourcePosition is assumed to vary
-SourcePosition:Type	spherical	m	  	attribute	
-SourcePosition:Units	degree, degree, metre	m	  	attribute	
+SourcePosition	[0 0 0]	m	IC, MC	double	
+SourcePosition:Type	cartesian	m	  	attribute	
+SourcePosition:Units	metre	m	  	attribute	
 EmitterPosition	[0 0 0]	m	eCI, eCM	double	
 EmitterPosition:Type	cartesian	m	  	attribute	
 EmitterPosition:Units	metre	m	  	attribute	
 Data.SOS	permute([0 0 0 1 0 0], [3 1 2]);	m	mrn	double	Filter coefficients as SOS coefficients.
-Data.SamplingRate	48000	m	I, M	double	Sampling rate of the coefficients in Data.SOS and the delay in Data.Delay
-Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
-Data.Delay	0	m	IR, MR	double	Broadband delay (in samples resulting from SamplingRate)
+Data.SamplingRate	48000	m	I, M	double	Sampling rate of the coefficients in Data.SOS and the delay in Data.Delay.
+Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate.
+Data.Delay	0	m	IR, MR	double	Additional broadband delay (in samples, with the time interval as described by SamplingRate).

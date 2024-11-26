@@ -20,6 +20,7 @@ function Obj = SOFAupdateDimensions(Obj,varargin)
 % #Author: Piotr Majdak: String support added (09.08.2014)
 % #Author: Piotr Majdak: Verbose mode added (10.10.2020)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Piotr Majdak: checkdim works now on string variables with singleton dimensions
 %
 % SOFA Toolbox - function SOFAupdateDimensions
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -173,15 +174,15 @@ function [dim,S]=checkdim(Obj,dims,dimA)
 dim=[]; S=0;
 for jj=1:length(dims)
   dimS=dims{jj};
-  if length(dimS)==1, dimS=[dimS 'I']; end; % 1D required, but Matlab is always 2D at least.
+  if length(dimS)==1, dimS=[dimS 'I']; end % 1D required, but Matlab is always 2D at least.
 	dimR=getdim(Obj.API,dimS);
-	if length(dimA)==length(dimR), % the same size?    
-    if ~isempty(strfind(dimS,'S'))
+  if contains(dimS,'S')
       Sidx=strfind(dimS,'S');
       S=max(S,dimA(Sidx));
       dimR(Sidx)=dimA(Sidx); % string dim are always correct
-    end
-		if dimA==dimR, dim=upper(dims{jj}); break; end;	% found!
+  end
+	if length(dimA)==length(dimR) % the same size?        
+		if dimA==dimR, dim=upper(dims{jj}); break; end	% found!
 	elseif length(dimA)<length(dimR)	% extend the size?
 		if [dimA ones(1,length(dimR)-length(dimA))]==dimR, dim=upper(dims{jj}); break; end; % found!
 	end

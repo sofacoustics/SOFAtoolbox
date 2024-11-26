@@ -1,10 +1,10 @@
 Name	Default	Flags	Dimensions	Type	Comment
 GLOBAL:Conventions	SOFA	rm	  	attribute	
 GLOBAL:Version	2.1	rm	 	attribute	
-GLOBAL:SOFAConventions	General	rm	  	attribute	This conventions is for general purposes, i.e., only the mandatory, SOFA general metadata are pre-defined
+GLOBAL:SOFAConventions	General	rm	  	attribute	This conventions is for general purposes, i.e., only the SOFA general metadata are predefined.
 GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
-GLOBAL:DataType	FIR	m	  	attribute	The datatype can be arbitrary
-GLOBAL:RoomType	free field	m	  	attribute	The room information can be arbitrary
+GLOBAL:DataType	FIR	m	  	attribute	It can be FIR, FIR-E, TF, TF-E, or SOS (see Annex C). 
+GLOBAL:RoomType	free field	m	  	attribute	It can be free field, reverberant, shoebox or dae (see Tab. 6).
 GLOBAL:Title		m		attribute	
 GLOBAL:DateCreated		m	 	attribute	
 GLOBAL:DateModified		m	 	attribute	
@@ -30,7 +30,7 @@ ListenerView:Type	cartesian			attribute
 ListenerView:Units	metre			attribute	
 GLOBAL:ReceiverShortName				attribute	
 GLOBAL:ReceiverDescription				attribute	
-ReceiverPosition	[0 0 0]	m	IC, RCI, RCM	double	
+ReceiverPosition	[0 0 0]	m	ICI, RCI, RCM	double	
 ReceiverPosition:Type	cartesian	m	  	attribute	
 ReceiverPosition:Units	metre	m	  	attribute	
 ReceiverView	[1 0 0]		RCI, RCM	double	
@@ -39,7 +39,7 @@ ReceiverView:Type	cartesian			attribute
 ReceiverView:Units	metre			attribute	
 GLOBAL:SourceShortName				attribute	
 GLOBAL:SourceDescription				attribute	
-SourcePosition	[0 0 1]	m	IC, MC	double	
+SourcePosition	[0 0 0]	m	IC, MC	double	
 SourcePosition:Type	cartesian	m	  	attribute	
 SourcePosition:Units	metre	m	  	attribute	
 SourceView	[1 0 0]		IC, MC	double	
@@ -53,9 +53,9 @@ EmitterPosition:Type	cartesian	m	  	attribute
 EmitterPosition:Units	metre	m	  	attribute	
 EmitterView	[1 0 0]		ECI, ECM	double	
 EmitterUp	[0 0 1]		ECI, ECM	double	
-EmiiterView:Type	cartesian			attribute	
+EmitterView:Type	cartesian			attribute	
 EmitterView:Units	metre			attribute	
-Data.IR	0	m	mrn	double	Impulse responses
-Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay
-Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
-Data.Delay	0	m	IR, MR	double	Additional delay of each IR (in samples)
+Data.IR	0	m	mrn	double	If DataType is FIR, this contains the impulse responses.
+Data.SamplingRate	48000	m	I, M	double	If DataType is FIR, this contains the sampling rate of the samples in Data.IR and Data.Delay.
+Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate.
+Data.Delay	0	m	IR, MR	double	If DataType is FIR, this contains an additional delay of each IR (in samples, with the time interval as described by SamplingRate).
