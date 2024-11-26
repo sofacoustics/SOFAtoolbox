@@ -9,6 +9,7 @@
 % #Author: Michael Mihocic: save figures as optional parameter added, figures are saved with respective titles as names (10.11.2021)
 % #Author: Michael Mihocic: minor bugs fixed (28.12.2021)
 % #Author: Piotr Majdak: fix the propagation of global metadata, using Parents now (26.11.2024)
+% #Author: Michael Mihocic: increased robustness of missing description fields (26.11.2024)
 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -27,6 +28,7 @@ if savefigures==1
 end
 
 %% Let's start, load a SimpleFreeFieldHRIR SOFA object
+% filename = 'database/ari/hrtf_nh4.sofa';
 filename = 'database/thk/HRIR_L2354.sofa';
 IR=SOFAload(['db://' filename]);
 fs=IR.Data.SamplingRate;
@@ -56,11 +58,16 @@ TF.GLOBAL_Title = 'demo_FreeFieldHRTF';
 TF.GLOBAL_DatabaseName = 'SOFA Toolbox Demos'; 
 TF.GLOBAL_ListenerShortName = IR.GLOBAL_ListenerShortName;
 TF.GLOBAL_Author = 'Piotr Majdak and Michael Mihocic';
-TF.GLOBAL_ListenerDescription = IR.GLOBAL_ListenerDescription;
-TF.GLOBAL_ReceiverDescription = IR.GLOBAL_ReceiverDescription;
-TF.GLOBAL_SourceDescription = IR.GLOBAL_SourceDescription;
-TF.GLOBAL_EmitterDescription = IR.GLOBAL_EmitterDescription;
-TF.GLOBAL_RoomDescription = IR.GLOBAL_RoomDescription;
+if isfield(IR, 'GLOBAL_ListenerDescription'); TF.GLOBAL_ListenerDescription = IR.GLOBAL_ListenerDescription; end
+if isfield(IR, 'GLOBAL_ReceiverDescription'); TF.GLOBAL_ReceiverDescription = IR.GLOBAL_ReceiverDescription; end
+if isfield(IR, 'GLOBAL_SourceDescription'); TF.GLOBAL_SourceDescription = IR.GLOBAL_SourceDescription; end
+if isfield(IR, 'GLOBAL_EmitterDescription'); TF.GLOBAL_EmitterDescription = IR.GLOBAL_EmitterDescription; end
+if isfield(IR, 'GLOBAL_RoomDescription'); TF.GLOBAL_RoomDescription = IR.GLOBAL_RoomDescription; end
+% TF.GLOBAL_ListenerDescription = IR.GLOBAL_ListenerDescription;
+% TF.GLOBAL_ReceiverDescription = IR.GLOBAL_ReceiverDescription;
+% TF.GLOBAL_SourceDescription = IR.GLOBAL_SourceDescription;
+% TF.GLOBAL_EmitterDescription = IR.GLOBAL_EmitterDescription;
+% TF.GLOBAL_RoomDescription = IR.GLOBAL_RoomDescription;
 TF.GLOBAL_Parents = [SOFAdbURL '/' filename];
   % copy/update variables
 TF.ListenerPosition=IR.ListenerPosition;
@@ -272,13 +279,20 @@ TFint.GLOBAL_Origin = SH.GLOBAL_Origin;
 TFint.GLOBAL_Title = SH.GLOBAL_Title;
 TFint.GLOBAL_DatabaseName = SH.GLOBAL_DatabaseName; 
 TFint.GLOBAL_ListenerShortName = SH.GLOBAL_ListenerShortName;
-TFint.GLOBAL_Author = SH.GLOBAL_Author;
-TFint.GLOBAL_ListenerDescription = SH.GLOBAL_ListenerDescription;
-TFint.GLOBAL_ReceiverDescription = SH.GLOBAL_ReceiverDescription;
-TFint.GLOBAL_SourceDescription = SH.GLOBAL_SourceDescription;
-TFint.GLOBAL_EmitterDescription = SH.GLOBAL_EmitterDescription;
-TFint.GLOBAL_RoomDescription = SH.GLOBAL_RoomDescription;
-TFint.GLOBAL_Parents = SH.GLOBAL_Parents;
+if isfield(SH, 'GLOBAL_Author'); TFint.GLOBAL_Author = SH.GLOBAL_Author; end
+if isfield(SH, 'GLOBAL_ListenerDescription'); TFint.GLOBAL_ListenerDescription = SH.GLOBAL_ListenerDescription; end
+if isfield(SH, 'GLOBAL_ReceiverDescription'); TFint.GLOBAL_ReceiverDescription = SH.GLOBAL_ReceiverDescription; end
+if isfield(SH, 'GLOBAL_SourceDescription'); TFint.GLOBAL_SourceDescription = SH.GLOBAL_SourceDescription; end
+if isfield(SH, 'GLOBAL_EmitterDescription'); TFint.GLOBAL_EmitterDescription = SH.GLOBAL_EmitterDescription; end
+if isfield(SH, 'GLOBAL_RoomDescription'); TFint.GLOBAL_RoomDescription = SH.GLOBAL_RoomDescription; end
+if isfield(SH, 'GLOBAL_Parents'); TFint.GLOBAL_Parents = SH.GLOBAL_Parents; end
+% TFint.GLOBAL_Author = SH.GLOBAL_Author;
+% TFint.GLOBAL_ListenerDescription = SH.GLOBAL_ListenerDescription;
+% TFint.GLOBAL_ReceiverDescription = SH.GLOBAL_ReceiverDescription;
+% TFint.GLOBAL_SourceDescription = SH.GLOBAL_SourceDescription;
+% TFint.GLOBAL_EmitterDescription = SH.GLOBAL_EmitterDescription;
+% TFint.GLOBAL_RoomDescription = SH.GLOBAL_RoomDescription;
+% TFint.GLOBAL_Parents = SH.GLOBAL_Parents;
   % Copy/Update variables
 TFint.ListenerPosition=SH.ListenerPosition;
 TFint.ListenerPosition_Type=SH.ListenerPosition_Type;
