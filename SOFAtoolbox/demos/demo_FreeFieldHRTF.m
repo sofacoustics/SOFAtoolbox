@@ -8,7 +8,8 @@
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: save figures as optional parameter added, figures are saved with respective titles as names (10.11.2021)
 % #Author: Michael Mihocic: minor bugs fixed (28.12.2021)
-% 
+% #Author: Piotr Majdak: fix the propagation of global metadata, using Parents now (26.11.2024)
+
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -26,7 +27,8 @@ if savefigures==1
 end
 
 %% Let's start, load a SimpleFreeFieldHRIR SOFA object
-IR=SOFAload('db://database/thk/HRIR_L2354.sofa');
+filename = 'database/thk/HRIR_L2354.sofa';
+IR=SOFAload(['db://' filename]);
 fs=IR.Data.SamplingRate;
 IR.GLOBAL_APIVersion=SOFAgetVersion;
 %% Figures
@@ -42,7 +44,25 @@ end
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_1_IR.sofa'),IR);
 
 %% Convert to TF
+  % create a new SOFA structure and copy/update the global metadata
 TF=SOFAgetConventions('SimpleFreeFieldHRTF');
+TF.GLOBAL_AuthorContact = 'piotr.majdak@oeaw.ac.at;michael.mihocic@oeaw.ac.at';
+TF.GLOBAL_Comment = 'Demonstration of the usage of the FreeFieldHRTF convention';
+TF.GLOBAL_History = SOFAappendText(IR, 'GLOBAL_History', 'Converted to TF');
+TF.GLOBAL_License = IR.GLOBAL_License;
+TF.GLOBAL_Organization = 'ARI/ÖAW';
+TF.GLOBAL_Origin = SOFAappendText(IR, 'GLOBAL_Origin', 'SOFA Toolbox');
+TF.GLOBAL_Title = 'demo_FreeFieldHRTF';
+TF.GLOBAL_DatabaseName = 'SOFA Toolbox Demos'; 
+TF.GLOBAL_ListenerShortName = IR.GLOBAL_ListenerShortName;
+TF.GLOBAL_Author = 'Piotr Majdak and Michael Mihocic';
+TF.GLOBAL_ListenerDescription = IR.GLOBAL_ListenerDescription;
+TF.GLOBAL_ReceiverDescription = IR.GLOBAL_ReceiverDescription;
+TF.GLOBAL_SourceDescription = IR.GLOBAL_SourceDescription;
+TF.GLOBAL_EmitterDescription = IR.GLOBAL_EmitterDescription;
+TF.GLOBAL_RoomDescription = IR.GLOBAL_RoomDescription;
+TF.GLOBAL_Parents = [SOFAdbURL '/' filename];
+  % copy/update variables
 TF.ListenerPosition=IR.ListenerPosition;
 TF.ListenerPosition_Type=IR.ListenerPosition_Type;
 TF.ListenerPosition_Units=IR.ListenerPosition_Units;
@@ -59,9 +79,10 @@ TF.EmitterPosition_Units=IR.EmitterPosition_Units;
 TF.ReceiverPosition=IR.ReceiverPosition;
 TF.ReceiverPosition_Type=IR.ReceiverPosition_Type;
 TF.ReceiverPosition_Units=IR.ReceiverPosition_Units;
-
+  % allocate data
 TF.Data.Real=zeros(IR.API.M,IR.API.R,IR.API.N+1);
 TF.Data.Imag=zeros(IR.API.M,IR.API.R,IR.API.N+1);
+  % convert to frequency domain
 for ii=1:IR.API.M
   for jj=1:IR.API.R
    sp=fft(squeeze(IR.Data.IR(ii,jj,:)),2*IR.API.N); % Delay not considered!
@@ -69,10 +90,10 @@ for ii=1:IR.API.M
    TF.Data.Imag(ii,jj,:)=imag(sp(1:IR.API.N+1,:));
   end
 end
+  % calculate frequencies
 TF.N=(0:fs/2/IR.API.N:fs/2)';
-
+  % updata dimensions and save
 TF=SOFAupdateDimensions(TF);
-
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_2_TF.sofa'),TF);
 
 %% Plot median plane and horizontal planes for reference
@@ -93,50 +114,58 @@ if savefigures==1
 end    
 
 %% Convert to an emitter-based representation, TFE
+  % Create a new SOFA structure (based on TF because only a few metadata change)
 TFE=TF; 
 TFE.GLOBAL_SOFAConventions = 'GeneralTF-E';
 TFE.GLOBAL_DataType = 'TF-E';
+TFE.GLOBAL_History = SOFAappendText(TFE, 'GLOBAL_History', 'Converted to TFE');
+
+  % Switch to M Emitters but only 1 Measurement
 TFE.API.E=TF.API.M;
 TFE.API.M=1;
+  % Switch from TF to TFE
 TFE.Data=rmfield(TFE.Data,{'Real','Imag'});
 TFE.Data.Real(1,:,:,:)=shiftdim(TF.Data.Real,1); % MRN --> 1RNM --> MRNE with M=1
 TFE.API.Dimensions.Data.Real='MRNE';
 TFE.Data.Imag(1,:,:,:)=shiftdim(TF.Data.Imag,1);
 TFE.API.Dimensions.Data.Imag='MRNE';
+  % Update variables
 TFE.EmitterPosition=TF.SourcePosition;
 TFE.EmitterPosition_Type=TF.SourcePosition_Type;
 TFE.EmitterPosition_Units=TF.SourcePosition_Units;
 TFE.API.Dimensions.EmitterPosition='ECI';
 TFE.SourcePosition=[0 0 0];
 TFE.API.Dimensions.SourcePosition='IC';
-
+  % Update dimensions and save
 TFE=SOFAupdateDimensions(TFE);
-
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_3_TFE.sofa'),TFE);
 
 %% Convert to SH
+  % Create a new SOFA structure (based on TF because only a few metadata change)
 SH=TFE;
 SH.GLOBAL_SOFAConventions = 'FreeFieldHRTF';
-
-Lmax=floor(sqrt(size(SH.EmitterPosition,1))-1); % Max SH order
-L=40; % actual SH order
-[S, SH.API.E]=sph2SH(SH.EmitterPosition(:,1:2), L);
-
-Sinv=pinv(S);
+SH.GLOBAL_History = SOFAappendText(TFE, 'GLOBAL_History', 'Converted to Spherical Harmonics');
+  % Update variables
+SH.EmitterPosition = [nan nan mean(TFE.EmitterPosition(:,3))];
+SH.EmitterPosition_Type = 'Spherical Harmonics';
+SH.EmitterPosition_Units = TFE.EmitterPosition_Units;  
+  % Update dimensions
+Lmax=floor(sqrt(TFE.API.E)-1); % Max SH order
+L=min(40,Lmax); % don't go higher than 40th order
+[S, SH.API.E]=sph2SH(TFE.EmitterPosition(:,1:2), L);
+  % Allocate data
 SH.Data.Real=zeros(1, SH.API.R, SH.API.N, SH.API.E);
 SH.Data.Imag=zeros(1, SH.API.R, SH.API.N, SH.API.E);
-for ii=1:TFE.API.R
-  for jj=1:TFE.API.N
+  % Convert from SH to TF
+Sinv=pinv(S);
+for ii=1:SH.API.R
+  for jj=1:SH.API.N
    SH.Data.Real(1,ii,jj,:)=Sinv*squeeze(TFE.Data.Real(1,ii,jj,:));
    SH.Data.Imag(1,ii,jj,:)=Sinv*squeeze(TFE.Data.Imag(1,ii,jj,:));
   end
 end
-
-SH.EmitterPosition=mean(SH.EmitterPosition);
-SH.EmitterPosition_Type='Spherical Harmonics';
-
+  % update dimensions and save
 SH = SOFAupdateDimensions(SH);
-
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
 
 %% plot median and horizonal planes - spatially continuous
@@ -229,16 +258,52 @@ end
 
 TFEint=SOFAupdateDimensions(TFEint);
 
-% SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_5_TFEint.sofa'),TFEint);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_5_TFEint.sofa'),TFEint);
 
 %% interpolate for the horizontal and median planes to SimpleFreeFieldHRTF (TF)
-TFint=TF;
+  % create a new structure and copy metadata from SH
+TFint=SOFAgetConventions('SimpleFreeFieldHRTF');
+TFint.GLOBAL_AuthorContact = SH.GLOBAL_AuthorContact;
+TFint.GLOBAL_Comment = SH.GLOBAL_Comment;
+TFint.GLOBAL_History = SOFAappendText(SH, 'GLOBAL_History', 'Converted to TF');
+TFint.GLOBAL_License = SH.GLOBAL_License;
+TFint.GLOBAL_Organization = SH.GLOBAL_Organization;
+TFint.GLOBAL_Origin = SH.GLOBAL_Origin;
+TFint.GLOBAL_Title = SH.GLOBAL_Title;
+TFint.GLOBAL_DatabaseName = SH.GLOBAL_DatabaseName; 
+TFint.GLOBAL_ListenerShortName = SH.GLOBAL_ListenerShortName;
+TFint.GLOBAL_Author = SH.GLOBAL_Author;
+TFint.GLOBAL_ListenerDescription = SH.GLOBAL_ListenerDescription;
+TFint.GLOBAL_ReceiverDescription = SH.GLOBAL_ReceiverDescription;
+TFint.GLOBAL_SourceDescription = SH.GLOBAL_SourceDescription;
+TFint.GLOBAL_EmitterDescription = SH.GLOBAL_EmitterDescription;
+TFint.GLOBAL_RoomDescription = SH.GLOBAL_RoomDescription;
+TFint.GLOBAL_Parents = SH.GLOBAL_Parents;
+  % Copy/Update variables
+TFint.ListenerPosition=SH.ListenerPosition;
+TFint.ListenerPosition_Type=SH.ListenerPosition_Type;
+TFint.ListenerPosition_Units=SH.ListenerPosition_Units;
+TFint.ListenerView=SH.ListenerView;
+TFint.ListenerView_Type=SH.ListenerView_Type;
+TFint.ListenerView_Units=SH.ListenerView_Units;
+TFint.ListenerUp=SH.ListenerUp;
+TFint.ReceiverPosition=SH.ReceiverPosition;
+TFint.ReceiverPosition_Type=SH.ReceiverPosition_Type;
+TFint.ReceiverPosition_Units=SH.ReceiverPosition_Units;
+TFint.N=SH.N;
+TFint.N_LongName=SH.N_LongName;
+TFint.N_Units=SH.N_Units;
+  % Create new Source directions
 ele=[-90:0.5:90 89:-.5:-90 zeros(1,length(1:0.5:355))]';
 azi=[zeros(length(-90:.5:90),1); 180*ones(length(89:-.5:-90),1); (1:0.5:355)'];
 radius=1.2*ones(size(ele));
 TFint.SourcePosition=[azi ele radius];
+  % Update dimensions
 Sint = sph2SH(TFint.SourcePosition(:,1:2), sqrt(SH.API.E)-1);
 TFint.API.M=size(Sint,1);
+TFint.API.R=SH.API.R; 
+TFint.API.N=SH.API.N;
+  % Allocate data
 TFint.Data.Real=zeros(TFint.API.M,2,TFint.API.N);
 TFint.Data.Imag=zeros(TFint.API.M,2,TFint.API.N);
 for ii=1:TFint.API.R
@@ -247,9 +312,8 @@ for ii=1:TFint.API.R
     TFint.Data.Imag(:,ii,jj)=Sint*squeeze(SH.Data.Imag(1,ii,jj,:));
   end
 end
-
+  % Update dimensions and save
 TFint=SOFAupdateDimensions(TFint);
-
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_6_TFint.sofa'),TFint);
 
 %% compare

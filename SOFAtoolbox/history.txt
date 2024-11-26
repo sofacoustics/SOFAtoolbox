@@ -18,6 +18,8 @@
 	- AnnotatedEmitterAudio_0.2: bugs fixed
 	- AnnotatedReceiverAudio_0.2: bugs fixed
 	- SingleRoomSRIR_1.1 added, based on SingleRoomSRIR_1.0
+- demos:
+	- demo_FreeFieldHRTF: propagation of global metadata fixed, generated SOFA files contain the attribute Parents now
 
 *** v2.2.0 (master branch)
 - version numbers fixed, branche merged with development branch
