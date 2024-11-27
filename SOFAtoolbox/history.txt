@@ -14,6 +14,8 @@
 *** DEVELOPMENT STATUS ***
 
 *** v2.2.1 (development branch)
+- SOFAconvertConventions.m:
+	- bug fixed when converting from spherical harmonics to TF data
 - Conventions:
 	- AnnotatedEmitterAudio_0.2: bugs fixed
 	- AnnotatedReceiverAudio_0.2: bugs fixed
