@@ -67,6 +67,7 @@ Obj.ReceiverView = zeros(R,C,I);
 Obj.ReceiverUp = zeros(R,C,I);
 Obj.EmitterView = zeros(E,C,I);
 Obj.EmitterUp = zeros(E,C,I);
+Obj.RoomCornerA=[0 0 0];
 
 % Add ReceiverDescriptions as string array
 str={};

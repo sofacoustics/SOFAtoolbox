@@ -32,6 +32,7 @@ IR=[zeros(100,1); 1; zeros(N-100-1,1)];
 % Fill data with data
 M=length(lat1)*length(pol1);
 Obj.Data.IR = NaN(M,2,N); % data.IR must be [M R N]
+Obj.EmitterPosition_Units='metre';
 
 ii=1;
 for aa=1:length(lat1)
