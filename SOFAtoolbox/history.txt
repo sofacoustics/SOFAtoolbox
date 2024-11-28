@@ -23,8 +23,10 @@
 - demos:
 	- demo_FreeFieldHRTF: propagation of global metadata fixed, generated SOFA files contain the attribute Parents now
 	- demo_FreeFieldHRIR: EmitterPosition_Units fixed
-	- demo_SingleRoomMIMOSRIR: RoomCornerA fixed
+	- demo_SingleRoomMIMOSRIR: RoomCornerA and other variables fixed
 	- demo_SingleRoomSRIR: RoomCornerA fixed
+	- demo_SimpleFreeFieldHRIR2TF.m: database name fixed, SimpleFreeFieldHRTF file is saved
+	- demo_SingleRoomMIMOSRIR.m: variables fixed
 
 *** v2.2.0 (master branch)
 - version numbers fixed, branche merged with development branch

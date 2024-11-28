@@ -44,6 +44,7 @@ end
 %% Get a new SimpleFreeFieldTF conventions
 TF=SOFAgetConventions('SimpleFreeFieldHRTF');
 disp('Converting SimpleFreeFieldHRIR to SimpleFreeFieldHRTF');
+TF.GLOBAL_DatabaseName = 'SOFA Toolbox Demos'; 
 
 %% Copy variables and metadata
 TFempty=rmfield(TF,fieldnames(SOFAgetConventions('SimpleFreeFieldHRTF','r')));  % skip all read-only metadata
@@ -65,6 +66,12 @@ end
 
 %% Update dimensions
 TF=SOFAupdateDimensions(TF);
+
+%% Save
+SOFAfn=fullfile(SOFAdbPath,'sofatoolbox_test',['ARI_' ARIfile '_' subjectID '_SimpleFreeFieldHRTF.sofa']);
+disp(['Saving:   ' SOFAfn]);
+SOFAsave(SOFAfn,TF,compression);
+
 %% Plot figures
 if plotfigures==1
     PlotFigures(TF, 'HRTF', [', bins ' num2str(bins)])

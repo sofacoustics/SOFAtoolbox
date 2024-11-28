@@ -22,7 +22,7 @@ Obj = SOFAgetConventions(conventions);
 Obj.Data.IR=rand(4800,1);
 Obj.ListenerPosition=zeros(4800,3); Obj.ListenerPosition(:,1)=1;
 Obj.SourcePosition=zeros(4800,3); Obj.SourcePosition(:,2)=1;
-Obj.RoomCornerA=[0 0 0];
+Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
 
 % Add ReceiverDescriptions as string array
 str={};

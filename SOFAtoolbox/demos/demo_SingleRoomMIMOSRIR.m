@@ -67,7 +67,8 @@ Obj.ReceiverView = zeros(R,C,I);
 Obj.ReceiverUp = zeros(R,C,I);
 Obj.EmitterView = zeros(E,C,I);
 Obj.EmitterUp = zeros(E,C,I);
-Obj.RoomCornerA=[0 0 0];
+Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
+Obj = SOFAaddVariable(Obj,'EmitterView_Type','S','cartesian');
 
 % Add ReceiverDescriptions as string array
 str={};
@@ -75,6 +76,7 @@ for ii=1:R
   str{ii,1}=['String' num2str(round(rand(1,1)*10000))];
 end
 Obj = SOFAaddVariable(Obj,'ReceiverDescriptions','RSI',str);
+Obj.ReceiverPosition_Units = 'metre';
 
 % Add EmitterDescriptions as string array
 str={};
