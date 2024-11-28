@@ -23,9 +23,11 @@ end
 % SOFAaddVariable(Obj,Name,Dim,Value)
 hrtf2 = SOFAaddVariable(hrtf,'Test','MS',str);
 
-% Add a new string with dimensions [RSI]
-strn={'left ear'; 'right ear'};
-hrtf2 = SOFAaddVariable(hrtf2, 'ReceiverDescriptions', 'RSI', strn);
+% Add a new string with dimensions [RCS]. This example is for a 2D String.
+strn(:,1)={'left ear X'; 'right ear X'};
+strn(:,2)={'left ear Y'; 'right ear Y'};
+strn(:,3)={'left ear Z'; 'right ear Z'};
+hrtf2 = SOFAaddVariable(hrtf2, 'ReceiverDescriptions', 'RCS', strn);
 
 % Save as SOFA
 SOFAsave('stringtest_applicationvar.sofa',hrtf2);
@@ -33,12 +35,16 @@ SOFAsave('stringtest_applicationvar.sofa',hrtf2);
 hrtf = SOFAload('stringtest_applicationvar.sofa');
 % compare the strings
 if prod(strcmp(hrtf.Test,hrtf2.Test))
-    disp('SimpleFreeFieldHRIR: String Load-Reload: OK');
-    delete('stringtest_applicationvar.sofa');
+    disp('SimpleFreeFieldHRIR: String Load-Reload, Variable: Test: OK');
 else
-    error('String comparison showed differences');
+    error('String comparison showed differences in the variable: Test');
 end
-clear
+if prod(strcmp(hrtf.ReceiverDescriptions,hrtf2.ReceiverDescriptions))
+    disp('SimpleFreeFieldHRIR: String Load-Reload, Variable: ReceiverDescriptions: OK');
+else
+    error('String comparison showed differences in the variable: ReceiverDescriptions');
+end
+delete('stringtest_applicationvar.sofa');
 
 %% Test with conventions GeneralString (non-standardized convention, just for testing)
 % Create an empty object
@@ -53,9 +59,9 @@ for ii=1:15
   str2{ii,1}=['Left' id];
   str2{ii,2}=['Right' id];
 end
-Obj.String2 = str2;      % String1=[MRS]
-Obj.Data.String1 = str;  % Data.String1=[MS]
-Obj.Data.String2 = str2; % Data.String2=[MRS]
+Obj = SOFAaddVariable(Obj, 'String2', 'MRS', str2);      % String2=[MRS]
+Obj = SOFAaddVariable(Obj, 'Data.String1', 'MS', str);   % Data.String1=[MS]
+Obj = SOFAaddVariable(Obj, 'Data.String2', 'MRS', str2); % Data.String2=[MRS]
 
 % Add a new string with dimensions [RS]
 strn={'left ear'; 'right ear'};

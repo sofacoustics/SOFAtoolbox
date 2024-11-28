@@ -99,15 +99,15 @@ try
                         data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
                         s=size(data);
                         Obj.Data.(var(6:end))=cell(s(end:-1:2));
-                        data=reshape(reshape(data,1,[]),[s(2:end) s(1)]);
+                        data=permute(data,length(s):-1:1); % data=reshape(reshape(data,1,[]),[s(2:end) s(1)]);
                         for jj=1:s(2)
                             for kk=1:s(3)
-                                Obj.Data.(var(6:end))(kk,jj)=cellstr(squeeze(data(jj,kk,:))');
+                                Obj.Data.(var(6:end))(kk,jj)=cellstr(squeeze(data(kk,jj,:))'); % cellstr(squeeze(data(jj,kk,:))');
                             end
                         end
                     else % 1D string array
                         data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
-                        Obj.Data.(var(6:end))=deblank(cellstr(reshape(reshape(data,1,[]),size(data,2),[])));
+                        Obj.Data.(var(6:end))=deblank(cellstr(reshape(reshape(data,1,[]),[],size(data,2))'));
                     end
                 elseif length(dim)>1
                     Obj.Data.(var(6:end))=permute(netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1)), length(dim):-1:1); 
@@ -121,19 +121,19 @@ try
             dim=fliplr(cell2mat(dims(vardimids+1))');
             Obj.API.Dimensions.(var)=dim;
             if strfind(dim,'S')
-                if length(dim)>2  % 2D string arrays. ToDo: MdD string arrays
+                if length(dim)>2  % 2D string arrays only. ToDo: MdD string arrays
                     data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
                     s=size(data);
-                    Obj.(var)=cell(s(end:-1:2));
-                    data=reshape(reshape(data,1,[]),[s(2:end) s(1)]);
+                    Obj.(var)=cell(s(end:-1:2));                    
+                    data=permute(data,length(s):-1:1);
                     for jj=1:s(2)
                         for kk=1:s(3)
-                            Obj.(var)(kk,jj)=cellstr(squeeze(data(jj,kk,:))');
+                            Obj.(var)(kk,jj)=cellstr(squeeze(data(kk,jj,:))');
                         end
                     end
                 else % 1D string array
                     data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));
-                    Obj.(var)=deblank(cellstr(reshape(reshape(data,1,[]),size(data,2),[])));
+                    Obj.(var)=deblank(cellstr(reshape(reshape(data,1,[]),[],size(data,2))'));
                 end
             elseif length(dim)>1
                 Obj.(var)=permute(data, length(dim):-1:1); 
