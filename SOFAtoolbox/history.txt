@@ -15,12 +15,16 @@
 
 *** v2.2.1 (development branch)
 - SOFAload, SOFAsave: bug fix for "Error in writing and reading string variables #82"
+- SOFAconvertConventions: bug fixed when converting from spherical harmonics to TF data
 - Conventions:
 	- AnnotatedEmitterAudio_0.2: bugs fixed
 	- AnnotatedReceiverAudio_0.2: bugs fixed
 	- SingleRoomSRIR_1.1 added, based on SingleRoomSRIR_1.0
 - demos:
 	- demo_FreeFieldHRTF: propagation of global metadata fixed, generated SOFA files contain the attribute Parents now
+	- demo_FreeFieldHRIR: EmitterPosition_Units fixed
+	- demo_SingleRoomMIMOSRIR: RoomCornerA fixed
+	- demo_SingleRoomSRIR: RoomCornerA fixed
 
 *** v2.2.0 (master branch)
 - version numbers fixed, branche merged with development branch
