@@ -16,6 +16,7 @@
 *** v2.2.1 (development branch)
 - SOFAload, SOFAsave: bug fix for "Error in writing and reading string variables #82"
 - SOFAconvertConventions: bug fixed when converting from spherical harmonics to TF data
+- SOFAupdateDimensions.m: Octave compatibility fixed
 - Conventions:
 	- AnnotatedEmitterAudio_0.2: bugs fixed
 	- AnnotatedReceiverAudio_0.2: bugs fixed
