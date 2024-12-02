@@ -3,8 +3,8 @@ GLOBAL:Conventions	SOFA	rm	  	attribute
 GLOBAL:Version	2.1	rm	 	attribute	
 GLOBAL:SOFAConventions	General	rm	  	attribute	This conventions is for general purposes, i.e., only the SOFA general metadata are predefined.
 GLOBAL:SOFAConventionsVersion	1.0	rm	  	attribute	
-GLOBAL:DataType	FIR	m	  	attribute	It can be FIR, FIR-E, TF, TF-E, or SOS (see Annex C). 
-GLOBAL:RoomType	free field	m	  	attribute	It can be free field, reverberant, shoebox or dae (see Tab. 6).
+GLOBAL:DataType	FIR	m	  	attribute	It can be FIR, FIR-E, TF, TF-E, or SOS. 
+GLOBAL:RoomType	free field	m	  	attribute	It can be free field, reverberant, shoebox or dae.
 GLOBAL:Title		m		attribute	
 GLOBAL:DateCreated		m	 	attribute	
 GLOBAL:DateModified		m	 	attribute	

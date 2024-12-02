@@ -14,7 +14,7 @@ GLOBAL:History			 	attribute
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
 GLOBAL:Organization		m	  	attribute	
 GLOBAL:References				attribute	
-GLOBAL:RoomType	free field	m	  	attribute	It can be free field, reverberant, shoebox or dae (see Tab. 6).
+GLOBAL:RoomType	free field	m	  	attribute	It can be free field, reverberant, shoebox or dae.
 GLOBAL:Origin				attribute	
 GLOBAL:DateCreated		m	 	attribute	
 GLOBAL:DateModified		m	 	attribute	
