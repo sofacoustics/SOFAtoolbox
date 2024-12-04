@@ -4,6 +4,7 @@
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: '(demo_)plot_trumpet_directivity' added to this script (19.02.2022)
 % #Author: Michael Mihocic: check for AK tools improved, link updated (10.07.2023)
+% #Author: Michael Mihocic: output file created (04.12.2024)
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -38,6 +39,12 @@ for ii=1:length(fn)
     % set title
     title(strrep(char(fn(ii)),'_',' '));
     disp([' Figure ' num2str(ii) ' of ' num2str(length(fn))+1 ' plotted: ' strrep(char(fn(ii)),'_',' ')]);
+
+    % Obj=SOFAupgradeConventions(Obj);
+    if ii == 1 % save example file for examples database
+        Obj.GLOBAL_SOFAConventionsVersion='1.1';
+        SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',['FreeFieldDirectivityTF_' (Obj.GLOBAL_SOFAConventionsVersion) '.sofa']),Obj);
+    end
 end
 
 

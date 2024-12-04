@@ -2,6 +2,7 @@
 
 % #Author: Michael Mihocic
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: bug fixed (04.12.2024)
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -23,6 +24,7 @@ Obj.Data.IR=rand(4800,1);
 Obj.ListenerPosition=zeros(4800,3); Obj.ListenerPosition(:,1)=1;
 Obj.SourcePosition=zeros(4800,3); Obj.SourcePosition(:,2)=1;
 Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
+Obj = SOFAaddVariable(Obj,'RoomCornerB','IC',[1 1 1]);
 
 % Add ReceiverDescriptions as string array
 str={};

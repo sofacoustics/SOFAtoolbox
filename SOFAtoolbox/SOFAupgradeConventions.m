@@ -12,6 +12,7 @@ function [Obj,modified] = SOFAupgradeConventions(Obj)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: bug fixed when converting SingleRoomDRIR to SingleRoomSRIR or to MultiSpeakerBRIR, using 'spherical' ListenerView type (03.12.2024)
 %
 % SOFA Toolbox - function SOFAupgradeConventions
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -202,6 +203,14 @@ if ~modified
         ObjNew.ListenerUp=Obj.ListenerUp;
         ObjNew.ListenerView=Obj.ListenerView;
         ObjNew.ListenerView_Type=Obj.ListenerView_Type;
+        if isfield(Obj,'ListenerView_Units')
+            ObjNew.ListenerView_Units=Obj.ListenerView_Units;
+        else
+            switch ObjNew.ListenerView_Type
+                case {'spherical'}
+                    ObjNew.ListenerView_Units='degree, degree, metre';
+            end
+        end
         % ObjNew.SourceUp=Obj.SourceUp;
         % ObjNew.SourceView=Obj.SourceView;
         % ObjNew.SourceView_Type=Obj.SourceView_Type;
@@ -291,6 +300,14 @@ if ~modified
         ObjNew.ListenerUp=Obj.ListenerUp;
         ObjNew.ListenerView=Obj.ListenerView;
         ObjNew.ListenerView_Type=Obj.ListenerView_Type;
+        if isfield(Obj,'ListenerView_Units')
+            ObjNew.ListenerView_Units=Obj.ListenerView_Units;
+        else
+            switch ObjNew.ListenerView_Type
+                case {'spherical'}
+                    ObjNew.ListenerView_Units='degree, degree, metre';
+            end
+        end
         ObjNew.SourceUp=Obj.SourceUp;
         ObjNew.SourceView=Obj.SourceView;
         ObjNew.SourceView_Type=Obj.SourceView_Type;

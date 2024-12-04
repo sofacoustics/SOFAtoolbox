@@ -10,6 +10,7 @@
 % #Author: Michael Mihocic: minor bugs fixed (28.12.2021)
 % #Author: Piotr Majdak: fix the propagation of global metadata, using Parents now (26.11.2024)
 % #Author: Michael Mihocic: increased robustness of missing description fields (26.11.2024)
+% #Author: Michael Mihocic: output file names fixed (04.12.2024)
 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -101,7 +102,7 @@ end
 TF.N=(0:fs/2/IR.API.N:fs/2)';
   % updata dimensions and save
 TF=SOFAupdateDimensions(TF);
-SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_2_TF.sofa'),TF);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_2_SimpleFreeFieldHRTF.sofa'),TF);
 
 %% Plot median plane and horizontal planes for reference
 figure('Name',mfilename);

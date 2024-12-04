@@ -6,6 +6,7 @@
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: bugs fixed regarding variables ReceiverDescriptions and EmitterDescriptions; source files folder moved to data directory; some minor fixes (03.08.2022)
+% #Author: Michael Mihocic: bug fixed (04.12.2024)
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -68,6 +69,7 @@ Obj.ReceiverUp = zeros(R,C,I);
 Obj.EmitterView = zeros(E,C,I);
 Obj.EmitterUp = zeros(E,C,I);
 Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
+Obj = SOFAaddVariable(Obj,'RoomCornerB','IC',[1 1 1]);
 Obj = SOFAaddVariable(Obj,'EmitterView_Type','S','cartesian');
 
 % Add ReceiverDescriptions as string array
