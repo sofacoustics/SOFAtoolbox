@@ -3,7 +3,8 @@
 % upgrades the conventions and saves it as a new file in the local database.
 
 % #Author: Michael Mihocic: (23.12.2022)
-% #Author: Michael Mihocic: (10.07.2023): SOFAload: no checks added, source convention outdated
+% #Author: Michael Mihocic: SOFAload: no checks added, source convention outdated (10.07.2023)
+% #Author: Michael Mihocic: bugs fixed (10.12.2024)
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -22,6 +23,13 @@ Obj=SOFAload(['db://' fullfile('database',db,fn)],'nochecks');
 disp(['Old conventions: ' Obj.GLOBAL_SOFAConventions ' v' Obj.GLOBAL_SOFAConventionsVersion])
 [Obj,modified] = SOFAupgradeConventions(Obj);
 disp(['New conventions: ' Obj.GLOBAL_SOFAConventions ' v' Obj.GLOBAL_SOFAConventionsVersion])
+
+%% Fix some fields, add room parameters
+Obj.GLOBAL_RoomType = 'shoebox';
+Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
+Obj = SOFAaddVariable(Obj,'RoomCornerB','IC',[3 3 3]);
+Obj = SOFAaddVariable(Obj,'RoomCorner_Type','S','cartesian');
+Obj = SOFAaddVariable(Obj,'RoomCorner_Units','S','metre');
 
 %% save the SOFA file
 SOFAfn=fullfile([SOFAdbPath,'\','sofatoolbox_test','\',fn]);
