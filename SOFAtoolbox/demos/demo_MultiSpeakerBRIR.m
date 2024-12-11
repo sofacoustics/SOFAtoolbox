@@ -5,6 +5,7 @@
 % #Author: Michael Mihocic: (23.12.2022)
 % #Author: Michael Mihocic: SOFAload: no checks added, source convention outdated (10.07.2023)
 % #Author: Michael Mihocic: bugs fixed (10.12.2024)
+% #Author: Michael Mihocic: bugs fixed (11.12.2024)
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -28,8 +29,9 @@ disp(['New conventions: ' Obj.GLOBAL_SOFAConventions ' v' Obj.GLOBAL_SOFAConvent
 Obj.GLOBAL_RoomType = 'shoebox';
 Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
 Obj = SOFAaddVariable(Obj,'RoomCornerB','IC',[3 3 3]);
-Obj = SOFAaddVariable(Obj,'RoomCorner_Type','S','cartesian');
-Obj = SOFAaddVariable(Obj,'RoomCorner_Units','S','metre');
+Obj = SOFAaddVariable(Obj,'RoomCorners','I',0);
+Obj = SOFAaddVariable(Obj,'RoomCorners_Type','S','cartesian');
+Obj = SOFAaddVariable(Obj,'RoomCorners_Units','S','metre');
 
 %% save the SOFA file
 SOFAfn=fullfile([SOFAdbPath,'\','sofatoolbox_test','\',fn]);

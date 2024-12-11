@@ -8,6 +8,7 @@
 % #Author: Michael Mihocic: bugs fixed regarding variables ReceiverDescriptions and EmitterDescriptions; source files folder moved to data directory; some minor fixes (03.08.2022)
 % #Author: Michael Mihocic: bugs fixed (04.12.2024)
 % #Author: Michael Mihocic: bugs fixed (10.12.2024)
+% #Author: Michael Mihocic: bugs fixed (11.12.2024)
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -71,8 +72,9 @@ Obj.EmitterView = zeros(E,C,I);
 Obj.EmitterUp = zeros(E,C,I);
 Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
 Obj = SOFAaddVariable(Obj,'RoomCornerB','IC',[1 1 1]);
-Obj = SOFAaddVariable(Obj,'RoomCorner_Type','S','cartesian');
-Obj = SOFAaddVariable(Obj,'RoomCorner_Units','S','metre');
+Obj = SOFAaddVariable(Obj,'RoomCorners','I',0);
+Obj = SOFAaddVariable(Obj,'RoomCorners_Type','S','cartesian');
+Obj = SOFAaddVariable(Obj,'RoomCorners_Units','S','metre');
 Obj = SOFAaddVariable(Obj,'EmitterView_Type','S','cartesian');
 
 % Add ReceiverDescriptions as string array
