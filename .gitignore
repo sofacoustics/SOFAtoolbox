@@ -68,3 +68,11 @@
 /doc/AnnotatedEmitterAudio_0.2.txt
 /doc/AnnotatedReceiverAudio_0.2.txt
 /doc/SingleRoomSRIR_1.1.txt
+
+# General MAC files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
