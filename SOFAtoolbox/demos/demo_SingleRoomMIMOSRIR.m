@@ -9,6 +9,7 @@
 % #Author: Michael Mihocic: bugs fixed (04.12.2024)
 % #Author: Michael Mihocic: bugs fixed (10.12.2024)
 % #Author: Michael Mihocic: bugs fixed (11.12.2024)
+% #Author: Michael Mihocic: bugs fixed (13.01.2025)
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -76,6 +77,9 @@ Obj = SOFAaddVariable(Obj,'RoomCorners','I',0);
 Obj = SOFAaddVariable(Obj,'RoomCorners_Type','S','cartesian');
 Obj = SOFAaddVariable(Obj,'RoomCorners_Units','S','metre');
 Obj = SOFAaddVariable(Obj,'EmitterView_Type','S','cartesian');
+Obj = SOFAaddVariable(Obj,'EmitterView_Units','S','metre');
+Obj = SOFAaddVariable(Obj,'ReceiverView_Type','S','cartesian');
+Obj = SOFAaddVariable(Obj,'ReceiverView_Units','S','metre');
 
 % Add ReceiverDescriptions as string array
 str={};
