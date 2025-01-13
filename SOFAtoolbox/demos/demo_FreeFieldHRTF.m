@@ -11,6 +11,7 @@
 % #Author: Piotr Majdak: fix the propagation of global metadata, using Parents now (26.11.2024)
 % #Author: Michael Mihocic: increased robustness of missing description fields (26.11.2024)
 % #Author: Michael Mihocic: output file names fixed (04.12.2024)
+% #Author: Michael Mihocic: bugs fixed (13.01.2025)
 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -156,7 +157,9 @@ SH.GLOBAL_History = SOFAappendText(TFE, 'GLOBAL_History', 'Converted to Spherica
   % Update variables
 SH.EmitterPosition = [nan nan mean(TFE.EmitterPosition(:,3))];
 SH.EmitterPosition_Type = 'Spherical Harmonics';
-SH.EmitterPosition_Units = TFE.EmitterPosition_Units;  
+% SH.EmitterPosition_Units = TFE.EmitterPosition_Units;  
+SH.EmitterPosition_Units = 'meter';
+
   % Update dimensions
 Lmax=floor(sqrt(TFE.API.E)-1); % Max SH order
 L=min(33,Lmax); % don't go higher than 30th order
@@ -174,7 +177,7 @@ for ii=1:SH.API.R
 end
   % update dimensions and save
 SH = SOFAupdateDimensions(SH);
-SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_4_SH.sofa'),SH);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test','demo_FreeFieldHRTF_4_SH.sofa'),SH); % file is used for example file 'FreeFieldHRTF_1.0.sofa' on sofaconventions.org
 
 %% plot median and horizonal planes - spatially continuous
 figure('Name',mfilename);
@@ -252,7 +255,7 @@ azi=[zeros(length(elemin:1:90),1); 180*ones(length(89:-1:elemin),1); (1:355)'];
 radius=SH.EmitterPosition(:,3)*ones(size(ele));
 TFEint.EmitterPosition=[azi ele radius];
 TFEint.EmitterPosition_Type='spherical';
-TFEint.EmitterPosition_Units=SH.EmitterPosition_Units;
+% TFEint.EmitterPosition_Units=SH.EmitterPosition_Units;
 Sint = sph2SH(TFEint.EmitterPosition(:,1:2), L);
 TFEint.API.E=size(Sint,1);
 TFEint.Data.Real=zeros(1,2,TFEint.API.N,TFEint.API.E);
