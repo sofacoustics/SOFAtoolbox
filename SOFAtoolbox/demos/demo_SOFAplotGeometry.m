@@ -2,6 +2,7 @@
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: plotting of AnnotatedReceiverAudio SOFA files implemented (07.02.2025)
 % 
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -36,7 +37,7 @@ set(gcf, 'Name', mfilename);
 % SOFAplotGeometry(Obj);
 % set(gcf, 'Name', mfilename)
 
-% % remove all but one Receiver
+% remove all but one Receiver
 Obj.ReceiverPosition = [0 0.09 0];
 Obj.ReceiverPosition_Type = 'cartesian';
 Obj.Data.IR = Obj.Data.IR(:,1,:);
@@ -47,7 +48,7 @@ SOFAplotGeometry(Obj);
 title(['Geometry SimpleFreeFieldHRIR, ' num2str(Obj.API.R) ' receiver(s), ' num2str(Obj.API.M) ' position(s)'])
 set(gcf, 'Name', mfilename);
 
-% %% load a GeneralFIR SOFA file
+%% load a GeneralFIR SOFA file
 SOFAfile=fullfile(SOFAdbPath,'database', 'tu-berlin','FABIAN_CTF_modeled.sofa');
 Obj = SOFAload(SOFAfile);
 
@@ -55,18 +56,12 @@ SOFAplotGeometry(Obj);
 title(['Geometry GeneralFIR, ' num2str(Obj.API.R) ' receiver(s), ' num2str(Obj.API.M) ' position(s)'])
 set(gcf, 'Name', mfilename);
 
-% % %% load example with room geometry (outdated)
-% disp(['Loading: ' SOFAfile]);
-% SOFAfile = fullfile(SOFAdbPath,'sofatoolbox_test', 'Oldenburg_OfficeII.sofa');
-% Obj = SOFAload(SOFAfile);
-% 
-% SOFAplotGeometry(Obj);
-% set(gcf, 'Name', mfilename)
 
-% %% if exists try plotting SOFA file containing spherical harmonic emitter
-% if exist(fullfile(SOFAdbPath,'demo_SHforHRTFs_SH.sofa'))
-%    Obj =  SOFAload(fullfile(SOFAdbPath,'demo_SHforHRTFs_SH.sofa'));
-%     SOFAplotGeometry(Obj);
-% else
-%     error('Run demoSHforHRTFS.m first.')
-% end
+%% load a AnnotatedReceiverAudio SOFA file
+Obj=SOFAload('db://database/../examples/AnnotatedReceiverAudio_0.2.sofa');
+% SOFAfile=fullfile('T_subject_1_cond_2_trial_15.sofa');  % adapt path to SOFA file here !!!
+%  Download path... could be like: http://amtoolbox.org/amt-1.6.0/auxdata/mclachlan2024/
+% Obj=SOFAload(SOFAfile);
+SOFAplotGeometry(Obj);
+title(['Geometry AnnotatedReceiverAudio, ' num2str(Obj.API.R) ' receiver(s)'])
+set(gcf, 'Name', mfilename);
