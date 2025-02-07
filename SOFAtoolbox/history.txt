@@ -20,7 +20,9 @@
 	- header documentation: examples added
 - SOFAconvertConventions: bug fixed when converting from spherical harmonics to TF data
 - SOFAupdateDimensions.m: Octave compatibility fixed
-- SOFAupgradeConventions: Bug fixed when converting SingleRoomDRIR to SingleRoomSRIR or to MultiSpeakerBRIR
+- SOFAupgradeConventions: 
+	- bug fixed when converting SingleRoomDRIR to SingleRoomSRIR or to MultiSpeakerBRIR
+	- bug fixed when converting MultiSpeakerBRIR to SingleRoomMIMOSRIR, fixing conversions when SourcePosition and ListenerPosition are having dimension 'MC'
 - SOFAplotGeometry: support of AnnotatedReceiverAudio SOFA files implemented
 - Conventions:
 	- AnnotatedEmitterAudio_0.2: bugs fixed
