@@ -15,6 +15,10 @@ function Obj = SOFAload(fn,varargin)
 %   'db://' or with that defined by SOFAdbPath, then it will be loaded
 %   from the SOFA local database. If not found, it will be downloaded 
 %   from the remote internet repository given by SOFAdbURL. 
+% 
+%   Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']);
+%       loads a SOFA object from the remote local repository (if available),
+%       otherwise it downloads the file from the the remote internet repository.
 %
 %   Obj = SOFAload(fn,'nodata') loads metadata only (variables and attributes)
 %   and ignores the "Data." variables. This is especially useful when fn 
@@ -35,6 +39,7 @@ function Obj = SOFAload(fn,varargin)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: header documentation: examples added (07.02.2025)
 %
 % SOFA Toolbox - function SOFAload
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
