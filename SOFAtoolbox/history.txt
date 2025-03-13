@@ -20,6 +20,9 @@
 - SOFAupdateDimensions.m: Octave compatibility fixed
 - SOFAupgradeConventions: Bug fixed when converting SingleRoomDRIR to SingleRoomSRIR or to MultiSpeakerBRIR
 - SOFAplotGeometry: support of AnnotatedReceiverAudio SOFA files implemented
+- SOFAnormalize.m added: applies normalization to HRTF SOFA files
+- Converters:
+	- SOFAhrtf2dtf.m: method 'bahu2025' implemented
 - Conventions:
 	- AnnotatedEmitterAudio_0.2: bugs fixed
 	- AnnotatedReceiverAudio_0.2: bugs fixed
@@ -32,6 +35,7 @@
 	- demo_SimpleFreeFieldHRIR2TF.m: database name fixed, SimpleFreeFieldHRTF file is saved
 	- demo_SingleRoomMIMOSRIR.m: a few variables fixed
 	- demo_SOFAplotGeometry.m: support of AnnotatedReceiverAudio SOFA files prepared; requires download link and uncommenting
+	- demo_SOFAnormalize.m added: Demo script applying normalization to HRTF SOFA files, using SOFAnormalize. Based on test script by Helene Bahu.
 
 *** v2.2.0 (master branch)
 - version numbers fixed, branche merged with development branch
