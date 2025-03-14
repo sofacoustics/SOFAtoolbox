@@ -1,5 +1,5 @@
 function [norm_S, param_S] = SOFAnormalize(ori_S, param_S)
-%SOFAnormalize - Apply normalization to HRTF SOFA files.
+%SOFAnormalize - Apply normalization to HRTF measurements (SOFA files).
 %   Usage: [norm_S, param_S] = SOFAnormalize(ori_S, param_S)
 %
 %   SOFAnormalize applis a normalization to SOFA files, consisting six steps:
@@ -18,8 +18,8 @@ function [norm_S, param_S] = SOFAnormalize(ori_S, param_S)
 %       param_S.default_Fs_f      = 48000;
 %       param_S.do_lp_b           = 1; % low-pass filtering at cutoff frequency 'cutfreq_f' (Hz)
 %       param_S.cutfreq_f         = 18000;
-%       param_S.do_talign_b       = 1; % time align frontal HRIR's onset to reference time mark 'talign_f' (sec)
-%       param_S.talign_f          = 0.001;
+%       param_S.do_talign_b       = 1; % time align frontal HRIR's onset to reference time mark 'talignSec_f' (sec)
+%       param_S.talignSec_f       = 0.001;
 %       param_S.threshold_f       = 20; % HRIRs onset is detected as the last point prior to and below -threshold_f (dB) of HRIR peak.
 %       param_S.do_win_b          = 1; % HRIRs windowing with window length 'windowLengthSec_f' (sec), starting at HRIRs first onset minus
 %                                      % 'safety_f' (sec), including half-Hann fade-in of 'fadeIn_f' (sec) and half-Hann fade-out of 'fadeOut_f' (sec).
@@ -27,7 +27,7 @@ function [norm_S, param_S] = SOFAnormalize(ori_S, param_S)
 %       param_S.fadeIn_f          = 0.00025;
 %       param_S.safety_f          = param_S.fadeIn_f;
 %       param_S.fadeOut_f         = 0.001;
-%       param_S.do_zp_b           = 0; % zero-padding to 'targetLengthSec_f' (sec)
+%       param_S.do_resize_b       = 0; % set HRIR length to 'targetLengthSec_f' (sec) by zero-padding or cutting the HRIRs
 %       param_S.targetLengthSec_f = param_S.windowLengthSec_f*2;
 %       param_S.do_eq_b           = 1; % diffuse-field equalization w. option 'eqfiltFlatten_b' (0 or 1) to flatten the filter at high frequencies
 %       param_S.eqfiltFlatten_b   = 1;
@@ -41,6 +41,7 @@ function [norm_S, param_S] = SOFAnormalize(ori_S, param_S)
 
 % #Author: Helene Bahu: creation of script HRTF_normalization_v1 (11.03.2025)
 % #Author: Michael Mihocic: delayseq substituted (dependance on Phased Array Toolbox), adaptions to SOFA Toolbox, header's format updated (12.03.2025)
+% #Author: Helene Bahu: functions updated (13.03.2025)
 
 % #Reference:  H. Bahu, T. Carpentier, M. Noisternig, O. Warusfel, J.-M. Jot, M. Mihocic, and P. Majdak. "Towards an improved consistency between databases of head-related transfer functions." JAES, 2025.
 
@@ -148,7 +149,9 @@ if param_S.do_lp_b
 
     % To guarantee the same filter regardless of Fs, adapt filter length to Fs
     deltaF = 512/96000;
-    firLength_n = round( deltaF*Fs_f );
+    %firLength_n = round( deltaF*Fs_f );
+    firLengthTemp_n = deltaF*Fs_f;
+    firLength_n = 2*floor( firLengthTemp_n/2 )+1;% round to nearest odd number to have a centered filter peak
 
     % Linear-phase FIR design using firls
     cutoff        = param_S.cutfreq_f;
@@ -167,7 +170,7 @@ if param_S.do_lp_b
     filtLag_f       = -P(1)/(2*pi);% sec
 
     % Zero-padd HRIRs by filter lag
-    filtLag_n   = round( filtLag_f*Fs_f );% samples
+    filtLag_n   = floor( filtLag_f*Fs_f );% samples
     l_hrir_zp_m = [ l_hrir_m zeros( numDir_n, filtLag_n ) ];
     r_hrir_zp_m = [ r_hrir_m zeros( numDir_n, filtLag_n ) ];
 
@@ -179,23 +182,28 @@ if param_S.do_lp_b
     % l_hrir_lc_m = zeros( size( l_hrir_filt_m ) );
     % r_hrir_lc_m = zeros( size( r_hrir_filt_m ) );
     % for ii = 1 : numDir_n
-    %     l_hrir_lc_m(ii,:) = delayseq( l_hrir_filt_m(ii,:).', -filtLag_n ); % delayseq requires the Phased Array Toolbox
+    %     l_hrir_lc_m(ii,:) = delayseq( l_hrir_filt_m(ii,:).', -filtLag_n );
     %     r_hrir_lc_m(ii,:) = delayseq( r_hrir_filt_m(ii,:).', -filtLag_n );
     % end
 
-    l_hrir_lc_m = zeros(size(l_hrir_filt_m)); % Preallocate for efficiency
+    % alternative, getting rid of delayseq:
+    % Preallocate output matrices
+    l_hrir_lc_m = zeros(size(l_hrir_filt_m));
     r_hrir_lc_m = zeros(size(r_hrir_filt_m));
 
-    shift = -round(filtLag_n); % Convert negative lag to positive shift
+    % Convert delay to integer
+    shift = round(-filtLag_n); % Negative to match delayseq behavior
+
+    % Apply integer delay using slicing (vectorized)
     if shift >= 0
+        l_hrir_lc_m(:, shift+1:end) = l_hrir_filt_m(:, 1:end-shift);
+        r_hrir_lc_m(:, shift+1:end) = r_hrir_filt_m(:, 1:end-shift);
+    else
+        shift = abs(shift);
         l_hrir_lc_m(:, 1:end-shift) = l_hrir_filt_m(:, shift+1:end);
         r_hrir_lc_m(:, 1:end-shift) = r_hrir_filt_m(:, shift+1:end);
-    else
-        l_hrir_lc_m(:, -shift+1:end) = l_hrir_filt_m(:, 1:end+shift);
-        r_hrir_lc_m(:, -shift+1:end) = r_hrir_filt_m(:, 1:end+shift);
     end
-
-
+    % end of alternative
 
 
     l_hrir_lp_m = l_hrir_lc_m( :, 1:numSamples_n );
@@ -219,7 +227,10 @@ if param_S.do_talign_b
     norm_S.Data.IR = [];
 
     % Reference time mark in samples
-    ref_time_smp_n = param_S.talign_f*Fs_f;
+    ref_time_smp_n = param_S.talignSec_f*Fs_f;
+
+    % Make sure HRIR is longer than reference time mark + 1ms
+    assert( numSamples_n > ref_time_smp_n+(0.001*Fs_f), 'As designed, time alignment will truncate the HRIRs. Zero-padd HRIRs or modify parameter talignSec_f.' )
 
     % Index of frontal direction
     iFront_n = find( round( sphPos_m(:,1), 1 ) == 0 & round( sphPos_m(:,2), 1 ) == 0 );
@@ -238,8 +249,9 @@ if param_S.do_talign_b
     % first onset at frontal direction (btw left and right)
     first_onset_front_n = local_detect_first_onset( front_S, param_S.threshold_f );
 
-    % compute time delay
+    % compute time delay (may be positive or negative)
     tshift_n = round( ref_time_smp_n - first_onset_front_n );
+    assert( abs( tshift_n ) < numSamples_n )
 
     % % Apply delay
     % l_hrir_delayed_m = zeros( numDir_n, numSamples_n );
@@ -250,6 +262,8 @@ if param_S.do_talign_b
     %     l_hrir_delayed_m( ii, : ) = delayseq( l_hrir_v.', tshift_n );% column vector
     %     r_hrir_delayed_m( ii, : ) = delayseq( r_hrir_v.', tshift_n );
     % end
+
+    % alternative to get rid of delayseq
     % Preallocate output matrices
     l_hrir_delayed_m = zeros(size(l_hrir_m));
     r_hrir_delayed_m = zeros(size(r_hrir_m));
@@ -268,6 +282,9 @@ if param_S.do_talign_b
     end
 
 
+    % end of alternative
+
+
     % Save in norm_S
     norm_S.Data.IR( :, 1, : ) = l_hrir_delayed_m;
     norm_S.Data.IR( :, 2, : ) = r_hrir_delayed_m;
@@ -283,8 +300,8 @@ if param_S.do_win_b
     l_hrir_m = squeeze( norm_S.Data.IR( :, 1, : ));
     r_hrir_m = squeeze( norm_S.Data.IR( :, 2, : ));
 
-    % Window length in samples (round to nearest even number)
-    windowLength_n = 2*round( param_S.windowLengthSec_f*Fs_f/2 );
+    % Window length in samples
+    windowLength_n = round( param_S.windowLengthSec_f*Fs_f );
 
     % TOA estimation (using threshold method) to identify first onset
     first_onset_n = local_detect_first_onset( norm_S, param_S.threshold_f );
@@ -294,8 +311,8 @@ if param_S.do_win_b
     first_onset_n = max( first_onset_n-safety_n, 1 );
 
     % Windowing
-    fadeInSmp_n     = round( param_S.fadeIn_f*Fs_f );% 0.25ms = 11 samples at 44.1
-    fadeOutSmp_n    = round( param_S.fadeOut_f*Fs_f );% 1ms = 44 samples at 44.1
+    fadeInSmp_n     = round( param_S.fadeIn_f*Fs_f );
+    fadeOutSmp_n    = round( param_S.fadeOut_f*Fs_f );
     hannWinFadIn_v  = hann( fadeInSmp_n*2 );
     hannWinFadOut_v = hann( fadeOutSmp_n*2 );
     onesLength_n    = windowLength_n-fadeInSmp_n-fadeOutSmp_n;
@@ -303,36 +320,16 @@ if param_S.do_win_b
 
     % Apply window
     norm_S.Data.IR = zeros( numDir_n, 2, numSamples_n );
-    if numSamples_n < first_onset_n + windowLength_n
+    if numSamples_n >= first_onset_n + windowLength_n
+        norm_S.Data.IR( :, 1, first_onset_n : first_onset_n + windowLength_n-1 ) = l_hrir_m( :, first_onset_n : first_onset_n + windowLength_n-1 ).*window_v;
+        norm_S.Data.IR( :, 2, first_onset_n : first_onset_n + windowLength_n-1 ) = r_hrir_m( :, first_onset_n : first_onset_n + windowLength_n-1 ).*window_v;
+    else
         norm_S.Data.IR( :, 1, first_onset_n : numSamples_n ) = l_hrir_m( :, first_onset_n : numSamples_n ).*window_v(1:numSamples_n-first_onset_n+1);
         norm_S.Data.IR( :, 2, first_onset_n : numSamples_n ) = r_hrir_m( :, first_onset_n : numSamples_n ).*window_v(1:numSamples_n-first_onset_n+1);
-    elseif numSamples_n >= first_onset_n + windowLength_n
-        norm_S.Data.IR( :, 1, first_onset_n : first_onset_n + windowLength_n-1 ) = l_hrir_m( :, first_onset_n : first_onset_n + windowLength_n-1 ).*window_v;% first sample = onset, cut at window length
-        norm_S.Data.IR( :, 2, first_onset_n : first_onset_n + windowLength_n-1 ) = r_hrir_m( :, first_onset_n : first_onset_n + windowLength_n-1 ).*window_v;
     end
 
-    % Zero-padding
-    if param_S.do_zp_b
-
-        % Target length in samples (round to nearest even number)
-        targetLength_n = 2*round( param_S.targetLengthSec_f*Fs_f/2 );
-
-        % Initialize
-        l_hrir_m = squeeze( norm_S.Data.IR(:,1,:));
-        r_hrir_m = squeeze( norm_S.Data.IR(:,2,:));
-        norm_S.Data.IR = [];
-
-        if targetLength_n < numSamples_n % cut
-            norm_S.Data.IR(:,1,:) = l_hrir_m(:,1:targetLength_n);
-            norm_S.Data.IR(:,2,:) = r_hrir_m(:,1:targetLength_n);
-        elseif targetLength_n >= numSamples_n % zero-padd
-            norm_S.Data.IR(:,1,:) = [ l_hrir_m zeros( numDir_n, targetLength_n-numSamples_n ) ];
-            norm_S.Data.IR(:,2,:) = [ r_hrir_m zeros( numDir_n, targetLength_n-numSamples_n ) ];
-        end
-        assert( size(norm_S.Data.IR,3) == targetLength_n )
-        numSamples_n = targetLength_n;
-
-    elseif numSamples_n < windowLength_n % if IR is shorter than window duration 5.8ms
+    % Zero-padding if HRIRs are shorter than window length
+    if numSamples_n < windowLength_n
 
         % Initialize
         l_hrir_m = squeeze( norm_S.Data.IR(:,1,:));
@@ -345,6 +342,30 @@ if param_S.do_win_b
         assert( size(norm_S.Data.IR,3) == windowLength_n )
         numSamples_n = windowLength_n;
     end
+end
+
+%%% Set HRIRs length to targetLengthSec_f (zero-padd or cut)
+
+if param_S.do_resize_b
+
+    % Target length in samples
+    targetLength_n = round( param_S.targetLengthSec_f*Fs_f );
+
+    % Initialize
+    l_hrir_m = squeeze( norm_S.Data.IR(:,1,:));
+    r_hrir_m = squeeze( norm_S.Data.IR(:,2,:));
+    norm_S.Data.IR = [];
+
+    if targetLength_n < numSamples_n % cut
+        norm_S.Data.IR(:,1,:) = l_hrir_m(:,1:targetLength_n);
+        norm_S.Data.IR(:,2,:) = r_hrir_m(:,1:targetLength_n);
+    elseif targetLength_n >= numSamples_n % zero-padd
+        norm_S.Data.IR(:,1,:) = [ l_hrir_m zeros( numDir_n, targetLength_n-numSamples_n ) ];
+        norm_S.Data.IR(:,2,:) = [ r_hrir_m zeros( numDir_n, targetLength_n-numSamples_n ) ];
+    end
+    assert( size(norm_S.Data.IR,3) == targetLength_n )
+    numSamples_n = targetLength_n;
+
 end
 
 
@@ -388,7 +409,7 @@ if param_S.do_eq_b
         r_hrirVoronoi_m( iOutsideSph_v, : ) = [];
     end
 
-    %  weights
+    % Voronoi weights
     surfaces_v = local_voronoi( cartPosVoronoi_m );
     weights_norm_v = surfaces_v./sum(surfaces_v);% normalize weights
 
@@ -419,10 +440,10 @@ if param_S.do_eq_b
 
 
         % frequency limits
-        lowFreqFl_f  = 250;
+        lowFreq_f  = 250;
         highFreq_f = 16000;
         highFreqBound_n = 18000; % frequency at which DF eq filt = mean_mag
-        [ ~, iLowfreq_n ]  = min( abs( freq_v - lowFreqFl_f ));
+        [ ~, iLowfreq_n ]  = min( abs( freq_v - lowFreq_f ));
         [ ~, iHighfreq_n ] = min( abs( freq_v - highFreq_f ));
         [ ~, iHighfreqBound_n ] = min( abs( freq_v - highFreqBound_n ));
         freqInd_v          = iHighfreq_n:iHighfreqBound_n;
@@ -488,7 +509,13 @@ if param_S.do_LFext_b
     norm_S.Data.IR = [];
 
     % low freq limit
-    freq_v = linspace( 0, Fs_f/2, numSamples_n/2+1 );
+    is_even_b = ~mod( numSamples_n, 2 );
+    if is_even_b
+        upper_sample_n = numSamples_n/2+1;
+    else
+        upper_sample_n = ceil(numSamples_n/2);
+    end
+    freq_v = linspace( 0, Fs_f/2, upper_sample_n );
     [ ~, iLowfreq_n ] = min( abs( freq_v - param_S.lowFreq_f ));
 
     % FFT
@@ -503,16 +530,16 @@ if param_S.do_LFext_b
     l_mag_flat_m = l_mag_noflat_m;
     r_mag_flat_m = r_mag_noflat_m;
 
-    % Get SHM gain at LF
+    % Get SHM gain at LF for each direction
     freqInd_v = 1:iLowfreq_n;
-    [ l_hrir_shm_m, r_hrir_shm_m ] = local_get_shm( sphPos_m, numSamples_n, Fs_f );
-    l_hrtf_shm_m = fft( l_hrir_shm_m, numSamples_n, 2 );
-    r_hrtf_shm_m = fft( r_hrir_shm_m, numSamples_n, 2 );
-
-    % loop on directions
     for ii = 1 : numDir_n
-        l_DCtarg_f = abs( l_hrtf_shm_m(ii,2) );% SHM(DC)=1 by default
-        r_DCtarg_f = abs( r_hrtf_shm_m(ii,2) );
+
+        [ l_hrir_shm_v, r_hrir_shm_v ] = local_get_shm( sphPos_m(ii,:), numSamples_n, Fs_f );
+        l_hrtf_shm_v = fft( l_hrir_shm_v, numSamples_n, 2 );
+        r_hrtf_shm_v = fft( r_hrir_shm_v, numSamples_n, 2 );
+
+        l_DCtarg_f = abs( l_hrtf_shm_v(2) );% SHM(DC)=1 by default
+        r_DCtarg_f = abs( r_hrtf_shm_v(2) );
 
         % linear interpolation to SHM gain
         l_mag_flat_m( ii, freqInd_v ) = interp1( [ 1, iLowfreq_n ], [ l_DCtarg_f l_mag_noflat_m( ii, iLowfreq_n ) ], freqInd_v ); % 'makima'
@@ -583,6 +610,14 @@ if param_S.do_dist_b
     norm_S.Data.IR( :, 2, : ) = r_hrir_corr_m;
 
 end
+
+
+% Add comment in SOFA GLOBAL_History field
+norm_S.GLOBAL_History = [ norm_S.GLOBAL_History ' ↵ Normalized according to Bahu et al. (2025)' ];
+
+% Update number of samples in SOFA API field
+norm_S.API.N = numSamples_n;
+
 end
 
 
@@ -598,11 +633,11 @@ param_S.do_resamp_b    = 0; param_S.default_Fs_f = 48000; % frequency resampling
 
 param_S.do_lp_b        = 1; param_S.cutfreq_f = 18000; % low-pass filtering
 
-param_S.do_talign_b    = 1; param_S.talign_f = 0.001; param_S.threshold_f = 20; % time align frontal HRIR to reference time mark
+param_S.do_talign_b    = 1; param_S.talignSec_f = 0.001; param_S.threshold_f = 20; % time align frontal HRIR to reference time mark
 
 param_S.do_win_b       = 1; param_S.windowLengthSec_f = 0.0058; param_S.fadeIn_f = 0.00025; param_S.safety_f = param_S.fadeIn_f; param_S.fadeOut_f = 0.001; param_S.threshold_f = 20; % HRIR windowing
 
-param_S.do_zp_b        = 0; param_S.targetLengthSec_f = param_S.windowLengthSec_f*2; % zero-padding
+param_S.do_resize_b    = 0; param_S.targetLengthSec_f = param_S.windowLengthSec_f*2; % set HRIR length to target length (zero-padd or cut)
 
 param_S.do_eq_b        = 1; param_S.eqfiltFlatten_b = 1; % diffuse-field equalization
 
@@ -623,7 +658,7 @@ assert( param_S.do_resamp_b == 0 | param_S.do_resamp_b == 1, 'Parameter do_resam
 assert( param_S.do_lp_b == 0 | param_S.do_lp_b == 1, 'Parameter do_lp_b should be a boolean.' )
 assert( param_S.do_talign_b == 0 | param_S.do_talign_b == 1, 'Parameter do_talign_b should be a boolean.' )
 assert( param_S.do_win_b == 0 | param_S.do_win_b == 1, 'Parameter do_win_b should be a boolean.' )
-assert( param_S.do_zp_b == 0 | param_S.do_zp_b == 1, 'Parameter do_zp_b should be a boolean.' )
+assert( param_S.do_resize_b == 0 | param_S.do_resize_b == 1, 'Parameter do_resize_b should be a boolean.' )
 assert( param_S.do_eq_b == 0 | param_S.do_eq_b == 1, 'Parameter do_eq_b should be a boolean.' )
 assert( param_S.do_LFext_b == 0 | param_S.do_LFext_b == 1, 'Parameter do_LFext_b should be a boolean.' )
 assert( param_S.do_dist_b == 0 | param_S.do_dist_b == 1, 'Parameter do_dist_b should be a boolean.' )
@@ -632,14 +667,13 @@ assert( param_S.eqfiltFlatten_b == 0 | param_S.eqfiltFlatten_b == 1, 'Parameter 
 % Define reasonable bounds for normalization parameters
 assert( param_S.default_Fs_f >= 8000 & param_S.default_Fs_f <= 192000 , 'Invalid sampling rate default_Fs_f (Hz).' )
 assert( param_S.cutfreq_f >= 100 & param_S.cutfreq_f <= param_S.default_Fs_f/2, 'Invalid cutoff frequency cutfreq_f (Hz).' )
-assert( param_S.talign_f >= 0 & param_S.talign_f <= 0.005, 'Invalid reference time mark talign_f (sec).' )
+assert( param_S.talignSec_f >= 0 & param_S.talignSec_f <= 0.005, 'Invalid reference time mark talignSec_f (sec).' )
 assert( param_S.windowLengthSec_f >= 0.001 & param_S.windowLengthSec_f <= 2, 'Invalid window length windowLengthSec_f (sec).' )
 assert( param_S.fadeIn_f >= 0 & param_S.fadeIn_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter fadeIn_f (sec).' )
 assert( param_S.fadeOut_f >= 0 & param_S.fadeOut_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter fadeOut_f (sec).' )
 assert( param_S.safety_f >= 0 & param_S.safety_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter safety_f (sec).' )
-assert( param_S.threshold_f >= 0 & param_S.threshold_f <= 100, 'Invalid onset detection parameter threshold_f (dB).' )
 assert( param_S.threshold_f >= 0 & param_S.threshold_f <= 100, 'Invalid onset detection parameter threshold_f (sec).' )
-assert( param_S.targetLengthSec_f >= param_S.windowLengthSec_f & param_S.targetLengthSec_f <= 0.02, 'Invalid zero-padding parameter targetLengthSec_f (sec).' )
+assert( param_S.targetLengthSec_f >= 0.001 & param_S.targetLengthSec_f <= 0.02, 'Invalid resize parameter targetLengthSec_f (sec).' )
 assert( param_S.lowFreq_f >= 0 & param_S.lowFreq_f <= 2000, 'Invalid low-frequency extension parameter lowFreq_f (Hz).' )
 end
 
@@ -697,6 +731,7 @@ end
 
 [ minOnsetDir_v, iDirFirstOnsetEars_v ] = min( onset_m, [], 1 );
 [ first_onset_n, iEar_n ] = min( minOnsetDir_v );
+assert( first_onset_n >= 0 )
 iDirFirstOnset_n = iDirFirstOnsetEars_v( iEar_n );
 end
 
@@ -837,16 +872,15 @@ hrtf_m = mag_all_bins_m .* exp( 1i * phase_unwrap_m );
 
 end
 
-function [ l_hrir_shm_m, r_hrir_shm_m ] = local_get_shm( sphPos_m, numSamples_n, Fs )
+function [ l_hrir_shm_v, r_hrir_shm_v ] = local_get_shm( sphPos_v, numSamples_n, Fs )
 
-% Get Spherical Head Model HRTF
-% Input:  - sphPos_m: sphercial coordinates where to compute SHM [ numDir_n x 3 ]
+% Get left and right Spherical Head Model HRTFs at one direction
+% Input:  - sphPos_v: sphercial coordinates of the point where to compute SHM [ az, el, dist ]
 %         - numSamples_n: number of samples of SHM impulse responses
 %         - Fs: sampling frequency (Hz)
-% Output: - l_hrir_shm_m, r_hrir_shm_m: Left and right SHM impulse response matrices [ numDir_n x numSamples_n ]
+% Output: - l_hrir_shm_v, r_hrir_shm_v: Left and right SHM impulse responses [ 1 x numSamples_n ]
 
-assert( size( sphPos_m, 2 ) == 3 )
-numDir_n = size( sphPos_m, 1 );
+assert( size( sphPos_v, 1 ) == 1, size( sphPos_v, 2 ) == 3 )
 
 % Default parameters of the SHM
 symmetric_ears_v = [90 0];
@@ -854,24 +888,20 @@ radius_f = 0.087;
 Nsh = 100;
 
 % verify distance is unique
-dist_v = round( sphPos_m(:,3), 3 );
+dist_v = round( sphPos_v(:,3), 3 );
 uniqDist_f = unique( dist_v );
 if ~isscalar( uniqDist_f )
     warning([ 'The input SOFA file contains ' num2str(length( uniqDist_f )) ' distances. Only one distance is considered for SHM calculation (in low-frequency extension).' ])
 end
 dist_f = mode( dist_v );
-
 % Compute SHM impulse responses
-[ hrir_shm_m ] = local_shm( sphPos_m, symmetric_ears_v, radius_f, dist_f, Nsh, numSamples_n, Fs );
+dist_f = sphPos_v(3);
+[ hrir_shm_m ] = local_shm( sphPos_v, symmetric_ears_v, radius_f, dist_f, Nsh, numSamples_n, Fs );
 
-% Rearrange matrices
-l_hrir_shm_m = zeros( numDir_n, numSamples_n );
-r_hrir_shm_m = zeros( numDir_n, numSamples_n );
-assert( size( hrir_shm_m, 1 ) == numSamples_n & size( hrir_shm_m, 2 ) == numDir_n )
-for ii = 1 : numDir_n
-    l_hrir_shm_m(ii,:) = hrir_shm_m( :, ii, 1 );
-    r_hrir_shm_m(ii,:) = hrir_shm_m( :, ii, 2 );
-end
+% Prepare output vectors
+assert( size( hrir_shm_m, 1 ) == numSamples_n & size( hrir_shm_m, 2 ) == 1 & size( hrir_shm_m, 3 ) == 2 )
+l_hrir_shm_v = squeeze( hrir_shm_m( :, 1, 1 )).';
+r_hrir_shm_v = squeeze( hrir_shm_m( :, 1, 2 )).';
 
 end
 
@@ -888,14 +918,10 @@ function [ l_diff_filt_mag_v, r_diff_filt_mag_v ] = local_design_diff_filter( az
 assert( isscalar( az ), 'provide only one direction' )
 assert( length(az) == length(el) & length(az) == length(measured_dist_f) )
 
-% Default parameters of the SHM
+% Get far-field SHM HRIR
 FF_dist = 100;
-symmetric_ears_v = [90 0];
-radius_f = 0.087;
-Nsh = 100;
-
-% Compute reference far-field SHM magnitude
-h = local_shm( [ az, el, FF_dist ], symmetric_ears_v, radius_f, FF_dist, Nsh, numSamples_n, Fs );% h is [ numSamples_n x 1 x 2 ]
+h = local_shm( [ az, el, FF_dist ], [90 0], 0.087, FF_dist, 100, numSamples_n, Fs );% h is [ numSamples_n x 1 x 2 ]
+[ l_hrir_ff_v, r_hrir_ff_v ] = local_get_shm([ az, el, FF_dist ], numSamples_n, Fs );
 
 l_hrir_ff_v = squeeze( h( :, 1, 1 )).';
 r_hrir_ff_v = squeeze( h( :, 1, 2 )).';
@@ -909,11 +935,8 @@ r_mag_ff_v = local_phase_decompo( r_hrtf_ff_v );
 l_mag_ff_v(1) = l_mag_ff_v(2);
 r_mag_ff_v(1) = r_mag_ff_v(2);
 
-% Compute near-field SHM magnitude
-h = local_shm( [ az, el, measured_dist_f ], symmetric_ears_v, radius_f, measured_dist_f, Nsh, numSamples_n, Fs );
-
-l_hrir_nf_v = squeeze( h( :, 1, 1 )).';
-r_hrir_nf_v = squeeze( h( :, 1, 2 )).';
+% Get near-field SHM HRIR
+[ l_hrir_nf_v, r_hrir_nf_v ] = local_get_shm([ az, el, measured_dist_f ], numSamples_n, Fs );
 
 l_hrtf_nf_v = fft( l_hrir_nf_v );
 r_hrtf_nf_v = fft( r_hrir_nf_v );
@@ -1141,9 +1164,9 @@ end
 upper_sample_n = size( H, 1 );
 is_even_b = ~mod( Nsamples, 2 );
 if is_even_b
-    H = [ H; H( upper_sample_n-1:-1:2, : )];
+    H = [ H; conj( H( upper_sample_n-1:-1:2, : ))];
 else
-    H = [ H; H( upper_sample_n:-1:2, : )];
+    H = [ H; conj( H( upper_sample_n:-1:2, : ))];
 end
 
 % get the impuse responses
