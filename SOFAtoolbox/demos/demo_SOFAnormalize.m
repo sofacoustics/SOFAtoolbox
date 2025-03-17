@@ -2,6 +2,8 @@
 
 % #Author: Helene Bahu: creation of test script (11.03.2025)
 % #Author: Michael Mihocic: adaptions to SOFA Toolbox, header's format updated (12.03.2025)
+% #Author: Helene Bahu: demo script adapted to plot meaningful data (as per Bahu2025 paper) (17.03.2025)
+% #Author: Michael Mihocic: minor adaptions to fit SOFA Toolbox (17.03.2025)
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Helene Bahu, helenebahu(at)gmail.com; Michael Mihocic, Acoustics Research Institute - Austrian Academy of Sciences
@@ -35,8 +37,11 @@ SofaFiles = {...
     'clubfritz/ClubFritz10.sofa',...
     'clubfritz/ClubFritz11.sofa',...
     'clubfritz/ClubFritz12.sofa',...
-    'bili (dtf)/IRC_1131_C_HRIR_96000.sofa',...
-    % 'ari/dtf b_nh6.sofa',... % caused an error
+    'bili (hrtf)/IRC_1130_R_HRIR_96000.sofa',...
+    'thk/HRIR_L2702_NF050.sofa',...
+    'thk/HRIR_L2702_NF150.sofa',...
+    'sadie/D1_48K_24bit_256tap_FIR_SOFA.sofa'
+    % SS2 missing from SOFA repository
     }; 
 
 
@@ -44,20 +49,36 @@ SofaFiles = {...
 % SOFAstart;
 % Define a list of file names
 
+% figure
+legend_s = [];    
+ylim_v = [-35 15];
+xlim_v = [90 20000];
 % Loop through all SOFA files
 for i = 1:length(SofaFiles)
     SofaFile = SofaFiles{i};
     % SOFAload downloads files from SOFA Conventions repository.
+    % disp(['Loading file ' i '/' length(SofaFiles) ": " SofaFile]);
     Obj = SOFAload(['db://database/' SofaFile]);
+    % Plot original magnitude at frontal direction
+    [ l_mag_ori_v, r_mag_ori_v, freq_ori_v ] = local_get_frontal_mag( Obj );
+    subplot( 2, 1, 1 )
+    semilogx( freq_ori_v, 20*log10( l_mag_ori_v ) )
+    hold on
+    title('Original')
+    xlabel('Frequency (Hz)')
+    ylabel('Magnitude (dB)')
+    grid on
+    ylim(ylim_v)
+    xlim(xlim_v)
     % plot original files
-    figure('Name',SofaFile);
-    subplot(2,2,1);
-    SOFAplotHRTF(Obj,'ETCHorizontal',1);
-    title('ETC Horizontal')
     % figure('Name',SofaFile);
-    subplot(2,2,2);
-    SOFAplotHRTF(Obj,'MagMedian',2);
-    title('Mag Median')
+    % subplot(2,2,1);
+    % SOFAplotHRTF(Obj,'ETCHorizontal',1);
+    % title('ETC Horizontal')
+    % % figure('Name',SofaFile);
+    % subplot(2,2,2);
+    % SOFAplotHRTF(Obj,'MagMedian',2);
+    % title('Mag Median')
 
     % To modify the normalization parameters, use the following, and add param_S as a 2nd input parameter in HRTF_normalization_v1
     % param_S.do_gain_norm_b = 1;
@@ -71,15 +92,61 @@ for i = 1:length(SofaFiles)
     % param_S.do_dist_b      = 0;
 
     % Apply normalization
-    Objnorm_S = SOFAnormalize(Obj);
-    % plot normalized data
-    % figure('Name',[SofaFile ' (normalized)']);
-    subplot(2,2,3);
-    SOFAplotHRTF(Objnorm_S,'ETCHorizontal',1);
-    title('ETC Horizontal, normalized')
-    % figure('Name',[SofaFile ' (normalized)']);
-    subplot(2,2,4);
-    SOFAplotHRTF(Objnorm_S,'MagMedian',2);
-     title('Mag Median, normalized')
+    % disp(['Normalizing file ' i '/' length(SofaFiles) ": " SofaFile]);
+    param_S.do_resize_b = 1;
+    Objnorm_S = SOFAnormalize(Obj,param_S);
+    % Plot normalized magnitude at frontal direction
+    [ l_mag_norm_v, r_mag_norm_v, freq_norm_v ] = local_get_frontal_mag( Objnorm_S );
+    subplot( 2, 1, 2 )
+    semilogx( freq_norm_v, 20*log10( l_mag_norm_v ) )
+    hold on
+    title('Normalized')
+    xlabel('Frequency (Hz)')
+    ylabel('Magnitude (dB)')
+    grid on
+    ylim(ylim_v)
+    xlim(xlim_v)
+    legend_s = strvcat( legend_s, num2str(i) );
+    % % plot normalized data
+    % % figure('Name',[SofaFile ' (normalized)']);
+    % subplot(2,2,3);
+    % SOFAplotHRTF(Objnorm_S,'ETCHorizontal',1);
+    % title('ETC Horizontal, normalized')
+    % % figure('Name',[SofaFile ' (normalized)']);
+    % subplot(2,2,4);
+    % SOFAplotHRTF(Objnorm_S,'MagMedian',2);
+    %  title('Mag Median, normalized')
 end
+legend(legend_s)
+% set( gcf, 'Position', [1   917   560   420 ])
 
+function [ l_mag_v, r_mag_v, freq_v ] = local_get_frontal_mag( Objnorm_S )
+
+    % Get left and right magnitudes at frontal direction and frequency
+    % vector from SOFA object
+    Fs_f = Objnorm_S.Data.SamplingRate;
+
+    % Find index of frontal magnitude
+    ind_n = find( round( Objnorm_S.SourcePosition( :, 1 ), 1 ) == 0 & round( Objnorm_S.SourcePosition( :, 2 ), 1 ) == 0 );
+    if length(ind_n)>1; ind_n=ind_n(1); end
+    if isempty(ind_n); mag_v=[]; freq_v=[]; warning('no frontal direction'); end
+
+    % Indices of positive frequencies
+    numSamples_n = size(Objnorm_S.Data.IR,3);
+    is_even_b = ~mod( numSamples_n, 2 );
+    if is_even_b
+        upper_sample_n = numSamples_n/2+1;
+    else 
+        upper_sample_n = ceil( numSamples_n/2 );
+    end
+
+    % Get magntiudes and frequency vector
+    l_hrir_v = squeeze( Objnorm_S.Data.IR( ind_n, 1, : )).';
+    r_hrir_v = squeeze( Objnorm_S.Data.IR( ind_n, 2, : )).';
+    l_hrtf_v = fft( l_hrir_v, numSamples_n );
+    r_hrtf_v = fft( r_hrir_v, numSamples_n );
+    l_mag_v  = abs( l_hrtf_v( 1:upper_sample_n ) );
+    r_mag_v  = abs( r_hrtf_v( 1:upper_sample_n ) );
+    freq_v   = linspace( 0, Fs_f/2, numSamples_n/2+1 );
+
+end

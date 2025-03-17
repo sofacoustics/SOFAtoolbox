@@ -42,6 +42,7 @@ function [norm_S, param_S] = SOFAnormalize(ori_S, param_S)
 % #Author: Helene Bahu: creation of script HRTF_normalization_v1 (11.03.2025)
 % #Author: Michael Mihocic: delayseq substituted (dependance on Phased Array Toolbox), adaptions to SOFA Toolbox, header's format updated (12.03.2025)
 % #Author: Helene Bahu: functions updated (13.03.2025)
+% #Author: Helene Bahu: code improvements and fixes (17.03.2025)
 
 % #Reference:  H. Bahu, T. Carpentier, M. Noisternig, O. Warusfel, J.-M. Jot, M. Mihocic, and P. Majdak. "Towards an improved consistency between databases of head-related transfer functions." JAES, 2025.
 
@@ -887,13 +888,13 @@ symmetric_ears_v = [90 0];
 radius_f = 0.087;
 Nsh = 100;
 
-% verify distance is unique
-dist_v = round( sphPos_v(:,3), 3 );
-uniqDist_f = unique( dist_v );
-if ~isscalar( uniqDist_f )
-    warning([ 'The input SOFA file contains ' num2str(length( uniqDist_f )) ' distances. Only one distance is considered for SHM calculation (in low-frequency extension).' ])
-end
-dist_f = mode( dist_v );
+% % verify distance is unique
+% dist_v = round( sphPos_v(:,3), 3 );
+% uniqDist_f = unique( dist_v );
+% if ~isscalar( uniqDist_f )
+%     warning([ 'The input SOFA file contains ' num2str(length( uniqDist_f )) ' distances. Only one distance is considered for SHM calculation (in low-frequency extension).' ])
+% end
+% dist_f = mode( dist_v );
 % Compute SHM impulse responses
 dist_f = sphPos_v(3);
 [ hrir_shm_m ] = local_shm( sphPos_v, symmetric_ears_v, radius_f, dist_f, Nsh, numSamples_n, Fs );
@@ -920,11 +921,11 @@ assert( length(az) == length(el) & length(az) == length(measured_dist_f) )
 
 % Get far-field SHM HRIR
 FF_dist = 100;
-h = local_shm( [ az, el, FF_dist ], [90 0], 0.087, FF_dist, 100, numSamples_n, Fs );% h is [ numSamples_n x 1 x 2 ]
+%h = local_shm( [ az, el, FF_dist ], [90 0], 0.087, FF_dist, 100, numSamples_n, Fs );% h is [ numSamples_n x 1 x 2 ]
 [ l_hrir_ff_v, r_hrir_ff_v ] = local_get_shm([ az, el, FF_dist ], numSamples_n, Fs );
 
-l_hrir_ff_v = squeeze( h( :, 1, 1 )).';
-r_hrir_ff_v = squeeze( h( :, 1, 2 )).';
+%l_hrir_ff_v = squeeze( h( :, 1, 1 )).';
+%r_hrir_ff_v = squeeze( h( :, 1, 2 )).';
 
 l_hrtf_ff_v = fft( l_hrir_ff_v );
 r_hrtf_ff_v = fft( r_hrir_ff_v );
