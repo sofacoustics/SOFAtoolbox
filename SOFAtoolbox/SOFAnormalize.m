@@ -43,6 +43,7 @@ function [norm_S, param_S] = SOFAnormalize(ori_S, param_S)
 % #Author: Michael Mihocic: delayseq substituted (dependance on Phased Array Toolbox), adaptions to SOFA Toolbox, header's format updated (12.03.2025)
 % #Author: Helene Bahu: functions updated (13.03.2025)
 % #Author: Helene Bahu: code improvements and fixes (17.03.2025)
+% #Author: Helene Bahu: bug fixed in Frequency resampling (04.04.2025)
 
 % #Reference:  H. Bahu, T. Carpentier, M. Noisternig, O. Warusfel, J.-M. Jot, M. Mihocic, and P. Majdak. "Towards an improved consistency between databases of head-related transfer functions." JAES, 2025.
 
@@ -127,7 +128,7 @@ if param_S.do_resamp_b
 
         % Update variables
         Fs_f = param_S.default_Fs_f;
-        numSamples_n = size( norm_S.Data.IR, 3 );
+        numSamples_n = size( l_hrir_resmp_m, 2 );
 
         % Save in norm_S
         norm_S.Data.IR( :, 1, : ) = l_hrir_resmp_m;
