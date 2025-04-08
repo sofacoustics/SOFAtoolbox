@@ -35,7 +35,7 @@ function [norm_S, param_S] = SOFAnormalize(ori_S, param_S)
 %       param_S.lowFreq_f         = 250;
 %       param_S.do_dist_b         = 1; % far-field correction
 %
-%   Output parameters:
+%   Output parameters: 
 %     norm_S: normalized HRTF SOFA file
 %     param_S: normalization parameters used
 
