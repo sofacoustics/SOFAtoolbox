@@ -26,7 +26,7 @@ GLOBAL:RoomLocation				attribute	Location of the room.
 GLOBAL:RoomGeometry				attribute	URI to a file describing the room geometry.
 RoomTemperature	0		I, M	double	Temperature during measurements.
 RoomTemperature:Units	kelvin			attribute	Units of the room temperature.
-RoomVolume	0		I, MI	double	Volume of the room.
+RoomVolume	0		II, MI	double	Volume of the room.
 RoomVolume:Units	cubic metre			attribute	Units of the room volume.
 RoomCornerA	[0 0 0]		IC, MC	double
 RoomCornerB	[1 2 3]		IC, MC	double

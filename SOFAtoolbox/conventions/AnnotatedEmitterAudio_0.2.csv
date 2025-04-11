@@ -22,7 +22,7 @@ GLOBAL:Title		m		attribute
 ListenerPosition	[0 0 0]	m	IC, MC	double	Position of the head. IC if not tracked, MC if tracked.
 ListenerPosition:Type	cartesian	m		attribute	
 ListenerPosition:Units	metre	m		attribute	
-ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rC, rCM	double	Position of the ears. RC if not tracked, RCM if tracked.
+ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	rCI, rCM	double	Position of the ears. RCI if not tracked, RCM if tracked.
 ReceiverPosition:Type	cartesian	m		attribute	
 ReceiverPosition:Units	metre	m		attribute	
 SourcePosition	[0 0 0]	m	IC, MC	double	Position of the virtual ensemble. IC if not tracked, MC if tracked.
