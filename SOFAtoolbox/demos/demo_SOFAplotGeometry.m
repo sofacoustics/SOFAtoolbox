@@ -4,6 +4,7 @@
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: support of AnnotatedReceiverAudio SOFA files prepared; requires download link and uncommenting (07.02.2025)
+% #Author: Michael Mihocic: support of SingleRoomMIMOSRIR SOFA files implemented (11.04.2025)
 % 
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
