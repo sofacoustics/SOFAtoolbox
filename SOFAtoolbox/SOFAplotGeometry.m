@@ -37,6 +37,8 @@ function SOFAplotGeometry(Obj0,varargin)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: bug fixed when extracting LU (listener up) coordinates (28.12.2021)
 % #Author: Michael Mihocic: support of AnnotatedReceiverAudio SOFA files implemented (07.02.2025)
+% #Author: Michael Mihocic: support of SingleRoomMIMOSRIR SOFA files implemented (11.04.2025)
+
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -89,7 +91,7 @@ switch Obj0.GLOBAL_SOFAConventions
         xlabel([Obj0.M_LongName ' (in ' Obj0.M_Units ')']);
         legend({'ListenerView','ListenerUp'});
         rotate3d on
-    case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E'}
+    case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E','SingleRoomMIMOSRIR'}
         % Expand entries to the same number of measurement points
         Obj = SOFAexpand(Obj0);
         % See if the room geometry is specified

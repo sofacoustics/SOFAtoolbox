@@ -17,6 +17,7 @@ function [Obj, log] = SOFAexpand(Obj,VarName)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: sub-function expandData improved in robustness when a cellarray value is containing multiple "I" (11.04.2025)
 %
 % SOFA Toolbox - function SOFAexpand
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -135,7 +136,12 @@ function vec=getdim(Obj,str)
 % var: expanded variable, or empty if nothing happened
 % dN: new dimension, or empty if nothing happened
 function [var,dN]=expandData(Obj,f,dims)
-	d=cell2mat(strfind(dims,'I'));	% all choices for a singleton dimensions
+    
+    positions = cellfun(@(x) strfind(x, 'I'), dims, 'UniformOutput', false); 
+    d = unique([positions{:}]);
+	% code above is replacing this row:
+    % d=cell2mat(strfind(dims,'I'));	% all choices for a singleton dimensions
+    
 	for jj=1:length(d)	% loop through all expandable dimensions
 		len=size(Obj.Data.(f),d(jj)); % size of the considered dimension
 		if len>1, continue; end;	% the expandable dimension is already expanded

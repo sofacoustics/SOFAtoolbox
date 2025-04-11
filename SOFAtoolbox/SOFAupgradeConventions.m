@@ -14,6 +14,7 @@ function [Obj,modified] = SOFAupgradeConventions(Obj)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: bug fixed when converting SingleRoomDRIR to SingleRoomSRIR or to MultiSpeakerBRIR, using 'spherical' ListenerView type (03.12.2024)
 % #Author: Michael Mihocic: bug fixed when converting MultiSpeakerBRIR to SingleRoomMIMOSRIR, fixing conversions when SourcePosition and ListenerPosition are having dimension 'MC' (07.02.2025)
+% #Author: Michael Mihocic: bug fixed when using Octave (11.04.2025)
 %
 % SOFA Toolbox - function SOFAupgradeConventions
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -187,12 +188,12 @@ if ~modified
         ObjNew.Data.Delay=repmat(ObjNew.Data.Delay,size(ObjNew.Data.IR,1),1);
         
         %% Upgrade some objects
-        if Obj.API.Dimensions.ListenerPosition == convertCharsToStrings('MC')
+        if strcmp(Obj.API.Dimensions.ListenerPosition, 'MC') % convertCharsToStrings not supported by Octave
             ObjNew.ListenerPosition = Obj.ListenerPosition;
         else % convert from IC to MC
             ObjNew.ListenerPosition=repmat(Obj.ListenerPosition(1,:),size(ObjNew.Data.IR,1),1);
         end
-        if Obj.API.Dimensions.SourcePosition == convertCharsToStrings('MC')
+        if strcmp(Obj.API.Dimensions.SourcePosition, 'MC') % convertCharsToStrings not supported by Octave
             ObjNew.SourcePosition = Obj.SourcePosition;
         else % convert from IC to MC
             ObjNew.SourcePosition=repmat(Obj.SourcePosition(1,:),size(ObjNew.Data.IR,1),1);

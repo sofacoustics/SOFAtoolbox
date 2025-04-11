@@ -5,6 +5,7 @@
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: multiple updates for SOFAtoolbox v2.1 release (2022)
 % #Author: Michael Mihocic: new demos added (23.12.2022)
+% #Author: Michael Mihocic: minor updates (11.04.2025)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -294,7 +295,7 @@ disp('*** Finished: GeneralTF-E (Output: SOFA-file(s))'); disp('      ');
 disp('**************  demo_MultiSpeakerBRIR  **************');
 clear
 demo_MultiSpeakerBRIR;
-disp('*** Finished: MultiSpeakerBRIR (Output: SOFA-file(s))'); disp('      ');
+disp('*** Finished: MultiSpeakerBRIR (Output: SOFA-file(s), Figure(s))'); disp('      ');
 
 %% demo_SimpleFreeFieldHRIR2TF
 % Test conversions from SimpleFreeFieldHRIR to SimpleFreeFieldHRTF

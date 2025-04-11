@@ -6,6 +6,7 @@
 % #Author: Michael Mihocic: SOFAload: no checks added, source convention outdated (10.07.2023)
 % #Author: Michael Mihocic: bugs fixed (10.12.2024)
 % #Author: Michael Mihocic: bugs fixed (11.12.2024)
+% #Author: Michael Mihocic: geometry figure created (11.04.2025)
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -37,3 +38,10 @@ Obj = SOFAaddVariable(Obj,'RoomCorners_Units','S','metre');
 SOFAfn=fullfile([SOFAdbPath,'\','sofatoolbox_test','\',fn]);
 disp(['Saving:  ' SOFAfn]);
 Obj=SOFAsave(SOFAfn, Obj);
+
+%%% plot data
+SOFAplotGeometry(Obj);
+view(45,30);
+set(gcf, 'Position', [300, 500, 800, 500]);
+title(['Geometry ' Obj.GLOBAL_SOFAConventions])
+set(gcf, 'Name', mfilename);
