@@ -5,12 +5,19 @@ function SOFAplotGeometry(Obj0,varargin)
 %   SOFAplotGeometry(Obj) plots the geometry found in a SOFA object
 %   for all measurements, i.e., along the M dimension.
 %   Obj needs to be one of the following conventions:
-%     SimpleFreeFieldHRIR
 %     SimpleFreeFieldHRTF
+%     SimpleFreeFieldHRIR
 %     SingleRoomDRIR
 %     FreeFieldDirectivityTF
+%     GeneralTFE
+%     FreeFieldHRIR
+%     FreeFieldHRTF
+%     GeneralTF-E
+%     SingleRoomMIMOSRIR
+%     SingleRoomSRIR
 %     AnnotatedReceiverAudio
 %   some special cases of GeneralFIR.
+
 %
 %   SOFAplotGeometry(Obj, index) plots the geometry for the measurements
 %   given in the index.
@@ -38,6 +45,7 @@ function SOFAplotGeometry(Obj0,varargin)
 % #Author: Michael Mihocic: bug fixed when extracting LU (listener up) coordinates (28.12.2021)
 % #Author: Michael Mihocic: support of AnnotatedReceiverAudio SOFA files implemented (07.02.2025)
 % #Author: Michael Mihocic: support of SingleRoomMIMOSRIR SOFA files implemented (11.04.2025)
+% #Author: Michael Mihocic: support of SingleRoomSRIR SOFA files implemented (11.04.2025)
 
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
@@ -91,7 +99,7 @@ switch Obj0.GLOBAL_SOFAConventions
         xlabel([Obj0.M_LongName ' (in ' Obj0.M_Units ')']);
         legend({'ListenerView','ListenerUp'});
         rotate3d on
-    case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E','SingleRoomMIMOSRIR'}
+    case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E','SingleRoomMIMOSRIR','SingleRoomSRIR'}
         % Expand entries to the same number of measurement points
         Obj = SOFAexpand(Obj0);
         % See if the room geometry is specified
