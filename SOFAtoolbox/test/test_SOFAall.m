@@ -352,6 +352,12 @@ clear
 demo_SingleRoomSRIR;
 disp('*** Finished: SingleRoomSRIR (Output: SOFA-file(s))'); disp('      ');
 
+%% demo_AnnotatedReceiverAudio
+disp('**************  demo_AnnotatedReceiverAudio  **************');
+clear;
+demo_AnnotatedReceiverAudio;
+disp('*** Finished: demo_AnnotatedReceiverAudio (Output: Figure(s))'); disp('      ');
+
 %% Epilogue
 disp('##############################################');
 disp('####   COMPLETED ALL DEMOS SUCCESSFULLY   ####');
