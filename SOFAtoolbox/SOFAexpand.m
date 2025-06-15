@@ -18,6 +18,7 @@ function [Obj, log] = SOFAexpand(Obj,VarName)
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: sub-function expandData improved in robustness when a cellarray value is containing multiple "I" (11.04.2025)
+% #Author: Piotr Majdak: expand modified to work with strings, but these variables won't be expanded (15.6.2025).
 %
 % SOFA Toolbox - function SOFAexpand
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -35,7 +36,7 @@ log={''};
 Obj=SOFAupdateDimensions(Obj,'nodata');
 
 %% If VarName given, expand a single variable only
-if ~exist('VarName','var'),
+if ~exist('VarName','var')
   
   %% Expand all variables
     % create field names which should have dimensions
@@ -45,29 +46,33 @@ if ~exist('VarName','var'),
 
   % Update the dimensions structure w/o data
   for ii=1:length(Xf)
-    if ~isempty(strfind(Xf{ii},'_')),	continue; end; % is an attribute --> not expandable
-    if ~isfield(OC.API.Dimensions, Xf{ii}), continue; end; % is a used-defined variable --> not expandable
+    if ~isempty(strfind(Xf{ii},'_')),	continue; end % is an attribute --> not expandable
+    if ~isfield(OC.API.Dimensions, Xf{ii}), continue; end % is a used-defined variable --> not expandable
     dim=OC.API.Dimensions.(Xf{ii}); % all possible dimensions
-    if ~iscell(dim), continue; end;	% is a variable with a single dimension definition --> not expandable
-    if numel(dim)==1, continue; end;	% is a variable with a single dimension definition --> not expandable
+    if ~iscell(dim), continue; end	% is a variable with a single dimension definition --> not expandable
+    if numel(dim)==1, continue; end	% is a variable with a single dimension definition --> not expandable
     [varNew,dimNew]=expand(Obj,Xf{ii},dim);
-    if ~isempty(varNew),
+    if ~isempty(varNew)
       Obj.(Xf{ii})=varNew;
-      Obj.API.Dimensions.(Xf{ii})=dimNew;
-      log{end+1}=[Xf{ii} ' expanded to ' dimNew];
+      if ~isempty(dimNew)
+        Obj.API.Dimensions.(Xf{ii})=dimNew;
+        log{end+1}=[Xf{ii} ' expanded to ' dimNew];
+      else
+        log{end+1}=[Xf{ii} ' did not expand because contains a string'];
+      end
     end
   end
 
   % Expand the dimensions of Data
   Xf=fieldnames(Obj.Data);
   for ii=1:length(Xf)
-    if ~isempty(strfind(Xf{ii},'_')),	continue; end; % is an attribute --> not expandable
-    if ~isfield(OC.API.Dimensions.Data, Xf{ii}), continue; end; % is a used-defined variable --> not expandable
+    if ~isempty(strfind(Xf{ii},'_')),	continue; end % is an attribute --> not expandable
+    if ~isfield(OC.API.Dimensions.Data, Xf{ii}), continue; end % is a used-defined variable --> not expandable
     dim=OC.API.Dimensions.Data.(Xf{ii}); % all possible dimensions
-    if ~iscell(dim), continue; end;	% is a variable with a single dimension definition --> not expandable
-    if numel(dim)==1, continue; end;	% is a variable with a single dimension definition --> not expandable
+    if ~iscell(dim), continue; end	% is a variable with a single dimension definition --> not expandable
+    if numel(dim)==1, continue; end	% is a variable with a single dimension definition --> not expandable
     [varNew,dimNew]=expandData(Obj,Xf{ii},dim);
-    if ~isempty(varNew),
+    if ~isempty(varNew)
       Obj.Data.(Xf{ii})=varNew;
       Obj.API.Dimensions.Data.(Xf{ii})=dimNew;
       log{end+1}=['Data.' Xf{ii} ' expanded to ' dimNew];
@@ -76,30 +81,34 @@ if ~exist('VarName','var'),
   
   
 else	% Expand a single variable only
-	if isempty(strfind(VarName,'_')),	% is an attribute --> not expandable
-    if strncmp(VarName,'Data.',length('Data.'))         
-      % variable within the Data. structure
+	if ~contains(VarName,'_')	% is an attribute --> not expandable
+    if strncmp(VarName,'Data.',length('Data.'))
+        % variable within the Data. structure
       VarName=VarName(length('Data.')+1:end);
-      if isfield(OC.API.Dimensions.Data, VarName), % is a used-defined variable --> not expandable
+      if isfield(OC.API.Dimensions.Data, VarName) % is a used-defined variable --> not expandable
         dim=OC.API.Dimensions.Data.(VarName); % all possible dimensions
-        if iscell(dim), % is a variable with a single dimension definition --> not expandable
-            [varNew,dimNew]=expandData(Obj,VarName,dim);
-            if ~isempty(varNew),
-                Obj.Data.(VarName)=varNew;
-                Obj.API.Dimensions.Data.(VarName)=dimNew;
-                log{end+1}=['Data.' VarName ' expanded to ' dimNew];
-            end
+        if iscell(dim) % is a variable with a single dimension definition --> not expandable
+          [varNew,dimNew]=expandData(Obj,VarName,dim);
+          if ~isempty(varNew)
+            Obj.Data.(VarName)=varNew;
+            Obj.API.Dimensions.Data.(VarName)=dimNew;
+            log{end+1}=['Data.' VarName ' expanded to ' dimNew];
+          end
         end
       end
     else
-      if isfield(OC.API.Dimensions, VarName), % is a used-defined variable --> not expandable
+      if isfield(OC.API.Dimensions, VarName) % is a used-defined variable --> not expandable
         dim=OC.API.Dimensions.(VarName); % all possible dimensions
-        if iscell(dim), % is a variable with a single dimension definition --> not expandable
+        if iscell(dim) % is a variable with a single dimension definition --> not expandable
           [varNew,dimNew]=expand(Obj,VarName,dim);
-          if ~isempty(varNew),
-              Obj.(VarName)=varNew;
+          if ~isempty(varNew)
+            Obj.(VarName)=varNew;
+            if ~isempty(dimNew)  
               Obj.API.Dimensions.(VarName)=dimNew;
               log{end+1}=[VarName ' expanded to ' dimNew];
+            else
+              log{end+1}=[Xf{ii} ' did not expand because contains a string'];
+            end
           end
         end
       end
@@ -108,23 +117,28 @@ else	% Expand a single variable only
 end	
 
 %% log variable
-if length(log)>1, log=log(2:end); else log={}; end;
+if length(log)>1, log=log(2:end); else log={}; end
 
 %% expand a single variable
 % Obj: the full SOFA object
 % f: name of the variable
 % dims: allowed dimensions of that variable (cell array)
-% var: expanded variable, or empty if nothing happened
-% dN: new dimension, or empty if nothing happened
+% var: variable, or empty if nothing happened
+% dN: new dimension, or empty if not expanded
 function [var,dN]=expand(Obj,f,dims)
-	d=cell2mat(strfind(dims','I'));	% all choices for a singleton dimensions
-	for jj=1:length(d)	% loop through all expandable dimensions
-		len=size(Obj.(f),d(jj)); % size of the considered dimension
-		if len>1, continue; end;	% the expandable dimension is already expanded
-		dN=dims{cellfun('isempty',strfind(dims,'I'))==1};
-		var=bsxfun(@times,Obj.(f),ones([getdim(Obj,dN) 1]));
-	end
-	if ~exist('var','var'), var=[]; dN=[]; end;
+  if contains(Obj.API.Dimensions.(f),'S')
+    var=Obj.(f); % contains string(s), do not expand
+    dN=[]; % this 
+  else
+    d=cell2mat(strfind(dims','I'));	% all choices for a singleton dimensions
+    for jj=1:length(d)	% loop through all expandable dimensions
+      len=size(Obj.(f),d(jj)); % size of the considered dimension
+      if len>1, continue; end	% the expandable dimension is already expanded
+      dN=dims{cellfun('isempty',strfind(dims,'I'))==1};
+      var=bsxfun(@times,Obj.(f),ones([getdim(Obj,dN) 1]));
+    end
+  	if ~exist('var','var'), var=[]; dN=[]; end
+  end
 %% Get the sizes of the dimension variables according the dimension variables in str
 function vec=getdim(Obj,str)
 	vec=arrayfun(@(f)(Obj.API.(f)),upper(str));
@@ -144,8 +158,8 @@ function [var,dN]=expandData(Obj,f,dims)
     
 	for jj=1:length(d)	% loop through all expandable dimensions
 		len=size(Obj.Data.(f),d(jj)); % size of the considered dimension
-		if len>1, continue; end;	% the expandable dimension is already expanded
+		if len>1, continue; end	% the expandable dimension is already expanded
 		dN=dims{cellfun('isempty',strfind(dims,'I'))==1};
 		var=bsxfun(@times,Obj.Data.(f),ones([getdim(Obj,dN) 1]));
 	end
-	if ~exist('var','var'), var=[]; dN=[]; end;
+	if ~exist('var','var'), var=[]; dN=[]; end
