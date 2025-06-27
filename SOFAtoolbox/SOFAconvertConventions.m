@@ -15,6 +15,7 @@ function Obj=SOFAconvertConventions(Obj,varargin)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: rmfield replaced by SOFAremoveVariable for non data variables, improved stability (20.09.2022)
 % #Author: Michael Mihocic: bug fixed when converting from spherical harmonics to TF data (27.11.2024)
+% #Author: Michael Mihocic: fix for case 'FIR-E' if Obj.API.E == 1 (27.06.2025)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -348,7 +349,12 @@ try
             elseif strcmp(newObj.GLOBAL_DataType,'TF-E')
                  % no data conversion needed
             end
-
+        case 'FIR-E'
+            if strcmp(newObj.GLOBAL_DataType,'FIR') && Obj.API.E == 1
+                % no data conversion needed
+            else
+                error('Not supported yet')
+            end
         case 'FIR'
             if strcmp(newObj.GLOBAL_DataType,'SOS')
                 % TODO

@@ -67,6 +67,7 @@ function [M,meta,h]=SOFAplotHRTF(Obj,type,varargin)
 % #Author: Piotr Majdak: conversion to TF is a flag now. It's called convert2TF.
 % #Author: Michael Mihocic: flag convert2TF renamed to conversion2ir and noconversion2ir. (01.09.2022)
 % #Author: Robert Baumgartner: changed ITDhorizontal to plot absolute ITD values. (24.11.2022)
+% #Author: Michael Mihocic: fix if Obj.SourcePosition = 1 (27.06.2025)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -159,7 +160,7 @@ end
 %% Convert to spherical if cartesian
 if strcmp(Obj.SourcePosition_Type,'cartesian')
 % %     Obj2=Obj; % compare to old method (Obj2)
-    for ii=1:Obj.API.M
+    for ii=1:min(Obj.API.M,size(Obj.SourcePosition,1))
         [Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3)]=cart2sph(Obj.SourcePosition(ii,1),Obj.SourcePosition(ii,2),Obj.SourcePosition(ii,3));
         Obj.SourcePosition(ii,2)=rad2deg(Obj.SourcePosition(ii,2));
         Obj.SourcePosition(ii,1)=rad2deg(Obj.SourcePosition(ii,1));
