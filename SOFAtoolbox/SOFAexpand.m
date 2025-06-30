@@ -20,6 +20,7 @@ function [Obj, log] = SOFAexpand(Obj,VarName)
 % #Author: Michael Mihocic: sub-function expandData improved in robustness when a cellarray value is containing multiple "I" (11.04.2025)
 % #Author: Piotr Majdak: expand modified to work with strings, but these variables won't be expanded (15.6.2025).
 % #Author: Michael Mihocic: bug fixed when using Octave (function contains is not available in Octave) (23.06.2025)
+% #Author: Michael Mihocic: bug fixed when using Octave (function contains is not available in Octave) (30.06.2025)
 %
 % SOFA Toolbox - function SOFAexpand
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -127,7 +128,8 @@ if length(log)>1, log=log(2:end); else log={}; end
 % var: variable, or empty if nothing happened
 % dN: new dimension, or empty if not expanded
 function [var,dN]=expand(Obj,f,dims)
-if contains(Obj.API.Dimensions.(f),'S')
+% if contains(Obj.API.Dimensions.(f),'S')
+if ~isempty(strfind(Obj.API.Dimensions.(f), 'S')) % contains is not supported in Octave
     var=Obj.(f); % contains string(s), do not expand
     dN=[]; % this
 else
