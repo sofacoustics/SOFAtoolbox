@@ -34,4 +34,4 @@ EmitterPosition:Units	metre	m	  	attribute
 Data.IR	0	m	mrne	double	Impulse responses.
 Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay.
 Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate.
-Data.Delay	0	m	IRE, MRE	double	Additional delay of each IR (in samples, with the time interval as described by SamplingRate).
+Data.Delay	0	m	IRI, MRI, MRE	double	Additional delay of each IR (in samples, with the time interval as described by SamplingRate).
