@@ -25,6 +25,7 @@
 /data/MIT KEMAR/full/*/*.wav
 /data/Oldenburg/HRIR_database_mat/
 /data/SCUT/nearfield/
+/data/SOFA/*.sofa
 /data/SOFA/sofatoolbox_test/*.sofa
 /data/SOFA/database/*/*.sofa
 /data/SOFA/headphones/*/*.sofa
@@ -64,6 +65,7 @@
 
 # temp files
 ~*.ods#
+.~*.*
 *.csv#
 /doc/AnnotatedEmitterAudio_0.2.txt
 /doc/AnnotatedReceiverAudio_0.2.txt

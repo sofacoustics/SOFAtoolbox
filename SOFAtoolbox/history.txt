@@ -8,34 +8,84 @@
 ***		Hagen Wierstorf
 ***		Wolfgang Hrauda
 ***		Fabian Brinkmann
-***		Felix Perchfler
+***		Felix Perfler
 *************************************************************
 
 *** DEVELOPMENT STATUS ***
 
 *** v2.2.1 (development branch)
-- SOFAload, SOFAsave: bug fix for "Error in writing and reading string variables #82"
-- SOFAload: header documentation: examples added
-- SOFAconvertConventions: bug fixed when converting from spherical harmonics to TF data
-- SOFAupdateDimensions.m: Octave compatibility fixed
-- SOFAupgradeConventions: Bug fixed when converting SingleRoomDRIR to SingleRoomSRIR or to MultiSpeakerBRIR
-- SOFAplotGeometry: support of AnnotatedReceiverAudio SOFA files implemented
-- SOFAnormalize.m added: applies normalization to HRTF SOFA files
+- SOFAload.m, SOFAsave.m: bug fixed for "Error in writing and reading string variables #82"
+- SOFAload.m: header documentation: examples added
+- SOFAconvertConventions.m: 
+	- bug fixed when converting from spherical harmonics to TF data
+	- bug fixed for case 'FIR-E' if Obj.API.E == 1
+- SOFAupdateDimensions.m: 
+	- checkdim works now on string variables with singleton dimensions
+	- Octave compatibility fixed
+- SOFAupgradeConventions.m: 
+	- bug fixed when converting SingleRoomDRIR to SingleRoomSRIR or to MultiSpeakerBRIR, using 'spherical' ListenerView type
+	- bug fixed when converting MultiSpeakerBRIR to SingleRoomMIMOSRIR, fixing conversions when SourcePosition and ListenerPosition are having dimension 'MC'
+	- Octave compatibility fixed
+- SOFAexpand.m:
+	- sub-function expandData improved in robustness when a cellarray value is containing multiple "I"
+	- expand modified to work with strings, but these variables won't be expanded
+	- Octave compatibility fixed
+- SOFAplotHRTF.m: bug fixed if Obj.SourcePosition = 1
+- SOFAplotGeometry.m: 
+	- support of AnnotatedReceiverAudio SOFA files implemented
+	- support of SingleRoomMIMOSRIR SOFA files implemented
+	- support of SingleRoomSRIR SOFA files implemented
+- SOFAnormalize.m added: applies normalization to HRTF SOFA files, based on Bahu 2025
+- SOFAspat.m: added distance dependency
+- test_SOFAall.m: fixes and adaptations to demo files
+- NETCDFload.m: bugs fixed
 - Converters:
 	- SOFAhrtf2dtf.m: method 'bahu2025' implemented
 - Conventions:
 	- AnnotatedEmitterAudio_0.2: bugs fixed
 	- AnnotatedReceiverAudio_0.2: bugs fixed
+	- FreeFieldDirectivityTF_1.1: bugs fixed
+	- FreeFieldHRIR_1.0: bugs fixed
+	- FreeFieldHRTF_1.0: bugs fixed
+	- General_1.0: bugs fixed
+	- GeneralFIR_1.0: bugs fixed
+	- GeneralFIR-E_2.0: bugs fixed
+	- GeneralSOS_1.0: bugs fixed
+	- GeneralString_0.2: bugs fixed
+	- GeneralTF_1.0: bugs fixed
+	- GeneralTF_2.0: bugs fixed
+	- GeneralTF-E_1.0: bugs fixed
+	- SimpleFreeFieldHRIR_1.0: bugs fixed
+	- SimpleFreeFieldHRSOS_1.0: bugs fixed
+	- SimpleFreeFieldHRTF_1.0: bugs fixed
+	- SimpleFreeFieldSOS_1.0: bugs fixed
+	- SimpleHeadphoneIR_1.0: bugs fixed
+	- SimpleHeadphoneIR_1.1 added
+	- SingleRoomMIMOSRIR_1.0: bugs fixed
+	- SingleRoomSRIR_1.0: bugs fixed
 	- SingleRoomSRIR_1.1 added, based on SingleRoomSRIR_1.0
-- demos:
-	- demo_FreeFieldHRTF: propagation of global metadata fixed, generated SOFA files contain the attribute Parents now
-	- demo_FreeFieldHRIR: EmitterPosition_Units fixed
-	- demo_SingleRoomMIMOSRIR: RoomCornerA and other variables fixed
-	- demo_SingleRoomSRIR: RoomCornerA fixed
+- Demos:
+	- demo_AnnotatedReceiverAudio.m added
+	- demo_FreeFieldDirectivityTF.m: output file created
+	- demo_FreeFieldHRIR.m: EmitterPosition_Units fixed
+	- demo_FreeFieldHRTF.m: 
+		- propagation of global metadata fixed, generated SOFA files containing the attribute parents
+		- increased robustness of missing description fields
+		- output file names fixed
+		- several bugs fixed
+	- demo_MultiSpeakerBRIR.m: 
+		- for SOFAload: checks skipped (source convention outdated)
+		- several bugs fixed
+		- geometry figure created
 	- demo_SimpleFreeFieldHRIR2TF.m: database name fixed, SimpleFreeFieldHRTF file is saved
-	- demo_SingleRoomMIMOSRIR.m: a few variables fixed
-	- demo_SOFAplotGeometry.m: support of AnnotatedReceiverAudio SOFA files prepared; requires download link and uncommenting
-	- demo_SOFAnormalize.m added: Demo script applying normalization to HRTF SOFA files, using SOFAnormalize. Based on test script by Helene Bahu.
+	- demo_SingleRoomMIMOSRIR.m: RoomCornerA and other variables fixed
+	- demo_SingleRoomSRIR.m: RoomCornerA and other bugs fixed
+	- demo_SOFAnormalize.m added: demo script applying normalization to HRTF SOFA files, using SOFAnormalize; based on test script by Helene Bahu
+	- demo_SOFAplotGeometry.m: 
+		- header documentation updated
+		- support of AnnotatedReceiverAudio SOFA files prepared; requires download link and uncommenting
+		- support of SingleRoomMIMOSRIR SOFA files implemented
+	- demo_SOFAstring.m: extended to have 'RSI' as String variable
 
 *** v2.2.0 (master branch)
 - version numbers fixed, branche merged with development branch

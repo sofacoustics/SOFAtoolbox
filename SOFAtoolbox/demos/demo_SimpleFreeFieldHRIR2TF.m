@@ -3,6 +3,7 @@
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: plot figures as optional parameter added, figures are saved with titles (10.11.2021)
+% #Author: Michael Mihocic: database name fixed, SimpleFreeFieldHRTF file is saved
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences

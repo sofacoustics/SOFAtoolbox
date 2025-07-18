@@ -2,6 +2,7 @@
 
 % #Author: Michael Mihocic (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: EmitterPosition_Units fixed
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
