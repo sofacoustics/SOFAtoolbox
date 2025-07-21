@@ -1,9 +1,10 @@
 *************************************************************
 *** History of SOFA Toolbox for Matlab and Octave
 *** Acoustics Research Institute, Austrian Academy of Sciences, Vienna
-*** Project leader: Piotr Majdak, piotr.majdak@oeaw.ac.at
+*** Creators:
+*** 	Piotr Majdak, piotr.majdak@oeaw.ac.at
+***		Michael Mihocic, michael.mihocic@oeaw.ac.at
 *** Contributors:
-***		Michael Mihocic
 ***		Harald Ziegelwanger
 ***		Hagen Wierstorf
 ***		Wolfgang Hrauda
