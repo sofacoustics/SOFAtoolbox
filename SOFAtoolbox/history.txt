@@ -2,7 +2,7 @@
 *** History of SOFA Toolbox for Matlab and Octave
 *** Acoustics Research Institute, Austrian Academy of Sciences, Vienna
 *** Creators:
-*** 	Piotr Majdak, piotr.majdak@oeaw.ac.at
+***		Piotr Majdak, piotr.majdak@oeaw.ac.at
 ***		Michael Mihocic, michael.mihocic@oeaw.ac.at
 *** Contributors:
 ***		Harald Ziegelwanger
