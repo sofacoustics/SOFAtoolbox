@@ -52,7 +52,7 @@ EmitterDescriptions	{''}		MSI, ESI, MES	string	A more detailed description of th
 MIDINote	0		I, M	double	Defines the note played by the source during the measurement. The note is specified a MIDI note by the [https://www.midi.org/specifications-old/item/the-midi-1-0-specification MIDI specifications, version 1.0]. Not mandatory, but recommended for tonal instruments.
 Descriptions	{''}		MS	string	This variable is used when the description varies with M.
 SourceTuningFrequency	440		I, M	double	Frequency (in hertz) to which a musical instrument is tuned to corresponding to the note A4 (MIDINote=69). Recommended for tonal instruments.
-Data.IR	[0 0]	m	mRn	double
+Data.IR	[0 0]	m	mrn	double
 Data.SamplingRate	48000	m	I	double	Sampling rate of the samples in Data.IR and Data.Delay.
 Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate.
 Data.Delay	[0 0]	m	IR, MR	double	Additional delay of each IR (in samples, with the time interval as described by SamplingRate).
