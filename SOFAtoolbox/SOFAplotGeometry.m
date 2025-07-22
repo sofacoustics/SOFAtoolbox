@@ -46,6 +46,7 @@ function SOFAplotGeometry(Obj0,varargin)
 % #Author: Michael Mihocic: support of AnnotatedReceiverAudio SOFA files implemented (07.02.2025)
 % #Author: Michael Mihocic: support of SingleRoomMIMOSRIR SOFA files implemented (11.04.2025)
 % #Author: Michael Mihocic: support of SingleRoomSRIR SOFA files implemented (11.04.2025)
+% #Author: Michael Mihocic: Octave compatibility fixed (22.07.2025)
 
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
@@ -87,14 +88,18 @@ switch Obj0.GLOBAL_SOFAConventions
         V=Obj0.ListenerView(:,2);
         W=Obj0.ListenerView(:,3);
         qV=quiver3(X,Y,Z,U,V,W,'r');
-        qV.ShowArrowHead = 'off';
+        if exist('OCTAVE_VERSION','builtin') == 0
+            qV.ShowArrowHead = 'off';
+        end
         hold on;
         U=Obj0.ListenerUp(:,1);
         V=Obj0.ListenerUp(:,2);
         W=Obj0.ListenerUp(:,3);
         qU=quiver3(X,Y,Z,U,V,W,'b');
-        qU.ShowArrowHead = 'off';
-        qU.Marker = '.';
+        if exist('OCTAVE_VERSION','builtin') == 0
+            qU.ShowArrowHead = 'off';
+            qU.Marker = '.';
+        end 
         view(0,90);
         xlabel([Obj0.M_LongName ' (in ' Obj0.M_Units ')']);
         legend({'ListenerView','ListenerUp'});

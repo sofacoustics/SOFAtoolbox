@@ -26,7 +26,7 @@ if isfile(ARIfn)
     disp(['Loading: ' ARIfn]);
     ARI=load(ARIfn);
 else
-    warning(['File not existing: ' ARIfn '  -->  Please download it from http://www.oeaw.ac.at/isf/hrtf and save it to: ' fullfile(fileparts(SOFAdbPath), 'ARI', subjectID)]);
+    warning(['File not existing: ' ARIfn '  -->  Please download it from https://www.oeaw.ac.at/isf/outreach/software/hrtf-database and save it to: ' fullfile(fileparts(SOFAdbPath), 'ARI', subjectID)]);
     error(['Sorry.... ' mfilename ' cannot complete!']);
 end
 

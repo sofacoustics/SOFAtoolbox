@@ -63,6 +63,7 @@ function [dtf,ctf]=SOFAhrtf2dtf(hrtf,varargin)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: warning if Data.Delay >0; instead of crashing (22.02.2023)
 % #Author: Michael Mihocic: method 'bahu2025' implemented (13.03.2025)
+% #Author: Michael Mihocic: bug fixed (Octave compatibility) (22.07.2025)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -95,7 +96,8 @@ idx(Nfft/2+2:end) = fliplr(idx(2:Nfft/2));
 
 %% CTF calculation
 hrtff=fft(hrtfmtx,Nfft);
-if strtrim(lower(convertCharsToStrings(kv.mode))) == lower('bahu2025') % method 'Bahu2025'
+if strcmpi(strtrim(kv.mode), 'bahu2025') % method 'Bahu2025'
+% if strtrim(lower(convertCharsToStrings(kv.mode))) == lower('bahu2025') % method 'Bahu2025' % not working in Octave
 
     % Prepare data coordinates
     if strcmp( hrtf.SourcePosition_Type, 'spherical' )

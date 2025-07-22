@@ -36,6 +36,7 @@
 	- support of AnnotatedReceiverAudio SOFA files implemented
 	- support of SingleRoomMIMOSRIR SOFA files implemented
 	- support of SingleRoomSRIR SOFA files implemented
+	- Octave compatibility fixed
 - SOFAnormalize.m added: applies normalization to HRTF SOFA files, based on Bahu 2025
 - SOFAspat.m: added distance dependency
 - test_SOFAall.m: fixes and adaptations to demo files
@@ -65,6 +66,7 @@
 	- SingleRoomMIMOSRIR_1.0: bugs fixed
 	- SingleRoomSRIR_1.0: bugs fixed
 	- SingleRoomSRIR_1.1 added, based on SingleRoomSRIR_1.0
+	- FreeFieldDirectivityFIR_0.1 added as proposed conventions
 - Demos:
 	- demo_AnnotatedReceiverAudio.m added
 	- demo_FreeFieldDirectivityTF.m: output file created

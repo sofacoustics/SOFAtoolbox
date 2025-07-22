@@ -6,6 +6,7 @@
 % #Author: Michael Mihocic: multiple updates for SOFAtoolbox v2.1 release (2022)
 % #Author: Michael Mihocic: new demos added (23.12.2022)
 % #Author: Michael Mihocic: minor updates (11.04.2025)
+% #Author: Michael Mihocic: minor updates, robustness improved (22.07.2025)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -232,12 +233,6 @@ disp('############################################');
 disp('######     TEST SOFA CONVENTIONS     #######');
 disp('############################################');
 
-%% demo_FreeFieldDirectivityTF
-disp('**************  demo_FreeFieldDirectivityTF  **************');
-clear;
-demo_FreeFieldDirectivityTF;
-disp('*** Finished: demo_FreeFieldDirectivityTF (Output: Figure(s))'); disp('      ');
-
 %% demo_FreeFieldHRIR
 disp('**************  demo_FreeFieldHRIR  **************');
 clear
@@ -357,6 +352,13 @@ disp('**************  demo_AnnotatedReceiverAudio  **************');
 clear;
 demo_AnnotatedReceiverAudio;
 disp('*** Finished: demo_AnnotatedReceiverAudio (Output: Figure(s))'); disp('      ');
+
+%% demo_FreeFieldDirectivityTF
+disp('**************  demo_FreeFieldDirectivityTF  **************');
+clear;
+demo_FreeFieldDirectivityTF;
+disp('*** Finished: demo_FreeFieldDirectivityTF (Output: Figure(s))'); disp('      ');
+
 
 %% Epilogue
 disp('##############################################');
