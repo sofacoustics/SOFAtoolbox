@@ -21,7 +21,7 @@ known as the SOFA API_MO, which supported SOFA versions up to 1.x.
 Downloads
 =========
 
-Current releases of SOFA Toolbox can be found on [SourceForge](http://sourceforge.net/projects/sofacoustics).
+Current releases of SOFA Toolbox can be found on [Ecosystem](https://ecosystem.sonicom.eu/tools/14).
 
 **Note:** 
 - The SOFA Toolbox 2.1 is the succeeding release version of SOFA API M/O version 1.1.3. It supports SOFA 2.1 as known as AES69-2022.
