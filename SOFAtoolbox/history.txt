@@ -14,6 +14,9 @@
 
 *** DEVELOPMENT STATUS ***
 
+*** v2.4.0(master branch)
+- master version released based on development version v2.2.1
+
 *** v2.2.1 (development branch)
 - SOFAload.m, SOFAsave.m: bug fixed for "Error in writing and reading string variables #82"
 - SOFAload.m: header documentation: examples added
