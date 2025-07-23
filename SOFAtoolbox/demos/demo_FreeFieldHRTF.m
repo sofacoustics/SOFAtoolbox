@@ -12,6 +12,7 @@
 % #Author: Michael Mihocic: increased robustness of missing description fields (26.11.2024)
 % #Author: Michael Mihocic: output file names fixed (04.12.2024)
 % #Author: Michael Mihocic: bugs fixed (13.01.2025)
+% #Author: Michael Mihocic: code cleaned up (23.07.2025)
 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -30,11 +31,11 @@ if savefigures==1
 end
 
 %% Let's start, load a SimpleFreeFieldHRIR SOFA object
-% filename = 'database/ari/hrtf_nh4.sofa';
 filename = 'database/thk/HRIR_L2354.sofa';
 IR=SOFAload(['db://' filename]);
 fs=IR.Data.SamplingRate;
 IR.GLOBAL_APIVersion=SOFAgetVersion;
+
 %% Figures
 figure('Name',mfilename);
 SOFAplotHRTF(IR,'magmedian'); 
@@ -65,11 +66,6 @@ if isfield(IR, 'GLOBAL_ReceiverDescription'); TF.GLOBAL_ReceiverDescription = IR
 if isfield(IR, 'GLOBAL_SourceDescription'); TF.GLOBAL_SourceDescription = IR.GLOBAL_SourceDescription; end
 if isfield(IR, 'GLOBAL_EmitterDescription'); TF.GLOBAL_EmitterDescription = IR.GLOBAL_EmitterDescription; end
 if isfield(IR, 'GLOBAL_RoomDescription'); TF.GLOBAL_RoomDescription = IR.GLOBAL_RoomDescription; end
-% TF.GLOBAL_ListenerDescription = IR.GLOBAL_ListenerDescription;
-% TF.GLOBAL_ReceiverDescription = IR.GLOBAL_ReceiverDescription;
-% TF.GLOBAL_SourceDescription = IR.GLOBAL_SourceDescription;
-% TF.GLOBAL_EmitterDescription = IR.GLOBAL_EmitterDescription;
-% TF.GLOBAL_RoomDescription = IR.GLOBAL_RoomDescription;
 TF.GLOBAL_Parents = [SOFAdbURL '/' filename];
   % copy/update variables
 TF.ListenerPosition=IR.ListenerPosition;
@@ -255,7 +251,6 @@ azi=[zeros(length(elemin:1:90),1); 180*ones(length(89:-1:elemin),1); (1:355)'];
 radius=SH.EmitterPosition(:,3)*ones(size(ele));
 TFEint.EmitterPosition=[azi ele radius];
 TFEint.EmitterPosition_Type='spherical';
-% TFEint.EmitterPosition_Units=SH.EmitterPosition_Units;
 Sint = sph2SH(TFEint.EmitterPosition(:,1:2), L);
 TFEint.API.E=size(Sint,1);
 TFEint.Data.Real=zeros(1,2,TFEint.API.N,TFEint.API.E);
@@ -290,13 +285,6 @@ if isfield(SH, 'GLOBAL_SourceDescription'); TFint.GLOBAL_SourceDescription = SH.
 if isfield(SH, 'GLOBAL_EmitterDescription'); TFint.GLOBAL_EmitterDescription = SH.GLOBAL_EmitterDescription; end
 if isfield(SH, 'GLOBAL_RoomDescription'); TFint.GLOBAL_RoomDescription = SH.GLOBAL_RoomDescription; end
 if isfield(SH, 'GLOBAL_Parents'); TFint.GLOBAL_Parents = SH.GLOBAL_Parents; end
-% TFint.GLOBAL_Author = SH.GLOBAL_Author;
-% TFint.GLOBAL_ListenerDescription = SH.GLOBAL_ListenerDescription;
-% TFint.GLOBAL_ReceiverDescription = SH.GLOBAL_ReceiverDescription;
-% TFint.GLOBAL_SourceDescription = SH.GLOBAL_SourceDescription;
-% TFint.GLOBAL_EmitterDescription = SH.GLOBAL_EmitterDescription;
-% TFint.GLOBAL_RoomDescription = SH.GLOBAL_RoomDescription;
-% TFint.GLOBAL_Parents = SH.GLOBAL_Parents;
   % Copy/Update variables
 TFint.ListenerPosition=SH.ListenerPosition;
 TFint.ListenerPosition_Type=SH.ListenerPosition_Type;
