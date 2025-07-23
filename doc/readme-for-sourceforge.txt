@@ -6,9 +6,9 @@ All further releases can be found at the SONICOM Ecosystem: https://ecosystem.so
 
 The code development happens on GitHub: https://github.com/sofacoustics/SOFAtoolbox
 
-Contact the main developers: Piotr Majdak <piotr.majdak@oeaw.ac.at> and Michael Mihocic <michael.mihocic@oeaw.ac.at>
+Contact the main developers: Piotr Majdak (ÖAW) and Michael Mihocic (ÖAW) via https://www.oeaw.ac.at/en/ari/team/our-team
 
-Many thanks go to Hagen Wierstorf <hagen.wierstorf@tu-berlin.de> for the initial Octave support and Markus Noisternig <markus.noisternig@ircam.fr> for the work on the SOFA standard.
+Many thanks go to Hagen Wierstorf for the initial Octave support and Markus Noisternig (IRCAM) for the work on the SOFA standard.
 
 Acoustics Research Insitute (ARI)
 Austrian Academy of Sciences (OeAW)
