@@ -1,0 +1,102 @@
+{| border="1"
+!Name
+!Default
+![[SOFA_conventions#AnchorFlags|Flags]]
+![[SOFA_conventions#AnchorDimensions|Dimensions]]
+!Type
+!Comment
+|-
+|GLOBAL:Conventions||<nowiki>SOFA</nowiki>||rm||||attribute||
+|-
+|GLOBAL:Version||<nowiki>2.1</nowiki>||rm||||attribute||
+|-
+|GLOBAL:SOFAConventions||<nowiki>SimpleFreeFieldHRTF</nowiki>||rm||||attribute||This conventions is for HRTFs created under conditions where room information is irrelevant.
+|-
+|GLOBAL:SOFAConventionsVersion||<nowiki>1.1</nowiki>||rm||||attribute||
+|-
+|GLOBAL:APIName||<nowiki></nowiki>||rm||||attribute||
+|-
+|GLOBAL:APIVersion||<nowiki></nowiki>||rm||||attribute||
+|-
+|GLOBAL:ApplicationName||<nowiki></nowiki>||||||attribute||
+|-
+|GLOBAL:ApplicationVersion||<nowiki></nowiki>||||||attribute||
+|-
+|GLOBAL:AuthorContact||<nowiki></nowiki>||m||||attribute||
+|-
+|GLOBAL:Comment||<nowiki></nowiki>||||||attribute||
+|-
+|GLOBAL:DataType||<nowiki>TF</nowiki>||rm||||attribute||
+|-
+|GLOBAL:History||<nowiki></nowiki>||||||attribute||
+|-
+|GLOBAL:License||<nowiki>No license provided, ask the author for permission</nowiki>||m||||attribute||
+|-
+|GLOBAL:DatabaseName||<nowiki></nowiki>||m||||attribute||Unique name of the database to which these data belong.
+|-
+|GLOBAL:ListenerShortName||<nowiki></nowiki>||m||||attribute||ID of the subject from the database.
+|-
+|GLOBAL:Organization||<nowiki></nowiki>||m||||attribute||
+|-
+|GLOBAL:References||<nowiki></nowiki>||||||attribute||
+|-
+|GLOBAL:RoomType||<nowiki>free field</nowiki>||m||||attribute||
+|-
+|GLOBAL:Origin||<nowiki></nowiki>||||||attribute||
+|-
+|GLOBAL:DateCreated||<nowiki></nowiki>||m||||attribute||
+|-
+|GLOBAL:DateModified||<nowiki></nowiki>||m||||attribute||
+|-
+|GLOBAL:Title||<nowiki></nowiki>||m||||attribute||
+|-
+|ListenerPosition||<nowiki>[0 0 0] </nowiki>||m||IC, MC||double||
+|-
+|ListenerPosition:Type||<nowiki>cartesian</nowiki>||m||||attribute||
+|-
+|ListenerPosition:Units||<nowiki>metre</nowiki>||m||||attribute||
+|-
+|ReceiverPosition||<nowiki>[0 0.09 0; 0 -0.09 0]</nowiki>||m||RCI,RCM||double||
+|-
+|ReceiverPosition:Type||<nowiki>cartesian</nowiki>||m||||attribute||
+|-
+|ReceiverPosition:Units||<nowiki>metre</nowiki>||m||||attribute||
+|-
+|SourcePosition||<nowiki>[0 0 1]</nowiki>||m||IC, MC||double||The source position is assumed to vary around the listener.
+|-
+|SourcePosition:Type||<nowiki>spherical</nowiki>||m||||attribute||
+|-
+|SourcePosition:Units||<nowiki>degree, degree, metre</nowiki>||m||||attribute||
+|-
+|EmitterPosition||<nowiki>[0 0 0]</nowiki>||m||eCI, eCM||double||Source consists of a single Emitter only.
+|-
+|EmitterPosition:Type||<nowiki>cartesian</nowiki>||m||||attribute||
+|-
+|EmitterPosition:Units||<nowiki>metre</nowiki>||m||||attribute||
+|-
+|ListenerUp||<nowiki>[0 0 1]</nowiki>||m||IC, MC||double||
+|-
+|ListenerView||<nowiki>[1 0 0]</nowiki>||m||IC, MC||double||
+|-
+|ListenerView:Type||<nowiki>cartesian</nowiki>||m||||attribute||
+|-
+|ListenerView:Units||<nowiki>metre</nowiki>||m||||attribute||
+|-
+|Data.Real||<nowiki>[0 0]</nowiki>||m||mrn||double||
+|-
+|Data.Imag||<nowiki>[0 0]</nowiki>||m||MRN||double||
+|-
+|N||<nowiki>0</nowiki>||m||N||double||
+|-
+|N:LongName||<nowiki>frequency</nowiki>||m||||attribute||narrative name of N
+|-
+|N:Units||<nowiki>hertz</nowiki>||m||||attribute||
+|-
+|Normalization||<nowiki>0</nowiki>||||I||double||Describing normalization status.
+|-
+|Normalization:Description||<nowiki></nowiki>||||||attribute||Narrative explanation of the normalization.
+|-
+|Normalization:References||<nowiki></nowiki>||||||attribute||References to publications describing the normalization.
+|-
+|Normalization:URI||<nowiki></nowiki>||||||attribute||URIs or DOIs to publications describing the normalization.
+|}

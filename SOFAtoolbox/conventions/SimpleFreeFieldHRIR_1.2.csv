@@ -12,6 +12,8 @@ GLOBAL:Comment			 	attribute
 GLOBAL:DataType	FIR	rm	  	attribute	
 GLOBAL:History			 	attribute	
 GLOBAL:License	No license provided, ask the author for permission	m	  	attribute	
+GLOBAL:DatabaseName		m	  	attribute	Unique name of the database to which these data belong.
+GLOBAL:ListenerShortName		m		attribute	ID of the subject from the database.
 GLOBAL:Organization		m	  	attribute	
 GLOBAL:References				attribute	
 GLOBAL:RoomType	free field	m	  	attribute	
@@ -31,8 +33,6 @@ SourcePosition:Units	degree, degree, metre	m	  	attribute
 EmitterPosition	[0 0 0]	m	eCI, eCM	double	Source consists of a single Emitter only.
 EmitterPosition:Type	cartesian	m	  	attribute	
 EmitterPosition:Units	metre	m	  	attribute	
-GLOBAL:DatabaseName		m	 	attribute	Unique name of the database to which these data belong.
-GLOBAL:ListenerShortName		m	  	attribute	ID of the subject from the database.
 ListenerUp	[0 0 1]	m	IC, MC	double	
 ListenerView	[1 0 0]	m	IC, MC	double	
 ListenerView:Type	cartesian	m		attribute	
