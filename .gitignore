@@ -24,6 +24,7 @@
 /data/LISTEN/IRC_1002/
 /data/MIT KEMAR/full/*/*.wav
 /data/Oldenburg/HRIR_database_mat/
+/data/Oldenburg/*.zip
 /data/SCUT/nearfield/
 /data/SOFA/*.sofa
 /data/SOFA/sofatoolbox_test/*.sofa
