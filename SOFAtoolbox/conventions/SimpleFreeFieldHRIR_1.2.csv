@@ -24,7 +24,7 @@ GLOBAL:Title		m		attribute
 ListenerPosition	[0 0 0] 	m	IC, MC	double	
 ListenerPosition:Type	cartesian	m	  	attribute	
 ListenerPosition:Units	metre	m	  	attribute	
-ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	RCI, RCM	double	
+ReceiverPosition	[0 0.09 0; 0 -0.09 0]	m	RCI	double	
 ReceiverPosition:Type	cartesian	m	  	attribute	
 ReceiverPosition:Units	metre	m	  	attribute	
 SourcePosition	[0 0 1]	m	IC, MC	double	The source position is assumed to vary around the listener.
