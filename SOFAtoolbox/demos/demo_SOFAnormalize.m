@@ -5,6 +5,7 @@
 % #Author: Helene Bahu: demo script adapted to plot meaningful data (as per Bahu2025 paper) (17.03.2025)
 % #Author: Michael Mihocic: minor adaptions to fit SOFA Toolbox (17.03.2025)
 % #Author: Michael Mihocic: SS2 SOFA files added to the loop (19.03.2025)
+% #Author: Michael Mihocic: different normalization types added (30.09.2025)
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Helene Bahu, helenebahu(at)gmail.com; Michael Mihocic, Acoustics Research Institute - Austrian Academy of Sciences
@@ -21,10 +22,11 @@
 % clear all % 'clear all' can break SOFA functionality
 % clc
 
-%% Adapt system parameters here (optional)
+%% Adapt system parameters here (adapt optionally)
 % addpath to SOFAstart
 % addpath(genpath('D:\Projects\SOFA\Github\SOFAtoolbox-development\SOFAtoolbox'))
 % addpath(genpath('/Users/bahu/Documents/MATLAB/SOFA Toolbox/SOFAtoolbox/'))
+% Define a list of file names
 SofaFiles = {...
     'clubfritz/ClubFritz1.sofa', ...
     'clubfritz/ClubFritz2.sofa',...
@@ -48,10 +50,30 @@ SofaFiles = {...
     'ss2%20(mannequins)/KU100051023_4_processed.sofa' ...
     }; 
 
+warning('off','SOFA:save:API');
 
-%% Process data
+%% Process data type 0 (custom normalization, to be defined)
+Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
+NormObj = SOFAnormalize(Obj, 0);
+NormObj.Normalization_References = 'If I had a reference for my custom normalization type I would put it here...';
+NormObj.Normalization_URI = 'If I had an URI for my custom normalization type I would put it here...';
+disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type0.sofa'])]);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type0.sofa']),NormObj);
+
+%% Process data type 1 (Direction-independent filters removed individually per each receiver according to Theile (1986).)
+Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
+NormObj = SOFAnormalize(Obj, 1);
+disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa'])]);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa']),NormObj);
+
+%% Process data type 1 (Direction-independent filters removed individually per each receiver according to Theile (1986).)
+Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
+NormObj = SOFAnormalize(Obj, 2);
+disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa'])]);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa']),NormObj);
+
+%% Process data type 3 (Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025).)
 % SOFAstart;
-% Define a list of file names
 
 % figure
 legend_s = [];    
@@ -98,7 +120,11 @@ for i = 1:length(SofaFiles)
     % Apply normalization
     % disp(['Normalizing file ' i '/' length(SofaFiles) ": " SofaFile]);
     param_S.do_resize_b = 1;
-    Objnorm_S = SOFAnormalize(Obj,param_S);
+    disp(['Normalizing file ' num2str(i) '/' num2str(length(SofaFiles)) ' (normalization type 3): ' SofaFile ' ...'])
+    Objnorm_S = SOFAnormalize(Obj, 3, param_S); % normalization type 'Bahu'
+    [~, SofaFileName, ~] = fileparts(SofaFile);
+    disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_' SofaFileName ' normalization type3.sofa'])]);
+    SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_' SofaFileName ' normalization type3.sofa']),NormObj);
     % Plot normalized magnitude at frontal direction
     [ l_mag_norm_v, r_mag_norm_v, freq_norm_v ] = local_get_frontal_mag( Objnorm_S );
     subplot( 2, 1, 2 )
