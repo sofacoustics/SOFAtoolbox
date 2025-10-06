@@ -45,7 +45,7 @@ SourceUp	[0 0 1]		IC, MC	double
 SourceView	[1 0 0]		IC, MC	double	
 SourceView:Type	cartesian			attribute	
 SourceView:Units	metre			attribute	
-Normalization	0		I	double	Describing normalization status.
+Normalization	0		I	double	Index to the applied normalization method. 0: Custom or unspecified; 1: Diffuse-field equalized (Theile, 1986); 2: Directional transfer functions (Middlebrooks and Green, 1992); 3: Across-databases normalization (Bahu et al., 2025).
 Normalization:Description				attribute	Narrative explanation of the normalization.
 Normalization:References				attribute	References to publications describing the normalization.
 Normalization:URI				attribute	URIs or DOIs to publications describing the normalization.

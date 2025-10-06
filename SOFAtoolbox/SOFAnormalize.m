@@ -6,7 +6,7 @@ function [norm_S, param_S] = SOFAnormalize(ori_S, type, param_S)
 %     0:  Custom or m/unspecified or not-standardized normalization.: contact AES to be part of the normalization list. Narrative descriptions should be provided in attributes of Normalization (see Table D.7.5B).
 %     1:	Direction-independent filters removed individually per each receiver according to Theile (1986). This is usually referred to as diffuse-field equalized filters.
 %     2:	Direction-independent filters removed individually per each receiver according to Majdak et al., (2010). This is usually referred to as directional transfer functions.
-%     3:	Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025).
+%     3:	Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025). This is referred to as across-databases normalization.
 %
 %   SOFAnormalize with normalization type 'Bahu' (type: 3) applies a normalization to SOFA files, consisting six steps:
 %     1. low-pass filtering to harmonize the high-frequency support
@@ -74,10 +74,10 @@ switch type
   case 0 % Custom or m/unspecified or not-standardized normalization.: contact AES to be part of the normalization list. Narrative descriptions should be provided in attributes of Normalization (see Table D.7.5B).
     norm_S = ori_S;
     norm_S = SOFAaddVariable(norm_S,'Normalization','I', 0);
-    norm_S = SOFAaddVariable(norm_S,'Normalization_Description','S','Custom or m/unspecified or not-standardized normalization.');
-    norm_S = SOFAaddVariable(norm_S,'Normalization_References','S','');
-    norm_S = SOFAaddVariable(norm_S,'Normalization_URI','S','');
-    warning('SOFAnormalize:NormalizationType0', 'Selected normalization type: 0; please define attributes ''Normalization_References'' and ''Normalization_URI''.')
+    norm_S.Normalization_Description = 'Describe your normalization here because it is custom or unspecified!';
+    norm_S.Normalization_References = 'Provide a reference to your custom normalization!';
+    norm_S.Normalization_URI = 'Provide a URI to your custom normalization such as http://reference.to.the.custom.normalization.';
+    warning('SOFAnormalize:NormalizationType0', 'Selected normalization type: 0; Provide information for attributes ''Normalization_Description'' ''Normalization_References'' and ''Normalization_URI''.')
 
   case 1 % Direction-independent filters removed individually per each receiver according to Theile (1986). This is usually referred to as diffuse-field equalized filters.
     norm_S = SOFAhrtf2dtf(ori_S,'rms');
@@ -657,573 +657,572 @@ switch type
     norm_S.API.N = numSamples_n;
 
     norm_S = SOFAaddVariable(norm_S,'Normalization','I', 3);
-    norm_S = SOFAaddVariable(norm_S,'Normalization_Description','S','Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025).');
-    norm_S = SOFAaddVariable(norm_S,'Normalization_References','S','Bahu, H., Jot, J-M., Carpentier, T., Noisternig, M., Mihocic, M., Majdak, P., and Warusfel, O. (2025), Towards improved consistency between databases of head-related transfer functions, Journal of the Audio Engineering Society, ???, ???');
-    norm_S = SOFAaddVariable(norm_S,'Normalization_URI','S','https://doi.org/???');
+    norm_S.Normalization_Description = 'Across-databases normalization: Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025).';
+    norm_S.Normalization_References = 'Bahu, H., Jot, J-M., Carpentier, T., Noisternig, M., Mihocic, M., Majdak, P., and Warusfel, O. (2025), Towards improved consistency between databases of head-related transfer functions, Journal of the Audio Engineering Society, ???, ???';
+    norm_S.Normalization_URI = 'https://doi.org/???';
   otherwise
     error(['Normalization type not supported: ' num2str(type)])
-end
+  end
 
+end
 
 %%%%%%%% LOCAL FUNCTIONS %%%%%%%%
 
-  function param_S = local_get_default_norm_param()
+function param_S = local_get_default_norm_param()
 
-    % Default Normalization Parameters (in order)
+% Default Normalization Parameters (in order)
 
-    param_S.do_gain_norm_b = 0;% normalize by overall max
+param_S.do_gain_norm_b = 0;% normalize by overall max
 
-    param_S.do_resamp_b    = 0; param_S.default_Fs_f = 48000; % frequency resampling
+param_S.do_resamp_b    = 0; param_S.default_Fs_f = 48000; % frequency resampling
 
-    param_S.do_lp_b        = 1; param_S.cutfreq_f = 18000; % low-pass filtering
+param_S.do_lp_b        = 1; param_S.cutfreq_f = 18000; % low-pass filtering
 
-    param_S.do_talign_b    = 1; param_S.talignSec_f = 0.001; param_S.threshold_f = 20; % time align frontal HRIR to reference time mark
+param_S.do_talign_b    = 1; param_S.talignSec_f = 0.001; param_S.threshold_f = 20; % time align frontal HRIR to reference time mark
 
-    param_S.do_win_b       = 1; param_S.windowLengthSec_f = 0.0058; param_S.fadeIn_f = 0.00025; param_S.safety_f = param_S.fadeIn_f; param_S.fadeOut_f = 0.001; param_S.threshold_f = 20; % HRIR windowing
+param_S.do_win_b       = 1; param_S.windowLengthSec_f = 0.0058; param_S.fadeIn_f = 0.00025; param_S.safety_f = param_S.fadeIn_f; param_S.fadeOut_f = 0.001; param_S.threshold_f = 20; % HRIR windowing
 
-    param_S.do_resize_b    = 0; param_S.targetLengthSec_f = param_S.windowLengthSec_f*2; % set HRIR length to target length (zero-padd or cut)
+param_S.do_resize_b    = 0; param_S.targetLengthSec_f = param_S.windowLengthSec_f*2; % set HRIR length to target length (zero-padd or cut)
 
-    param_S.do_eq_b        = 1; param_S.eqfiltFlatten_b = 1; % diffuse-field equalization
+param_S.do_eq_b        = 1; param_S.eqfiltFlatten_b = 1; % diffuse-field equalization
 
-    param_S.do_LFext_b     = 1; param_S.lowFreq_f = 250; % low frequency extension
+param_S.do_LFext_b     = 1; param_S.lowFreq_f = 250; % low frequency extension
 
-    param_S.do_dist_b      = 1;% far-field correction
-
-
-  end
-
-  function [] = local_check_parameters( param_S )
-
-    % Check that parameters in param_S are within reasonable bounds
-
-    % Check boolean parameters "do_.._b"
-    assert( param_S.do_gain_norm_b == 0 | param_S.do_gain_norm_b == 1, 'Parameter do_gain_norm_b should be a boolean.' )
-    assert( param_S.do_resamp_b == 0 | param_S.do_resamp_b == 1, 'Parameter do_resamp_b should be a boolean.' )
-    assert( param_S.do_lp_b == 0 | param_S.do_lp_b == 1, 'Parameter do_lp_b should be a boolean.' )
-    assert( param_S.do_talign_b == 0 | param_S.do_talign_b == 1, 'Parameter do_talign_b should be a boolean.' )
-    assert( param_S.do_win_b == 0 | param_S.do_win_b == 1, 'Parameter do_win_b should be a boolean.' )
-    assert( param_S.do_resize_b == 0 | param_S.do_resize_b == 1, 'Parameter do_resize_b should be a boolean.' )
-    assert( param_S.do_eq_b == 0 | param_S.do_eq_b == 1, 'Parameter do_eq_b should be a boolean.' )
-    assert( param_S.do_LFext_b == 0 | param_S.do_LFext_b == 1, 'Parameter do_LFext_b should be a boolean.' )
-    assert( param_S.do_dist_b == 0 | param_S.do_dist_b == 1, 'Parameter do_dist_b should be a boolean.' )
-    assert( param_S.eqfiltFlatten_b == 0 | param_S.eqfiltFlatten_b == 1, 'Parameter eqfiltFlatten_b should be a boolean.' )
-
-    % Define reasonable bounds for normalization parameters
-    assert( param_S.default_Fs_f >= 8000 & param_S.default_Fs_f <= 192000 , 'Invalid sampling rate default_Fs_f (Hz).' )
-    assert( param_S.cutfreq_f >= 100 & param_S.cutfreq_f <= param_S.default_Fs_f/2, 'Invalid cutoff frequency cutfreq_f (Hz).' )
-    assert( param_S.talignSec_f >= 0 & param_S.talignSec_f <= 0.005, 'Invalid reference time mark talignSec_f (sec).' )
-    assert( param_S.windowLengthSec_f >= 0.001 & param_S.windowLengthSec_f <= 2, 'Invalid window length windowLengthSec_f (sec).' )
-    assert( param_S.fadeIn_f >= 0 & param_S.fadeIn_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter fadeIn_f (sec).' )
-    assert( param_S.fadeOut_f >= 0 & param_S.fadeOut_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter fadeOut_f (sec).' )
-    assert( param_S.safety_f >= 0 & param_S.safety_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter safety_f (sec).' )
-    assert( param_S.threshold_f >= 0 & param_S.threshold_f <= 100, 'Invalid onset detection parameter threshold_f (sec).' )
-    assert( param_S.targetLengthSec_f >= 0.001 & param_S.targetLengthSec_f <= 0.02, 'Invalid resize parameter targetLengthSec_f (sec).' )
-    assert( param_S.lowFreq_f >= 0 & param_S.lowFreq_f <= 2000, 'Invalid low-frequency extension parameter lowFreq_f (Hz).' )
-  end
-
-  function [ first_onset_n, iDirFirstOnset_n, onset_m ] = local_detect_first_onset( struct_S, threshold_f )
-
-    % This function corresponds to local function IR_start in SOFA_calculateITD
-    % Input: - struct_S: SOFA structure containing field .Data.IR of size [ numDir x 2 x numBins ]
-    %        - threshold_f: (optional) threshold in dB below peak value for onset detection. Default is 20dB
-    % Output: - first_onset_n: sample of first onset across directions and ears
-    %         - iDirFirstOnset_n: index of the direction of the first onset
-    %         - onset_m: onsets for each direction and ear [ numDir x 2 ]
-
-    if nargin == 1
-      threshold_f = 20;
-    end
-
-    assert( size( struct_S.Data.IR, 2 ) == 2 )
-
-    onset_m = zeros( size( struct_S.Data.IR, 1 ), 2 );
-
-    for ii = 1 : size( struct_S.Data.IR, 1) % loop on directions
-
-      for ee = 1 : 2 % loop on ears
-
-        clear IR
-        IR = struct_S.Data.IR( ii, ee, : );
-
-        % 20210207 - Davi Carvalho, adapted from ita_start_IR.m from https://git.rwth-aachen.de/ita/toolbox/-/blob/master/kernel/DSP/ita_start_IR.m
-        threshold_f = -abs(threshold_f);
-        IR_square = IR.^2;
-        % Max value on IR
-        [pk_val, idx_max] = max(IR_square(:));
-        abs_dat = 10.*log10(IR_square(1:idx_max)) - 10.*log10(pk_val);
-
-        lastBelowThreshold  = find(abs_dat < threshold_f,1,'last');
-        if ~isempty(lastBelowThreshold)
-          sampleStart = lastBelowThreshold;
-        else
-          sampleStart = 1;
-        end
-        % Check if oscillations exist before the last value below threshold
-        % If so, these are part of the RIR and need to be considered.
-        idx6dBaboveThreshold = find(abs_dat(1:sampleStart) > threshold_f + 6);
-        if ~isempty(idx6dBaboveThreshold)
-          tmp = find(abs_dat(1:idx6dBaboveThreshold(1)) < threshold_f, 1 ,'last');
-          if isempty(tmp) % without this if, the function would generate an error, if the oscillation persists until the first sample
-            sampleStart = 1;
-          else
-            sampleStart = tmp;
-          end
-        end
-        onset_m( ii, ee ) = sampleStart;
-      end
-    end
-
-    [ minOnsetDir_v, iDirFirstOnsetEars_v ] = min( onset_m, [], 1 );
-    [ first_onset_n, iEar_n ] = min( minOnsetDir_v );
-    assert( first_onset_n >= 0 )
-    iDirFirstOnset_n = iDirFirstOnsetEars_v( iEar_n );
-  end
+param_S.do_dist_b      = 1;% far-field correction
 
 
-  function [ xyz_unique_m, iDuplicates_v ] = local_removeDuplicatePoints( xyz_m )
+end
 
-    % Remove duplicate points in cartesian coordinates matrix
-    % Input:  - xyz_m is a matrix of size [ numPoints_n x 3 ]
-    % Output: - xyz_unique_m: matrix with unique points (duplicates removed)
-    %         - iDuplicates_v: vector with indices of xyz_m (first dim) that are duplicates
+function [] = local_check_parameters( param_S )
 
-    assert( nargin == 1, 'Invalid number of input agruments' )
-    numPoints_n = size( xyz_m, 1 );
-    if numPoints_n == 3; warning( 'Only 3 points?? Check matrix dimensions' ); end
+% Check that parameters in param_S are within reasonable bounds
 
-    % Distance tolerance for considering neighboring points as duplicates (m)
-    tolerance_f = 10^(-10);
-    kk = 0;
-    iDupliPairs_m = [ 0, 0 ];
+% Check boolean parameters "do_.._b"
+assert( param_S.do_gain_norm_b == 0 | param_S.do_gain_norm_b == 1, 'Parameter do_gain_norm_b should be a boolean.' )
+assert( param_S.do_resamp_b == 0 | param_S.do_resamp_b == 1, 'Parameter do_resamp_b should be a boolean.' )
+assert( param_S.do_lp_b == 0 | param_S.do_lp_b == 1, 'Parameter do_lp_b should be a boolean.' )
+assert( param_S.do_talign_b == 0 | param_S.do_talign_b == 1, 'Parameter do_talign_b should be a boolean.' )
+assert( param_S.do_win_b == 0 | param_S.do_win_b == 1, 'Parameter do_win_b should be a boolean.' )
+assert( param_S.do_resize_b == 0 | param_S.do_resize_b == 1, 'Parameter do_resize_b should be a boolean.' )
+assert( param_S.do_eq_b == 0 | param_S.do_eq_b == 1, 'Parameter do_eq_b should be a boolean.' )
+assert( param_S.do_LFext_b == 0 | param_S.do_LFext_b == 1, 'Parameter do_LFext_b should be a boolean.' )
+assert( param_S.do_dist_b == 0 | param_S.do_dist_b == 1, 'Parameter do_dist_b should be a boolean.' )
+assert( param_S.eqfiltFlatten_b == 0 | param_S.eqfiltFlatten_b == 1, 'Parameter eqfiltFlatten_b should be a boolean.' )
 
-    dist_m = zeros( numPoints_n, numPoints_n );
-    for ii = 1 : numPoints_n
-      for jj = 1 : numPoints_n
-        % distance between pair of points ii and jj
-        dist_m( ii, jj ) = sqrt( ( xyz_m( ii, 1 )-xyz_m( jj, 1 ))^2 + ( xyz_m( ii, 2 )-xyz_m( jj, 2 ))^2 + ( xyz_m( ii, 3 )-xyz_m( jj, 3 ))^2 );
-        % if their distance is under tolerance, they are not the same point, duplicate pair not recorded in iDupliPairs_m
-        if( dist_m( ii, jj ) < tolerance_f )&&( ii ~= jj )&&( sum( ismember( iDupliPairs_m, [ jj, ii ], 'rows' ) ) == 0 )
-          kk = kk+1;
-          iDupliPairs_m( kk, 1 ) = ii;
-          iDupliPairs_m( kk, 2 ) = jj;
-        end
-      end
-    end
+% Define reasonable bounds for normalization parameters
+assert( param_S.default_Fs_f >= 8000 & param_S.default_Fs_f <= 192000 , 'Invalid sampling rate default_Fs_f (Hz).' )
+assert( param_S.cutfreq_f >= 100 & param_S.cutfreq_f <= param_S.default_Fs_f/2, 'Invalid cutoff frequency cutfreq_f (Hz).' )
+assert( param_S.talignSec_f >= 0 & param_S.talignSec_f <= 0.005, 'Invalid reference time mark talignSec_f (sec).' )
+assert( param_S.windowLengthSec_f >= 0.001 & param_S.windowLengthSec_f <= 2, 'Invalid window length windowLengthSec_f (sec).' )
+assert( param_S.fadeIn_f >= 0 & param_S.fadeIn_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter fadeIn_f (sec).' )
+assert( param_S.fadeOut_f >= 0 & param_S.fadeOut_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter fadeOut_f (sec).' )
+assert( param_S.safety_f >= 0 & param_S.safety_f <= param_S.windowLengthSec_f/2, 'Invalid windowing parameter safety_f (sec).' )
+assert( param_S.threshold_f >= 0 & param_S.threshold_f <= 100, 'Invalid onset detection parameter threshold_f (sec).' )
+assert( param_S.targetLengthSec_f >= 0.001 & param_S.targetLengthSec_f <= 0.02, 'Invalid resize parameter targetLengthSec_f (sec).' )
+assert( param_S.lowFreq_f >= 0 & param_S.lowFreq_f <= 2000, 'Invalid low-frequency extension parameter lowFreq_f (Hz).' )
+end
 
-    % If there are duplicates, remove them
-    if kk > 0
-      iDuplicates_v = unique( iDupliPairs_m( :, 2 ) );
-      unique_ind_v = [ 1 : numPoints_n ];
-      unique_ind_v( iDuplicates_v )  = [];
-      xyz_unique_m = xyz_m( unique_ind_v, : );
+function [ first_onset_n, iDirFirstOnset_n, onset_m ] = local_detect_first_onset( struct_S, threshold_f )
 
+% This function corresponds to local function IR_start in SOFA_calculateITD
+% Input: - struct_S: SOFA structure containing field .Data.IR of size [ numDir x 2 x numBins ]
+%        - threshold_f: (optional) threshold in dB below peak value for onset detection. Default is 20dB
+% Output: - first_onset_n: sample of first onset across directions and ears
+%         - iDirFirstOnset_n: index of the direction of the first onset
+%         - onset_m: onsets for each direction and ear [ numDir x 2 ]
+
+if nargin == 1
+  threshold_f = 20;
+end
+
+assert( size( struct_S.Data.IR, 2 ) == 2 )
+
+onset_m = zeros( size( struct_S.Data.IR, 1 ), 2 );
+
+for ii = 1 : size( struct_S.Data.IR, 1) % loop on directions
+
+  for ee = 1 : 2 % loop on ears
+
+    clear IR
+    IR = struct_S.Data.IR( ii, ee, : );
+
+    % 20210207 - Davi Carvalho, adapted from ita_start_IR.m from https://git.rwth-aachen.de/ita/toolbox/-/blob/master/kernel/DSP/ita_start_IR.m
+    threshold_f = -abs(threshold_f);
+    IR_square = IR.^2;
+    % Max value on IR
+    [pk_val, idx_max] = max(IR_square(:));
+    abs_dat = 10.*log10(IR_square(1:idx_max)) - 10.*log10(pk_val);
+
+    lastBelowThreshold  = find(abs_dat < threshold_f,1,'last');
+    if ~isempty(lastBelowThreshold)
+      sampleStart = lastBelowThreshold;
     else
-      xyz_unique_m = xyz_m;
-      iDuplicates_v = [];
+      sampleStart = 1;
     end
-
-  end
-
-  function [ xyz_edit_m, iOutsideSphere_v ] = local_removePointsOutsideSphere( xyz_m, default_dist_f )
-
-    % Remove points outside of sphere of radius default_dist_f
-    % Input: - xyz_m is a matrix of size [ numPoints_n x 3 ]
-    %        - default_dist_f: radius of sampled sphere
-    % Output: - xyz_edit_m: matrix with points outside sphere removed
-    %         - iOutsideSphere_v: vector with indices of xyz_m (1st dim) that are outside the sphere of radius default_dist_f
-
-    assert( nargin == 2, 'Invalid number of input agruments' )
-
-    distFromCenter_v = sqrt( xyz_m(:,1).^2 + xyz_m(:,2).^2 + xyz_m(:,3).^2 );
-
-    iOutsideSphere_v = [];
-    xyz_edit_m = xyz_m;
-    uniqDist_v = unique( round( distFromCenter_v, 3 ) );
-    if length( uniqDist_v ) > 1 % there are several distances
-      for dd = 1 : length( uniqDist_v )
-        if round( uniqDist_v( dd ), 2 ) ~= round( default_dist_f, 2 ) % if distance dd is different from default_dist_f
-          clear iDist_v
-          [ iDist_v ] = find( round( distFromCenter_v, 3 ) == uniqDist_v(dd) );
-          iOutsideSphere_v = [ iOutsideSphere_v; iDist_v ];
-        end
+    % Check if oscillations exist before the last value below threshold
+    % If so, these are part of the RIR and need to be considered.
+    idx6dBaboveThreshold = find(abs_dat(1:sampleStart) > threshold_f + 6);
+    if ~isempty(idx6dBaboveThreshold)
+      tmp = find(abs_dat(1:idx6dBaboveThreshold(1)) < threshold_f, 1 ,'last');
+      if isempty(tmp) % without this if, the function would generate an error, if the oscillation persists until the first sample
+        sampleStart = 1;
+      else
+        sampleStart = tmp;
       end
     end
+    onset_m( ii, ee ) = sampleStart;
+  end
+end
 
-    xyz_edit_m( iOutsideSphere_v, : ) = [];% remove points
+[ minOnsetDir_v, iDirFirstOnsetEars_v ] = min( onset_m, [], 1 );
+[ first_onset_n, iEar_n ] = min( minOnsetDir_v );
+assert( first_onset_n >= 0 )
+iDirFirstOnset_n = iDirFirstOnsetEars_v( iEar_n );
+end
+
+
+function [ xyz_unique_m, iDuplicates_v ] = local_removeDuplicatePoints( xyz_m )
+
+% Remove duplicate points in cartesian coordinates matrix
+% Input:  - xyz_m is a matrix of size [ numPoints_n x 3 ]
+% Output: - xyz_unique_m: matrix with unique points (duplicates removed)
+%         - iDuplicates_v: vector with indices of xyz_m (first dim) that are duplicates
+
+assert( nargin == 1, 'Invalid number of input agruments' )
+numPoints_n = size( xyz_m, 1 );
+if numPoints_n == 3; warning( 'Only 3 points?? Check matrix dimensions' ); end
+
+% Distance tolerance for considering neighboring points as duplicates (m)
+tolerance_f = 10^(-10);
+kk = 0;
+iDupliPairs_m = [ 0, 0 ];
+
+dist_m = zeros( numPoints_n, numPoints_n );
+for ii = 1 : numPoints_n
+  for jj = 1 : numPoints_n
+    % distance between pair of points ii and jj
+    dist_m( ii, jj ) = sqrt( ( xyz_m( ii, 1 )-xyz_m( jj, 1 ))^2 + ( xyz_m( ii, 2 )-xyz_m( jj, 2 ))^2 + ( xyz_m( ii, 3 )-xyz_m( jj, 3 ))^2 );
+    % if their distance is under tolerance, they are not the same point, duplicate pair not recorded in iDupliPairs_m
+    if( dist_m( ii, jj ) < tolerance_f )&&( ii ~= jj )&&( sum( ismember( iDupliPairs_m, [ jj, ii ], 'rows' ) ) == 0 )
+      kk = kk+1;
+      iDupliPairs_m( kk, 1 ) = ii;
+      iDupliPairs_m( kk, 2 ) = jj;
+    end
+  end
+end
+
+% If there are duplicates, remove them
+if kk > 0
+  iDuplicates_v = unique( iDupliPairs_m( :, 2 ) );
+  unique_ind_v = [ 1 : numPoints_n ];
+  unique_ind_v( iDuplicates_v )  = [];
+  xyz_unique_m = xyz_m( unique_ind_v, : );
+
+else
+  xyz_unique_m = xyz_m;
+  iDuplicates_v = [];
+end
+
+end
+
+function [ xyz_edit_m, iOutsideSphere_v ] = local_removePointsOutsideSphere( xyz_m, default_dist_f )
+
+% Remove points outside of sphere of radius default_dist_f
+% Input: - xyz_m is a matrix of size [ numPoints_n x 3 ]
+%        - default_dist_f: radius of sampled sphere
+% Output: - xyz_edit_m: matrix with points outside sphere removed
+%         - iOutsideSphere_v: vector with indices of xyz_m (1st dim) that are outside the sphere of radius default_dist_f
+
+assert( nargin == 2, 'Invalid number of input agruments' )
+
+distFromCenter_v = sqrt( xyz_m(:,1).^2 + xyz_m(:,2).^2 + xyz_m(:,3).^2 );
+
+iOutsideSphere_v = [];
+xyz_edit_m = xyz_m;
+uniqDist_v = unique( round( distFromCenter_v, 3 ) );
+if length( uniqDist_v ) > 1 % there are several distances
+  for dd = 1 : length( uniqDist_v )
+    if round( uniqDist_v( dd ), 2 ) ~= round( default_dist_f, 2 ) % if distance dd is different from default_dist_f
+      clear iDist_v
+      [ iDist_v ] = find( round( distFromCenter_v, 3 ) == uniqDist_v(dd) );
+      iOutsideSphere_v = [ iOutsideSphere_v; iDist_v ];
+    end
+  end
+end
+
+xyz_edit_m( iOutsideSphere_v, : ) = [];% remove points
+end
+
+function [ mag_m, exc_ph_m ] = local_phase_decompo( hrtf_m )
+
+% Decompose HRTF into magnitude and excess phase
+% Input:  - hrtf_m: HRTF matrix of size [ numDir_n x numSamples_n ]
+% Output: - mag_m, exc_ph_m: magnitudes and excess phases of size [ numDir_n x numPosFreq ]
+
+assert( nargin == 1 )
+
+numSamples_n = size( hrtf_m, 2 );
+
+mag_allBins_m = abs( hrtf_m );
+
+mag_allBins_m = max( 5*eps, mag_allBins_m );
+
+ph_allBins_m = unwrap( angle( hrtf_m ).').';
+
+min_ph_allBins_m = imag( hilbert( -log( mag_allBins_m ).').');
+
+% Indices of positive frequencies
+is_even_b = ~mod( numSamples_n, 2 );
+if is_even_b
+  upper_sample_n = numSamples_n/2+1;
+else
+  upper_sample_n = ceil( numSamples_n/2 );
+end
+
+exc_ph_m = ph_allBins_m(:,1:upper_sample_n) - min_ph_allBins_m(:,1:upper_sample_n);
+
+mag_m = mag_allBins_m(:,1:upper_sample_n);
+
+end
+
+function [ hrtf_m ] = local_phase_recompo( mag_m, exc_ph_m, numSamples_n )
+
+% Recompose HRTF from magnitude and excess phase
+% Input: mag_m, exc_ph_m: magnitudes and excess phases of size [ numDir_n x numPosFreq ]
+% Output: hrtf_m: complex HRTF of size [ numDir_n x numSamples_n ]
+
+assert( nargin == 3 )
+
+mag_m = max( 5*eps, mag_m );
+
+upper_sample_n = size( mag_m, 2 );
+
+% Mirror the spectrum
+is_even_b = ~mod( numSamples_n, 2 );
+if is_even_b
+  mag_all_bins_m    = [ mag_m mag_m(:,upper_sample_n-1:-1:2) ];
+  exc_ph_all_bins_m = [ exc_ph_m -exc_ph_m(:,upper_sample_n-1:-1:2) ];
+else
+  mag_all_bins_m    = [ mag_m mag_m(:,upper_sample_n:-1:2) ];
+  exc_ph_all_bins_m = [ exc_ph_m -exc_ph_m(:,upper_sample_n:-1:2) ];
+end
+
+min_ph_all_bins_m = imag( hilbert( -log( mag_all_bins_m ).').');
+
+phase_all_bins_m = min_ph_all_bins_m + exc_ph_all_bins_m;
+
+phase_unwrap_m = unwrap( phase_all_bins_m.' ).';
+
+hrtf_m = mag_all_bins_m .* exp( 1i * phase_unwrap_m );
+
+end
+
+function [ l_hrir_shm_v, r_hrir_shm_v ] = local_get_shm( sphPos_v, numSamples_n, Fs )
+
+% Get left and right Spherical Head Model HRTFs at one direction
+% Input:  - sphPos_v: sphercial coordinates of the point where to compute SHM [ az, el, dist ]
+%         - numSamples_n: number of samples of SHM impulse responses
+%         - Fs: sampling frequency (Hz)
+% Output: - l_hrir_shm_v, r_hrir_shm_v: Left and right SHM impulse responses [ 1 x numSamples_n ]
+
+assert( size( sphPos_v, 1 ) == 1, size( sphPos_v, 2 ) == 3 )
+
+% Default parameters of the SHM
+symmetric_ears_v = [90 0];
+radius_f = 0.087;
+Nsh = 100;
+
+% % verify distance is unique
+% dist_v = round( sphPos_v(:,3), 3 );
+% uniqDist_f = unique( dist_v );
+% if ~isscalar( uniqDist_f )
+%     warning([ 'The input SOFA file contains ' num2str(length( uniqDist_f )) ' distances. Only one distance is considered for SHM calculation (in low-frequency extension).' ])
+% end
+% dist_f = mode( dist_v );
+% Compute SHM impulse responses
+dist_f = sphPos_v(3);
+[ hrir_shm_m ] = local_shm( sphPos_v, symmetric_ears_v, radius_f, dist_f, Nsh, numSamples_n, Fs );
+
+% Prepare output vectors
+assert( size( hrir_shm_m, 1 ) == numSamples_n & size( hrir_shm_m, 2 ) == 1 & size( hrir_shm_m, 3 ) == 2 )
+l_hrir_shm_v = squeeze( hrir_shm_m( :, 1, 1 )).';
+r_hrir_shm_v = squeeze( hrir_shm_m( :, 1, 2 )).';
+
+end
+
+function [ l_diff_filt_mag_v, r_diff_filt_mag_v ] = local_design_diff_filter( az, el, measured_dist_f, numSamples_n, Fs )
+
+% Design difference filters (also called Distance Variation Functions) for HRTF far-field correction
+% Input:  - az, el, measured_dist_f: spherical coordinates of measured direction
+%         - numSamples_n: number of samples the HRTF measurement to be corrected
+%         - Fs: sampling frequency (Hz)
+% Output: - l_diff_filt_mag_v, r_diff_filt_mag_v: magnitude ofdifference filters for the left and right HRTF
+% NB: az 90 deg. = left
+% See Kan et al. JASA, 2009
+
+assert( isscalar( az ), 'provide only one direction' )
+assert( length(az) == length(el) & length(az) == length(measured_dist_f) )
+
+% Get far-field SHM HRIR
+FF_dist = 100;
+%h = local_shm( [ az, el, FF_dist ], [90 0], 0.087, FF_dist, 100, numSamples_n, Fs );% h is [ numSamples_n x 1 x 2 ]
+[ l_hrir_ff_v, r_hrir_ff_v ] = local_get_shm([ az, el, FF_dist ], numSamples_n, Fs );
+
+%l_hrir_ff_v = squeeze( h( :, 1, 1 )).';
+%r_hrir_ff_v = squeeze( h( :, 1, 2 )).';
+
+l_hrtf_ff_v = fft( l_hrir_ff_v );
+r_hrtf_ff_v = fft( r_hrir_ff_v );
+
+l_mag_ff_v = local_phase_decompo( l_hrtf_ff_v );
+r_mag_ff_v = local_phase_decompo( r_hrtf_ff_v );
+
+l_mag_ff_v(1) = l_mag_ff_v(2);
+r_mag_ff_v(1) = r_mag_ff_v(2);
+
+% Get near-field SHM HRIR
+[ l_hrir_nf_v, r_hrir_nf_v ] = local_get_shm([ az, el, measured_dist_f ], numSamples_n, Fs );
+
+l_hrtf_nf_v = fft( l_hrir_nf_v );
+r_hrtf_nf_v = fft( r_hrir_nf_v );
+
+l_mag_nf_v = local_phase_decompo( l_hrtf_nf_v );
+r_mag_nf_v = local_phase_decompo( r_hrtf_nf_v );
+
+l_mag_nf_v(1) = l_mag_nf_v(2);
+r_mag_nf_v(1) = r_mag_nf_v(2);
+
+% Difference filter
+l_diff_filt_mag_v = l_mag_ff_v./l_mag_nf_v;
+r_diff_filt_mag_v = r_mag_ff_v./r_mag_nf_v;
+
+end
+
+function surfaces_v = local_voronoi( xyz_m )
+
+% Compute the spherical voronoi using matlab convhulln
+% Author: Thibaut Carpentier
+% Input:  - xyz_m: cartesian coordinates of spherical sampling grid [ numDir_n x 3 ]
+% Output: - surfaces_v: surface surrounding each point [ numDir_n x 1 ]
+
+assert( size( xyz_m, 2 ) == 3 )
+
+numPoints = size( xyz_m, 1 );
+radius_v = sqrt( xyz_m(:,1).^2 + xyz_m(:,2).^2 + xyz_m(:,3).^2 );
+radius = unique( round( radius_v, 3 ));
+assert( isscalar( radius ), 'radius not unique')
+
+pointIndices_v  = 1:numPoints;
+xyz_m           = xyz_m ./ radius;
+
+% compute convex hull facets
+facets_m = convhulln(xyz_m);
+
+% compute facets' normals
+numFacets = size(facets_m,1);
+vertices_m = zeros(numFacets,3);
+for facetIndex = 1:numFacets
+  a_v = xyz_m(facets_m(facetIndex,3),:)-xyz_m(facets_m(facetIndex,1),:);
+  b_v = xyz_m(facets_m(facetIndex,2),:)-xyz_m(facets_m(facetIndex,1),:);
+  normal_v = cross(a_v,b_v);
+  vertices_m(facetIndex,:) = normal_v/norm(normal_v);
+end
+
+% computes voronoi diagram
+voronoi_C = {};
+for pointIndex = 1:numPoints
+  voronoi_C{pointIndex} = [];
+end
+
+for pointIndex = 1:numPoints
+  % facets that comprise the point
+  [facet_indices_v,positions_v] = find(facets_m==pointIndex);
+  found_facets_m = facets_m(facet_indices_v,:);
+  for facetIndex = 1:length(found_facets_m)
+    found_facets_m(facetIndex,:) = ...
+      [found_facets_m(facetIndex,positions_v(facetIndex):end) ...
+      found_facets_m(facetIndex,1:positions_v(facetIndex)-1)];
+  end
+  % sorts these facets
+  voronoi_v = zeros(1,size(found_facets_m,1));
+  searched_point_n = found_facets_m(1,2);
+  for voronoi_n = 1:length(voronoi_v)
+    voronoi_v(voronoi_n) = find(found_facets_m(:,2)==searched_point_n);
+    searched_point_n = found_facets_m(voronoi_v(voronoi_n),3);
+  end
+  voronoi_C{pointIndices_v(pointIndex)} = facet_indices_v(voronoi_v)';
+end
+
+% computes surfaces
+surfaces_v = zeros(numPoints,1);
+for pointIndex = 1:numPoints
+  if ~isempty(voronoi_C{pointIndex})
+    voronoi_v = voronoi_C{pointIndex};
+    voronoi_v(end+1) = voronoi_v(1);
+    vertex1_v = xyz_m(pointIndex,:);
+    for voronoi_n = 1:(length(voronoi_v)-1)
+      vertex2_v = vertices_m(voronoi_v(voronoi_n+1),:);
+      vertex3_v = vertices_m(voronoi_v(voronoi_n),:);
+      % calculate solid angle sustended
+      surf_f = 2*atan(dot(vertex1_v,cross(vertex2_v,vertex3_v)) ...
+        /(1+dot(vertex2_v,vertex3_v)+dot(vertex3_v,vertex1_v)+dot(vertex1_v,vertex2_v)));
+
+      surfaces_v(pointIndex) = surfaces_v(pointIndex) + surf_f;
+    end
+  end
+end
+
+surfaces_v = surfaces_v .* radius^2;
+
+end
+
+function h = local_shm( sg, ear, a, r_0, Nsh, Nsamples, fs )
+
+% Get analytical solution for a Spherical Head Model
+% Input: - sg: desired sampling grid in spherical coordinates [ numDir_n x 3 ]
+%        - ear: ear positions [ az, el ]
+%        - a: radius of SHM (default = 0.0875)
+%        - r_0: distance of sound source (default is r_0 = sg(1,3))
+%        - Nsh: sphercak harmonics order (default = 100)
+%        - Nsamples: number of samples (full spectrum, default = 1024)
+%        - fs: sampling frequency (Hz, default = 44100)
+% Output: - h: HRIRs of SHM [ numSamples_n x numDir_n x 2 ]
+% This code was COPIED/PASTED from AKsphericalHead.m in AKtools
+
+% speed of sound
+c = 343;
+
+% check format of ear vector
+if numel(ear) == 2
+  ear = [ear 360-ear(1) ear(2)];
+end
+
+% calculate great circle distances between the sampling grid and the ears
+gcd = [acosd( sind(sg(:,2))*sind(ear(2)) + cosd(sg(:,2))*cosd(ear(2)) .* cosd(sg(:,1)-ear(1)) ); ...
+  acosd( sind(sg(:,2))*sind(ear(4)) + cosd(sg(:,2))*cosd(ear(4)) .* cosd(sg(:,1)-ear(3)) )];
+
+% get unique list of great circle distances and radii
+[GCD, ~, gcdID] = unique([gcd repmat(sg(:,3), 2, 1)], 'rows');
+% gcd = reshape(GCD(gcdID), size(gcd));
+r   = GCD(:,2);
+GCD = GCD(:,1);
+
+% angle of incidence
+theta = GCD/180*pi;
+
+% get list of frequencies to be calculated
+f = 0:fs/Nsamples:fs/2;
+
+
+%%% spherical head model according to:
+% [1] R. O. Duda and W. L. Martens "Range dependence of the response of a spherical head model." J. Acoust. Soc. Am., 104(5), 3048-3058 (1998).
+
+% allocate space for output (1st dimension: freq., 2nd dimension: angle)
+H = zeros(numel(f), numel(theta));
+
+% get unique list of radii
+[rUnique, ~, rID] = unique(r);
+
+% normalized distance - Eq. (5) in [1]
+rho_0 = r_0     ./ a;
+rho   = rUnique ./ a;
+
+% normalized frequency - Eq. (4) in [1]
+mu = (2*pi*f*a) / c;
+
+% Calculate H
+for i = 1:length(theta)
+
+  % argument for Legendre polynomial in Eq. (3) in [1]
+  x = cos(theta(i));
+
+  % initialize the calculation of the Hankel fraction.
+  % Appendix A in [1]
+  zr = 1./( 1i* mu * rho( rID(i) ) );
+  za = 1./(1i * mu);
+  Qr2 = zr;
+  Qr1 = zr .* (1-zr);
+  Qa2 = za;
+  Qa1 = za .* (1-za);
+
+  % initialize legendre Polynom for order m=0 (P2) and m=1 (P1)
+  P2 = 1;
+  P1 = x;
+
+  % initialize the sum - Eq. (A10) in [1]
+  sum = 0;
+
+  % calculate the sum for m=0
+  term = zr./(za.*(za-1));
+  sum = sum + term;
+
+  % calculate sum for m=1
+  if Nsh > 0
+    term = (3 * x * zr .* (zr-1)) ./ (za .* (2*za.^2 - 2*za+1));
+    sum = sum + term;
   end
 
-  function [ mag_m, exc_ph_m ] = local_phase_decompo( hrtf_m )
+  % calculate the sum for 2 <= m <= Nsh
+  for m = 2:Nsh
 
-    % Decompose HRTF into magnitude and excess phase
-    % Input:  - hrtf_m: HRTF matrix of size [ numDir_n x numSamples_n ]
-    % Output: - mag_m, exc_ph_m: magnitudes and excess phases of size [ numDir_n x numPosFreq ]
+    % recursive calculation of the Legendre polynomial of order m
+    % (see doc legendreP)
+    P = ((2*m-1) * x * P1 - (m-1) * P2) / m;
 
-    assert( nargin == 1 )
+    % recursive calculation of the Hankel fraction
+    Qr = - (2*m-1) * zr .* Qr1 + Qr2;
+    Qa = - (2*m-1) * za .* Qa1 + Qa2;
 
-    numSamples_n = size( hrtf_m, 2 );
+    % update the sum and recursive terms
+    term    = ((2*m+1) * P * Qr) ./ ((m+1) * za .* Qa - Qa1);
+    id      = ~isnan(term);         % this might become NaN for high SH orders and low frequencies. However, we usually don't need the high orders for low frequencies anyhow...
+    sum(id) = sum(id) + term(id);
 
-    mag_allBins_m = abs( hrtf_m );
-
-    mag_allBins_m = max( 5*eps, mag_allBins_m );
-
-    ph_allBins_m = unwrap( angle( hrtf_m ).').';
-
-    min_ph_allBins_m = imag( hilbert( -log( mag_allBins_m ).').');
-
-    % Indices of positive frequencies
-    is_even_b = ~mod( numSamples_n, 2 );
-    if is_even_b
-      upper_sample_n = numSamples_n/2+1;
-    else
-      upper_sample_n = ceil( numSamples_n/2 );
-    end
-
-    exc_ph_m = ph_allBins_m(:,1:upper_sample_n) - min_ph_allBins_m(:,1:upper_sample_n);
-
-    mag_m = mag_allBins_m(:,1:upper_sample_n);
-
+    Qr2 = Qr1;
+    Qr1 = Qr;
+    Qa2 = Qa1;
+    Qa1 = Qa;
+    P2  = P1;
+    P1  = P;
   end
 
-  function [ hrtf_m ] = local_phase_recompo( mag_m, exc_ph_m, numSamples_n )
-
-    % Recompose HRTF from magnitude and excess phase
-    % Input: mag_m, exc_ph_m: magnitudes and excess phases of size [ numDir_n x numPosFreq ]
-    % Output: hrtf_m: complex HRTF of size [ numDir_n x numSamples_n ]
-
-    assert( nargin == 3 )
-
-    mag_m = max( 5*eps, mag_m );
-
-    upper_sample_n = size( mag_m, 2 );
-
-    % Mirror the spectrum
-    is_even_b = ~mod( numSamples_n, 2 );
-    if is_even_b
-      mag_all_bins_m    = [ mag_m mag_m(:,upper_sample_n-1:-1:2) ];
-      exc_ph_all_bins_m = [ exc_ph_m -exc_ph_m(:,upper_sample_n-1:-1:2) ];
-    else
-      mag_all_bins_m    = [ mag_m mag_m(:,upper_sample_n:-1:2) ];
-      exc_ph_all_bins_m = [ exc_ph_m -exc_ph_m(:,upper_sample_n:-1:2) ];
-    end
-
-    min_ph_all_bins_m = imag( hilbert( -log( mag_all_bins_m ).').');
-
-    phase_all_bins_m = min_ph_all_bins_m + exc_ph_all_bins_m;
-
-    phase_unwrap_m = unwrap( phase_all_bins_m.' ).';
-
-    hrtf_m = mag_all_bins_m .* exp( 1i * phase_unwrap_m );
-
-  end
-
-  function [ l_hrir_shm_v, r_hrir_shm_v ] = local_get_shm( sphPos_v, numSamples_n, Fs )
-
-    % Get left and right Spherical Head Model HRTFs at one direction
-    % Input:  - sphPos_v: sphercial coordinates of the point where to compute SHM [ az, el, dist ]
-    %         - numSamples_n: number of samples of SHM impulse responses
-    %         - Fs: sampling frequency (Hz)
-    % Output: - l_hrir_shm_v, r_hrir_shm_v: Left and right SHM impulse responses [ 1 x numSamples_n ]
-
-    assert( size( sphPos_v, 1 ) == 1, size( sphPos_v, 2 ) == 3 )
-
-    % Default parameters of the SHM
-    symmetric_ears_v = [90 0];
-    radius_f = 0.087;
-    Nsh = 100;
-
-    % % verify distance is unique
-    % dist_v = round( sphPos_v(:,3), 3 );
-    % uniqDist_f = unique( dist_v );
-    % if ~isscalar( uniqDist_f )
-    %     warning([ 'The input SOFA file contains ' num2str(length( uniqDist_f )) ' distances. Only one distance is considered for SHM calculation (in low-frequency extension).' ])
-    % end
-    % dist_f = mode( dist_v );
-    % Compute SHM impulse responses
-    dist_f = sphPos_v(3);
-    [ hrir_shm_m ] = local_shm( sphPos_v, symmetric_ears_v, radius_f, dist_f, Nsh, numSamples_n, Fs );
-
-    % Prepare output vectors
-    assert( size( hrir_shm_m, 1 ) == numSamples_n & size( hrir_shm_m, 2 ) == 1 & size( hrir_shm_m, 3 ) == 2 )
-    l_hrir_shm_v = squeeze( hrir_shm_m( :, 1, 1 )).';
-    r_hrir_shm_v = squeeze( hrir_shm_m( :, 1, 2 )).';
-
-  end
-
-  function [ l_diff_filt_mag_v, r_diff_filt_mag_v ] = local_design_diff_filter( az, el, measured_dist_f, numSamples_n, Fs )
-
-    % Design difference filters (also called Distance Variation Functions) for HRTF far-field correction
-    % Input:  - az, el, measured_dist_f: spherical coordinates of measured direction
-    %         - numSamples_n: number of samples the HRTF measurement to be corrected
-    %         - Fs: sampling frequency (Hz)
-    % Output: - l_diff_filt_mag_v, r_diff_filt_mag_v: magnitude ofdifference filters for the left and right HRTF
-    % NB: az 90 deg. = left
-    % See Kan et al. JASA, 2009
-
-    assert( isscalar( az ), 'provide only one direction' )
-    assert( length(az) == length(el) & length(az) == length(measured_dist_f) )
-
-    % Get far-field SHM HRIR
-    FF_dist = 100;
-    %h = local_shm( [ az, el, FF_dist ], [90 0], 0.087, FF_dist, 100, numSamples_n, Fs );% h is [ numSamples_n x 1 x 2 ]
-    [ l_hrir_ff_v, r_hrir_ff_v ] = local_get_shm([ az, el, FF_dist ], numSamples_n, Fs );
-
-    %l_hrir_ff_v = squeeze( h( :, 1, 1 )).';
-    %r_hrir_ff_v = squeeze( h( :, 1, 2 )).';
-
-    l_hrtf_ff_v = fft( l_hrir_ff_v );
-    r_hrtf_ff_v = fft( r_hrir_ff_v );
-
-    l_mag_ff_v = local_phase_decompo( l_hrtf_ff_v );
-    r_mag_ff_v = local_phase_decompo( r_hrtf_ff_v );
-
-    l_mag_ff_v(1) = l_mag_ff_v(2);
-    r_mag_ff_v(1) = r_mag_ff_v(2);
-
-    % Get near-field SHM HRIR
-    [ l_hrir_nf_v, r_hrir_nf_v ] = local_get_shm([ az, el, measured_dist_f ], numSamples_n, Fs );
-
-    l_hrtf_nf_v = fft( l_hrir_nf_v );
-    r_hrtf_nf_v = fft( r_hrir_nf_v );
-
-    l_mag_nf_v = local_phase_decompo( l_hrtf_nf_v );
-    r_mag_nf_v = local_phase_decompo( r_hrtf_nf_v );
-
-    l_mag_nf_v(1) = l_mag_nf_v(2);
-    r_mag_nf_v(1) = r_mag_nf_v(2);
-
-    % Difference filter
-    l_diff_filt_mag_v = l_mag_ff_v./l_mag_nf_v;
-    r_diff_filt_mag_v = r_mag_ff_v./r_mag_nf_v;
-
-  end
-
-  function surfaces_v = local_voronoi( xyz_m )
-
-    % Compute the spherical voronoi using matlab convhulln
-    % Author: Thibaut Carpentier
-    % Input:  - xyz_m: cartesian coordinates of spherical sampling grid [ numDir_n x 3 ]
-    % Output: - surfaces_v: surface surrounding each point [ numDir_n x 1 ]
-
-    assert( size( xyz_m, 2 ) == 3 )
-
-    numPoints = size( xyz_m, 1 );
-    radius_v = sqrt( xyz_m(:,1).^2 + xyz_m(:,2).^2 + xyz_m(:,3).^2 );
-    radius = unique( round( radius_v, 3 ));
-    assert( isscalar( radius ), 'radius not unique')
-
-    pointIndices_v  = 1:numPoints;
-    xyz_m           = xyz_m ./ radius;
-
-    % compute convex hull facets
-    facets_m = convhulln(xyz_m);
-
-    % compute facets' normals
-    numFacets = size(facets_m,1);
-    vertices_m = zeros(numFacets,3);
-    for facetIndex = 1:numFacets
-      a_v = xyz_m(facets_m(facetIndex,3),:)-xyz_m(facets_m(facetIndex,1),:);
-      b_v = xyz_m(facets_m(facetIndex,2),:)-xyz_m(facets_m(facetIndex,1),:);
-      normal_v = cross(a_v,b_v);
-      vertices_m(facetIndex,:) = normal_v/norm(normal_v);
-    end
-
-    % computes voronoi diagram
-    voronoi_C = {};
-    for pointIndex = 1:numPoints
-      voronoi_C{pointIndex} = [];
-    end
-
-    for pointIndex = 1:numPoints
-      % facets that comprise the point
-      [facet_indices_v,positions_v] = find(facets_m==pointIndex);
-      found_facets_m = facets_m(facet_indices_v,:);
-      for facetIndex = 1:length(found_facets_m)
-        found_facets_m(facetIndex,:) = ...
-          [found_facets_m(facetIndex,positions_v(facetIndex):end) ...
-          found_facets_m(facetIndex,1:positions_v(facetIndex)-1)];
-      end
-      % sorts these facets
-      voronoi_v = zeros(1,size(found_facets_m,1));
-      searched_point_n = found_facets_m(1,2);
-      for voronoi_n = 1:length(voronoi_v)
-        voronoi_v(voronoi_n) = find(found_facets_m(:,2)==searched_point_n);
-        searched_point_n = found_facets_m(voronoi_v(voronoi_n),3);
-      end
-      voronoi_C{pointIndices_v(pointIndex)} = facet_indices_v(voronoi_v)';
-    end
-
-    % computes surfaces
-    surfaces_v = zeros(numPoints,1);
-    for pointIndex = 1:numPoints
-      if ~isempty(voronoi_C{pointIndex})
-        voronoi_v = voronoi_C{pointIndex};
-        voronoi_v(end+1) = voronoi_v(1);
-        vertex1_v = xyz_m(pointIndex,:);
-        for voronoi_n = 1:(length(voronoi_v)-1)
-          vertex2_v = vertices_m(voronoi_v(voronoi_n+1),:);
-          vertex3_v = vertices_m(voronoi_v(voronoi_n),:);
-          % calculate solid angle sustended
-          surf_f = 2*atan(dot(vertex1_v,cross(vertex2_v,vertex3_v)) ...
-            /(1+dot(vertex2_v,vertex3_v)+dot(vertex3_v,vertex1_v)+dot(vertex1_v,vertex2_v)));
-
-          surfaces_v(pointIndex) = surfaces_v(pointIndex) + surf_f;
-        end
-      end
-    end
-
-    surfaces_v = surfaces_v .* radius^2;
-
-  end
-
-  function h = local_shm( sg, ear, a, r_0, Nsh, Nsamples, fs )
-
-    % Get analytical solution for a Spherical Head Model
-    % Input: - sg: desired sampling grid in spherical coordinates [ numDir_n x 3 ]
-    %        - ear: ear positions [ az, el ]
-    %        - a: radius of SHM (default = 0.0875)
-    %        - r_0: distance of sound source (default is r_0 = sg(1,3))
-    %        - Nsh: sphercak harmonics order (default = 100)
-    %        - Nsamples: number of samples (full spectrum, default = 1024)
-    %        - fs: sampling frequency (Hz, default = 44100)
-    % Output: - h: HRIRs of SHM [ numSamples_n x numDir_n x 2 ]
-    % This code was COPIED/PASTED from AKsphericalHead.m in AKtools
-
-    % speed of sound
-    c = 343;
-
-    % check format of ear vector
-    if numel(ear) == 2
-      ear = [ear 360-ear(1) ear(2)];
-    end
-
-    % calculate great circle distances between the sampling grid and the ears
-    gcd = [acosd( sind(sg(:,2))*sind(ear(2)) + cosd(sg(:,2))*cosd(ear(2)) .* cosd(sg(:,1)-ear(1)) ); ...
-      acosd( sind(sg(:,2))*sind(ear(4)) + cosd(sg(:,2))*cosd(ear(4)) .* cosd(sg(:,1)-ear(3)) )];
-
-    % get unique list of great circle distances and radii
-    [GCD, ~, gcdID] = unique([gcd repmat(sg(:,3), 2, 1)], 'rows');
-    % gcd = reshape(GCD(gcdID), size(gcd));
-    r   = GCD(:,2);
-    GCD = GCD(:,1);
-
-    % angle of incidence
-    theta = GCD/180*pi;
-
-    % get list of frequencies to be calculated
-    f = 0:fs/Nsamples:fs/2;
-
-
-    %%% spherical head model according to:
-    % [1] R. O. Duda and W. L. Martens "Range dependence of the response of a spherical head model." J. Acoust. Soc. Am., 104(5), 3048-3058 (1998).
-
-    % allocate space for output (1st dimension: freq., 2nd dimension: angle)
-    H = zeros(numel(f), numel(theta));
-
-    % get unique list of radii
-    [rUnique, ~, rID] = unique(r);
-
-    % normalized distance - Eq. (5) in [1]
-    rho_0 = r_0     ./ a;
-    rho   = rUnique ./ a;
-
-    % normalized frequency - Eq. (4) in [1]
-    mu = (2*pi*f*a) / c;
-
-    % Calculate H
-    for i = 1:length(theta)
-
-      % argument for Legendre polynomial in Eq. (3) in [1]
-      x = cos(theta(i));
-
-      % initialize the calculation of the Hankel fraction.
-      % Appendix A in [1]
-      zr = 1./( 1i* mu * rho( rID(i) ) );
-      za = 1./(1i * mu);
-      Qr2 = zr;
-      Qr1 = zr .* (1-zr);
-      Qa2 = za;
-      Qa1 = za .* (1-za);
-
-      % initialize legendre Polynom for order m=0 (P2) and m=1 (P1)
-      P2 = 1;
-      P1 = x;
-
-      % initialize the sum - Eq. (A10) in [1]
-      sum = 0;
-
-      % calculate the sum for m=0
-      term = zr./(za.*(za-1));
-      sum = sum + term;
-
-      % calculate sum for m=1
-      if Nsh > 0
-        term = (3 * x * zr .* (zr-1)) ./ (za .* (2*za.^2 - 2*za+1));
-        sum = sum + term;
-      end
-
-      % calculate the sum for 2 <= m <= Nsh
-      for m = 2:Nsh
-
-        % recursive calculation of the Legendre polynomial of order m
-        % (see doc legendreP)
-        P = ((2*m-1) * x * P1 - (m-1) * P2) / m;
-
-        % recursive calculation of the Hankel fraction
-        Qr = - (2*m-1) * zr .* Qr1 + Qr2;
-        Qa = - (2*m-1) * za .* Qa1 + Qa2;
-
-        % update the sum and recursive terms
-        term    = ((2*m+1) * P * Qr) ./ ((m+1) * za .* Qa - Qa1);
-        id      = ~isnan(term);         % this might become NaN for high SH orders and low frequencies. However, we usually don't need the high orders for low frequencies anyhow...
-        sum(id) = sum(id) + term(id);
-
-        Qr2 = Qr1;
-        Qr1 = Qr;
-        Qa2 = Qa1;
-        Qa1 = Qa;
-        P2  = P1;
-        P1  = P;
-      end
-
-      % calculate the pressure - Eq. (A10) in [1]
-      H(:,i) = (rho_0 * exp( 1j*( mu*rho(rID(i)) - mu*rho_0 - mu) ) .* sum) ./ (1i*mu);
-
-    end
-
-    % [1] uses the Fourier convention with the negative exponent for the
-    % inverse transform - cf. Eq. (13). Since Matlab uses the opposite
-    % convention H is conjugated
-    H = conj(H);
-
-    % set 0 Hz bin to 1 (0 dB)
-    H(1,:) = 1;
-
-    % make sure bin at fs/2 is real
-    if f(end) == fs/2
-      H(end,:) = abs(H(end,:));
-    end
-
-    % mirror the spectrum
-    %Hfull1 = AKsingle2bothSidedSpectrum(H, 1-mod(Nsamples, 2));
-    upper_sample_n = size( H, 1 );
-    is_even_b = ~mod( Nsamples, 2 );
-    if is_even_b
-      H = [ H; conj( H( upper_sample_n-1:-1:2, : ))];
-    else
-      H = [ H; conj( H( upper_sample_n:-1:2, : ))];
-    end
-
-    % get the impuse responses
-    hUnique = ifft(H, 'symmetric');
-
-    % add delay to shift the pulses away from the very start
-    hUnique = circshift(hUnique, [round(1.5e-3*fs) 0]);
-
-    % resort to match the desired sampling grid
-    h = zeros(Nsamples, size(sg,1), 2);
-    h(:,:,1) = hUnique(:, gcdID(1:size(sg,1) )    );
-    h(:,:,2) = hUnique(:, gcdID(size(sg,1)+1:end) );
-
-  end
+  % calculate the pressure - Eq. (A10) in [1]
+  H(:,i) = (rho_0 * exp( 1j*( mu*rho(rID(i)) - mu*rho_0 - mu) ) .* sum) ./ (1i*mu);
+
+end
+
+% [1] uses the Fourier convention with the negative exponent for the
+% inverse transform - cf. Eq. (13). Since Matlab uses the opposite
+% convention H is conjugated
+H = conj(H);
+
+% set 0 Hz bin to 1 (0 dB)
+H(1,:) = 1;
+
+% make sure bin at fs/2 is real
+if f(end) == fs/2
+  H(end,:) = abs(H(end,:));
+end
+
+% mirror the spectrum
+%Hfull1 = AKsingle2bothSidedSpectrum(H, 1-mod(Nsamples, 2));
+upper_sample_n = size( H, 1 );
+is_even_b = ~mod( Nsamples, 2 );
+if is_even_b
+  H = [ H; conj( H( upper_sample_n-1:-1:2, : ))];
+else
+  H = [ H; conj( H( upper_sample_n:-1:2, : ))];
+end
+
+% get the impuse responses
+hUnique = ifft(H, 'symmetric');
+
+% add delay to shift the pulses away from the very start
+hUnique = circshift(hUnique, [round(1.5e-3*fs) 0]);
+
+% resort to match the desired sampling grid
+h = zeros(Nsamples, size(sg,1), 2);
+h(:,:,1) = hUnique(:, gcdID(1:size(sg,1) )    );
+h(:,:,2) = hUnique(:, gcdID(size(sg,1)+1:end) );
 
 end
