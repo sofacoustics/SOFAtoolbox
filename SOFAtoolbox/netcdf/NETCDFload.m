@@ -123,7 +123,7 @@ try
             if strfind(dim,'S')
                 if length(dim)==3  % 2D string arrays only. ToDo: MdD string arrays
                     data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
-                    s=size(data);
+                    s=size(data); % Todo: error if dim starts ore ends with I 
                     Obj.(var)=cell(s(end:-1:2));                    
                     data=permute(data,length(s):-1:1);
                     for jj=1:s(2)
