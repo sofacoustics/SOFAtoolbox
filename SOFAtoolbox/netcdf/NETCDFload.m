@@ -95,7 +95,7 @@ try
                 dim=fliplr(cell2mat(dims(vardimids+1))');
                 Obj.API.Dimensions.Data.(var(6:end))=dim;
                 if strfind(dim,'S') % strings
-                    if length(dim)>2  % 2D string arrays. ToDo: MdD string arrays
+                    if length(dim)==3  % 2D string arrays. ToDo: MdD string arrays
                         data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
                         s=size(data);
                         Obj.Data.(var(6:end))=cell(s(end:-1:2));
@@ -121,7 +121,7 @@ try
             dim=fliplr(cell2mat(dims(vardimids+1))');
             Obj.API.Dimensions.(var)=dim;
             if strfind(dim,'S')
-                if length(dim)>2  % 2D string arrays only. ToDo: MdD string arrays
+                if length(dim)==3  % 2D string arrays only. ToDo: MdD string arrays
                     data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
                     s=size(data);
                     Obj.(var)=cell(s(end:-1:2));                    
