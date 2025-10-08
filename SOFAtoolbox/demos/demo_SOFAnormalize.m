@@ -6,6 +6,7 @@
 % #Author: Michael Mihocic: minor adaptions to fit SOFA Toolbox (17.03.2025)
 % #Author: Michael Mihocic: SS2 SOFA files added to the loop (19.03.2025)
 % #Author: Michael Mihocic: different normalization types added (30.09.2025)
+% #Author: Michael Mihocic: different normalization types added; minor optimizations (08.10.2025)
 % 
 % SOFA Toolbox - demo script
 % Copyright (C) Helene Bahu, helenebahu(at)gmail.com; Michael Mihocic, Acoustics Research Institute - Austrian Academy of Sciences
@@ -50,7 +51,9 @@ SofaFiles = {...
     'ss2%20(mannequins)/KU100051023_4_processed.sofa' ...
     }; 
 
+warning('off','SOFA:save');
 warning('off','SOFA:save:API');
+% warning('off','SOFAnormalize:NormalizationType0'); % ignore warning of normalization type 0
 
 %% Process data type 0 (custom normalization, to be defined)
 Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
@@ -61,13 +64,13 @@ disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 n
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type0.sofa']),NormObj);
 
 %% Process data type 1 (Direction-independent filters removed individually per each receiver according to Theile (1986).)
-Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
+% Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
 NormObj = SOFAnormalize(Obj, 1);
 disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa'])]);
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa']),NormObj);
 
 %% Process data type 1 (Direction-independent filters removed individually per each receiver according to Theile (1986).)
-Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
+% Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
 NormObj = SOFAnormalize(Obj, 2);
 disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa'])]);
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa']),NormObj);

@@ -58,6 +58,7 @@ function [norm_S, param_S] = SOFAnormalize(ori_S, type, param_S)
 % #Author: Helene Bahu: code improvements and fixes (17.03.2025)
 % #Author: Helene Bahu: bug fixed in Frequency resampling (04.04.2025)
 % #Author: Michael Mihocic: different normalization parameters implemented, according to standard AES69-2025 (30.09.2025)
+% #Author: Michael Mihocic: bugs fixed when setting attributes (08.10.2025)
 
 % #Reference:  H. Bahu, T. Carpentier, M. Noisternig, O. Warusfel, J.-M. Jot, M. Mihocic, and P. Majdak. "Towards an improved consistency between databases of head-related transfer functions." JAES, 2025.
 
@@ -82,16 +83,16 @@ switch type
   case 1 % Direction-independent filters removed individually per each receiver according to Theile (1986). This is usually referred to as diffuse-field equalized filters.
     norm_S = SOFAhrtf2dtf(ori_S,'rms');
     norm_S = SOFAaddVariable(norm_S,'Normalization','I', 1);
-    norm_S = SOFAaddVariable(norm_S,'Normalization_Description','S','Direction-independent filters removed individually per each receiver according to Theile (1986). This is usually referred to as diffuse-field equalized filters.');
-    norm_S = SOFAaddVariable(norm_S,'Normalization_References','S','Theile, G. (1986), On the standardization of binaural measurement and headphone compensation, Journal of the Audio Engineering Society, 34(12), 1017-1025');
-    norm_S = SOFAaddVariable(norm_S,'Normalization_URI','S','https://aes2.org/publications/elibrary-page/?id=19017');
+    norm_S.Normalization_Description = 'Direction-independent filters removed individually per each receiver according to Theile (1986). This is usually referred to as diffuse-field equalized filters.';
+    norm_S.Normalization_References = 'Theile, G. (1986), On the standardization of binaural measurement and headphone compensation, Journal of the Audio Engineering Society, 34(12), 1017-1025';
+    norm_S.Normalization_URI = 'https://aes2.org/publications/elibrary-page/?id=19017';
 
   case 2 % Direction-independent filters removed individually per each receiver according to Majdak et al., (2010). This is usually referred to as directional transfer functions.
     norm_S = SOFAhrtf2dtf(ori_S,'log');
     norm_S = SOFAaddVariable(norm_S,'Normalization','I', 2);
-    norm_S = SOFAaddVariable(norm_S,'Normalization_Description','S','Direction-independent filters removed individually per each receiver according to Majdak et al., (2010). This is usually referred to as directional transfer functions.');
-    norm_S = SOFAaddVariable(norm_S,'Normalization_References','S','Majdak, P., Goupell M. J., and Laback B. (2010), 3-D Localization of Virtual Sound Sources: Effects of Visual Environment, Pointing Method, and Training, Attention Perception and Psychophysics 72: 454–69');
-    norm_S = SOFAaddVariable(norm_S,'Normalization_URI','S','https://doi.org/10.3758/APP.72.2.454');
+    norm_S.Normalization_Description = 'Direction-independent filters removed individually per each receiver according to Majdak et al., (2010). This is usually referred to as directional transfer functions.';
+    norm_S.Normalization_References = 'Majdak, P., Goupell M. J., and Laback B. (2010), 3-D Localization of Virtual Sound Sources: Effects of Visual Environment, Pointing Method, and Training, Attention Perception and Psychophysics 72: 454–69';
+    norm_S.Normalization_URI = 'https://doi.org/10.3758/APP.72.2.454';
 
   case 3 % Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025).
     % Load default normalization parameters
@@ -662,7 +663,7 @@ switch type
     norm_S.Normalization_URI = 'https://doi.org/???';
   otherwise
     error(['Normalization type not supported: ' num2str(type)])
-  end
+end
 
 end
 
