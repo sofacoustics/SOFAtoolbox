@@ -7,6 +7,7 @@
 % #Author: Michael Mihocic: bugs fixed (10.12.2024)
 % #Author: Michael Mihocic: bugs fixed (11.12.2024)
 % #Author: Michael Mihocic: geometry figure created (11.04.2025)
+% #Author: Michael Mihocic: bug fixed when adding attributes (08.10.2025)
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -31,8 +32,8 @@ Obj.GLOBAL_RoomType = 'shoebox';
 Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
 Obj = SOFAaddVariable(Obj,'RoomCornerB','IC',[3 3 3]);
 Obj = SOFAaddVariable(Obj,'RoomCorners','I',0);
-Obj = SOFAaddVariable(Obj,'RoomCorners_Type','S','cartesian');
-Obj = SOFAaddVariable(Obj,'RoomCorners_Units','S','metre');
+Obj.RoomCorners_Type = 'cartesian';
+Obj.RoomCorners_Units = 'metre';
 
 %% save the SOFA file
 SOFAfn=fullfile([SOFAdbPath,'\','sofatoolbox_test','\',fn]);
