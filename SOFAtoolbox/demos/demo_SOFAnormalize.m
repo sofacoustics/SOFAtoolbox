@@ -7,7 +7,7 @@
 % #Author: Michael Mihocic: SS2 SOFA files added to the loop (19.03.2025)
 % #Author: Michael Mihocic: different normalization types added (30.09.2025)
 % #Author: Michael Mihocic: different normalization types added; minor optimizations (08.10.2025)
-% #Author: Michael Mihocic: demo adapted to download source files from Ecosystem, and do normalization (08.10.2025)
+% #Author: Michael Mihocic: demo adapted to download source files from Ecosystem, and do normalization; minor optimizations (10.2025)
 %
 % SOFA Toolbox - demo script
 % Copyright (C) Helene Bahu, helenebahu(at)gmail.com; Michael Mihocic, Acoustics Research Institute - Austrian Academy of Sciences
@@ -24,14 +24,14 @@
 % clear all % 'clear all' can break SOFA functionality
 % clc
 
-%% Adapt system parameters here (adapt optionally)
+%% Adapt system parameters here optionally
 % addpath to SOFAstart
 % addpath(genpath('D:\Projects\SOFA\Github\SOFAtoolbox-development\SOFAtoolbox'))
 % addpath(genpath('/Users/bahu/Documents/MATLAB/SOFA Toolbox/SOFAtoolbox/'))
 
-%% Download database
+%% Download database (optional, if data are not downloaded yet)
 disp(['Downloading database to: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\')]);
-% MydatabaseDownload(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\'), 25)
+MydatabaseDownload(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\'), 25) % download entire database; comment/uncomment here if you (don't) want to download
 
 %% Define list of SOFA files
 SofaFiles = cell(1,17);
@@ -80,19 +80,19 @@ Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
 NormObj = SOFAnormalize(Obj, 0);
 NormObj.Normalization_References = 'If I had a reference for my custom normalization type I would put it here...';
 NormObj.Normalization_URI = 'If I had an URI for my custom normalization type I would put it here...';
-disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type0.sofa'])]);
+disp(['1/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type0.sofa'])]);
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type0.sofa']),NormObj);
 
 %% Process data type 1 (Direction-independent filters removed individually per each receiver according to Theile (1986).)
 % Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
 NormObj = SOFAnormalize(Obj, 1);
-disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa'])]);
+disp(['2/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa'])]);
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa']),NormObj);
 
 %% Process data type 1 (Direction-independent filters removed individually per each receiver according to Theile (1986).)
 % Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
 NormObj = SOFAnormalize(Obj, 2);
-disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa'])]);
+disp(['3/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa'])]);
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa']),NormObj);
 
 %% Process data type 3 (Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025).)
@@ -108,7 +108,8 @@ for i = 1:length(SofaFiles)
   % SOFAload downloads files from SOFA Conventions repository.
   % disp(['Loading file ' i '/' length(SofaFiles) ": " SofaFile]);
   % Obj = SOFAload(['db://database/' SofaFile]);
-  disp([num2str(i) '/' num2str(length(SofaFiles)) ': Loading: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i})]);
+  % disp([num2str(i) '/' num2str(length(SofaFiles)) ': Loading: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i})]);
+  disp([num2str(i) '/' num2str(length(SofaFiles)) ':' char(9) 'Loading: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i})]);
   Obj = SOFAload(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i}));
   % Plot original magnitude at frontal direction
   [ l_mag_ori_v, r_mag_ori_v, freq_ori_v ] = local_get_frontal_mag( Obj );
@@ -144,14 +145,19 @@ for i = 1:length(SofaFiles)
 
   % Apply normalization
   % disp(['Normalizing file ' i '/' length(SofaFiles) ": " SofaFile]);
-  param_S.do_resize_b = 1;
-  disp([num2str(i) '/' num2str(length(SofaFiles)) ': Normalizing (normalization type 3): ' SofaFiles{i} ' ...'])
+
+  param_S.do_resize_b = 0; % use value 0 to recreate data published on Ecosystem
+  % param_S.do_resize_b = 1; % use value 1 to create nice figures
+
+  % disp([num2str(i) '/' num2str(length(SofaFiles)) ': Normalizing (normalization type 3): ' SofaFiles{i} ' ...'])
+  disp([char(9) 'Normalizing (normalization type 3): ' SofaFiles{i} ' ...'])
   Objnorm_S = SOFAnormalize(Obj, 3, param_S); % normalization type 'Bahu'
   % [~, SofaFileName, ~] = fileparts(SofaFile);
   % disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_' SofaFileName ' normalization type3.sofa'])]);
   % SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_' SofaFileName ' normalization type3.sofa']),NormObj);
 
-  disp([num2str(i) '/' num2str(length(SofaFiles)) ': Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i})]);
+  % disp([num2str(i) '/' num2str(length(SofaFiles)) ': Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i})]);
+  disp([char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i})]);
   SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i}),Objnorm_S);
 
   % Plot normalized magnitude at frontal direction
@@ -224,6 +230,9 @@ function MydatabaseDownload(downloadPath, databaseID)
 %   databaseID: ID of the database, see databaseList
 %
 % The local structure will be: downloadPath\datasetName\datasetDefName\DatafileName
+% 
+% based on databaseDownload from https://ecosystem.sonicom.eu/
+% 
 
 %% Check if the download path exists
 if ~isfolder(downloadPath)
