@@ -3,6 +3,7 @@
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: bugs fixed (10.2021)
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
+% #Author: Michael Mihocic: case for 'ITDhorizontal' added (27.10.2025)
 % 
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % 
@@ -26,6 +27,9 @@ SOFAplotHRTF(Obj,'MagMedian',2);
 % plot non-normalized magnitude spectrum in the median plane, channel 1
 figure('Name',mfilename);
 SOFAplotHRTF(Obj,'MagMedian','nonormalization');
+% plot ITD horizontal plane values
+figure('Name',mfilename);
+SOFAplotHRTF(Obj,'ITDhorizontal');
 
 %% load a GeneralTF SOFA file
 SOFAfile=fullfile(SOFAdbPath,'database','ari (sim)','hrtf_nh5_ref.sofa');
