@@ -184,9 +184,9 @@ switch lower(type)
         pos=pos(idx,:);
         del=round(Obj.Data.Delay(idx,R));
         meta.idx=idx;
-        M2=noisefloor*ones(size(M)+[0 max(del)]);
+        M2=noisefloor*ones(size(M)+[0 max(del)-min(del)]);
         for ii=1:size(M,1)
-            M2(ii,del(ii)+(1:Obj.API.N))=M(ii,:);
+            M2(ii,del(ii)+(1:Obj.API.N)-min(del))=M(ii,:);
         end
         [azi,i]=sort(pos(:,1));
         M=M2(i,:);
