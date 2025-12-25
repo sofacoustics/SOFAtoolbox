@@ -17,53 +17,8 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
-
-%% Clean up (optional)
-% close all;
-% clear;
-% clear all % 'clear all' can break SOFA functionality
-% clc
-
-%% Adapt system parameters here optionally
-% addpath to SOFAstart
-% addpath(genpath('D:\Projects\SOFA\Github\SOFAtoolbox-development\SOFAtoolbox'))
-% addpath(genpath('/Users/bahu/Documents/MATLAB/SOFA Toolbox/SOFAtoolbox/'))
-
-%% Download database (optional, if data are not downloaded yet)
-disp(['Downloading database to: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\')]);
-MydatabaseDownload(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\'), 25) % download entire database; comment/uncomment here if you (don't) want to download
-
-%% Define list of SOFA files
-SofaFiles = cell(1,17);
-SofaFilesNormalized = cell(1,17);
-for k = 1:17
-    SofaFiles{k} = sprintf('Dataset #%d/HRTFs/dataset_%d.sofa', k, k);
-    SofaFilesNormalized{k} = sprintf('Dataset #%d/HRTFs (normalized)/dataset_%d.sofa', k, k);
-end
-
-% %% Define a list of file names
-% SofaFilesOld = {...
-%   'clubfritz/ClubFritz1.sofa', ...
-%   'clubfritz/ClubFritz2.sofa',...
-%   'clubfritz/ClubFritz3.sofa',...
-%   'clubfritz/ClubFritz4.sofa',...
-%   'clubfritz/ClubFritz5.sofa',...
-%   'clubfritz/ClubFritz6.sofa',...
-%   'clubfritz/ClubFritz7.sofa',...
-%   'clubfritz/ClubFritz8.sofa',...
-%   'clubfritz/ClubFritz9.sofa',...
-%   'clubfritz/ClubFritz10.sofa',...
-%   'clubfritz/ClubFritz11.sofa',...
-%   'clubfritz/ClubFritz12.sofa',...
-%   'bili (hrtf)/IRC_1130_R_HRIR_96000.sofa',...
-%   'thk/HRIR_L2702_NF050.sofa',...
-%   'thk/HRIR_L2702_NF150.sofa',...
-%   'sadie/D1_48K_24bit_256tap_FIR_SOFA.sofa' ...
-%   'ss2%20(mannequins)/KU100051023_1_processed.sofa' ...
-%   'ss2%20(mannequins)/KU100051023_2_processed.sofa' ...
-%   'ss2%20(mannequins)/KU100051023_3_processed.sofa' ...
-%   'ss2%20(mannequins)/KU100051023_4_processed.sofa' ...
-%   };
+%% just a simple demo or normalize the full Bahu database? 
+just_simple=1;
 
 %% Warnings
 % store current warning states
@@ -96,19 +51,32 @@ disp(['3/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilenam
 SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa']),NormObj);
 
 %% Process data type 3 (Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025).)
-% SOFAstart;
+NormObj = SOFAnormalize(Obj, 3);
+disp(['3/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type3.sofa'])]);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type3.sofa']),NormObj);
 
-% figure
+%% Stop here if we are just having a simple demo
+if just_simple, return; end
+
+
+
+%% Process the full Bahu database 
+  % Download database (optional, if data are not downloaded yet)
+disp(['Downloading database to: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\')]);
+MydatabaseDownload(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\'), 25) % download entire database; comment/uncomment here if you (don't) want to download
+  % Define list of SOFA files
+SofaFiles = cell(1,17);
+SofaFilesNormalized = cell(1,17);
+for k = 1:17
+    SofaFiles{k} = sprintf('Dataset #%d/HRTFs/dataset_%d.sofa', k, k);
+    SofaFilesNormalized{k} = sprintf('Dataset #%d/HRTFs (normalized)/dataset_%d.sofa', k, k);
+end
+
 legend_s = [];
 ylim_v = [-35 15];
 xlim_v = [90 20000];
 % Loop through all SOFA files
 for i = 1:length(SofaFiles)
-  % SofaFile = SofaFiles{i};
-  % SOFAload downloads files from SOFA Conventions repository.
-  % disp(['Loading file ' i '/' length(SofaFiles) ": " SofaFile]);
-  % Obj = SOFAload(['db://database/' SofaFile]);
-  % disp([num2str(i) '/' num2str(length(SofaFiles)) ': Loading: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i})]);
   disp([num2str(i) '/' num2str(length(SofaFiles)) ':' char(9) 'Loading: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i})]);
   Obj = SOFAload(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i}));
   % Plot original magnitude at frontal direction
@@ -122,41 +90,10 @@ for i = 1:length(SofaFiles)
   grid on
   ylim(ylim_v)
   xlim(xlim_v)
-  % plot original files
-  % figure('Name',SofaFile);
-  % subplot(2,2,1);
-  % SOFAplotHRTF(Obj,'ETCHorizontal',1);
-  % title('ETC Horizontal')
-  % % figure('Name',SofaFile);
-  % subplot(2,2,2);
-  % SOFAplotHRTF(Obj,'MagMedian',2);
-  % title('Mag Median')
-
-  % To modify the normalization parameters, use the following, and add param_S as a 2nd input parameter in HRTF_normalization_v1
-  % param_S.do_gain_norm_b = 1;
-  % param_S.do_resamp_b    = 0;
-  % param_S.do_lp_b        = 0;
-  % param_S.do_talign_b    = 0;
-  % param_S.do_win_b       = 0;
-  % param_S.do_zp_b        = 0;
-  % param_S.do_eq_b        = 0;
-  % param_S.do_LFext_b     = 0;
-  % param_S.do_dist_b      = 0;
-
-  % Apply normalization
-  % disp(['Normalizing file ' i '/' length(SofaFiles) ": " SofaFile]);
 
   param_S.do_resize_b = 0; % use value 0 to recreate data published on Ecosystem
-  % param_S.do_resize_b = 1; % use value 1 to create nice figures
-
-  % disp([num2str(i) '/' num2str(length(SofaFiles)) ': Normalizing (normalization type 3): ' SofaFiles{i} ' ...'])
   disp([char(9) 'Normalizing (normalization type 3): ' SofaFiles{i} ' ...'])
   Objnorm_S = SOFAnormalize(Obj, 3, param_S); % normalization type 'Bahu'
-  % [~, SofaFileName, ~] = fileparts(SofaFile);
-  % disp(['Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_' SofaFileName ' normalization type3.sofa'])]);
-  % SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_' SofaFileName ' normalization type3.sofa']),NormObj);
-
-  % disp([num2str(i) '/' num2str(length(SofaFiles)) ': Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i})]);
   disp([char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i})]);
   SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i}),Objnorm_S);
 
@@ -172,20 +109,10 @@ for i = 1:length(SofaFiles)
   ylim(ylim_v)
   xlim(xlim_v)
   legend_s = strvcat( legend_s, num2str(i) );
-  % % plot normalized data
-  % % figure('Name',[SofaFile ' (normalized)']);
-  % subplot(2,2,3);
-  % SOFAplotHRTF(Objnorm_S,'ETCHorizontal',1);
-  % title('ETC Horizontal, normalized')
-  % % figure('Name',[SofaFile ' (normalized)']);
-  % subplot(2,2,4);
-  % SOFAplotHRTF(Objnorm_S,'MagMedian',2);
-  %  title('Mag Median, normalized')
 end
 legend(legend_s)
-% set( gcf, 'Position', [1   917   560   420 ])
 
-% restore warning states
+  % restore warning states
 warning(statSs.state, 'SOFA:save');
 warning(statSsA.state, 'SOFA:save:API');
 warning(statSNT0.state, 'SOFAnormalize:NormalizationType0');
