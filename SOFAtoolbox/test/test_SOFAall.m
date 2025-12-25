@@ -110,10 +110,10 @@ demo_TUBerlin2SOFA;
 disp('*** Finished: demo_TUBerlin2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_UMA2SOFA
-disp('**************  demo_UMA2SOFA  **************');
-clear;
-demo_UMA2SOFA;
-disp('*** Finished: demo_UMA2SOFA (Output: SOFA-file(s), Figure(s))'); disp('      ');
+% disp('**************  demo_UMA2SOFA  **************');
+% clear;
+% demo_UMA2SOFA;
+% disp('*** Finished: demo_UMA2SOFA (Output: SOFA-file(s), Figure(s))'); disp('      ');
 
 %% Test converters FROM SOFA
 disp('############################################');

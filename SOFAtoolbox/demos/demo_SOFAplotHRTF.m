@@ -35,7 +35,7 @@ SOFAplotHRTF(Obj,'ITDhorizontal');
 SOFAfile=fullfile(SOFAdbPath,'database','ari (sim)','hrtf_nh5_ref.sofa');
 Obj=SOFAload(SOFAfile);
 % plot magnitude spectrum in the median plane, channel 1
-figure('Name',mfilename);;
+figure('Name',mfilename);
 SOFAplotHRTF(Obj,'MagMedian',1,'conversion2ir');
 figure('Name',mfilename);
 SOFAplotHRTF(Obj,'MagMedian',1,'noconversion2ir');
