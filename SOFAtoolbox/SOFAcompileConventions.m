@@ -1,16 +1,16 @@
 function [dispOutput] = SOFAcompileConventions(conventions)
 %SOFAcompileConventions - Compile conventions from CSV to MAT
 %   Usage: out = SOFAcompileConventions(conventions)
-% 
-%   SOFAcompileConventions() compiles all conventions within the directory 
-%   'conventions', i.e., it loads a CSV file, interprete it as a Matlab/Octave 
-%   structure, and saves as MAT file. This MAT file is later used by 
-%   SOFAgetConventions. Note that SOFAcompileConventions ignores all 
+%
+%   SOFAcompileConventions() compiles all conventions within the directory
+%   'conventions', i.e., it loads a CSV file, interprete it as a Matlab/Octave
+%   structure, and saves as MAT file. This MAT file is later used by
+%   SOFAgetConventions. Note that SOFAcompileConventions ignores all
 %   files beginning with '_' (underscore) in the 'conventions' directory.
 %
-%   SOFAcompileConventions(conv) compiles the conv convention only. 
-%   The convention conv must be in the directory 
-%   'conventions'. For each conv, multiple versions of the 
+%   SOFAcompileConventions(conv) compiles the conv convention only.
+%   The convention conv must be in the directory
+%   'conventions'. For each conv, multiple versions of the
 %   same conventions conv can be encoded by 'conv_version.csv'. For each version,
 %   SOFAcompileConventions generates three MAT files: conv_m_version.mat (mandatory
 %   metadata), conv_r_version.mat (read-only metadata), and conv_a_version.mat (all
@@ -154,14 +154,14 @@ function Obj = compileConvention(convention,flag)
             if isempty(strfind(var,'Data.'))
                 Obj.(var) = convDefault{ii};
                 if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
-                    x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
+                    x2 = regexprep(char(convDimensions{ii}),' ',''); %  remove spaces
                     y = regexprep(x2,',',['''' char(10) '''']); % enclose in quotations and insert line breaks  % char(10) does not return a warning in Octave, compared to newline
                     Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
                 end
             else
                 Obj.Data.(var(6:end)) = convDefault{ii};
                 if isempty(strfind(var(6:end),'_'))
-                    x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
+                    x2 = regexprep(char(convDimensions{ii}),' ',''); %  remove spaces
                     y = regexprep(x2,',',['''' char(10) '''']); % enclose in quotations and insert line breaks  % char(10) does not return a warning in Octave, compared to newline
                     Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
                 end
