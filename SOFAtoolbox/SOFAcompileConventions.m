@@ -36,7 +36,10 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 baseFolder = fileparts(which('SOFAstart'));
 dispOutput='';
   % create prefdir/conventions if not existing yet
-if ~exist(fullfile(prefdir,'SOFAconventions'),'dir'), mkdir(fullfile(prefdir,'SOFAconventions')); end
+if ~exist(fullfile(prefdir,'SOFAconventions'),'dir')
+  disp(['Creating directory to store compiled conventions: ' fullfile(prefdir,'SOFAconventions')]);
+  mkdir(fullfile(prefdir,'SOFAconventions'));
+end
 
 if nargin<1
     conventionFiles = dir(fullfile(baseFolder,'conventions','*.csv'));
