@@ -23,6 +23,7 @@ function Obj = SOFAgetConventions(sofaconventions,flags,version)
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: doc & header documentation updated (28.10.2021)
+% #Author: Piotr Majdak: we now load the compiled conventions from the prefdir directory (30.12.2025)
 %
 % SOFA Toolbox - function SOFAgetConventions
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -54,7 +55,8 @@ end
 %% If sofaconventions not provided, return the list with supported conventions
 if ~exist('sofaconventions','var')
   p=mfilename('fullpath');
-  d=dir([p(1:length(p)-length(mfilename)) 'conventions' filesep '*_m_*.mat']);
+  d=dir(fullfile(prefdir,'SOFAconventions','*_m_*.mat'));
+  %d=dir([p(1:length(p)-length(mfilename)) 'conventions' filesep '*_m_*.mat']);
   Obj={};
   for ii=1:length(d)
     dn=d(ii).name; 
@@ -87,13 +89,13 @@ if ~exist('Obj','var')
   p=mfilename('fullpath');
   if exist('version','var')
       % load a specific version but do not store in the cache
-    if ~isempty(dir([p(1:length(p)-length(mfilename)) 'conventions' filesep sofaconventions '_' flags '_' version '.mat']))
-      load([p(1:length(p)-length(mfilename)) 'conventions' filesep sofaconventions '_' flags '_' version '.mat']);      
+    if exist(fullfile(prefdir,'SOFAconventions',[sofaconventions '_' flags '_' version '.mat']), 'file')
+      load(fullfile(prefdir,'SOFAconventions',[sofaconventions '_' flags '_' version '.mat']));      
     else
       error(['Convention ' sofaconventions ' with the version ' version ' not found.']);
     end
   else
-    allver=dir(fullfile(p(1:length(p)-length(mfilename)), 'conventions' , [sofaconventions '_' flags '_*.mat']));
+    allver=dir(fullfile(prefdir,'SOFAconventions', [sofaconventions '_' flags '_*.mat']));
     if isempty(allver)
       warning(['Convention ' sofaconventions ' not found.']');
       Obj=[];
@@ -101,14 +103,14 @@ if ~exist('Obj','var')
       vermax='0.0';
       idxmax=0;
       for ii=1:length(allver)
-        x=load([p(1:length(p)-length(mfilename)) 'conventions' filesep allver(ii).name]);
+        x=load(fullfile(prefdir,'SOFAconventions',allver(ii).name));
         if compareversions(x.Obj.GLOBAL_SOFAConventionsVersion,vermax)>0
           vermax=x.Obj.GLOBAL_SOFAConventionsVersion;
           idxmax=ii;
         end
       end
         % store in cache
-      AllObj.(flags)=load([p(1:length(p)-length(mfilename)) 'conventions' filesep allver(idxmax).name]);
+      AllObj.(flags)=load(fullfile(prefdir,'SOFAconventions',allver(idxmax).name));
       Obj=AllObj.(flags).Obj; % return the cached version
     end
   end
