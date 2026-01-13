@@ -23,7 +23,7 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 % #Author: Michael Mihocic: doc fixed, header documentation updated (20.10.2021)
 % #Author: Michael Mihocic: display information changed to output variable (11.11.2021)
 % #Author: Piotr Majdak: bug fix on compiling conventions only if CSV newer than MAT files (9.7.2023)
-% #Author: Piotr Majdak: we now load the compiled conventions from the prefdir directory (30.12.2025)
+% #Author: Piotr Majdak: we now load the compiled conventions from the prefdir/SOFAconventions/SOFAgetVersion directory (30.12.2025)
 %
 % SOFA Toolbox
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -36,9 +36,9 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 baseFolder = fileparts(which('SOFAstart'));
 dispOutput='';
   % create prefdir/conventions if not existing yet
-if ~exist(fullfile(prefdir,'SOFAconventions'),'dir')
-  disp(['Creating directory to store compiled conventions: ' fullfile(prefdir,'SOFAconventions')]);
-  mkdir(fullfile(prefdir,'SOFAconventions'));
+if ~exist(fullfile(prefdir,'SOFAconventions',SOFAgetVersion),'dir')
+  disp(['Creating directory to store compiled conventions: ' fullfile(prefdir,'SOFAconventions',SOFAgetVersion)]);
+  mkdir(fullfile(prefdir,'SOFAconventions',SOFAgetVersion));
 end
 
 if nargin<1
@@ -52,7 +52,7 @@ if nargin<1
         rawname=name(1:strfind(name,'_')-1);
         version=name(strfind(name,'_')+1:end);
         for flag = 'rma'
-            flagFile = dir(fullfile(prefdir,'SOFAconventions', ...
+            flagFile = dir(fullfile(prefdir,'SOFAconventions', SOFAgetVersion, ...
                              strcat(rawname,'_',flag,'_',version,'.mat')));
             if ~isempty(flagFile) && flagFile(1).datenum>file.datenum
                 flagsCounter = flagsCounter+1;
@@ -116,7 +116,7 @@ for convention = conventions
             if ~strcmp(dispOutput,''); dispOutput = [dispOutput char(10)]; end  % char(10) does not return a warning in Octave, compared to newline
             dispOutput = [dispOutput 'Compiling ',convention{:},'.csv: ', Obj.GLOBAL_SOFAConventions, ' ', Obj.GLOBAL_SOFAConventionsVersion];
         end
-            save(fullfile(prefdir,'SOFAconventions', ...
+            save(fullfile(prefdir,'SOFAconventions',SOFAgetVersion, ...
                  strcat(Obj.GLOBAL_SOFAConventions,'_',flag,'_', Obj.GLOBAL_SOFAConventionsVersion,'.mat')), ...
                  'Obj','-v7');
 %         else
