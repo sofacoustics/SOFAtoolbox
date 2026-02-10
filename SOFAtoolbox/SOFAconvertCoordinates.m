@@ -15,6 +15,7 @@ function [output,output_units] = SOFAconvertCoordinates(input,input_type,output_
 % #Author: Michael Mihocic: type horizontal-polar removed (not defined in SOFA) (08.03.2021)
 % #Author: Michael Mihocic: doc fixed, header documentation updated (28.10.2021)
 % #Author: Piotr Majdak: convertion of units added (25.12.2025)
+% #Author: Michael Mihocic: spherical & geodesic output ranges shifted from -180:180° to 0:360° (10.02.2026)
 % 
 % SOFA Toolbox - function SOFAconvertCoordinates
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -71,7 +72,7 @@ if strcmp(output_type,input_type)==0
             %do nothing
         case {'spherical','geodesic'}
             [output(:,1),output(:,2),output(:,3)]=cart2sph(temp(:,1),temp(:,2),temp(:,3));
-            output(:,1:2)=rad2deg(output(:,1:2));
+            output(:,1:2)=mod(rad2deg(output(:,1:2)),360); % transfer range from -180:180° to 0:360°
             parts = strsplit(output_units, ',');
             output_units = ['degree,degree,' parts{1}]; 
     end
