@@ -1,7 +1,7 @@
 function NETCDFsave(filename, Obj, Compression)
 %NETCDFSAVE - Saves all data and metadata to a SOFA file.
 %   Usage: NETCDFsave(filename, Obj, Compression)
-% 
+%
 %   Input parameters:
 %     filename    : SOFA file name
 %     Dataset     : SOFA Object to be saved
@@ -16,7 +16,7 @@ function NETCDFsave(filename, Obj, Compression)
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing  permissions and limitations under the License. 
+% See the License for the specific language governing  permissions and limitations under the License.
 
 % If we are running octave we have to import the NETCDF namespace, in order to
 % run functions like netcdf.getConstant
@@ -30,7 +30,7 @@ glob='GLOBAL_';
 
 globid=netcdf.getConstant('GLOBAL');
 
-try 
+try
 	var='file creation';
   mode = netcdf.getConstant('NETCDF4');
 %   mode = netcdf.getConstant('clobber');
@@ -46,7 +46,7 @@ try
       netcdf.putAtt(ncid,globid,var(strfind(var,glob)+length(glob):end),Obj.(var));
 		end
 	end
-	
+
 %% Define dimensions
 
   Dims=cell2mat(fieldnames(rmfield(Obj.API,'Dimensions'))');
@@ -54,7 +54,7 @@ try
 	dimsize=nan(size(Dims));
 	for ii=1:length(Dims)
 		var=Dims(ii);
-		dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.API.(var)); 
+		dimid(ii) = netcdf.defDim(ncid,Dims(ii),Obj.API.(var));
 		dimsize(ii)=Obj.API.(var);
   end
   Sdim=strfind(Dims,'S'); % find the index with string dimension
@@ -69,44 +69,44 @@ fv=fieldnames(Dimensions);
 		if isempty(strfind(var,'_')) % skip all attributes
 			ids=cell2mat(regexp(Dims,cellstr((Dimensions.(var))')));
       if find(ids==Sdim) % array of strings or numerics?
-        varId(ii) = netcdf.defVar(ncid,var,netcdf.getConstant('NC_CHAR'),fliplr(dimid(ids)));	
+        varId(ii) = netcdf.defVar(ncid,var,netcdf.getConstant('NC_CHAR'),fliplr(dimid(ids)));
       else
-        varId(ii) = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
+        varId(ii) = netcdf.defVar(ncid,var,netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));
       end
 			netcdf.defVarDeflate(ncid,varId(ii),true,true,Compression);
 			for jj=1:length(f)
 				if ~isempty(strfind(f{jj},[var '_']))
 					netcdf.putAtt(ncid,varId(ii),f{jj}(strfind(f{jj},[var '_'])+length([var '_']):end),Obj.(f{jj}));
 				end
-			end		
+			end
 		end
 	end
 
 %% Define data variables and their attributes
 fd=fieldnames(Obj.API.Dimensions.Data);
 fod=fieldnames(Obj.Data);
-	
+
 	for ii=1:length(fd)
 		var=fd{ii};
-		if isempty(strfind(var,'_'))	% skip all attributes				
+		if isempty(strfind(var,'_'))	% skip all attributes
 			ids=cell2mat(regexp(Dims,cellstr((Obj.API.Dimensions.Data.(var))')));
       if find(ids==Sdim) % array of strings or numerics?
-        varIdD(ii) = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_CHAR'),fliplr(dimid(ids)));	
+        varIdD(ii) = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_CHAR'),fliplr(dimid(ids)));
       else
-        varIdD(ii) = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));	
+        varIdD(ii) = netcdf.defVar(ncid,['Data.' var],netcdf.getConstant('NC_DOUBLE'),fliplr(dimid(ids)));
       end
 			netcdf.defVarDeflate(ncid,varIdD(ii),true,true,Compression);
 			for jj=1:length(fod)
 				if ~isempty(strfind(fod{jj},[var '_']))
 					netcdf.putAtt(ncid,varIdD(ii),fod{jj}(strfind(fod{jj},[var '_'])+length([var '_']):end),Obj.Data.(fod{jj}));
 				end
-			end		
+			end
 		end
   end
 
 %% End of definition
 	netcdf.endDef(ncid);
-  
+
 %% Save metadata variables
 Dimensions=rmfield(Obj.API.Dimensions,'Data');
 fv=fieldnames(Dimensions);
@@ -119,17 +119,17 @@ fv=fieldnames(Dimensions);
         if iscell(Obj.(var))
           c=char(permute(Obj.(var),length(ids):-1:1));
           s=size(c);
-          ext=zeros([s(1:end-1) Obj.API.S-s(end)]); % array 'ext' causes warnings in Octave in next row; 'strings' command would work better than 'zeros' but it is not supported in Octave
+          ext=char(zeros([s(1:end-1) Obj.API.S-s(end)]));
           netcdf.putVar(ncid,varId(ii),[c ext]');
-        else  
+        else
           netcdf.putVar(ncid,varId(ii),permute(Obj.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
         end
       else
         if iscell(Obj.(var))
           c=char(Obj.(var));  % convert to character array
-          s=size(c);      
-          ext=zeros([s(1:end-1) Obj.API.S-s(end)]); % extend along the S dimension
-          netcdf.putVar(ncid,varId(ii),[c ext]);  
+          s=size(c);
+          ext=char(zeros([s(1:end-1) Obj.API.S-s(end)])); % extend along the S dimension
+          netcdf.putVar(ncid,varId(ii),[c ext]);
         else
           netcdf.putVar(ncid,varId(ii),Obj.(var));
         end
@@ -140,25 +140,25 @@ fv=fieldnames(Dimensions);
 %% Save data variables
 fd=fieldnames(Obj.API.Dimensions.Data);
 fod=fieldnames(Obj.Data);
-	
+
 	for ii=1:length(fd)
 		var=fd{ii};
-		if isempty(strfind(var,'_'))	% skip all attributes				
+		if isempty(strfind(var,'_'))	% skip all attributes
 			ids=cell2mat(regexp(Dims,cellstr((Obj.API.Dimensions.Data.(var))')));
 			if length(ids)>1
         if iscell(Obj.Data.(var))
           c=char(permute(Obj.Data.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
           s=size(c);
-          ext=zeros([s(1:end-1) Obj.API.S-s(end)]); % array 'ext' causes warnings in Octave in next row; 'strings' command would work better than 'zeros' but it is not supported in Octave
-          netcdf.putVar(ncid,varIdD(ii),[c ext]'); 
+          ext=char(zeros([s(1:end-1) Obj.API.S-s(end)]));
+          netcdf.putVar(ncid,varIdD(ii),[c ext]');
         else
           netcdf.putVar(ncid,varIdD(ii),permute(Obj.Data.(var),length(ids):-1:1)); % we need to reverse the dimension order because Matlab netcdf API saves data in the reverse order
         end
       else
         if iscell(Obj.Data.(var))
           c=char(Obj.Data.(var));  % convert to character array
-          s=size(c);      
-          ext=zeros([s(1:end-1) Obj.API.S-s(end)]); % extend along the S dimension          
+          s=size(c);
+          ext=char(zeros([s(1:end-1) Obj.API.S-s(end)])); % extend along the S dimension
           netcdf.putVar(ncid,varIdD(ii),[c ext]);
         else
           netcdf.putVar(ncid,varIdD(ii),Obj.Data.(var));
@@ -166,19 +166,19 @@ fod=fieldnames(Obj.Data);
 			end
 		end
 	end
-  
+
 catch ME
 % 	if ~strcmp(ME.identifier,'MATLAB:imagesci:netcdf:libraryFailure')
     if exist('ncid','var')
-      netcdf.close(ncid); 
+      netcdf.close(ncid);
       for ii=1:length(ME.stack)
         disp(ME.stack(ii));
       end
       error(['Error processing ' var 10 'Error message: ' ME.message]);
     else
-      error(['Not not able to create the file ' filename]); 
+      error(['Not not able to create the file ' filename]);
     end
 % 	end
 end
 netcdf.close(ncid);
-	
+
