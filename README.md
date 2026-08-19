@@ -17,6 +17,7 @@ This project implements a reference toolbox for SOFA: The SOFA Toolbox.
 SOFA Toolbox 2.x implements SOFA versions 2.x. The SOFA Toolbox has been previously 
 known as the SOFA API_MO, which supported SOFA versions up to 1.x.
 
+This project took advantage of netCDF software developed by NSF Unidata (http://doi.org/10.5065/D6H70CW6).
 
 Downloads
 =========
