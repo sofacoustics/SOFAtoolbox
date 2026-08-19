@@ -141,7 +141,7 @@ disp(Obj.API.S); % show current (max) strings dimension
 
 % Add strings to SOFA object
 Obj = SOFAaddVariable(Obj, 'MySingleString', 'IS', 'This string describes something that cannot described in the other meta data...'); % add string (having dimension 1xS)
-myStrings = str2mat("Describing measurement " + (1:M)'); % one string for each measurement, saved as character array
+myStrings = num2str((1:M)', 'Describing measurement %d'); % one string for each measurement, saved as character array
 Obj = SOFAaddVariable(Obj, 'StringForEachMeasurement', 'MS', myStrings); % add string (having dimension MxS)
 
 % Update dimensions
@@ -154,7 +154,8 @@ Obj = SOFAload(urlwrite('https://sofacoustics.org/data/examples/SimpleHeadphoneI
 %% Inspect the data
 disp('Inspect the data structure of the SimpleHeadphoneIR example');
 keyboard; % Continue with dbcont
-%% Plot amplitude spectra
+
+% Plot amplitude spectra
 % prepare figure to add multiple measurements
 figure; hold on;
 
@@ -183,4 +184,3 @@ keyboard; % Continue with dbcont
 % Plot room geometry for room impulse response measurement
 SOFAplotGeometry(Obj); % Considers shoebox as the room
 view(45,30); % adapt view angle
-```
