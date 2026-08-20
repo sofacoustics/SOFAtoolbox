@@ -1,15 +1,21 @@
- function output = SOFAconvertCoordinates(input,input_type,output_type,~,~)
+function [output,output_units] = SOFAconvertCoordinates(input,input_type,output_type,input_units,~)
 %SOFAconvertCoordinates - Convert between the coordinates systems
 %   Usage: output = SOFAconvertCoordinates(input,input_type,output_type)
+%     [output,output_units] = SOFAconvertCoordinates(input,input_type,output_type,input_units)
 %
 %   SOFAconvertCoordinates(input,input_type,output_type), converts input given in 
 %   the coordinate system input_type to the coordinate system described by output_type.
-%   input_type and output_type can be 'cartesian' or 'spherical' as sepcified in AES69.
+%   input_type and output_type can be 'cartesian' or 'spherical' as specified in AES69.
 %   input must be a matrix of X-by-C.
+%
+%   [output,output_units] = SOFAconvertCoordinates(...,input_units)
+%   converts the units as well. 
 
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: type horizontal-polar removed (not defined in SOFA) (08.03.2021)
 % #Author: Michael Mihocic: doc fixed, header documentation updated (28.10.2021)
+% #Author: Piotr Majdak: convertion of units added (25.12.2025)
+% #Author: Michael Mihocic: spherical & geodesic output ranges shifted from -180:180° to 0:360° (10.02.2026)
 % 
 % SOFA Toolbox - function SOFAconvertCoordinates
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -34,14 +40,30 @@ if strcmp(output_type,'cartesian')==0 && ...
 end
 
 output=input;
-%% convert to Cartesian if necessary
+if ~exist('input_units','var')
+  input_units='unknown,unknown,unknown'; 
+  output_units = input_units;
+else
+    % fix units if required
+  parts = strsplit(input_units, ',');
+  if length(parts)==1
+    output_units = [parts{1} ',' parts{1} ',' parts{1}]; % only a single dimension provided, use that for all dimensions
+  else
+    output_units = [parts{1} ',' parts{2} ',' parts{3}]; % preserve units for all three dimensions
+  end
+end
+
+%% convert to Cartesian (if necessary) and then to the output type
 if strcmp(output_type,input_type)==0
     temp=input;
     switch input_type
         case 'cartesian'
-            %do nothing
+           
+
         case {'spherical','geodesic'}
             [temp(:,1),temp(:,2),temp(:,3)]=sph2cart(deg2rad(input(:,1)),deg2rad(input(:,2)),input(:,3));
+            parts = strsplit(input_units, ',');
+            output_units = [parts{3} ',' parts{3} ',' parts{3}]; % use the unit of the radius
     end
 
     output=temp;
@@ -50,7 +72,9 @@ if strcmp(output_type,input_type)==0
             %do nothing
         case {'spherical','geodesic'}
             [output(:,1),output(:,2),output(:,3)]=cart2sph(temp(:,1),temp(:,2),temp(:,3));
-            output(:,1:2)=rad2deg(output(:,1:2));
+            output(:,1:2)=mod(rad2deg(output(:,1:2)),360); % transfer range from -180:180° to 0:360°
+            parts = strsplit(output_units, ',');
+            output_units = ['degree,degree,' parts{1}]; 
     end
 end
 

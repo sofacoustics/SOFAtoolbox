@@ -99,7 +99,7 @@ switch Obj0.GLOBAL_SOFAConventions
         if exist('OCTAVE_VERSION','builtin') == 0
             qU.ShowArrowHead = 'off';
             qU.Marker = '.';
-        end 
+        end
         view(0,90);
         xlabel([Obj0.M_LongName ' (in ' Obj0.M_Units ')']);
         legend({'ListenerView','ListenerUp'});
@@ -107,28 +107,14 @@ switch Obj0.GLOBAL_SOFAConventions
     case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E','SingleRoomMIMOSRIR','SingleRoomSRIR'}
         % Expand entries to the same number of measurement points
         Obj = SOFAexpand(Obj0);
-        % See if the room geometry is specified
-        if strcmpi(Obj.GLOBAL_RoomType,'shoebox')
-            x = min(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
-            xd = max(Obj.RoomCornerA(1), Obj.RoomCornerB(1));
-            y = min(Obj.RoomCornerA(2), Obj.RoomCornerB(2));
-            yd = max(Obj.RoomCornerA(2), Obj.RoomCornerB(2));
-            w = xd - x;
-            h = yd - y;
-            figure('Position',[1 1 w*1.2 h]*100);
-            box on; hold on;
-            % plot the room
-            rectangle('Position',[x y w h]);
-        else
-            figure; hold on;
-        end
-
         legendEntries = [];
+        legendDescription = {};
+        figure; hold on;
         title(sprintf('%s, %s',Obj.GLOBAL_SOFAConventions,Obj.GLOBAL_RoomType));
-        % Get ListenerPosition, ReceiverPosition, SourcePosition, and
-        % EmitterPosition
-        % NOTE: ListenerPosition is set to [0 0 0] for SimpleFreeFieldHRIR
-        LP = SOFAconvertCoordinates(Obj.ListenerPosition(index,:),Obj.ListenerPosition_Type,'cartesian');
+
+        % Get ListenerPosition, ReceiverPosition, SourcePosition, and EmitterPosition
+        % NOTE: ListenerPosition is set to [0 0 0] in SimpleFreeFieldHRIR
+        [LP, LP_units] = SOFAconvertCoordinates(Obj.ListenerPosition(index,:),Obj.ListenerPosition_Type,'cartesian',Obj.ListenerPosition_Units);
         if ~(strcmpi(Obj.ReceiverPosition_Type,'Spherical Harmonics'))
             if size(Obj.ReceiverPosition,3)==1, idx=1; else idx=index; end
             RP = SOFAconvertCoordinates(Obj.ReceiverPosition(:,:,idx),Obj.ReceiverPosition_Type,'cartesian');
@@ -200,7 +186,6 @@ switch Obj0.GLOBAL_SOFAConventions
                 LP = uniquePoints(:,1:3);
                 SP = uniquePoints(:,4:6);
                 LV = uniquePoints(:,7:9);
-                %             LU = uniquePoints(:,7:9); % I think this was a bug (miho)
                 LU = uniquePoints(:,10:12);
             case 'LVLUSV'
                 LP = uniquePoints(:,1:3);
@@ -239,14 +224,12 @@ switch Obj0.GLOBAL_SOFAConventions
                 error('This SOFAConventions is not supported for plotting');
         end
 
-        % Plot ListenerPosition
+          % Plot ListenerPosition
         legendEntries(end+1) = plot3(LP(:,1),LP(:,2),LP(:,3),'ro','MarkerFaceColor','r','MarkerSize',5);
         if strcmpi(Obj.ReceiverPosition_Type,'Spherical Harmonics')
             maxSHorder = sqrt(Obj.API.R)-1;
             % set SHorder to max if user didn't specify it
-            if isinf(SHorder)
-                SHorder = maxSHorder;
-            end
+            if isinf(SHorder), SHorder = maxSHorder; end
             % check if chosen SHorder is possible
             if SHorder > maxSHorder
                 error(['Chosen SHorder not possibile, only orders up to ', ...
@@ -254,9 +237,9 @@ switch Obj0.GLOBAL_SOFAConventions
             elseif SHorder < 0
                 error('Chosen SHorder not possibile, as it must be positive.')
             end
-            x0 = Obj.ListenerPosition(1,1);
-            y0 = Obj.ListenerPosition(1,2);
-            z0 = Obj.ListenerPosition(1,3);
+            x0 = LP(1,1);
+            y0 = LP(1,2);
+            z0 = LP(1,3);
 
             % check for m given by the user and if it is possible
             if isinf(SHm)
@@ -287,20 +270,6 @@ switch Obj0.GLOBAL_SOFAConventions
 
             [D_x,D_y,D_z] = sph2cart(azi_rad,elev_rad,abs(r));
             legendEntries(end+1) = surf(D_x+x0,D_y+y0,D_z+z0,Y,'LineStyle','none','FaceAlpha',0.09);
-            %     elseif strcmpi(Obj.ReceiverPosition_Type,'spherical')
-            %         S = sqrt(Obj.API.R-1);
-            %         x0 = Obj.ListenerPosition(1,1);
-            %         y0 = Obj.ListenerPosition(1,2);
-            %         theta = -pi : 0.01 : pi;
-            %         r = 1;
-            %         phi = sin(S*theta);
-            %         phi_negativ = sin(-S*theta);
-            %
-            %         [x,y] = pol2cart(theta,(r*(1+ abs(phi)+ abs(phi_negativ)))./3);
-            %         legendEntries(end+1)=plot(x+x0,y+y0,'LineStyle','--','Color',[0.741 0.747 0.741]);
-            %
-            % %         text(x0,y0+r,['Order: ',num2str(S)],'HorizontalAlignment',...
-            % %            'center','VerticalAlignment','bottom')
 
         else
             % Plot ReceiverPositon (this is plotted only for the first ListenerPosition)
@@ -332,9 +301,9 @@ switch Obj0.GLOBAL_SOFAConventions
             elseif SHorder < 0
                 error('Chosen SHorder not possibile, as it must be positive.')
             end
-            x0 = Obj.SourcePosition(1,1);
-            y0 = Obj.SourcePosition(1,2);
-            z0 = Obj.SourcePosition(1,3);
+            x0 = SP(1,1);
+            y0 = SP(1,2);
+            z0 = SP(1,3);
 
             % check for m given by the user
             if isinf(SHm)
@@ -365,27 +334,11 @@ switch Obj0.GLOBAL_SOFAConventions
             [D_x,D_y,D_z] = sph2cart(azi_rad,elev_rad,abs(r));
             legendEntries(end+1) = surf(D_x+x0,D_y+y0,D_z+z0,Y,'LineStyle','none','FaceAlpha',0.09);
 
-            %     elseif strcmpi(Obj.EmitterPosition_Type,'spherical')
-            %         S = sqrt(Obj.API.R-1);
-            %         x0 = Obj.SourcePosition(1,1);
-            %         y0 = Obj.SourcePosition(1,2);
-            %         theta = -pi : 0.01 : pi;
-            %         r = 1;
-            %         phi = sin(S*theta);
-            %         phi_negativ = sin(-S*theta);
-            %
-            %         [x,y] = pol2cart(theta,(r*(1+ abs(phi)+ abs(phi_negativ)))./3);
-            %         legendEntries(end+1)=plot(x+x0,y+y0,'LineStyle','--','Color',[0.741 0.747 0.741]);
-            %
-            % %         text(x0,y0+r,['Order: ',num2str(S)],'HorizontalAlignment',...
-            % %            'center','VerticalAlignment','bottom')
-
         else
             % Plot EmitterPosition
             if ~isequal(Obj0.EmitterPosition,[0 0 0]) % plot only if not simple emitter in the source's center
                 if ndims(EP)>2
-                    % If EmitterPosition has more than two dimensions reduce it to the first
-                    % ListenerPosition
+                    % If EmitterPosition has more than two dimensions reduce it to the first ListenerPosition
                     EP = shiftdim(EP,2);
                     EP = squeeze(EP(1,:,:));
                     EP = reshape(EP,[size(Obj.EmitterPosition,1), Obj.API.C]);
@@ -426,32 +379,24 @@ switch Obj0.GLOBAL_SOFAConventions
                     LU(ii,:) = LU(ii,:)./norm(LU(ii,:));
                 end
                 quiver3(LP(ii,1),LP(ii,2),LP(ii,3),LU(ii,1),LU(ii,2),LU(ii,3),0,'AutoScale','off','Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
-                %               quiver3(LP(ii,1),LP(ii,2),LP(ii,3),LU(ii,1),LU(ii,2),LU(ii,3),'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
-                %             quiver3(LP(ii,1),LP(ii,2),LP(ii,3),LV(ii,1),LV(ii,2),LV(ii,3),'Color',[1 0 0],'MarkerFaceColor',[1 0 0]);
             end
             if flags.do_normalize
                 LU(1,:) = LU(1,:)./norm(LU(1,:));
             end
             legendEntries(end+1) = quiver3(LP(1,1),LP(1,2),LP(1,3),LU(1,1),LU(1,2),LU(1,3),0,'AutoScale','off','Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
-            %         legendEntries(end+1) = quiver3(LP(1,1),LP(1,2),LP(1,3),LU(1,1),LU(1,2),LU(1,3),'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
-            %         legendEntries(end+1) = quiver3(LP(1,1),LP(1,2),LP(1,3),LV(1,1),LV(1,2),LV(1,3),'Color',[1 0 0],'MarkerFaceColor',[1 0 0]);
         end
         if exist('SV','var')
             SV=unique(SV,'rows');
             % Plot ListenerView
             for ii = 2:size(SV,1)
                 % Scale size of ListenerView vector smaller
-                if flags.do_normalize
-                    SV(ii,:) = SV(ii,:)./norm(SV(ii,:));
-                end
+                if flags.do_normalize, SV(ii,:) = SV(ii,:)./norm(SV(ii,:)); end
                 % Plot line for ListenerView vector
                 quiver3(SP(ii,1),SP(ii,2),SP(ii,3),SV(ii,1),SV(ii,2),SV(ii,3),0,...
                     'AutoScale','off',...
                     'Color',[0 0 1],'MarkerFaceColor',[0 0 1]);
             end
-            if flags.do_normalize
-                SV(1,:) = SV(1,:)./norm(SV(1,:));
-            end
+            if flags.do_normalize, SV(1,:) = SV(1,:)./norm(SV(1,:)); end
             legendEntries(end+1) = quiver3(SP(1,1),SP(1,2),SP(1,3),SV(1,1),SV(1,2),SV(1,3),0,...
                 'AutoScale','off',...
                 'Color',[0 0 1],'MarkerFaceColor',[0 0 1]);
@@ -459,22 +404,18 @@ switch Obj0.GLOBAL_SOFAConventions
         if exist('SU','var')
             SU=unique(SU,'rows');
             for ii = 2:size(SU,1)
-                if flags.do_normalize
-                    SU(ii,:) = SU(ii,:)./norm(SU(ii,:));
-                end
+                if flags.do_normalize, SU(ii,:) = SU(ii,:)./norm(SU(ii,:)); end
                 quiver3(SP(ii,1),SP(ii,2),SP(ii,3),SU(ii,1),SU(ii,2),SU(ii,3),0,...
                     'AutoScale','off',...
                     'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
             end
-            if flags.do_normalize
-                SU(1,:) = SU(1,:)./norm(SU(1,:));
-            end
+            if flags.do_normalize, SU(1,:) = SU(1,:)./norm(SU(1,:)); end
             legendEntries(end+1) = quiver3(SP(1,1),SP(1,2),SP(1,3),SU(1,1),SU(1,2),SU(1,3),'Color',[0 0 0],'MarkerFaceColor',[0 0 0]);
         end
         % create legend
-        legendDescription = {'ListenerPosition'};
+        legendDescription{end+1} = 'ListenerPosition';
         if (strcmpi(Obj.ReceiverPosition_Type,'Spherical Harmonics'))
-            legendDescription{end+1} = ['Receiver (order: ', num2str(S_R) ,')'];
+            legendDescription{end+1} = ['Receiver (order: ', num2str(SHorder) ,')'];
         else
             legendDescription{end+1} = 'ReceiverPosition';
         end
@@ -486,22 +427,48 @@ switch Obj0.GLOBAL_SOFAConventions
                 legendDescription{end+1} = 'EmitterPosition';
             end
         end
-        if exist('LV','var')
-            legendDescription{end+1} = 'ListenerView';
+        if exist('LV','var'), legendDescription{end+1} = 'ListenerView'; end
+        if exist('LU','var'), legendDescription{end+1} = 'ListenerUp'; end
+        if exist('SV','var'), legendDescription{end+1} = 'SourceView'; end
+        if exist('SU','var'), legendDescription{end+1} = 'SourceUp'; end
+
+          % Plot the room if the room geometry is specified
+        if isfield(Obj,'RoomCornerA') && isfield(Obj,'RoomCornerB')
+          if length(index)>1
+            warning('Room will be plotted for M=1 only');
+            rindex=1;
+          else
+            rindex=index;
+          end
+          x = [Obj.RoomCornerA(rindex,1), Obj.RoomCornerB(rindex,1)];
+          y = [Obj.RoomCornerA(rindex,2), Obj.RoomCornerB(rindex,2)];
+          z = [Obj.RoomCornerA(rindex,3), Obj.RoomCornerB(rindex,3)];
+          [X, Y, Z] = ndgrid(x, y, z); % Define the 8 cube vertices
+          vertices = [X(:), Y(:), Z(:)];
+          % Define the faces using the indices of the vertices
+          faces = [1 2 4 3;  % Bottom face
+              5 6 8 7;  % Top face
+              1 2 6 5;  % Side face (x min)
+              2 4 8 6;  % Side face (y max)
+              4 3 7 8;  % Side face (x max)
+              3 1 5 7]; % Side face (y min)
+          % Plot the cube using patch
+          legendEntries(end+1) = patch('Vertices', vertices, 'Faces', faces, 'FaceColor', 'cyan', 'FaceAlpha', 0.05, 'EdgeColor', 'k');
+          legendDescription{end+1} = 'Room';
+          if isfield(Obj, 'RoomCorners_Units')
+            labelUnits = [Obj.RoomCorners_Units ',' Obj.RoomCorners_Units ',' Obj.RoomCorners_Units];
+          end
         end
-        if exist('LU','var')
-            legendDescription{end+1} = 'ListenerUp';
-        end
-        if exist('SV','var')
-            legendDescription{end+1} = 'SourceView';
-        end
-        if exist('SU','var')
-            legendDescription{end+1} = 'SourceUp';
-        end
+          % Display coordinate units
+        if ~exist('labelUnits','var'), labelUnits = LP_units; end  % If room coordinate units do not provided, use those from ListenerPosition
+        labelUnits = strrep(labelUnits, 'metre', 'm'); % If metre, then use abbreviation
+        parts = strsplit(labelUnits, ',');
+        xu = parts{1}; yu = parts{2}; zu = parts{3};
+        xlabel(['X (' xu ')']);
+        ylabel(['Y (' yu ')']);
+        zlabel(['Z (' zu ')']);
+          % display the legend
         legend(legendEntries,legendDescription,'Location','NorthEastOutside');
-        xlabel(['X / ' Obj.ListenerPosition_Units]);
-        ylabel(['Y / ' Obj.ListenerPosition_Units]);
-        zlabel(['Z / ' Obj.ListenerPosition_Units]);
 
     otherwise
         error('This SOFAConventions is not supported for plotting');

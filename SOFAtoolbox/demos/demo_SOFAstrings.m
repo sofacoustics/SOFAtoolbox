@@ -87,5 +87,5 @@ if ~prod(strcmp(Obj2.ReceiverDescriptions,Obj.ReceiverDescriptions))
     error('ReceiverDescriptions: Comparison showed differences');
 end
 disp('GeneralString: String1, String2, Data, ReceiverDescriptions: Load-Reload: OK');
-clear
+% clear
 delete('stringtest_generalstring.sofa');

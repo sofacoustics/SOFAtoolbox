@@ -14,7 +14,14 @@
 
 *** DEVELOPMENT STATUS ***
 
-*** v2.4.0(master branch)
+*** v2.4.1 (development branch)
+- SOFAnormalize.m: different normalization parameters implemented, according to standard AES69-2025
+- demo_FreeFieldHRTF.m: bug fixed when saving in 'GeneralTF-E' conventions
+- demo_SOFAnormalize.m: different normalization types added
+- test_SOFAall.m: demo_SOFAnormalize added; outdated demos commented
+- Conventions: We now store and load the compiled conventions in prefdir/SOFAconventions/SOFAgetVersion
+
+*** v2.4.0 (master branch)
 - master version released based on development version v2.2.1
 
 *** v2.2.1 (development branch)

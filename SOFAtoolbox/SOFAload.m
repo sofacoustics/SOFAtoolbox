@@ -40,10 +40,11 @@ function Obj = SOFAload(fn,varargin)
 % #Author: Piotr Majdak
 % #Author: Michael Mihocic: header documentation updated (28.10.2021)
 % #Author: Michael Mihocic: header documentation: examples added (07.02.2025)
+% #Author: Piotr Majdak: Time out for downloading files added, currently hard-coded to 100 s (20.8.2026)
 %
 % SOFA Toolbox - function SOFAload
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
-% Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -82,6 +83,7 @@ definput.keyvals.Index = [];
 definput.flags.type = {'data','nodata'};
 definput.flags.data = {'checks','nochecks'};
 [flags,kv] = SOFAarghelper({'Index'},definput,inputargs);
+timeout = 100; 
 
 % Check number of input arguments for partial loading
 if ~(length(pDims)==size(pDimRange,1) || isempty(kv.Index))
@@ -93,7 +95,7 @@ fn = SOFAcheckFilename(fn);
 if strfind(fn,'://')
     % remote path: download as temporary
     newfn = [tempname '.sofa'];
-    urlwrite(fn, newfn);
+    urlwrite(fn, newfn, 'Timeout', timeout);
 else
     newfn = fn;
     if ~exist(fn,'file') % file does not exist? 
@@ -110,7 +112,7 @@ else
             webfn(strfind(webfn,'\'))='/';
             webfn = [SOFAdbURL regexprep(webfn,' ','%20')];        
             disp(['Downloading ' fn(length(SOFAdbPath)+1:end) ' from ' SOFAdbURL]);
-            [f,stat] = urlwrite(webfn,fn);
+            [f,stat] = urlwrite(webfn,fn, 'Timeout', timeout);
             if ~stat
                 error(['Could not download file: ' webfn]);
             end

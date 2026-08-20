@@ -129,15 +129,18 @@ if length(log)>1, log=log(2:end); else log={}; end
 % dN: new dimension, or empty if not expanded
 function [var,dN]=expand(Obj,f,dims)
 % if contains(Obj.API.Dimensions.(f),'S')
+%disp(f);
 if ~isempty(strfind(Obj.API.Dimensions.(f), 'S')) % contains is not supported in Octave
     var=Obj.(f); % contains string(s), do not expand
     dN=[]; % this
-else
-    d=cell2mat(strfind(dims','I'));	% all choices for a singleton dimensions
+else % dims{1}='ICI'; dims{2}='RCI'; dims{3}='RCM';
+    dimsm=char(dims); % dimensions as a matrix (dimensionality must be the same for all possibilities)
+    dimsm2=dimsm(:,~all(dimsm=='I')); % remove all dimensions which are I in all possibilities
+    d=find(any((dimsm2=='I'),1)); % all dimsions with potentielly being singleton dimension
     for jj=1:length(d)	% loop through all expandable dimensions
         len=size(Obj.(f),d(jj)); % size of the considered dimension
         if len>1, continue; end	% the expandable dimension is already expanded
-        dN=dims{cellfun('isempty',strfind(dims,'I'))==1};
+        dN=dims{find(~any(dimsm2=='I',2))}; % get the string with the most expanded dimensions
         var=bsxfun(@times,Obj.(f),ones([getdim(Obj,dN) 1]));
     end
     if ~exist('var','var'), var=[]; dN=[]; end

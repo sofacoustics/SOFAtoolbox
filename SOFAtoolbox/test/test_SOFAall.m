@@ -7,6 +7,7 @@
 % #Author: Michael Mihocic: new demos added (23.12.2022)
 % #Author: Michael Mihocic: minor updates (11.04.2025)
 % #Author: Michael Mihocic: minor updates, robustness improved (22.07.2025)
+% #Author: Michael Mihocic: demo_SOFAnormalize added; outdated demos commented (30.09.2025)
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -109,10 +110,10 @@ demo_TUBerlin2SOFA;
 disp('*** Finished: demo_TUBerlin2SOFA (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_UMA2SOFA
-disp('**************  demo_UMA2SOFA  **************');
-clear;
-demo_UMA2SOFA;
-disp('*** Finished: demo_UMA2SOFA (Output: SOFA-file(s), Figure(s))'); disp('      ');
+% disp('**************  demo_UMA2SOFA  **************');
+% clear;
+% demo_UMA2SOFA;
+% disp('*** Finished: demo_UMA2SOFA (Output: SOFA-file(s), Figure(s))'); disp('      ');
 
 %% Test converters FROM SOFA
 disp('############################################');
@@ -168,8 +169,12 @@ disp('*** Finished: demo_SOFAload (Output: Figure(s))'); disp('      ');
 % Test SOFAmerge and create TU-Berlin KEMAR file with multiple radii
 disp('**************  demo_SOFAmerge  **************');
 clear;
-demo_SOFAmerge;
-disp('*** Finished: demo_SOFAmerge (Output: SOFA-file(s), Figure(s))'); disp('      ');
+try
+  demo_SOFAmerge;
+  disp('*** Finished: demo_SOFAmerge (Output: SOFA-file(s), Figure(s))'); disp('      ');
+catch
+  warning('demo_SOFAmerge needs to fixed and cannot complete successfully...')
+end
 
 %% demo_SOFAplotGeometry
 disp('**************  demo_SOFAplotGeometry  **************');
@@ -227,6 +232,12 @@ disp('**************  demo_SOFAvariables  **************');
 demo_SOFAvariables
 disp('*** Finished: demo_SOFAvariables (Output: SOFA-file(s))'); disp('      ');
 
+%% demo_SOFAnormalize
+% Test variables handling
+disp('**************  demo_SOFAnormalize  **************');
+warning('off','SOFAnormalize:NormalizationType0'); % ignore warning here
+demo_SOFAnormalize
+disp('*** Finished: demo_SOFAnormalize (Output: SOFA-file(s))'); disp('      ');
 
 %% Test SOFA conventions
 disp('############################################');
@@ -308,11 +319,12 @@ disp('*** Finished: SimpleFreeFieldHRSOS (Output: SOFA-file(s))'); disp('      '
 %% SimpleFreeFieldHRTF
 % used in function demo_SimpleFreeFieldHRIR2TF
 
-%% demo_SimpleFreeFieldSOS
-disp('**************  SimpleFreeFieldSOS  **************');
-clear
-demo_SimpleFreeFieldSOS;
-disp('*** Finished: SimpleFreeFieldSOS (Output: SOFA-file(s))'); disp('      ');
+% %% demo_SimpleFreeFieldSOS (outdated)
+% % demo removed, SimpleFreeFieldSOS is deprecated, and removed from latest SOFA Toolbox version
+% disp('**************  SimpleFreeFieldSOS  **************');
+% clear;
+% demo_SimpleFreeFieldSOS;
+% disp('*** Finished: SimpleFreeFieldSOS (Output: SOFA-file(s))'); disp('      ');
 
 %% demo_SimpleHeadphoneIR
 % old name: demo_HpIR

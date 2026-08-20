@@ -1,16 +1,16 @@
 function [dispOutput] = SOFAcompileConventions(conventions)
 %SOFAcompileConventions - Compile conventions from CSV to MAT
 %   Usage: out = SOFAcompileConventions(conventions)
-% 
-%   SOFAcompileConventions() compiles all conventions within the directory 
-%   'conventions', i.e., it loads a CSV file, interprete it as a Matlab/Octave 
-%   structure, and saves as MAT file. This MAT file is later used by 
-%   SOFAgetConventions. Note that SOFAcompileConventions ignores all 
+%
+%   SOFAcompileConventions() compiles all conventions within the directory
+%   'conventions', i.e., it loads a CSV file, interprete it as a Matlab/Octave
+%   structure, and saves as MAT file. This MAT file is later used by
+%   SOFAgetConventions. Note that SOFAcompileConventions ignores all
 %   files beginning with '_' (underscore) in the 'conventions' directory.
 %
-%   SOFAcompileConventions(conv) compiles the conv convention only. 
-%   The convention conv must be in the directory 
-%   'conventions'. For each conv, multiple versions of the 
+%   SOFAcompileConventions(conv) compiles the conv convention only.
+%   The convention conv must be in the directory
+%   'conventions'. For each conv, multiple versions of the
 %   same conventions conv can be encoded by 'conv_version.csv'. For each version,
 %   SOFAcompileConventions generates three MAT files: conv_m_version.mat (mandatory
 %   metadata), conv_r_version.mat (read-only metadata), and conv_a_version.mat (all
@@ -23,6 +23,7 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 % #Author: Michael Mihocic: doc fixed, header documentation updated (20.10.2021)
 % #Author: Michael Mihocic: display information changed to output variable (11.11.2021)
 % #Author: Piotr Majdak: bug fix on compiling conventions only if CSV newer than MAT files (9.7.2023)
+% #Author: Piotr Majdak: we now load the compiled conventions from the prefdir/SOFAconventions/SOFAgetVersion directory (30.12.2025)
 %
 % SOFA Toolbox
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -34,6 +35,11 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 
 baseFolder = fileparts(which('SOFAstart'));
 dispOutput='';
+  % create prefdir/conventions if not existing yet
+if ~exist(fullfile(prefdir,'SOFAconventions',SOFAgetVersion),'dir')
+  disp(['Creating directory to store compiled conventions: ' fullfile(prefdir,'SOFAconventions',SOFAgetVersion)]);
+  mkdir(fullfile(prefdir,'SOFAconventions',SOFAgetVersion));
+end
 
 if nargin<1
     conventionFiles = dir(fullfile(baseFolder,'conventions','*.csv'));
@@ -46,7 +52,7 @@ if nargin<1
         rawname=name(1:strfind(name,'_')-1);
         version=name(strfind(name,'_')+1:end);
         for flag = 'rma'
-            flagFile = dir(fullfile(baseFolder,'conventions', ...
+            flagFile = dir(fullfile(prefdir,'SOFAconventions', SOFAgetVersion, ...
                              strcat(rawname,'_',flag,'_',version,'.mat')));
             if ~isempty(flagFile) && flagFile(1).datenum>file.datenum
                 flagsCounter = flagsCounter+1;
@@ -110,7 +116,7 @@ for convention = conventions
             if ~strcmp(dispOutput,''); dispOutput = [dispOutput char(10)]; end  % char(10) does not return a warning in Octave, compared to newline
             dispOutput = [dispOutput 'Compiling ',convention{:},'.csv: ', Obj.GLOBAL_SOFAConventions, ' ', Obj.GLOBAL_SOFAConventionsVersion];
         end
-            save(fullfile(baseFolder,'conventions', ...
+            save(fullfile(prefdir,'SOFAconventions',SOFAgetVersion, ...
                  strcat(Obj.GLOBAL_SOFAConventions,'_',flag,'_', Obj.GLOBAL_SOFAConventionsVersion,'.mat')), ...
                  'Obj','-v7');
 %         else
@@ -151,14 +157,14 @@ function Obj = compileConvention(convention,flag)
             if isempty(strfind(var,'Data.'))
                 Obj.(var) = convDefault{ii};
                 if isempty(strfind(var,'_')) % && ~sum(strcmp(var,dims))
-                    x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
+                    x2 = regexprep(char(convDimensions{ii}),' ',''); %  remove spaces
                     y = regexprep(x2,',',['''' char(10) '''']); % enclose in quotations and insert line breaks  % char(10) does not return a warning in Octave, compared to newline
                     Obj.API.Dimensions.(var)=eval(['{''' y '''}']);
                 end
             else
                 Obj.Data.(var(6:end)) = convDefault{ii};
                 if isempty(strfind(var(6:end),'_'))
-                    x2 = regexprep(convDimensions{ii},' ',''); %  remove spaces
+                    x2 = regexprep(char(convDimensions{ii}),' ',''); %  remove spaces
                     y = regexprep(x2,',',['''' char(10) '''']); % enclose in quotations and insert line breaks  % char(10) does not return a warning in Octave, compared to newline
                     Obj.API.Dimensions.Data.(var(6:end))=eval(['{''' y '''}']);
                 end

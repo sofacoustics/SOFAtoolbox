@@ -5,152 +5,215 @@
 % #Author: Helene Bahu: demo script adapted to plot meaningful data (as per Bahu2025 paper) (17.03.2025)
 % #Author: Michael Mihocic: minor adaptions to fit SOFA Toolbox (17.03.2025)
 % #Author: Michael Mihocic: SS2 SOFA files added to the loop (19.03.2025)
-% 
+% #Author: Michael Mihocic: different normalization types added (30.09.2025)
+% #Author: Michael Mihocic: different normalization types added; minor optimizations (08.10.2025)
+% #Author: Michael Mihocic: demo adapted to download source files from Ecosystem, and do normalization; minor optimizations (10.2025)
+%
 % SOFA Toolbox - demo script
 % Copyright (C) Helene Bahu, helenebahu(at)gmail.com; Michael Mihocic, Acoustics Research Institute - Austrian Academy of Sciences
 % Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-% See the License for the specific language governing  permissions and limitations under the License. 
+% See the License for the specific language governing  permissions and limitations under the License.
+
+%% just a simple demo or normalize the full Bahu database? 
+just_simple=1;
+
+%% Warnings
+% store current warning states
+statSs = warning('query', 'SOFA:save');
+statSsA = warning('query', 'SOFA:save:API');
+statSNT0 = warning('query', 'SOFAnormalize:NormalizationType0');
+% disable these warnings optionally
+warning('off','SOFA:save');
+warning('off','SOFA:save:API');
+% warning('off','SOFAnormalize:NormalizationType0'); % ignore warning of normalization type 0
+
+%% Process data type 0 (custom normalization, to be defined)
+Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
+NormObj = SOFAnormalize(Obj, 0);
+NormObj.Normalization_References = 'If I had a reference for my custom normalization type I would put it here...';
+NormObj.Normalization_URI = 'If I had an URI for my custom normalization type I would put it here...';
+disp(['1/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type0.sofa'])]);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type0.sofa']),NormObj);
+
+%% Process data type 1 (Direction-independent filters removed individually per each receiver according to Theile (1986).)
+% Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
+NormObj = SOFAnormalize(Obj, 1);
+disp(['2/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa'])]);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type1.sofa']),NormObj);
+
+%% Process data type 1 (Direction-independent filters removed individually per each receiver according to Theile (1986).)
+% Obj = SOFAload(['db://database/ari/dtf b_nh5.sofa']); % load SOFA object
+NormObj = SOFAnormalize(Obj, 2);
+disp(['3/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa'])]);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type2.sofa']),NormObj);
+
+%% Process data type 3 (Complex normalization to remove the specificities of the measurement sites according to Bahu et al. (2025).)
+NormObj = SOFAnormalize(Obj, 3);
+disp(['3/3:' char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type3.sofa'])]);
+SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test',[mfilename '_dtf b_nh5 normalization type3.sofa']),NormObj);
+
+%% Stop here if we are just having a simple demo
+if just_simple, return; end
 
 
-%% Clean up (optional)
-% close all;
-% clear;
-% clear all % 'clear all' can break SOFA functionality
-% clc
 
-%% Adapt system parameters here (optional)
-% addpath to SOFAstart
-% addpath(genpath('D:\Projects\SOFA\Github\SOFAtoolbox-development\SOFAtoolbox'))
-% addpath(genpath('/Users/bahu/Documents/MATLAB/SOFA Toolbox/SOFAtoolbox/'))
-SofaFiles = {...
-    'clubfritz/ClubFritz1.sofa', ...
-    'clubfritz/ClubFritz2.sofa',...
-    'clubfritz/ClubFritz3.sofa',...
-    'clubfritz/ClubFritz4.sofa',...
-    'clubfritz/ClubFritz5.sofa',...
-    'clubfritz/ClubFritz6.sofa',...
-    'clubfritz/ClubFritz7.sofa',...
-    'clubfritz/ClubFritz8.sofa',...
-    'clubfritz/ClubFritz9.sofa',...
-    'clubfritz/ClubFritz10.sofa',...
-    'clubfritz/ClubFritz11.sofa',...
-    'clubfritz/ClubFritz12.sofa',...
-    'bili (hrtf)/IRC_1130_R_HRIR_96000.sofa',...
-    'thk/HRIR_L2702_NF050.sofa',...
-    'thk/HRIR_L2702_NF150.sofa',...
-    'sadie/D1_48K_24bit_256tap_FIR_SOFA.sofa' ...
-    'ss2%20(mannequins)/KU100051023_1_processed.sofa' ...
-    'ss2%20(mannequins)/KU100051023_2_processed.sofa' ...
-    'ss2%20(mannequins)/KU100051023_3_processed.sofa' ...
-    'ss2%20(mannequins)/KU100051023_4_processed.sofa' ...
-    }; 
+%% Process the full Bahu database 
+  % Download database (optional, if data are not downloaded yet)
+disp(['Downloading database to: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\')]);
+MydatabaseDownload(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\'), 25) % download entire database; comment/uncomment here if you (don't) want to download
+  % Define list of SOFA files
+SofaFiles = cell(1,17);
+SofaFilesNormalized = cell(1,17);
+for k = 1:17
+    SofaFiles{k} = sprintf('Dataset #%d/HRTFs/dataset_%d.sofa', k, k);
+    SofaFilesNormalized{k} = sprintf('Dataset #%d/HRTFs (normalized)/dataset_%d.sofa', k, k);
+end
 
-
-%% Process data
-% SOFAstart;
-% Define a list of file names
-
-% figure
-legend_s = [];    
+legend_s = [];
 ylim_v = [-35 15];
 xlim_v = [90 20000];
 % Loop through all SOFA files
 for i = 1:length(SofaFiles)
-    SofaFile = SofaFiles{i};
-    % SOFAload downloads files from SOFA Conventions repository.
-    % disp(['Loading file ' i '/' length(SofaFiles) ": " SofaFile]);
-    Obj = SOFAload(['db://database/' SofaFile]);
-    % Plot original magnitude at frontal direction
-    [ l_mag_ori_v, r_mag_ori_v, freq_ori_v ] = local_get_frontal_mag( Obj );
-    subplot( 2, 1, 1 )
-    semilogx( freq_ori_v, 20*log10( l_mag_ori_v ) )
-    hold on
-    title('Original')
-    xlabel('Frequency (Hz)')
-    ylabel('Magnitude (dB)')
-    grid on
-    ylim(ylim_v)
-    xlim(xlim_v)
-    % plot original files
-    % figure('Name',SofaFile);
-    % subplot(2,2,1);
-    % SOFAplotHRTF(Obj,'ETCHorizontal',1);
-    % title('ETC Horizontal')
-    % % figure('Name',SofaFile);
-    % subplot(2,2,2);
-    % SOFAplotHRTF(Obj,'MagMedian',2);
-    % title('Mag Median')
+  disp([num2str(i) '/' num2str(length(SofaFiles)) ':' char(9) 'Loading: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i})]);
+  Obj = SOFAload(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\',SofaFiles{i}));
+  % Plot original magnitude at frontal direction
+  [ l_mag_ori_v, r_mag_ori_v, freq_ori_v ] = local_get_frontal_mag( Obj );
+  subplot( 2, 1, 1 )
+  semilogx( freq_ori_v, 20*log10( l_mag_ori_v ) )
+  hold on
+  title('Original')
+  xlabel('Frequency (Hz)')
+  ylabel('Magnitude (dB)')
+  grid on
+  ylim(ylim_v)
+  xlim(xlim_v)
 
-    % To modify the normalization parameters, use the following, and add param_S as a 2nd input parameter in HRTF_normalization_v1
-    % param_S.do_gain_norm_b = 1;
-    % param_S.do_resamp_b    = 0;
-    % param_S.do_lp_b        = 0;
-    % param_S.do_talign_b    = 0;
-    % param_S.do_win_b       = 0;
-    % param_S.do_zp_b        = 0;
-    % param_S.do_eq_b        = 0;
-    % param_S.do_LFext_b     = 0;
-    % param_S.do_dist_b      = 0;
+  param_S.do_resize_b = 0; % use value 0 to recreate data published on Ecosystem
+  disp([char(9) 'Normalizing (normalization type 3): ' SofaFiles{i} ' ...'])
+  Objnorm_S = SOFAnormalize(Obj, 3, param_S); % normalization type 'Bahu'
+  disp([char(9) 'Saving: ' fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i})]);
+  SOFAsave(fullfile(SOFAdbPath,'sofatoolbox_test\Bahu Normalization\', SofaFilesNormalized{i}),Objnorm_S);
 
-    % Apply normalization
-    % disp(['Normalizing file ' i '/' length(SofaFiles) ": " SofaFile]);
-    param_S.do_resize_b = 1;
-    Objnorm_S = SOFAnormalize(Obj,param_S);
-    % Plot normalized magnitude at frontal direction
-    [ l_mag_norm_v, r_mag_norm_v, freq_norm_v ] = local_get_frontal_mag( Objnorm_S );
-    subplot( 2, 1, 2 )
-    semilogx( freq_norm_v, 20*log10( l_mag_norm_v ) )
-    hold on
-    title('Normalized')
-    xlabel('Frequency (Hz)')
-    ylabel('Magnitude (dB)')
-    grid on
-    ylim(ylim_v)
-    xlim(xlim_v)
-    legend_s = strvcat( legend_s, num2str(i) );
-    % % plot normalized data
-    % % figure('Name',[SofaFile ' (normalized)']);
-    % subplot(2,2,3);
-    % SOFAplotHRTF(Objnorm_S,'ETCHorizontal',1);
-    % title('ETC Horizontal, normalized')
-    % % figure('Name',[SofaFile ' (normalized)']);
-    % subplot(2,2,4);
-    % SOFAplotHRTF(Objnorm_S,'MagMedian',2);
-    %  title('Mag Median, normalized')
+  % Plot normalized magnitude at frontal direction
+  [ l_mag_norm_v, r_mag_norm_v, freq_norm_v ] = local_get_frontal_mag( Objnorm_S );
+  subplot( 2, 1, 2 )
+  semilogx( freq_norm_v, 20*log10( l_mag_norm_v ) )
+  hold on
+  title('Normalized')
+  xlabel('Frequency (Hz)')
+  ylabel('Magnitude (dB)')
+  grid on
+  ylim(ylim_v)
+  xlim(xlim_v)
+  legend_s = strvcat( legend_s, num2str(i) );
 end
 legend(legend_s)
-% set( gcf, 'Position', [1   917   560   420 ])
+
+  % restore warning states
+warning(statSs.state, 'SOFA:save');
+warning(statSsA.state, 'SOFA:save:API');
+warning(statSNT0.state, 'SOFAnormalize:NormalizationType0');
 
 function [ l_mag_v, r_mag_v, freq_v ] = local_get_frontal_mag( Objnorm_S )
 
-    % Get left and right magnitudes at frontal direction and frequency
-    % vector from SOFA object
-    Fs_f = Objnorm_S.Data.SamplingRate;
+% Get left and right magnitudes at frontal direction and frequency
+% vector from SOFA object
+Fs_f = Objnorm_S.Data.SamplingRate;
 
-    % Find index of frontal magnitude
-    ind_n = find( round( Objnorm_S.SourcePosition( :, 1 ), 1 ) == 0 & round( Objnorm_S.SourcePosition( :, 2 ), 1 ) == 0 );
-    if length(ind_n)>1; ind_n=ind_n(1); end
-    if isempty(ind_n); mag_v=[]; freq_v=[]; warning('no frontal direction'); end
+% Find index of frontal magnitude
+ind_n = find( round( Objnorm_S.SourcePosition( :, 1 ), 1 ) == 0 & round( Objnorm_S.SourcePosition( :, 2 ), 1 ) == 0 );
+if length(ind_n)>1; ind_n=ind_n(1); end
+if isempty(ind_n); mag_v=[]; freq_v=[]; warning('no frontal direction'); end
 
-    % Indices of positive frequencies
-    numSamples_n = size(Objnorm_S.Data.IR,3);
-    is_even_b = ~mod( numSamples_n, 2 );
-    if is_even_b
-        upper_sample_n = numSamples_n/2+1;
-    else 
-        upper_sample_n = ceil( numSamples_n/2 );
+% Indices of positive frequencies
+numSamples_n = size(Objnorm_S.Data.IR,3);
+is_even_b = ~mod( numSamples_n, 2 );
+if is_even_b
+  upper_sample_n = numSamples_n/2+1;
+else
+  upper_sample_n = ceil( numSamples_n/2 );
+end
+
+% Get magntiudes and frequency vector
+l_hrir_v = squeeze( Objnorm_S.Data.IR( ind_n, 1, : )).';
+r_hrir_v = squeeze( Objnorm_S.Data.IR( ind_n, 2, : )).';
+l_hrtf_v = fft( l_hrir_v, numSamples_n );
+r_hrtf_v = fft( r_hrir_v, numSamples_n );
+l_mag_v  = abs( l_hrtf_v( 1:upper_sample_n ) );
+r_mag_v  = abs( r_hrtf_v( 1:upper_sample_n ) );
+freq_v   = linspace( 0, Fs_f/2, numSamples_n/2+1 );
+
+end
+
+
+function MydatabaseDownload(downloadPath, databaseID)
+% Downloads datafiles from the Ecosystem
+%
+% Parameters to be provided:
+%   downloadPath: Local directory where the files will be downloaded.
+%   databaseID: ID of the database, see databaseList
+%
+% The local structure will be: downloadPath\datasetName\datasetDefName\DatafileName
+% 
+% based on databaseDownload from https://ecosystem.sonicom.eu/
+% 
+
+%% Check if the download path exists
+if ~isfolder(downloadPath)
+  try
+    mkdir(downloadPath);
+  catch ME
+    error('downloadFilesFromHTTPServer:createFolder', 'Failed to create download directory: %s.  Error: %s', downloadPath, ME.message);
+  end
+end
+
+%% Fetch the list of files from the Ecosystem
+serverURL=['https://ecosystem.sonicom.eu/databases/' num2str(databaseID) '/download?type=json'];
+try
+  options=weboptions; options.CertificateFilename=('');
+  jsonData = webread(serverURL, options);
+  if ischar(jsonData)
+    error('downloadFilesFromHTTPServer:serverError','Server returned a string, expected JSON.  Server response: %s', jsonData);
+  end
+catch ME
+  error('downloadFilesFromHTTPServer:getFileList', 'Failed to retrieve file list from server: %s.  Error: %s', serverURL, ME.message);
+end
+
+%% Check if correct JSON
+if ~isstruct(jsonData) % check if structure
+  error('downloadFilesFromHTTPServer:invalidFormat', 'Server did not return a struct of file information.');
+end
+if ~isfield(jsonData, 'data') % check if data in the structure
+  error('downloadFilesFromHTTPServer:invalidFormat', 'Server did not return a JSON file information.');
+end
+
+%% Iterate through the datafile list and download each file
+data=jsonData.data;
+if isempty(data)
+  disp('This Database does not contain any Datafiles');
+else
+  for ii = 1:length(data)
+    fileURL = data(ii).DatafileURL; % Get the Datafile URL
+    fileName = data(ii).DatafileName; % Get the Datafile name
+    if ~exist(fullfile(downloadPath, data(ii).DatasetName),'dir')
+      mkdir(fullfile(downloadPath, data(ii).DatasetName)); % create Dataset directory
     end
-
-    % Get magntiudes and frequency vector
-    l_hrir_v = squeeze( Objnorm_S.Data.IR( ind_n, 1, : )).';
-    r_hrir_v = squeeze( Objnorm_S.Data.IR( ind_n, 2, : )).';
-    l_hrtf_v = fft( l_hrir_v, numSamples_n );
-    r_hrtf_v = fft( r_hrir_v, numSamples_n );
-    l_mag_v  = abs( l_hrtf_v( 1:upper_sample_n ) );
-    r_mag_v  = abs( r_hrtf_v( 1:upper_sample_n ) );
-    freq_v   = linspace( 0, Fs_f/2, numSamples_n/2+1 );
-
+    if ~exist(fullfile(downloadPath, data(ii).DatasetName, data(ii).DatafileType),'dir')
+      mkdir(fullfile(downloadPath, data(ii).DatasetName, data(ii).DatafileType)); % create Datafile Type directory
+    end
+    % create local absolute path for the Datafile
+    localFilePath = fullfile(downloadPath, data(ii).DatasetName, data(ii).DatafileType, fileName);
+    % download the Datafile
+    try
+      disp(['Downloading ' fileName ' from Dataset ' data(ii).DatasetName '...']);
+      websave(localFilePath, fileURL, options);
+    catch ME
+      error('downloadFilesFromHTTPServer:downloadError', 'Failed to download file: %s from %s to %s. Error: %s', fileName, fileURL, localFilePath, ME.message);
+    end
+  end
+  disp('Download completed...');
+end
 end

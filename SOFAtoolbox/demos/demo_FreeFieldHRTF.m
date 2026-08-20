@@ -13,6 +13,7 @@
 % #Author: Michael Mihocic: output file names fixed (04.12.2024)
 % #Author: Michael Mihocic: bugs fixed (13.01.2025)
 % #Author: Michael Mihocic: code cleaned up (23.07.2025)
+% #Author: Michael Mihocic: bug fixed when saving in 'GeneralTF-E' conventions (30.09.2025)
 
 % SOFA Toolbox - demo script
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -122,6 +123,7 @@ end
   % Create a new SOFA structure (based on TF because only a few metadata change)
 TFE=TF; 
 TFE.GLOBAL_SOFAConventions = 'GeneralTF-E';
+TFE.GLOBAL_SOFAConventionsVersion = SOFAgetConventions('GeneralTF-E').GLOBAL_SOFAConventionsVersion;
 TFE.GLOBAL_DataType = 'TF-E';
 TFE.GLOBAL_History = SOFAappendText(TFE, 'GLOBAL_History', 'Converted to TFE');
 

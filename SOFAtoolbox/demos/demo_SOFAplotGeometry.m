@@ -30,15 +30,6 @@ SOFAplotGeometry(Obj,index);
 title(['Geometry SimpleFreeFieldHRIR, reduced to ' num2str(size(index,2)) ' position(s)'])
 set(gcf, 'Name', mfilename);
 
-% % %% load a SingleRoomDRIR SOFA file (outdated)
-% disp(['Loading: ' 'db://' fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
-% Obj=SOFAload(['db://' ...
-%   fullfile('database','thk','DRIR_LBS_VSA_1202RS_SBL.sofa')]);
-% 
-% % plot SOFA Object with 1202 Receivers
-% SOFAplotGeometry(Obj);
-% set(gcf, 'Name', mfilename)
-
 % remove all but one Receiver
 Obj.ReceiverPosition = [0 0.09 0];
 Obj.ReceiverPosition_Type = 'cartesian';
@@ -49,6 +40,20 @@ Obj = SOFAupdateDimensions(Obj);
 SOFAplotGeometry(Obj);
 title(['Geometry SimpleFreeFieldHRIR, ' num2str(Obj.API.R) ' receiver(s), ' num2str(Obj.API.M) ' position(s)'])
 set(gcf, 'Name', mfilename);
+
+%% check a file with a room
+db='thk';
+fn='BRIR_CR1_KU_MICS_L.sofa';
+Obj=SOFAload(['db://' fullfile('database',db,fn)],'nochecks');
+[Obj,modified] = SOFAupgradeConventions(Obj);
+Obj.GLOBAL_RoomType = 'shoebox';
+Obj = SOFAaddVariable(Obj,'RoomCornerA','IC',[0 0 0]);
+Obj = SOFAaddVariable(Obj,'RoomCornerB','IC',[3 3 3]);
+Obj = SOFAaddVariable(Obj,'RoomCorners','I',0);
+Obj.RoomCorners_Type = 'cartesian';
+Obj.RoomCorners_Units = 'metre';
+SOFAplotGeometry(Obj,'index',1); % plot for M=1 only
+view(45,30);
 
 %% load a GeneralFIR SOFA file
 SOFAfile=fullfile(SOFAdbPath,'database', 'tu-berlin','FABIAN_CTF_modeled.sofa');

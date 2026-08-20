@@ -27,7 +27,7 @@ function [Obj,Dims] = NETCDFload(filename, flags, varargin)
 
 % SOFA Toolbox - function netcdf/NETCDFload
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
-% Licensed under the EUPL, Version 1.2 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
+% Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
 % You may not use this work except in compliance with the License.
 % You may obtain a copy of the License at: https://joinup.ec.europa.eu/software/page/eupl
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -95,7 +95,7 @@ try
                 dim=fliplr(cell2mat(dims(vardimids+1))');
                 Obj.API.Dimensions.Data.(var(6:end))=dim;
                 if strfind(dim,'S') % strings
-                    if length(dim)>2  % 2D string arrays. ToDo: MdD string arrays
+                    if length(dim)==3  % 2D string arrays. ToDo: MdD string arrays
                         data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
                         s=size(data);
                         Obj.Data.(var(6:end))=cell(s(end:-1:2));
@@ -121,9 +121,9 @@ try
             dim=fliplr(cell2mat(dims(vardimids+1))');
             Obj.API.Dimensions.(var)=dim;
             if strfind(dim,'S')
-                if length(dim)>2  % 2D string arrays only. ToDo: MdD string arrays
+                if length(dim)==3  % 2D string arrays only. ToDo: MdD string arrays
                     data=netcdf.getVar(ncid,varids(ii+1),startp(vardimids+1),countp(vardimids+1));              
-                    s=size(data);
+                    s=size(data); % Todo: error if dim starts ore ends with I 
                     Obj.(var)=cell(s(end:-1:2));                    
                     data=permute(data,length(s):-1:1);
                     for jj=1:s(2)
