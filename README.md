@@ -47,6 +47,10 @@ SOFAstart;
 % The following command loads SOFA file 'dtf b_nh5.sofa' from local directory - if available - otherwise downloads it from the online SOFA database
 Obj = SOFAload('db://database/ari/hrtf b_nh5.sofa');
 
+%% Inspect the data
+disp('HRTFs loaded - Inspect the data structure and continue with "dbcont" when done.');
+keyboard;
+
 %% Display some information about the SOFA file
 % Show general meta data, and measurement info
 SOFAinfo(Obj);
