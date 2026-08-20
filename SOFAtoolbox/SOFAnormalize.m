@@ -273,7 +273,7 @@ switch type
       assert( numSamples_n > ref_time_smp_n+(0.001*Fs_f), 'As designed, time alignment will truncate the HRIRs. Zero-padd HRIRs or modify parameter talignSec_f.' )
 
       % Index of frontal direction
-      iFront_n = find( round( sphPos_m(:,1), 1 ) == 0 & round( sphPos_m(:,2), 1 ) == 0 );
+      iFront_n = find( round(sphPos_m(:,1) * 10) == 0 & round(sphPos_m(:,2) * 10) == 0 );
       nifront_n = length( iFront_n );
       if( nifront_n == 0 )
         error( 'Frontal direction was not found. Can''t apply time alignement. Set input parameter do_talign_b to 0 to continue.' )
@@ -439,7 +439,7 @@ switch type
 
       % Remove points inside/outside sphere (for Voronoi calculation)
       dist_v = sphPos_m(:,3);
-      distUniq_v = unique( round( dist_v, 3 ) );
+      distUniq_v = unique( round( dist_v * 1000 ) / 1000 );
       default_dist_f = mode( dist_v );
       if length( distUniq_v ) > 1
         warning([ 'The input SOFA file contains ' num2str(length( distUniq_v )) ' distances. Only one distance is considered for Voronoi calculation (in diffuse-field equalization).' ])
@@ -1010,7 +1010,7 @@ assert( size( xyz_m, 2 ) == 3 )
 
 numPoints = size( xyz_m, 1 );
 radius_v = sqrt( xyz_m(:,1).^2 + xyz_m(:,2).^2 + xyz_m(:,3).^2 );
-radius = unique( round( radius_v, 3 ));
+radius = unique( round( radius_v * 1000 ) / 1000 );
 assert( isscalar( radius ), 'radius not unique')
 
 pointIndices_v  = 1:numPoints;
@@ -1216,7 +1216,8 @@ else
 end
 
 % get the impuse responses
-hUnique = ifft(H, 'symmetric');
+% hUnique = ifft(H, 'symmetric'); % not compatible with Octave
+hUnique = real(ifft(H)); 
 
 % add delay to shift the pulses away from the very start
 hUnique = circshift(hUnique, [round(1.5e-3*fs) 0]);
