@@ -17,6 +17,12 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
+% Skipp if in Octave because it throws an error
+if exist('OCTAVE_VERSION','builtin') ~= 0
+    warning(['demo_SOFAnormalize does not work in Octave currently.' newline 'For the moment, use Matlab instead.']);
+    return;
+end
+
 %% just a simple demo or normalize the full Bahu database? 
 just_simple=1;
 
