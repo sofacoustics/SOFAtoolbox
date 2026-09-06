@@ -120,7 +120,7 @@ for aa=1:length(azi)
   for ee=1:length(ele)
     Obj.Data.IR(ii,1,:)=IR;
     Obj.Data.IR(ii,2,:)=IR;
-    Obj.SourcePosition(ii,:)=[azi(aa) ele(ee) 1];
+    Obj.SourcePosition(ii,:)=[azi(aa) ele(ee) radius];
     ii=ii+1;
   end
 end
