@@ -121,6 +121,7 @@ for aa=1:length(azi)
     Obj.Data.IR(ii,1,:)=IR;
     Obj.Data.IR(ii,2,:)=IR;
     Obj.SourcePosition(ii,:)=[azi(aa) ele(ee) 1];
+    ii=ii+1;
   end
 end
 
