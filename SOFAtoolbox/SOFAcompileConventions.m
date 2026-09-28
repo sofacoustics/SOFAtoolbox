@@ -46,7 +46,7 @@ if nargin<1
     conventions={};
     for file = conventionFiles'
         [~,name,~] = fileparts(file.name);
-        if name(1)=='_', continue; end
+        if startsWith(name, {'_', '.'}), continue; end
         % Check if mat files exist for every convention flag (r,m,a)
         flagsCounter = 0;
         rawname=name(1:strfind(name,'_')-1);
