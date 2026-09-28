@@ -3,10 +3,12 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 %   Usage: out = SOFAcompileConventions(conventions)
 %
 %   SOFAcompileConventions() compiles all conventions within the directory
-%   'conventions', i.e., it loads a CSV file, interprete it as a Matlab/Octave
-%   structure, and saves as MAT file. This MAT file is later used by
-%   SOFAgetConventions. Note that SOFAcompileConventions ignores all
-%   files beginning with '_' (underscore) in the 'conventions' directory.
+%   'conventions', i.e., it loads a CSV file, interpretes it as a Matlab/Octave
+%   structure, and saves as a MAT file in the directory $prefdir$/SOFAconventions/version/. 
+%   These MAT files are later used by SOFAgetConventions. 
+%
+%   Note that SOFAcompileConventions() ignores all
+%   files beginning with '_' (underscore) and '.' (dot).
 %
 %   SOFAcompileConventions(conv) compiles the conv convention only.
 %   The convention conv must be in the directory
@@ -24,6 +26,8 @@ function [dispOutput] = SOFAcompileConventions(conventions)
 % #Author: Michael Mihocic: display information changed to output variable (11.11.2021)
 % #Author: Piotr Majdak: bug fix on compiling conventions only if CSV newer than MAT files (9.7.2023)
 % #Author: Piotr Majdak: we now load the compiled conventions from the prefdir/SOFAconventions/SOFAgetVersion directory (30.12.2025)
+% #Author: HaHeho: ignore files beginning with "." (15.9.2026)
+% #Author: Piotr Majdak: ignore hidden files (check for "hidden" attribute). Takes long, thus disabled currently (28.9.2026)
 %
 % SOFA Toolbox
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences
@@ -47,6 +51,20 @@ if nargin<1
     for file = conventionFiles'
         [~,name,~] = fileparts(file.name);
         if startsWith(name, {'_', '.'}), continue; end
+				% hidden = false;
+        % if ispc             % On Windows, use system command 'attrib' to check for hidden attribute
+					% fullFilePath = fullfile(baseFolder,'conventions', file.name);
+					% [status, result] = system(['attrib "', strrep(fullFilePath, '/', '\'), '"']);
+					% if status == 0
+						% len = min(10,length(result));
+						% parts = strsplit(result(1:len), ' ');  % Split by spaces
+						% attributes = strjoin(parts, '');  % Combine all attributes before "I"
+						% disp(attributes);
+						% hidden = ~isempty(strfind(attributes, 'H'));  % Check if 'H' is among the attributes
+					% end 
+        % end
+        % if hidden, disp(['Ignoring hidden ' file.name]); continue; end
+				
         % Check if mat files exist for every convention flag (r,m,a)
         flagsCounter = 0;
         rawname=name(1:strfind(name,'_')-1);
