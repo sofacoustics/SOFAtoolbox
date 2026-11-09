@@ -16,6 +16,7 @@ function Obj=SOFAconvertConventions(Obj,varargin)
 % #Author: Michael Mihocic: rmfield replaced by SOFAremoveVariable for non data variables, improved stability (20.09.2022)
 % #Author: Michael Mihocic: bug fixed when converting from spherical harmonics to TF data (27.11.2024)
 % #Author: Michael Mihocic: fix for case 'FIR-E' if Obj.API.E == 1 (27.06.2025)
+% #Author: Michael Mihocic: fix for error messages when Converting SimpleFreeFieldHRIR to SimpleFreeFieldHRIR, datatype FIR, and EmitterPosition type cartesian
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
 % Licensed under the EUPL, Version 1.2 or - as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "License")
@@ -280,7 +281,7 @@ try
 %                     Data.Real = shiftdim(squeeze(Obj.Data.Real(1,:,:,:)),2);
 %                     Data.Imag = shiftdim(squeeze(Obj.Data.Imag(1,:,:,:)),2);
 %                     Obj.API.M=Obj.API.E;
-                    error(['Converting ' Obj.GLOBAL_SOFAConventions ' to ' newObj.GLOBAL_SOFAConventions ' not supported yet']);
+                    error(['Converting ' Obj.GLOBAL_SOFAConventions ' to ' newObj.GLOBAL_SOFAConventions ' not supported yet for datatype ' newObj.GLOBAL_DataType ', and EmitterPosition type ' Obj.EmitterPosition_Type]);
                 end
 
                 if sum(diff(diff(Obj.N)))
