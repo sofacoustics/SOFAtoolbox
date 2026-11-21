@@ -10,7 +10,7 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
-% close all;
+close all;
 
 clear fn;
 fn{1} = 'receiver/NT5_directivity_IR_01.sofa';
@@ -27,7 +27,8 @@ for ii=1:length(fn)
     try
       Obj=SOFAload(['db://database/Directivities/' fn{ii}]);
     catch
-      disp([' Loading ' num2str(ii) ' of ' num2str(length(fn))+1 ' failed: ' fn{ii}]);
+      warning('Skipping because loading failed.'); 
+      continue;
     end
 
       % Plot the geometry because why not

@@ -10,7 +10,7 @@
 % Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 % See the License for the specific language governing  permissions and limitations under the License.
 
-% close all;
+close all;
 
 clear fn;
 fn{1} = 'source/c6_SourceDirectivityIR.sofa';
@@ -26,7 +26,8 @@ for ii=1:length(fn)
     try
       Obj=SOFAload(['db://database/Directivities/' fn{ii}]);
     catch
-      disp([' Loading ' num2str(ii) ' of ' num2str(length(fn))+1 ' failed: ' fn{ii}]);
+      warning('Skipping because loading failed.');
+      continue;
     end
 
       % Plot the geometry because why not
@@ -45,7 +46,7 @@ for ii=1:length(fn)
     TF = squeeze(Obj.Data.Real(M, :, :, E) + 1i * Obj.Data.Imag(M, :, :, E));
     freq = double(Obj.N);  % Frequency axis from the data
       % Get the positions from the ReceiverPosition
-    if ~strcmpi(Obj.ReceiverPosition_Type,'cartesian'), error('ReceiverPosition_Type must be cartesian'); end
+    if ~strcmpi(Obj.ReceiverPosition_Type,'cartesian'), warning('Skipping because EmitterPosition_Type is not cartesian'); continue; end
     pos = Obj.ReceiverPosition(:,:);
     pos = SOFAconvertCoordinates(pos, 'cartesian', 'spherical');
     mask = abs(pos(:,2)) <= 2; % Filter positions for horizontal ring with an elevation tolerance
