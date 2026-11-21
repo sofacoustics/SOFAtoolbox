@@ -16,6 +16,8 @@ function SOFAplotGeometry(Obj0,varargin)
 %     SingleRoomMIMOSRIR
 %     SingleRoomSRIR
 %     AnnotatedReceiverAudio
+%     SourceDirectivityIR and -TF
+%     ReceiverDirectivityIR and -TF
 %   some special cases of GeneralFIR.
 
 %
@@ -47,6 +49,8 @@ function SOFAplotGeometry(Obj0,varargin)
 % #Author: Michael Mihocic: support of SingleRoomMIMOSRIR SOFA files implemented (11.04.2025)
 % #Author: Michael Mihocic: support of SingleRoomSRIR SOFA files implemented (11.04.2025)
 % #Author: Michael Mihocic: Octave compatibility fixed (22.07.2025)
+% #Author: Piotr Majdak: Source- and ReceiverDirectivity added (21.11.2026)
+
 
 %
 % Copyright (C) Acoustics Research Institute - Austrian Academy of Sciences;
@@ -104,7 +108,7 @@ switch Obj0.GLOBAL_SOFAConventions
         xlabel([Obj0.M_LongName ' (in ' Obj0.M_Units ')']);
         legend({'ListenerView','ListenerUp'});
         rotate3d on
-    case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E','SingleRoomMIMOSRIR','SingleRoomSRIR'}
+  case {'SimpleFreeFieldHRTF','SimpleFreeFieldHRIR','SingleRoomDRIR','FreeFieldDirectivityTF','GeneralFIR','GeneralTFE','FreeFieldHRIR','FreeFieldHRTF','GeneralTF-E','SingleRoomMIMOSRIR','SingleRoomSRIR', 'SourceDirectivityIR', 'SourceDirectivityTF', 'ReceiverDirectivityIR', 'ReceiverDirectivityTF'}
         % Expand entries to the same number of measurement points
         Obj = SOFAexpand(Obj0);
         legendEntries = [];

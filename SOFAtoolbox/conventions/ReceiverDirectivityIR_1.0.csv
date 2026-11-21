@@ -1,0 +1,80 @@
+Name	Default	Flags	Dimensions	Type	Comment
+GLOBAL:Conventions	SOFA	rm		attribute	
+GLOBAL:Version	2.2	rm		attribute	
+GLOBAL:SOFAConventions	ReceiverDirectivityIR	rm		attribute	This conventions stores directivities of acoustic receivers (aka microphones) in the time domain in free field.
+GLOBAL:SOFAConventionsVersion	1.0	rm		attribute	
+GLOBAL:DataType	FIR-E	rm		attribute	We store time-dependent data here
+GLOBAL:RoomType	free field	m		attribute	The room information can be arbitrary, but the spatial setup assumes free field.
+GLOBAL:Title		m		attribute	
+GLOBAL:DateCreated		m		attribute	
+GLOBAL:DateModified		m		attribute	
+GLOBAL:APIName		rm		attribute	
+GLOBAL:APIVersion		rm		attribute	
+GLOBAL:AuthorContact		m		attribute	
+GLOBAL:Organization		m		attribute	
+GLOBAL:License	No license provided, ask the author for permission	m		attribute	
+GLOBAL:ApplicationName				attribute	
+GLOBAL:ApplicationVersion				attribute	
+GLOBAL:Comment				attribute	
+GLOBAL:History				attribute	
+GLOBAL:References				attribute	
+GLOBAL:Origin				attribute	
+GLOBAL:DatabaseName		m		attribute	Name of the database. Used for classification of the data
+GLOBAL:Description				attribute	Narrative description of a measurement including the device under test. For microphones, the measurement method or the standard used, e.g. substitution measurement with a 1/4 inch measurement. microphone and  point source speaker, conducted in anechoic chamber
+GLOBAL:EmitterDescription				attribute	
+GLOBAL:ReceiverDescription				attribute	
+GLOBAL:ReceiverManufacturer		m		attribute	Manufacturer of the device under test
+GLOBAL:ReceiverModel		m		attribute	Model of the device under test
+GLOBAL:ReceiverSerialNumber				attribute	Serial number of the device under test
+GLOBAL:ReceiverFilterSetting				attribute	Entry whether a filter setting was used on the DUT, e.g. selectable directional characteristic, low-shelf, etc.
+GLOBAL:ReceiverTransducerType				attribute	The electro-acoustic transducer type e.g., small/large diaphragm condenser, electro-dynamic, etc.
+GLOBAL:ReceiverAcousticalOperatingPrinciple				attribute	The Acoustical Operating Principle, e.g. Pressure gradient transducer, Pressure transducer
+GLOBAL:ReceiverSymmetry				attribute	In which plane is the microphe considered symmetrical, e.g. None, horizontal, vertical, quarter, axial
+GLOBAL:ReceiverPolarPattern				attribute	The polar pattern of the microphone (e.g., hyper-cardiod). If individual patterns need to be stored for every receiver, it shall be provided by a custom string 'PolarPatterns' with dimensions RS, ES.
+ReceiverNormalization	0	m	I	double	0: No or unknown normalization; 1: Normalized re ListenerView or SourceView (on-axis normalization); 2: Average removed (diffuse-field response). Reference: 1: DIN EN 60268-4, S. Weinzierl et. al. Handbuch der Audiotechnik. 2: Ackermann et.al. Musical instruments as dynamic sound sources
+ReceiverSensitivity	0		III, IRI, IIN, IRN, MII,MRI, MIN, MRN	double	The sensititvity of the microphone. If one sensitivity is provided it holds for all receivers.
+ReceiverSensitivity:Symbol	mV/Pa			attribute	If sensitivity is provided, this shall be provided. It shall be mv/Pa, dBV or dBFs/Pa (for digital microphones)
+ReceiverSensitivity:MeasurementDescription				attribute	Describes the measurement method, e.g., at 500Hz, at 1kHz
+ReceiverMaxSPL	0		II, RI, IN, RN	double	The maximum possible sound pressure level (SPL), can be given as a single value, single value for each receiver, one spectrum or a spectrum for each receiver
+ReceiverMaxSPL:Symbol	dB			attribute	If MaxSPL is provided this shall be provided as well. It shall be dBSPL (dB re 20 µPa)
+ReceiverMaxSPL:MeasurementDescription				attribute	Describes the measurement method, e.g., equivalent electrical signal, tube measurement
+ReceiverEquivalentNoiseLevel	0		II, RI, IN, RN	double	Self-noise is the signal the microphone produces of itself, even when no sound source is present. Can be given as a single value, single value for each receiver, one spectrum or a spectrum for each receiver
+ReceiverEquivalentNoiseLevel:Symbol	dB			attribute	If EquivalentNoiseLevel is provided this shall be provided as well. It shall be dBSPL A-weighted
+ReceiverEquivalentNoiseLevel:Description				attribute	Describes the measurement method, e.g., CCIR, A-weighted
+ReceiverMinOperatingFrequency	0		II, IR, IE	double	Minimum Frequency above which the measurement data is valid. E.g. band limitation of the microphone, etc.
+ReceiverMinOperatingFrequency:Units	hertz			attribute	If ReceiverMinOperatingFrequency is provided this shall be provided as well. It shall be hertz
+ReceiverMaxOperatingFrequency	96000		II, IR, IE	double	Minimum Frequency above which the measurement data is valid. E.g. the frequency range of the excitation, band limitation of the microphone, etc.
+ReceiverMaxOperatingFrequency:Units	hertz			attribute	If ReceiverMaxOperatingFrequency is provided this shall be provided as well. It shall be hertz
+EmitterMinOperatingFrequency	0		II, IR, IE	double	Minimum Frequency above which energy is emitted by the source, so the measurement data is valid. E.g. the frequency range of the excitation, band limitation
+EmitterMinOperatingFrequency:Units	hertz			attribute	If EmitterMinOperatingFrequency is provided this shall be provided as well. It shall be hertz
+EmitterMaxOperatingFrequency	96000		II, IR, IE	double	Minimum Frequency above which the measurement data is valid. E.g. the frequency range of the excitation, band limitation of the microphone, etc.
+EmitterMaxOperatingFrequency:Units	hertz			attribute	If EmitterMaxOperatingFrequency is provided this shall be provided as well. It shall be hertz
+ListenerPosition	[0 0 0]	m	IC, MC	double	Position of the microphone array during the measurements.
+ListenerPosition:Type	cartesian	m		attribute	Type of the coordinate system used.
+ListenerPosition:Units	metre	m		attribute	Units of the coordinates.
+ListenerView	[0 0 0]	m	IC, MC	double	Orientation of the microphone array
+ListenerView:Type	spherical	m		attribute	Type of the coordinate system used.
+ListenerView:Units	degree, degree, metre	m		attribute	Units of the coordinates.
+ListenerUp	[0 0 1]	m	IC, MC	double	Up vector of the microphone array
+ReceiverPosition	[0 0 0]	m	RCI, RCM	double	Positions of the individual capsules during the measurements (relative to the Listener)
+ReceiverPosition:Type	cartesian	m		attribute	Type of the coordinate system used.
+ReceiverPosition:Units	metre	m		attribute	Units of the coordinates.
+SourcePosition	[0 0 0]	m	IC, MC	double	Position of the acoustic source (e.g. a loudspeaker)
+SourcePosition:Type	spherical	m		attribute	Type of the coordinate system used.
+SourcePosition:Units	degree, degree, metre	m		attribute	Units of the coordinates.
+SourcePosition:Reference		m		attribute	Narrative description of the spatial reference of the source position, e.g., 'On the front plate between the low- and mid/high-frequency unit' for a loudspeaker. Mandatory in order to provide a reference across different sources.
+SourceView	[0 0 0]	m	IC, MC	double	View vector for the orientation.
+SourceView:Type	spherical	m		attribute	Type of the coordinate system used.
+SourceView:Units	degree, degree, metre	m		attribute	Units of the coordinates.
+SourceView:Reference		m		attribute	Narrative description of the spatial reference of the source view, e.g., 'Viewing direction of the bell' for a trumpet or 'Perpendicular to the front plate' for a loudspeaker. Mandatory in order to provide a reference across different sources.
+SourceUp	[0 0 1]	m	IC, MC	double	Up vector of the acoustic source (loudspeaker or silentspeaker)
+SourceUp:Reference		m		attribute	Narrative description of the spatial reference of the source up, e.g., 'Along the keys, keys up' for a trumpet or 'Perpendicular to the top plate' for a loudspeaker. Mandatory in order to provide a reference across different sources.
+EmitterPosition	[0 0 0]	m	ECI, ECM	double	Position. In a simple settings, a single emitter is considered that is collocated with the source.
+EmitterPosition:Type	spherical	m		attribute	Type of the coordinate system used.
+EmitterPosition:Units	degree, degree, metre	m		attribute	Units of the coordinates.
+EmitterDescriptions	{''}		MS, ES, IS	string	A more detailed description of the Emitters. For example, this may be the strings of a violin or the units of a loudspeaker.
+Data.IR	0	m	mrne	double	Impulse responses
+Data.SamplingRate	48000	m	I, M	double	Sampling rate of the samples in Data.IR and Data.Delay
+Data.SamplingRate:Units	hertz	m		attribute	Unit of the sampling rate
+Data.Delay	0	m	IRI, MRI, MRE	double	Additional delay of each IR (in samples)
+Data.NormalizationIR	1		IIII, MINE, MRNE	double	Provide impulse response or gain-factor used for the normalization.
